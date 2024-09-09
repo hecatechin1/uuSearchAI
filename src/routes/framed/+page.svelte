@@ -151,7 +151,8 @@
       //初始化store中需要保存在localStorage里的值
       let sendk = localStorage.getItem("sendkey") || "Enter";
       let linebreakk = localStorage.getItem("linebreakkey") || "Shift+Enter";
-      let storedMessages = localStorage.getItem("search_messages");
+      //let storedMessages = localStorage.getItem("search_messages");
+      let storedMessages = null;// 24-9-10 搜索结果-AI搜索页面不再需要历史记录
       let parsedMessages: CustomMessage[] =
         storedMessages !== null ? JSON.parse(storedMessages) : [];
       sendKey.set(sendk);
@@ -351,10 +352,10 @@
     <div
       class="h-screen flex justify-stretch flex-col bg-secondary text-black/80 height-manager"
     >
-      <Topbar
+      <!-- <Topbar
         bind:conversation_title={conversationTitle}
         on:new-chat={clearChat}
-      />
+      /> -->
       <div
         class="flex bg-primary overflow-y-auto overflow-x-hidden justify-center grow"
         bind:this={chatContainer}
@@ -363,25 +364,35 @@
           <div class="flex flex-col pt-2 grow max-w-full px-0 sm:px-5">
             <div class="w-full">
               {#each $messages as message, i}
-                {#if message.role !== "system"}
+                {#if (message.role !== "system") }
+                  {#if (message.role !== "user" || i !==0) }
                   <div
                     class="message relative inline-block bg-primary px-3 mt-3 flex flex-col transition-all duration-200 ease-in-out"
                   >
                     <div class="profile-picture flex align-middle">
+                      {#if message.role === "assistant"}  
                       <div>
+
+
                         <img
-                          src={message.role === "user" ? UserIcon : RobotIcon}
+                          src={RobotIcon}
                           alt="Profile"
                           class="w-[1.5rem] h-[1.5rem]"
                         />
                       </div>
+                      {/if}
+                      {#if message.role ==="assistant"}
                       <div class="relative ml-2 font-bold">
+                        {$t("app.assistantname")}
+                      </div>
+                      {/if}
+                      <!-- <div class="relative ml-2 font-bold">
                         {#if message.role === "assistant"}
                           {$t("app.assistantname")}
                         {:else}
                           {$t("app.username")}
                         {/if}
-                      </div>
+                      </div> -->
                     </div>
   
                     {#if editingMessageId === i}
@@ -516,6 +527,7 @@
                       </div>
                     {/if}
                   </div>
+                  {/if}
                 {/if}
               {/each}
             </div>

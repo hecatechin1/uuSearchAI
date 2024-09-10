@@ -41,7 +41,9 @@
       "like": "İyi",
       "dislike": "Yanlış",
       "noConversation": "Hiçbir sohbet seçilmedi. Yeni bir sohbet başlatın.",
-      "textareaPlaceholder": "AI için sorunuz buraya girin, gönderme için Enter'a basın ve satır başı için Shift + Enter'a basın"
+      "textareaPlaceholder": "AI için sorunuz buraya girin, gönderme için Enter'a basın ve satır başı için Shift + Enter'a basın",
+      "linkError": "Sunucu bağlantı hatası, lütfen tekrar deneyin."
+
     },
     "code": {
       "copy": "Kodu Kopyala",

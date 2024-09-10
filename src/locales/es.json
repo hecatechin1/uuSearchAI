@@ -41,7 +41,9 @@
       "like": "Útil",
       "dislike": "Incorrecto",
       "noConversation": "No se ha seleccionado una conversación. Inicia una nueva conversación.",
-      "textareaPlaceholder": "Ingresa tu pregunta para AI aquí, presiona Enter para enviar, y Shift + Enter para salto de línea"
+      "textareaPlaceholder": "Ingresa tu pregunta para AI aquí, presiona Enter para enviar, y Shift + Enter para salto de línea",
+      "linkError": "Error de conexión al servidor, por favor intente de nuevo."
+
     },
     "code": {
       "copy": "Copiar Código",

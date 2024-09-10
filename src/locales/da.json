@@ -41,7 +41,9 @@
     "like": "Godt",
     "dislike": "Forkert",
     "noConversation": "Ingen samtale valgt. Start en ny samtale.",
-    "textareaPlaceholder": "Indtast dit spørgsmål til AI her, tryk Enter for at sende, og Shift + Enter for linjeskift"
+    "textareaPlaceholder": "Indtast dit spørgsmål til AI her, tryk Enter for at sende, og Shift + Enter for linjeskift",
+    "linkError": "Serverforbindelsesfejl, prøv igen."
+
   },
   "code": {
     "copy": "Kopiér kode",

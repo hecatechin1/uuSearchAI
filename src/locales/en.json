@@ -52,7 +52,9 @@
       "chatCompletionResponseReceived": "Chat completion response received.",
       "errorInChatCompletion": "Error in createChatCompletion:",
       "checkingApiConfiguration": "Checking if OpenAI API is configured.",
-      "configurationReloaded": "Configuration reloaded."
+      "configurationReloaded": "Configuration reloaded.",
+      "linkError": "Server connection error, please try again."
+
     },
     "code": {
       "copy": "Copy Code",

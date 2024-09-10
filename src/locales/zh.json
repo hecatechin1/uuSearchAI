@@ -42,7 +42,8 @@
       "like": "有帮助",
       "dislike": "错误",
       "noConversation": "开始新对话。",
-      "textareaPlaceholder": "在此输入您的问题"
+      "textareaPlaceholder": "在此输入您的问题",
+      "linkError":"服务器链接错误，请重试。"
     },
     "code": {
       "copy": "复制代码",

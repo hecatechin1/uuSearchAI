@@ -41,7 +41,9 @@
       "like": "Bra",
       "dislike": "Feil",
       "noConversation": "Ingen samtale valgt. Start en ny samtale.",
-      "textareaPlaceholder": "Skriv inn spørsmålet ditt til AI her, trykk Enter for å sende, og Shift + Enter for linjeskift"
+      "textareaPlaceholder": "Skriv inn spørsmålet ditt til AI her, trykk Enter for å sende, og Shift + Enter for linjeskift",
+      "linkError": "Servertilkoblingsfeil, prøv igjen."
+
     },
     "code": {
       "copy": "Kopier kode",

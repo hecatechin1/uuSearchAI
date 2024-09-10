@@ -41,7 +41,9 @@
       "like": "Bra",
       "dislike": "Fel",
       "noConversation": "Ingen konversation vald. Starta en ny konversation.",
-      "textareaPlaceholder": "Skriv in din fråga till AI här, tryck på Enter för att skicka och Shift + Enter för att radbryta"
+      "textareaPlaceholder": "Skriv in din fråga till AI här",
+      "linkError": "Serveranslutningsfel, försök igen."
+
     },
     "code": {
       "copy": "Kopiera kod",

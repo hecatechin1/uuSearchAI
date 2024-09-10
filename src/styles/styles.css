@@ -88,6 +88,7 @@
   align-items: center;
   /* Display as flex to enable flexbox properties */
   display: flex;
+  border-radius: 20px;
 }
 
 
@@ -111,12 +112,68 @@ padding-bottom: 0.5rem;
     z-index: 1;
 }
 
+.toolbelt{
 
+  transition: border 0.2s ease-in-out;
+}
+.toolbelt:hover{
+
+}
 .btn-custom {
-  @apply flex text-[0.8rem] py-1 px-2 bg-secondary h-[1.75rem] rounded items-center gap-1 hover:bg-themegreyhover;
+  @apply flex text-[0.8rem] px-[0.4rem] h-[1.75rem] rounded items-center gap-1 relative hover:bg-themegreyhover;
   /* display: none */
 }
+.btn-custom::after {
+  content: attr(data-tooltip);;
+  position: absolute;
+  bottom: 128%; /* 工具提示在图标上方 */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #000;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out;
+}
 
+/* 工具提示的小三角形 */
+.btn-custom::before {
+  content: "";
+  position: absolute;
+  bottom: 90%; /* 小三角形在工具提示和图标之间 */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #000 transparent transparent transparent; /* 上边是黑色，其他透明 */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.btn-custom:hover::after,
+.btn-custom:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+.copyButton::after{
+  transform: translateX(-15%);
+}
+
+.copyButton::before {
+  transform: translateX(0%);
+}
+
+.btn-edit{
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+}
 .icon-small{
   @apply h-4 w-4;
   min-width: 14px;
@@ -166,11 +223,13 @@ padding-bottom: 0.5rem;
 ::-webkit-scrollbar-corner { background-color: #646464;}
 
 textarea::-webkit-scrollbar-track-piece{
-  border-radius: 0 8px 8px 0;
+  border-radius: 4px;
+  cursor: default;
 }
 
 textarea::-webkit-scrollbar-thumb {
-  border-radius: 0 8px 8px 0;
+  border-radius: 4px;
+  cursor: default;
 }
 /* ::-webkit-scrollbar { width: 8px;}
 ::-webkit-scrollbar-button {  background-color: #464d5c; height: 0px; }

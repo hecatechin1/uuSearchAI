@@ -41,7 +41,9 @@
       "like": "Hyvä",
       "dislike": "Väärin",
       "noConversation": "Keskustelua ei ole valittu. Aloita uusi keskustelu.",
-      "textareaPlaceholder": "Syötä AI:lle kysymyksesi tähän, paina Enter lähettääksesi ja Shift + Enter rivinvaihtoa varten"
+      "textareaPlaceholder": "Syötä AI:lle kysymyksesi tähän, paina Enter lähettääksesi ja Shift + Enter rivinvaihtoa varten",
+      "linkError": "Palvelinyhteysvirhe, yritä uudelleen."
+
     },
     "code": {
       "copy": "Kopioi koodi",

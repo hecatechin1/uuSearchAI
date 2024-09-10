@@ -41,7 +41,9 @@
       "like": "Dobre",
       "dislike": "Złe",
       "noConversation": "Nie wybrano żadnej rozmowy. Rozpocznij nową rozmowę.",
-      "textareaPlaceholder": "Wpisz swoje pytanie dla AI tutaj, naciśnij Enter, aby wysłać, a Shift + Enter, aby przerwać wiersz"
+      "textareaPlaceholder": "Wpisz swoje pytanie dla AI tutaj, naciśnij Enter, aby wysłać, a Shift + Enter, aby przerwać wiersz",
+      "linkError": "Błąd połączenia z serwerem, spróbuj ponownie."
+
     },
     "code": {
       "copy": "Kopiuj Kod",

@@ -23,13 +23,13 @@
       "help": "Trợ giúp"
     },
     "topbar": {
-      "title": "Trả lời AI",
+      "title": "uuGPT",
       "newChat": "Trò chuyện mới",
       "setting": "Cài đặt"
     },
     "app": {
-      "title": "Trả lời AI",
-      "assistantname": "Trả lời AI",
+      "title": "uuGPT",
+      "assistantname": "uuGPT",
       "username": "Bạn",
       "cancel": "Hủy bỏ",
       "submit": "Gửi",

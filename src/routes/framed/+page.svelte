@@ -364,8 +364,7 @@
           <div class="flex flex-col pt-2 grow max-w-full px-0 sm:px-5">
             <div class="w-full">
               {#each $messages as message, i}
-                {#if (message.role !== "system") }
-                  {#if (message.role !== "user" || i !==0) }
+                  {#if (message.role === "assistant" || i !==0) }
                   <div
                     class="message relative inline-block bg-primary px-3 mt-3 flex flex-col transition-all duration-200 ease-in-out"
                   >
@@ -528,7 +527,6 @@
                     {/if}
                   </div>
                   {/if}
-                {/if}
               {/each}
             </div>
           </div>

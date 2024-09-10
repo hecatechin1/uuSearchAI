@@ -23,13 +23,13 @@
       "help": "Aide"
     },
     "topbar": {
-      "title": "Réponse de l'IA",
+      "title": "uuGPT",
       "newChat": "Nouveau Chat",
       "setting": "Paramètres"
     },
     "app": {
-      "title": "Réponse de l'IA",
-      "assistantname": "Réponse de l'IA",
+      "title": "uuGPT",
+      "assistantname": "uuGPT",
       "username": "Vous",
       "cancel": "Annuler",
       "submit": "Soumettre",

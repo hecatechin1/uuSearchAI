@@ -23,13 +23,13 @@
       "help": "Ohje"
     },
     "topbar": {
-      "title": "AI-vastaus",
+      "title": "uuGPT",
       "newChat": "Uusi chat",
       "setting": "Asetukset"
     },
     "app": {
-      "title": "AI-vastaus",
-      "assistantname": "AI-vastaus",
+      "title": "uuGPT",
+      "assistantname": "uuGPT",
       "username": "Sinä",
       "cancel": "Peruuta",
       "submit": "Lähetä",

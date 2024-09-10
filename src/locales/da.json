@@ -23,13 +23,13 @@
     "help": "Hjælp"
   },
   "topbar": {
-    "title": "AI-svar",
+    "title": "uuGPT",
     "newChat": "Ny chat",
     "setting": "Indstillinger"
   },
   "app": {
-    "title": "AI-svar",
-    "assistantname": "AI-svar",
+    "title": "uuGPT",
+    "assistantname": "uuGPT",
     "username": "Du",
     "cancel": "Annuller",
     "submit": "Indsend",

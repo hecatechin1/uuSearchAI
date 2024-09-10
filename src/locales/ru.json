@@ -23,13 +23,13 @@
       "help": "Помощь"
     },
     "topbar": {
-      "title": "Ответ AI",
+      "title": "uuGPT",
       "newChat": "Новый чат",
       "setting": "Настройки"
     },
     "app": {
-      "title": "Ответ AI",
-      "assistantname": "Ответ AI",
+      "title": "uuGPT",
+      "assistantname": "uuGPT",
       "username": "Вы",
       "cancel": "Отмена",
       "submit": "Отправить",

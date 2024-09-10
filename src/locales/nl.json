@@ -23,13 +23,13 @@
       "help": "Help"
     },
     "topbar": {
-      "title": "AI Antwoord",
+      "title": "uuGPT",
       "newChat": "Nieuwe Chat",
       "setting": "Instellingen"
     },
     "app": {
-      "title": "AI Antwoord",
-      "assistantname": "AI Antwoord",
+      "title": "uuGPT",
+      "assistantname": "uuGPT",
       "username": "Jij",
       "cancel": "Annuleren",
       "submit": "Verzenden",

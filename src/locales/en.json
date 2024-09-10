@@ -23,14 +23,14 @@
       "help": "Help"
     },
     "topbar": {
-      "title": "AI Answer",
+      "title": "uuGPT",
       "newChat": "New Chat",
       "setting": "Settings",
       "clearConversation":"Clear"
     },
     "app": {
-      "title": "AI Answer",
-      "assistantname": "AI Answer",
+      "title": "uuGPT",
+      "assistantname": "uuGPT",
       "username": "You",
       "cancel": "Cancel",
       "submit": "Submit",

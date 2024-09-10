@@ -23,13 +23,13 @@
       "help": "ช่วยเหลือ"
     },
     "topbar": {
-      "title": "คำตอบจาก AI",
+      "title": "uuGPT",
       "newChat": "แชทใหม่",
       "setting": "การตั้งค่า"
     },
     "app": {
-      "title": "คำตอบจาก AI",
-      "assistantname": "คำตอบจาก AI",
+      "title": "uuGPT",
+      "assistantname": "uuGPT",
       "username": "คุณ",
       "cancel": "ยกเลิก",
       "submit": "ส่ง",

@@ -23,13 +23,13 @@
       "help": "ヘルプ"
     },
     "topbar": {
-      "title": "AI応答",
+      "title": "uuGPT",
       "newChat": "新しいチャット",
       "setting": "設定"
     },
     "app": {
-      "title": "AI応答",
-      "assistantname": "AI応答",
+      "title": "uuGPT",
+      "assistantname": "uuGPT",
       "username": "あなた",
       "cancel": "キャンセル",
       "submit": "送信",

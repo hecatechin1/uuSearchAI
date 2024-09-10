@@ -23,13 +23,13 @@
       "help": "مساعدة"
     },
     "topbar": {
-      "title": "إجابة الذكاء الاصطناعي",
+      "title": "uuGPT",
       "newChat": "دردشة جديدة",
       "setting": "الإعدادات"
     },
     "app": {
-      "title": "إجابة الذكاء الاصطناعي",
-      "assistantname": "إجابة الذكاء الاصطناعي",
+      "title": "uuGPT",
+      "assistantname": "uuGPT",
       "username": "أنت",
       "cancel": "إلغاء",
       "submit": "إرسال",

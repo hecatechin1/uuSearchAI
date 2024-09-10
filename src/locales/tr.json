@@ -23,13 +23,13 @@
       "help": "Yardım"
     },
     "topbar": {
-      "title": "AI Yanıtı",
+      "title": "uuGPT",
       "newChat": "Yeni Sohbet",
       "setting": "Ayarlar"
     },
     "app": {
-      "title": "AI Yanıtı",
-      "assistantname": "AI Yanıtı",
+      "title": "uuGPT",
+      "assistantname": "uuGPT",
       "username": "Sen",
       "cancel": "İptal Et",
       "submit": "Gönder",

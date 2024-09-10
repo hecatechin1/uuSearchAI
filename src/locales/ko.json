@@ -23,13 +23,13 @@
       "help": "도움말"
     },
     "topbar": {
-      "title": "AI 응답",
+      "title": "uuGPT",
       "newChat": "새 채팅",
       "setting": "설정"
     },
     "app": {
-      "title": "AI 응답",
-      "assistantname": "AI 응답",
+      "title": "uuGPT",
+      "assistantname": "uuGPT",
       "username": "당신",
       "cancel": "취소",
       "submit": "제출",

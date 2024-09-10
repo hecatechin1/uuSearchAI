@@ -23,14 +23,14 @@
       "help": "帮助"
     },
     "topbar": {
-      "title": "AI 回答",
+      "title": "uuGPT",
       "newChat": "新聊天",
       "setting": "设置",
       "clearConversation":"清空"
     },
     "app": {
-      "title": "AI 回答",
-      "assistantname": "AI 回答",
+      "title": "uuGPT",
+      "assistantname": "uuGPT",
       "username": "你",
       "cancel": "取消",
       "submit": "提交",

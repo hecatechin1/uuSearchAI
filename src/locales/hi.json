@@ -23,13 +23,13 @@
       "help": "सहायता"
     },
     "topbar": {
-      "title": "AI उत्तर",
+      "title": "uuGPT",
       "newChat": "नई चैट",
       "setting": "सेटिंग्स"
     },
     "app": {
-      "title": "AI उत्तर",
-      "assistantname": "AI उत्तर",
+      "title": "uuGPT",
+      "assistantname": "uuGPT",
       "username": "आप",
       "cancel": "रद्द करें",
       "submit": "सबमिट करें",

@@ -568,7 +568,7 @@
             <img src={WaitIcon} alt="wait" class="min-w-[32px] w-[32px]" />
           {:else if input.trim().length === 0}
             <img
-              src={isSendHovered ? SendHoverIcon : SendDisabledIcon}
+              src={SendDisabledIcon}
               alt="send"
               class="min-w-[32px] w-[32px]"
             />

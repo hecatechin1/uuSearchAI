@@ -269,7 +269,7 @@
     sendRegularMessage(input);
     input = "";
     textAreaElement.style.height = "1.5rem"; // Reset the height after sending
-    textAreaElement.style.lineHight = "1.3rem";
+    textAreaElement.style.lineHight = "1.2rem";
   }
   function scrollChat() {
     if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -353,7 +353,7 @@
 
 <main class="bg-primary overflow-hidden fixed w-full">
   <div
-    class="h-screen flex justify-stretch flex-col bg-secondary text-black/80 height-manager"
+    class="h-screen flex justify-stretch flex-col text-black/80 height-manager"
   >
     <!-- <Topbar
         bind:conversation_title={conversationTitle}
@@ -536,7 +536,7 @@
       {/if}
     </div>
 
-    <div class="inputbox-container w-full px-3 flex justify-center items-center round-lg bg-[#f4f4f4] mb-2">
+    <div class="inputbox-container w-full px-3 flex justify-center items-center round-[1.25rem] bg-[#f4f4f4]">
       <div class="inputbox w-full flex items-end mt-auto mx-auto py-[0.5rem] relative">
         <textarea
           bind:this={textAreaElement}
@@ -546,7 +546,7 @@
           rows="1"
           bind:value={input}
           on:input={handleInput}
-          style="overflow-y: auto; overflow:visible !important; line-height: 1.3rem; min-height: 1.5rem;"
+          style="overflow-y: auto; overflow:visible !important; line-height: 1.2rem; min-height: 1.5rem;"
           on:keydown={textAreaKeysListener}
         ></textarea>
         <button

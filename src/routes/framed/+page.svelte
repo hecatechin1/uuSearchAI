@@ -172,7 +172,7 @@
     let storedMessages = null; // 24-9-10 搜索结果-AI搜索页面不再需要历史记录
 
 
-    
+
     let parsedMessages: CustomMessage[] =
       storedMessages !== null ? JSON.parse(storedMessages) : [];
     sendKey.set(sendk);
@@ -382,7 +382,7 @@
 
 <main class="bg-primary overflow-hidden fixed w-full">
   <div
-    class="h-screen flex justify-stretch flex-col text-black/80 height-manager"
+    class="h-screen flex justify-stretch flex-col text-black/80 height-manager bg-primary"
   >
     <!-- <Topbar
         bind:conversation_title={conversationTitle}

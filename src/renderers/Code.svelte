@@ -1,15 +1,45 @@
 <script>
+  import { onMount, afterUpdate } from 'svelte';
   import { t } from 'svelte-i18n';
   import CopyIcon from "../assets/copy.svg";
   import CheckIcon from "../assets/check.svg";
   import hljs from "highlight.js";
   import { marked } from "marked";
   import "highlight.js/styles/default.css";
+  import { isStreaming } from "../stores/stores";
+  import { get } from 'svelte/store';
+    import Html from './Html.svelte';
 
+  export let text=""; // Markdown 中的代码内容
+  export let language="";  // 代码语言
+  let highlightedCode = "";
+  let hj= hljs.highlightAuto(text);
 
-  export let text;
-  let  hj = hljs.highlightAuto(text);
+  // if(!get(isStreaming)){
+  //   hj = hljs.highlightAuto(text);
+  // }
+  // let  hj = hljs.highlightAuto(text.replace('\\n', '\n'));
+
   let copied = false;
+
+// 高亮代码函数
+const highlightCode = () => {
+    if (language) {
+      highlightedCode = hljs.highlight(language, text).value;
+    } else {
+      highlightedCode = hljs.highlightAuto(text).value;
+    }
+  };
+
+   // 初次渲染时高亮代码
+   onMount(() => {
+    highlightCode();
+  });
+
+  // 每次 text 更新时重新高亮
+  afterUpdate(() => {
+    highlightCode();
+  });
   
   const copyToClipboard = async () => {
     try {
@@ -26,7 +56,7 @@
 
 <div style="position:relative">
   <div class="copycode">
-    <div>{ hj.language }</div>
+    <div>{language}</div>
     <button class="" on:click={copyToClipboard}>
       {#if copied}
       <img class="inline-block" alt="Copied" src={CheckIcon} />
@@ -38,7 +68,7 @@
       {/if}
     </button>
   </div>
-  <pre><code>{@html hj.value}</code></pre>
+  <pre><code id='testid'>{@html highlightedCode}</code></pre>
 </div>
 
 <style>

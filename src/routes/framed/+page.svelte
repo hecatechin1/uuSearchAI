@@ -1,7 +1,13 @@
 <script lang="ts">
-  import { init, getLocaleFromNavigator, register, locale } from "svelte-i18n";
+  import {
+    init,
+    getLocaleFromNavigator,
+    register,
+    locale,
+    number,
+  } from "svelte-i18n";
   import type { CustomMessage } from "../../stores/stores";
-  import { get } from "svelte/store";
+  import { get, writable } from "svelte/store";
   import { onMount, onDestroy } from "svelte";
   import { initApp, cleanupApp } from "../../appInit";
   import Topbar from "../../lib/Topbar.svelte";
@@ -108,6 +114,7 @@
 
   let chatContainerObserver: MutationObserver | null = null;
   let isMobile = false;
+
   function setupMutationObserver() {
     if (!chatContainer) return; // Ensure chatContainer is mounted
 
@@ -125,7 +132,7 @@
     await initApp();
     isMobile =
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
+        navigator.userAgent,
       );
     // Setup MutationObserver after app initialization and component mounting
     setupMutationObserver();
@@ -137,10 +144,16 @@
       processMessage();
     }
 
+    window.addEventListener("message", (event) => {
+      console.log(event.data);
+      input = event.data;
+      processMessage();
+    });
+
     document.addEventListener("DOMContentLoaded", function () {
       // 选择所有的 h1-h6 标签
       const headings = document.querySelectorAll(
-        ".message-display h1, .message-display h2, .message-display h3, .message-display h4, .message-display h5, .message-display h6"
+        ".message-display h1, .message-display h2, .message-display h3, .message-display h4, .message-display h5, .message-display h6",
       );
 
       // 遍历每个 heading 元素，设置 data-text 属性并添加4个字符
@@ -153,8 +166,13 @@
     //初始化store中需要保存在localStorage里的值
     let sendk = localStorage.getItem("sendkey") || "Enter";
     let linebreakk = localStorage.getItem("linebreakkey") || "Shift+Enter";
-    //let storedMessages = localStorage.getItem("search_messages");
+
+
+    // let storedMessages = localStorage.getItem("search_messages");
     let storedMessages = null; // 24-9-10 搜索结果-AI搜索页面不再需要历史记录
+
+
+    
     let parsedMessages: CustomMessage[] =
       storedMessages !== null ? JSON.parse(storedMessages) : [];
     sendKey.set(sendk);
@@ -275,6 +293,17 @@
     if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
   }
 
+  function copyText(content: string, index: number) {
+    //copyicon
+    copyTextToClipboard(content);
+    let copyelm = document.getElementsByClassName("copyAnime" + index)[0];
+
+    copyelm.classList.add("small-rotate-animation");
+    setTimeout(() => {
+      copyelm.classList.remove("small-rotate-animation");
+    }, 500);
+  }
+
   let lastMessageCount = 0;
   afterUpdate(() => {
     const currentMessageCount = $messages.length || 0;
@@ -368,7 +397,9 @@
           <div class="w-full">
             {#each $messages as message, i}
               {#if message.role === "assistant"}
-                <div class="message relative inline-block bg-primary mt-0 flex flex-col transition-all duration-200 ease-in-out">
+                <div
+                  class="message relative inline-block bg-primary mt-0 flex flex-col transition-all duration-200 ease-in-out"
+                >
                   <!-- 系统消息头像 -->
                   <div class="profile-picture flex align-middle">
                     <div>
@@ -387,26 +418,26 @@
                   <div
                     class="message-display mt-2 transition-all duration-200 ease-in-out"
                   >
-                      <SvelteMarkdown
-                        {renderers}
-                        source={formatMessageForMarkdown(
-                          message.content.toString()
-                        )}
-                      />
+                    <SvelteMarkdown
+                      {renderers}
+                      source={formatMessageForMarkdown(
+                        message.content.toString(),
+                      )}
+                    />
                   </div>
-                  
+
                   {#if $isStreaming === false}
-                  <div class="toolbelt flex gap-3 empty:hidden -ml-2">
-                    <div class="flex justify-start rounded-xl items-center">
+                    <div class="toolbelt flex gap-3 empty:hidden -ml-2">
+                      <div class="flex justify-start rounded-xl items-center">
                         <button
                           class="btn-custom copyButton"
                           data-tooltip={$t("app.copy")}
-                          on:click={() => copyTextToClipboard(message.content)}
+                          on:click={() => copyText(message.content, i)}
                         >
                           <img
-                            class="copy-icon"
                             alt={$t("app.copy")}
                             src={CopyIcon}
+                            class={"copy-icon copyAnime" + i}
                           />
                         </button>
                         <button
@@ -415,7 +446,6 @@
                           on:click={() => retry(i)}
                         >
                           <img class="" alt={$t("app.retry")} src={RetryIcon} />
-                          
                         </button>
                         <button
                           class="deleteButton btn-custom"
@@ -429,41 +459,39 @@
                           />
                         </button>
 
-
                         <button
-                        id="likeBtn"
-                        class="btn-custom"
-                        data-tooltip={$t("app.like")}
-                        on:click={() => toggleLike(i)}
-                      >
-                        <img
-                          alt="like"
-                          src={message.isLiked ? LikeActiveIcon : LikeIcon}
-                          class={message.isLiked
-                            ? "small-rotate-animation"
-                            : ""}
-                        />
-                      </button>
-                      <button
-                        id="dislikeBtn"
-                        class="btn-custom"
-                        data-tooltip={$t("app.dislike")}
-                        on:click={() => toggleDislike(i)}
-                      >
-                        <img
-                          alt="dislike"
-                          src={message.isDisliked
-                            ? DislikeActiveIcon
-                            : DislikeIcon}
-                          class={message.isDisliked
-                            ? "small-rotate-animation"
-                            : ""}
-                        />
-                      </button>
+                          id="likeBtn"
+                          class="btn-custom"
+                          data-tooltip={$t("app.like")}
+                          on:click={() => toggleLike(i)}
+                        >
+                          <img
+                            alt="like"
+                            src={message.isLiked ? LikeActiveIcon : LikeIcon}
+                            class={message.isLiked
+                              ? "small-rotate-animation"
+                              : ""}
+                          />
+                        </button>
+                        <button
+                          id="dislikeBtn"
+                          class="btn-custom"
+                          data-tooltip={$t("app.dislike")}
+                          on:click={() => toggleDislike(i)}
+                        >
+                          <img
+                            alt="dislike"
+                            src={message.isDisliked
+                              ? DislikeActiveIcon
+                              : DislikeIcon}
+                            class={message.isDisliked
+                              ? "small-rotate-animation"
+                              : ""}
+                          />
+                        </button>
+                      </div>
                     </div>
-                  </div>
                   {/if}
-
                 </div>
               {:else if message.role === "user"}
                 {#if i !== 0}
@@ -491,36 +519,48 @@
                       >
                     </div>
                   {:else}
-                    <div class="w-full text-token-text-primary focus-visible:outline-2 focus-visible:outline-offset-[-4px]">
+                    <div
+                      class="w-full text-token-text-primary focus-visible:outline-2 focus-visible:outline-offset-[-4px]"
+                    >
                       <h5 class="sr-only">{$t("app.username")}:</h5>
-                          <div class="message relative flex w-full min-w-0 flex-col">
-                            <div class="flex-col gap-1 md:gap-3">
-                              <div class="flex max-w-full flex-col flex-grow">
-                                <div class="min-h-[20px] text-message flex w-full flex-col items-end gap-2 whitespace-normal break-words [.text-message+&]:mt-5">
-                                  <div class="flex w-full flex-col gap-1 empty:hidden items-end rtl:items-start">
-                                    <div class="group/conversation-turn relative max-w-[70%] rounded-3xl px-3 py-2 bg-[#f4f4f4] rounded-tr-lg">
-                                      <div class="whitespace-pre-wrap">
-                                        {message.content}
-                                      </div>
-                                      <div class="absolute bottom-0 right-full top-0 -mr-3.5 hidden pr-5 pt-1 [.group\/conversation-turn:hover_&]:block">
-                                        <button
-                                          data-tooltip={$t("app.edit")}
-                                          class="btn-custom btn-edit flex items-center justify-center text-token-text-secondary transition"
-                                          on:click={() => startEditMessage(i)}
-                                        >
-                                          <img
-                                            class="edit-icon"
-                                            alt={$t("app.edit")}
-                                            src={EditIcon}
-                                          />
-                                        </button>
-                                      </div>
-                                    </div>
+                      <div
+                        class="message relative flex w-full min-w-0 flex-col"
+                      >
+                        <div class="flex-col gap-1 md:gap-3">
+                          <div class="flex max-w-full flex-col flex-grow">
+                            <div
+                              class="min-h-[20px] text-message flex w-full flex-col items-end gap-2 whitespace-normal break-words [.text-message+&]:mt-5"
+                            >
+                              <div
+                                class="flex w-full flex-col gap-1 empty:hidden items-end rtl:items-start"
+                              >
+                                <div
+                                  class="group/conversation-turn relative max-w-[70%] rounded-3xl px-3 py-2 bg-[#f4f4f4] rounded-tr-lg"
+                                >
+                                  <div class="whitespace-pre-wrap">
+                                    {message.content}
+                                  </div>
+                                  <div
+                                    class="absolute bottom-0 right-full top-0 -mr-3.5 hidden pr-5 pt-1 [.group\/conversation-turn:hover_&]:block"
+                                  >
+                                    <button
+                                      data-tooltip={$t("app.edit")}
+                                      class="btn-custom btn-edit flex items-center justify-center text-token-text-secondary transition"
+                                      on:click={() => startEditMessage(i)}
+                                    >
+                                      <img
+                                        class="edit-icon"
+                                        alt={$t("app.edit")}
+                                        src={EditIcon}
+                                      />
+                                    </button>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
+                        </div>
+                      </div>
                     </div>
                   {/if}
                 {/if}
@@ -536,8 +576,12 @@
       {/if}
     </div>
 
-    <div class="inputbox-container w-full px-3 flex justify-center items-center round-[1.25rem] bg-[#f4f4f4]">
-      <div class="inputbox w-full flex items-end mt-auto mx-auto py-[0.5rem] relative">
+    <div
+      class="inputbox-container w-full px-3 flex justify-center items-center round-[1.25rem] bg-[#f4f4f4]"
+    >
+      <div
+        class="inputbox w-full flex items-end mt-auto mx-auto py-[0.5rem] relative"
+      >
         <textarea
           bind:this={textAreaElement}
           class="bg-transparent min-h-[2.5rem] flex-1 mr-2 border-0 resize-none border-none focus:outline-none"
@@ -558,10 +602,10 @@
               processMessage();
             }
           }}
-          on:mouseover={() => isSendHovered = true}  
-          on:mouseleave={() => isSendHovered = false} 
-          on:focus={() => isSendHovered = true} 
-          on:blur={() => isSendHovered = false}
+          on:mouseover={() => (isSendHovered = true)}
+          on:mouseleave={() => (isSendHovered = false)}
+          on:focus={() => (isSendHovered = true)}
+          on:blur={() => (isSendHovered = false)}
           disabled={!$isStreaming && !input.trim().length}
         >
           {#if $isStreaming}

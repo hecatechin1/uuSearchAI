@@ -231,6 +231,10 @@ textarea::-webkit-scrollbar-thumb {
   border-radius: 4px;
   cursor: default;
 }
+
+textarea::placeholder {
+  color: #666;
+}
 /* ::-webkit-scrollbar { width: 8px;}
 ::-webkit-scrollbar-button {  background-color: #464d5c; height: 0px; }
 ::-webkit-scrollbar-track-piece { background-color: #282c34;}
@@ -390,17 +394,19 @@ textarea::-webkit-scrollbar-thumb {
 /* 代码块样式 */
 .message-display pre,
 .message-display code {
-  background-color: #000;
+  background-color: #0d0d0d;
   padding: 0.5em;
   border-radius: 0 0 4px 4px;
-  font-family: 'Courier New', Courier, monospace;
   color:white;
+  font-size: 1rem;
+  font-weight: 400;
 }
-
+code, pre {
+  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace!important;
+}
 /* 内联代码样式 */
 .message-display code {
   padding: 2px 4px;
-  font-size: 0.9em;
 }
 
 /* 链接样式 */

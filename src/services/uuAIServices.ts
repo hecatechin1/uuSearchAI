@@ -106,7 +106,8 @@ export async function sendMessage(msg:any,mid:number) {
                     if(mid <0){
                         setMessagesHistory([...currentMessages,{
                             role:'assistant',
-                            content:streamText +  "█"+ (ticks ? "\n```" : ""),
+                            // content:streamText +  "█"+ (ticks ? "\n```" : ""),
+                            content:streamText +  "█",
                             isLiked:false,
                             isDisliked:false
                         }]);

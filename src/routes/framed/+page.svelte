@@ -168,8 +168,8 @@
     let linebreakk = localStorage.getItem("linebreakkey") || "Shift+Enter";
 
 
-    // let storedMessages = localStorage.getItem("search_messages");
-    let storedMessages = null; // 24-9-10 搜索结果-AI搜索页面不再需要历史记录
+    let storedMessages = localStorage.getItem("search_messages");
+    // let storedMessages = null; // 24-9-10 搜索结果-AI搜索页面不再需要历史记录
 
 
 
@@ -295,7 +295,7 @@
 
   function copyText(content: string, index: number) {
     //copyicon
-    copyTextToClipboard(content);
+    copyTextToClipboard(content.replaceAll('\\n','\n'));
     let copyelm = document.getElementsByClassName("copyAnime" + index)[0];
 
     copyelm.classList.add("small-rotate-animation");

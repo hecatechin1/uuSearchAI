@@ -137,12 +137,7 @@
     // Setup MutationObserver after app initialization and component mounting
     setupMutationObserver();
 
-    const urlParams = new URLSearchParams(window.location.search);
-    urlParameter = urlParams.get("aisearch_q");
-    if (urlParameter) {
-      input = urlParameter;
-      processMessage();
-    }
+
 
     window.addEventListener("message", (event) => {
       console.log(event.data);
@@ -204,6 +199,13 @@
     locale.subscribe((newLocale) => {
       localStorage.setItem("locale", newLocale);
     });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParameter = urlParams.get("aisearch_q");
+    if (urlParameter) {
+      input = urlParameter;
+      processMessage();
+    }
   });
 
   onDestroy(() => {

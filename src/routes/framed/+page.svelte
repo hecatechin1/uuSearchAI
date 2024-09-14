@@ -375,6 +375,20 @@
   }
 </script>
 
+
+<!-- src/routes/[your-page]/+page.svelte -->
+<svelte:head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4JCE4T7WCH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-4JCE4T7WCH');
+  </script>
+</svelte:head>
+
 <title>
   {$t("app.title")}
 </title>

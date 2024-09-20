@@ -380,7 +380,7 @@
   }
 
   function feedback(){
-    window.open('https://www.maxthon.com', '_blank');
+    window.open('https://forms.gle/9sWKVZTnV8gf9onSA', '_blank');
   }
 </script>
 

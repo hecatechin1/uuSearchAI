@@ -5,7 +5,7 @@ import {setMessagesHistory} from "../manages/messageManages";
 import { countTicks } from '../utils/generalUtils';
 import { t } from "svelte-i18n";
 
-let currentmid = null;
+let currentmid:any = null;
 let globalSource: EventSource | null = null;  
 
 let timeoutId: NodeJS.Timeout | null = null; // 用于超时检测
@@ -155,7 +155,11 @@ export async function sendMessage(msg:any,mid:number) {
     });
 
     source.addEventListener('error',()=>{
-        resetTimeout(source, currentMessages, mid, streamText);
+        // resetTimeout(source, currentMessages, mid, streamText);
+
+        if(timeoutId){
+            clearTimeout(timeoutId);
+        }
         streamText = streamText.replace(/█+$/, '');
         isStreaming.set(false);
         source.close();
@@ -173,10 +177,9 @@ export async function sendMessage(msg:any,mid:number) {
             setMessagesHistory(currentMessages);
         }
 
-        streamText = "";
-        currentmid=null;
+        // streamText = "";
+        // currentmid=null;
     });
-
     source.stream();  
     globalSource = source;  
     currentmid = mid;

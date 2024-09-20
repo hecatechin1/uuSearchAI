@@ -4,7 +4,7 @@
 export function formatMessageForMarkdown(content: string): string {
     // Replace newline characters with two spaces followed by a newline character
     // console.log(content.replace(/\\n/g, '  \n'));
-    return content.replace(/\\n/g, '  \n');
+    return content.replace(/\\n/g, '\r\n');
   }
   
   // Utility function to copy text to clipboard

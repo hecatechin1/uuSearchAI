@@ -46,7 +46,7 @@
 <div class="fixed z-50 inset-0 animate-fade-in">
   <div class="flex items-center justify-center min-h-screen">
     <div
-      class="w-full sm:w-auto bg-primary text-gray-900 rounded-lg shadow-xl py-8 relative max-h-[90vh]"
+      class="w-full sm:w-auto bg-primary text-gray-900 rounded-lg shadow-xl py-8 relative max-h-[90vh] border"
     >
       <button
         class="absolute top-0 right-0 mt-2 mr-2 text-gray-500 hover:text-gray-600"

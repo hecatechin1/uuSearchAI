@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.fixed {
-    background-color: rgba(0, 0, 0, 0.4);
-  }
 
   /* Center the settings window horizontally and vertically */
   .min-h-screen {

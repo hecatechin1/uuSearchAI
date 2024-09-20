@@ -596,7 +596,7 @@
         </div>
       {/if}
     </div>
-    <div class="inputbox-tools w-full px-3 flex mb-2">
+    <div class="inputbox-tools w-full px-2 flex mb-2 mt-1">
       <button class="py-1 px-2 border rounded-lg text-gray-700 hover:bg-gray-100 flex items-center mr-2">
         <svg class="w-5 h-5 text-blue-500 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v2a1 1 0 102 0V6zm0 4a1 1 0 10-2 0v4a1 1 0 102 0v-4z" clip-rule="evenodd"></path>
@@ -614,7 +614,7 @@
       </button>
     </div>
     <div
-      class="inputbox-container w-full px-3 flex justify-center items-center round-[1.25rem] bg-[#f4f4f4]"
+      class="inputbox-container w-full px-3 flex justify-center items-center bg-[#f4f4f4]"
     >
       
       <div

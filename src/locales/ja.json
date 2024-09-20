@@ -41,8 +41,9 @@
       "like": "良い",
       "dislike": "間違い",
       "noConversation": "会話が選択されていません。新しい会話を開始してください。",
-      "textareaPlaceholder": "AIへの質問をここに入力し、Enterで送信し、Shift + Enterで改行します",
-      "linkError": "サーバー接続エラーが発生しました。もう一度お試しください。"
+      "textareaPlaceholder": "AIへの質問をここに入力し",
+      "linkError": "サーバー接続エラーが発生しました。もう一度お試しください。",
+      "feedback":"フィードバック"
 
     },
     "code": {

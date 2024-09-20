@@ -42,7 +42,8 @@
       "dislike": "Errado",
       "noConversation": "Nenhuma conversa selecionada. Inicie uma nova conversa.",
       "textareaPlaceholder": "Digite sua pergunta para a IA aqui, pressione Enter para enviar e Shift + Enter para quebra de linha",
-      "linkError": "Erro de conexão com o servidor, tente novamente."
+      "linkError": "Erro de conexão com o servidor, tente novamente.",
+      "feedback":"Feedback"
 
     },
     "code": {

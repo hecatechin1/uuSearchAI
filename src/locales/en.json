@@ -53,8 +53,8 @@
       "errorInChatCompletion": "Error in createChatCompletion:",
       "checkingApiConfiguration": "Checking if OpenAI API is configured.",
       "configurationReloaded": "Configuration reloaded.",
-      "linkError": "Server connection error, please try again."
-
+      "linkError": "Server connection error, please try again.",
+      "feedback":"Feedback"
     },
     "code": {
       "copy": "Copy Code",

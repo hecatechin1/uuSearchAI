@@ -41,8 +41,9 @@
       "like": "Buono",
       "dislike": "Sbagliato",
       "noConversation": "Nessuna conversazione selezionata. Inizia una nuova conversazione.",
-      "textareaPlaceholder": "Inserisci la tua domanda per l'IA qui, premi Enter per inviare e Shift + Enter per andare a capo",
-      "linkError": "Errore di connessione al server, riprova."
+      "textareaPlaceholder": "Inserisci la tua domanda per l'IA qui",
+      "linkError": "Errore di connessione al server, riprova.",
+      "feedback":"Feedback"
 
     },
     "code": {

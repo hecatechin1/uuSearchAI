@@ -43,7 +43,8 @@
       "dislike": "错误",
       "noConversation": "开始新对话。",
       "textareaPlaceholder": "在此输入您的问题",
-      "linkError":"服务器链接错误，请重试。"
+      "linkError":"服务器链接错误，请重试。",
+      "feedback":"问题反馈"
     },
     "code": {
       "copy": "复制代码",

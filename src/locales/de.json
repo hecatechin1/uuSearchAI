@@ -41,8 +41,9 @@
       "like": "Gut",
       "dislike": "Falsch",
       "noConversation": "Keine Unterhaltung ausgewählt. Starten Sie eine neue Unterhaltung.",
-      "textareaPlaceholder": "Geben Sie hier Ihre Frage an die AI ein, drücken Sie Enter zum Senden, und Shift + Enter für einen Zeilenumbruch",
-      "linkError": "Serververbindungsfehler, bitte erneut versuchen."
+      "textareaPlaceholder": "Geben Sie hier Ihre Frage an die AI ein",
+      "linkError": "Serververbindungsfehler, bitte erneut versuchen.",
+      "feedback":"Feedback"
 
     },
     "code": {

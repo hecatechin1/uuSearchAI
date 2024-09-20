@@ -41,8 +41,9 @@
       "like": "Goed",
       "dislike": "Fout",
       "noConversation": "Geen gesprek geselecteerd. Begin een nieuw gesprek.",
-      "textareaPlaceholder": "Voer hier uw vraag aan AI in, druk op Enter om te verzenden en Shift + Enter om een regelomslag te maken",
-      "linkError": "Serververbindingsfout, probeer het opnieuw."
+      "textareaPlaceholder": "Voer hier uw vraag aan AI in",
+      "linkError": "Serververbindingsfout, probeer het opnieuw.",
+      "feedback":"Feedback"
 
     },
     "code": {

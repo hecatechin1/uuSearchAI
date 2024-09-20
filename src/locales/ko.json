@@ -41,8 +41,9 @@
       "like": "좋음",
       "dislike": "잘못된",
       "noConversation": "선택된 대화가 없습니다. 새 대화를 시작하세요.",
-      "textareaPlaceholder": "AI에게 질문을 입력하세요. Enter 키를 눌러 전송하고, Shift + Enter 키로 줄 바꿈",
-      "linkError": "서버 연결 오류가 발생했습니다. 다시 시도해 주세요."
+      "textareaPlaceholder": "AI에게 질문을 입력하세요.",
+      "linkError": "서버 연결 오류가 발생했습니다. 다시 시도해 주세요.",
+      "feedback":"피드백"
 
     },
     "code": {

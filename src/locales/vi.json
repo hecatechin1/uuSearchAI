@@ -41,8 +41,9 @@
       "like": "Tốt",
       "dislike": "Sai",
       "noConversation": "Không có cuộc trò chuyện nào được chọn. Bắt đầu một cuộc trò chuyện mới.",
-      "textareaPlaceholder": "Nhập câu hỏi của bạn cho AI tại đây, nhấn Enter để gửi và Shift + Enter để xuống dòng",
-      "linkError": "Lỗi kết nối máy chủ, vui lòng thử lại."
+      "textareaPlaceholder": "Nhập câu hỏi của bạn cho AI tại đây",
+      "linkError": "Lỗi kết nối máy chủ, vui lòng thử lại.",
+      "feedback":"Phản hồi"
 
     },
     "code": {

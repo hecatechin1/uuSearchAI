@@ -42,7 +42,8 @@
       "dislike": "Fel",
       "noConversation": "Ingen konversation vald. Starta en ny konversation.",
       "textareaPlaceholder": "Skriv in din fråga till AI här",
-      "linkError": "Serveranslutningsfel, försök igen."
+      "linkError": "Serveranslutningsfel, försök igen.",
+      "feedback":"Feedback"
 
     },
     "code": {

@@ -156,7 +156,6 @@ export async function sendMessage(msg:any,mid:number) {
 
     source.addEventListener('error',()=>{
         // resetTimeout(source, currentMessages, mid, streamText);
-
         if(timeoutId){
             clearTimeout(timeoutId);
         }

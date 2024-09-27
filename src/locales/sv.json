@@ -49,6 +49,7 @@
     "code": {
       "copy": "Kopiera kod",
       "copied": "Kopierad"
-    }
+    },
+    "aisystem":"Var god svara på svenska. Ditt svar måste ges i Markdown-format. Inkludera tre klickbara referenslänkar i slutet av ditt svar."
   }
   

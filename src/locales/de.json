@@ -49,5 +49,6 @@
     "code": {
       "copy": "Code kopieren",
       "copied": "Kopiert"
-    }
+    },
+    "aisystem":"Bitte antworten Sie auf Deutsch. Ihre Antwort muss im Markdown-Format bereitgestellt werden. Fügen Sie am Ende Ihrer Antwort drei klickbare Referenzlinks hinzu."
   }

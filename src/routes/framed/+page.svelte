@@ -2,7 +2,7 @@
   import {
     init,
     getLocaleFromNavigator,
-    register,
+    waitLocale,
     locale,
     number,
   } from "svelte-i18n";
@@ -140,7 +140,7 @@
 
 
     window.addEventListener("message", (event) => {
-      console.log(event.data);
+      // console.log(event.data);
       input = event.data;
       processMessage();
     });
@@ -186,7 +186,7 @@
     //语言初始化
     // 提前设置初始语言
     const initialLocale =
-      localStorage.getItem("locale") || getLocaleFromNavigator() || "en";
+      localStorage.getItem("locale") || getLocaleFromNavigator().split('-')[0] || "en";
 
     // 初始化配置
     // init({
@@ -203,9 +203,11 @@
     const urlParams = new URLSearchParams(window.location.search);
     urlParameter = urlParams.get("aisearch_q");
     if (urlParameter) {
-      input = urlParameter;
-      processMessage();
-    }
+        input = urlParameter;
+        await waitLocale(initialLocale);
+        processMessage();
+      }
+
   });
 
   onDestroy(() => {

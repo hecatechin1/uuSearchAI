@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { t, locale } from "svelte-i18n";
+  import { t, locale} from "svelte-i18n";
   import { createEventDispatcher } from "svelte";
   import CloseIcon from "../assets/close.svg";
   import { writable, get, derived } from "svelte/store";
@@ -12,22 +12,27 @@
   // 切换语言
   function changeLanguage(event: any) {
     locale.set(event.target.value);
+    handleSave();
+    // console.log(get(locale));
   }
 
   function handleSave() {
     dispatch("settings-changed");
     //保存设置
+
   }
 
   function changeSendKey(event: any) {
     if (get(sendKey) != event.target.value) {
       sendKey.set(event.target.value);
+      handleSave();
     }
   }
 
   function changeBreakLineKey(event: any) {
     if (get(lineBreakKey) != event.target.value) {
       lineBreakKey.set(event.target.value);
+      handleSave();
     }
   }
 
@@ -50,11 +55,11 @@
     >
       <button
         class="absolute top-0 right-0 mt-2 mr-2 text-gray-500 hover:text-gray-600"
-        on:click={handleClose}
+        on:click={handleSaveAndClose}
       >
         <img class="icon-white w-6" alt="Close" src={CloseIcon} />
       </button>
-      <h2 class="text-xl font-bold mb-4 px-4 sm:px-8">
+      <h2 class="text-xl font-bold mb-4 px-4 sm:px-8 mt-3">
         {$t("settings.title")}
       </h2>
       <!-- Language Selection -->
@@ -63,7 +68,7 @@
         <div class="setting-item-group">
           <div class="setting-item">
             <span class="setting-lable">{$t("settings.language")}</span>
-            <select class="" on:change={changeLanguage}>
+            <select class="" on:change={changeLanguage} bind:value={$locale}>
               <option value="zh">中文 (Chinese)</option>
               <option value="en">English (English)</option>
               <option value="es">Español (Spanish)</option>

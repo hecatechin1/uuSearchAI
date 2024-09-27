@@ -49,6 +49,7 @@
     "code": {
       "copy": "Kopioi koodi",
       "copied": "Kopioitu"
-    }
+    },
+    "aisystem":"Vastaathan suomeksi. Vastauksesi on annettava Markdown-muodossa. Vastauksen lopussa lisää kolme napsautettavaa viittauslinkkiä."
   }
   

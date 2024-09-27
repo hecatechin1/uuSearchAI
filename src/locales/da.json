@@ -49,5 +49,6 @@
   "code": {
     "copy": "Kopiér kode",
     "copied": "Kopieret"
-  }
+  },
+    "aisystem":"Venligst svar på dansk. Dit svar skal gives i Markdown-format. I slutningen af dit svar skal du inkludere tre klikbare reference-links."
 }

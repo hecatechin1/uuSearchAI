@@ -3,7 +3,7 @@ import { get, writable } from 'svelte/store';
 import {messages, userRequestedStreamClosure,isStreaming ,streamContext} from "../stores/stores";
 import {setMessagesHistory} from "../manages/messageManages";
 import { countTicks } from '../utils/generalUtils';
-import { t } from "svelte-i18n";
+import { t} from "svelte-i18n";
 
 let currentmid:any = null;
 let globalSource: EventSource | null = null;  
@@ -21,7 +21,6 @@ export const closeStream = async()=>{
     isStreaming.set(false);
     currentmid = null;
 }
-
 
 const resetTimeout = (source: EventSource, currentMessages: any[], mid: number, streamText: string) => {
     if (timeoutId) {
@@ -56,6 +55,7 @@ export async function sendMessage(msg:any,mid:number) {
     userRequestedStreamClosure.set(false);
     let hasError = false;
     let currentMessages = get(messages);
+    // console.log(currentMessages);
     let tickCounter =0;
     let ticks = false;
     currentMessages = [...currentMessages];
@@ -73,21 +73,27 @@ export async function sendMessage(msg:any,mid:number) {
         
         setMessagesHistory(currentMessages);
     }
-
     let done = false;
     let streamText = "";
     isStreaming.set(true);
-    let source = new SSE("https://api.uugpt.com/ai/stream",{
+    let source = new SSE("https://api.uugpt.com/ai/stream1",{
         headers:{
             "Content-Type": "application/json",
         },
         method:"POST",
         payload: JSON.stringify({
-            system:"All responses must be in Markdown format.Don't use '---' as devide line.",
-            prompt:msg
+            // system:"All responses must be in Markdown format.Don't use '---' as devide line.",
+            // prompt:msg,
+            messages:[
+                {role:"system",content: get(t)("aisystem")},
+                ...currentMessages,
+            ]
         })
     });
-
+    console.log([
+        {role:"system",content: get(t)("aisystem")},
+        ...currentMessages,
+    ]);
     source.addEventListener("message",async(e:any)=>{
         resetTimeout(source, currentMessages, mid, streamText);
         if(e.data !== "[DONE]"){

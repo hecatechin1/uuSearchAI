@@ -59,5 +59,6 @@
     "code": {
       "copy": "Copy Code",
       "copied": "Copied"
-    }
+    },
+    "aisystem":"Please respond in English. Your response must be provided in Markdown format. At the end of your response, include three clickable reference links."
   }

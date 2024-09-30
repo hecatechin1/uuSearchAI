@@ -76,7 +76,7 @@ export async function sendMessage(msg:any,mid:number) {
     let done = false;
     let streamText = "";
     isStreaming.set(true);
-    let source = new SSE("https://api.uugpt.com/ai/stream1",{
+    let source = new SSE("https://api.uugpt.com/ai/stream",{
         headers:{
             "Content-Type": "application/json",
         },
@@ -90,10 +90,7 @@ export async function sendMessage(msg:any,mid:number) {
             ]
         })
     });
-    console.log([
-        {role:"system",content: get(t)("aisystem")},
-        ...currentMessages,
-    ]);
+
     source.addEventListener("message",async(e:any)=>{
         resetTimeout(source, currentMessages, mid, streamText);
         if(e.data !== "[DONE]"){

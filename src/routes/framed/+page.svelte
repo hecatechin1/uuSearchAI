@@ -25,6 +25,7 @@
   import { marked } from "marked";
   import "highlight.js/styles/dark.css";
   import "../../i18n.js";
+  import {initializeI18n} from "../../i18n";
   import { t } from "svelte-i18n";
   import HtmlRenderer from "../../renderers/Html.svelte";
   import DeleteIcon from "../../assets/delete.svg";
@@ -114,6 +115,7 @@
 
   let chatContainerObserver: MutationObserver | null = null;
   let isMobile = false;
+  let loading = true;
 
   function setupMutationObserver() {
     if (!chatContainer) return; // Ensure chatContainer is mounted
@@ -185,29 +187,18 @@
 
     //语言初始化
     // 提前设置初始语言
-    const initialLocale =
-      localStorage.getItem("locale") || getLocaleFromNavigator().split('-')[0] || "en";
-
-    // 初始化配置
-    // init({
-    //   fallbackLocale: "en",
-    //   initialLocale,
-    // });
-
-    // 设置初始语言
-    locale.set(initialLocale);
-    locale.subscribe((newLocale) => {
-      localStorage.setItem("locale", newLocale);
-    });
-
+    await initializeI18n();
+    // const initialLocale =localStorage.getItem("locale") || getLocaleFromNavigator().split('-')[0] || "en";
+    // // 设置初始语言
+    // locale.set(initialLocale);
+    await waitLocale();
+    loading = false; // 设置为已加载
     const urlParams = new URLSearchParams(window.location.search);
     urlParameter = urlParams.get("aisearch_q");
     if (urlParameter) {
         input = urlParameter;
-        await waitLocale(initialLocale);
         processMessage();
       }
-
   });
 
   onDestroy(() => {
@@ -401,13 +392,15 @@
 </svelte:head>
 
 <title>
-  {$t("app.title")}
 </title>
 {#if $settingsVisible}
   <Settings on:settings-changed={reloadConfig} />
 {/if}
 
 <main class="bg-primary overflow-hidden fixed w-full">
+  {#if loading}
+  <div></div>
+  {:else}
   <div
     class="h-screen flex justify-stretch flex-col text-black/80 height-manager bg-primary"
   >
@@ -671,6 +664,7 @@
       </div>
     </div>
   </div>
+  {/if}
 </main>
 
 <style>

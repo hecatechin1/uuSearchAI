@@ -14,6 +14,7 @@
   import Settings from "../../lib/Settings.svelte";
   import SvelteMarkdown from "svelte-markdown";
   import CodeRenderer from "../../renderers/Code.svelte";
+  import LinkRenderer from "../../renderers/LinkRenderer.svelte";
   import Devideline from "../../renderers/Devideline.svelte";
   import UserCodeRenderer from "../../renderers/userCode.svelte";
   import EmRenderer from "../../renderers/Em.svelte";
@@ -74,6 +75,7 @@
     listitem: ListItemRenderer,
     paragraph: ParagraphRenderer,
     html: HtmlRenderer,
+    link:LinkRenderer
     // hr:Devideline,
   };
 

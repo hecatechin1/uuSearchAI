@@ -175,6 +175,7 @@
           <div class="setting-item">
             <span class="setting-lable">{$t("settings.termsText")}</span>
             <a
+            target="_blank"
               href={$t("settings.termsLink")}
               class="text-gray-600 hover:underline break-all"
             >
@@ -184,6 +185,7 @@
           <div class="setting-item">
             <span class="setting-lable">{$t("settings.userSupport")}</span>
             <a
+            target="_blank"
               href={"mailto:" + $t("settings.userSupportEmail")}
               class="text-gray-600 hover:underline"
             >

@@ -118,7 +118,7 @@
   let chatContainerObserver: MutationObserver | null = null;
   let isMobile = false;
   let loading = true;
-
+  let isShowUserFirstQuery = false;
   function setupMutationObserver() {
     if (!chatContainer) return; // Ensure chatContainer is mounted
 
@@ -377,6 +377,11 @@
   function feedback(){
     window.open('https://forms.gle/9sWKVZTnV8gf9onSA', '_blank');
   }
+
+  function clearMessages(){
+    clearChat();
+    isShowUserFirstQuery = true;
+  }
 </script>
 
 
@@ -516,7 +521,7 @@
                   {/if}
                 </div>
               {:else if message.role === "user"}
-                {#if i !== 0}
+                {#if i !== 0 || isShowUserFirstQuery}
                   {#if editingMessageId === i}
                     <textarea
                       bind:this={editTextArea}
@@ -598,6 +603,14 @@
       {/if}
     </div>
     <div class="inputbox-tools w-full px-2 flex mb-2 mt-1">
+      <button on:click={clearMessages} class="py-1 px-2 border rounded-lg text-gray-700 hover:bg-gray-100 flex items-center mr-2">
+        <img
+        class="delete-icon"
+        alt={$t("app.delete")}
+        src={DeleteIcon}
+      />
+      <span>{$t("topbar.clearConversation")}</span>
+      </button>
       <button on:click={feedback} class="py-1 px-2 border rounded-lg text-gray-700 hover:bg-gray-100 flex items-center mr-2">
         <svg class="w-5 h-5 text-blue-500 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v2a1 1 0 102 0V6zm0 4a1 1 0 10-2 0v4a1 1 0 102 0v-4z" clip-rule="evenodd"></path>
@@ -613,6 +626,7 @@
         </svg>
         <span>{$t("topbar.setting")}</span>
       </button>
+
     </div>
     <div
       class="inputbox-container w-full px-3 flex justify-center items-center bg-[#f4f4f4]"

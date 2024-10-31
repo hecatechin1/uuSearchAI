@@ -231,6 +231,7 @@
     "Ctrl+Enter": "101",
   };
   function textAreaKeysListener(event: any) {
+    // console.log(event.isComposing);
     let sendCode = parseInt(keys[get(sendKey)], 2);
     let linebreakCode = parseInt(keys[get(lineBreakKey)], 2);
     let e = parseInt(event.key === "Enter" ? "001" : "000", 2);
@@ -238,6 +239,7 @@
     let ce = parseInt(event.ctrlKey ? "100" : "000", 2);
     let kd = ce | se | e;
     if (!(sendCode ^ kd) && !isMobile) {
+      if(event.isComposing) return;
       event.preventDefault();
       processMessage();
     }
@@ -605,7 +607,7 @@
     <div class="inputbox-tools w-full px-2 flex mb-2 mt-1">
       <button on:click={clearMessages} class="py-1 px-2 border rounded-lg text-gray-700 hover:bg-gray-100 flex items-center mr-2">
         <img
-        class="delete-icon"
+        class="delete-icon w-4 h-4 text-blue-500 mr-1"
         alt={$t("app.delete")}
         src={DeleteIcon}
       />

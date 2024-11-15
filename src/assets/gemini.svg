@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="207.486" height="206.883" viewBox="0 0 207.486 206.883">
+  <defs>
+    <filter id="Rectangle_3870" x="0" y="0" width="207.486" height="206.883" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <radialGradient id="radial-gradient" cx="0.691" cy="0.133" r="0.728" gradientTransform="matrix(-0.39, 0.921, -0.921, -0.39, 1.084, -0.451)" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#efe7e2"/>
+      <stop offset="0.287" stop-color="#e9e4e1"/>
+      <stop offset="1" stop-color="#1a8bcc"/>
+    </radialGradient>
+  </defs>
+  <g id="gemini" transform="translate(9 6)">
+    <g transform="matrix(1, 0, 0, 1, -9, -6)" filter="url(#Rectangle_3870)">
+      <rect id="Rectangle_3870-2" data-name="Rectangle 3870" width="189.486" height="188.883" rx="48" transform="translate(9 6)" fill="#fff"/>
+    </g>
+    <path id="Path_4238" data-name="Path 4238" d="M217.442,151.592a70.377,70.377,0,0,0-65.935,65.935h-.264a70.337,70.337,0,0,0-65.909-65.935v-.264a70.342,70.342,0,0,0,65.935-65.909h.264a70.388,70.388,0,0,0,65.935,65.935v.238h-.026Z" transform="translate(-56.656 -57.031)" fill="url(#radial-gradient)"/>
+  </g>
+</svg>

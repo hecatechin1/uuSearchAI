@@ -41,6 +41,8 @@
   import SendHoverIcon from "../../assets/sendmessage-hover.svg";
   import WaitIcon from "../../assets/stop.svg";
   import GPTIcon from "../../assets/gpt.svg";
+  import ClaudeIcon from "../../assets/claude.svg";
+  import GeminiIcon from "../../assets/gemini.svg";
   import LikeIcon from "../../assets/helpful.svg";
   import DislikeIcon from "../../assets/unhelpful.svg";
   import LikeActiveIcon from "../../assets/helpful-checked.svg";

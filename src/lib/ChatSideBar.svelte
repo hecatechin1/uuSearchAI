@@ -15,7 +15,6 @@
   </script>
   
   <aside class="w-64 bg-gray-800 text-white flex flex-col">
-    <header class="p-4 text-xl font-bold">{$t('app.chats', { default: 'Chats' })}</header>
     <div class="flex-1 overflow-y-auto p-4">
       {#each history as { date, chats }}
         <div class="mb-6">

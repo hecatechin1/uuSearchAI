@@ -1,12 +1,12 @@
 <script lang="ts">
-    import ChatMessage from '$libs/ChatMessage.svelte';
+    import ChatMessage from './ChatMessage.svelte';
     import { t } from 'svelte-i18n'; // 导入本地化方法
     import { writable } from 'svelte/store';
     import {
         messages,
         sendKey,
         lineBreakKey,
-    } from "$stores/stores";
+    } from "../stores/stores";
   
     export let selectedChatId;
   

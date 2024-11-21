@@ -3,9 +3,9 @@
     import ChatMain from '../../lib/ChatMain.svelte';
   
     // 状态管理
-    let selectedChatId = null;
+    let selectedChatId = "1";
   
-    const handleChatSelection = (chatId) => {
+    const handleChatSelection = (chatId: string) => {
       selectedChatId = chatId;
     };
   </script>

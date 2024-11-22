@@ -1,5 +1,36 @@
 {
-    "settings": {
+  "login": {
+    "title": "登录 uuGPT",
+    "email": "Email",
+    "emailPlaceholder": "使用电子邮件登录或注册",
+    "password": "密码",
+    "passwordPlaceholder": "输入密码",
+    "passwordRepeat": "重复密码",
+    "passwordRepeatPlaceholder": "再次输入密码",
+    "passwordRepeatError": "两次输入的密码不一致",
+    "capcha": "验证码",
+    "capchaPlaceholder": "输入发送到邮箱的验证码",
+    "capchaSend": "发送验证码",
+    "capchaSendAgain": "重新发送",
+    "capchaSendError": "验证码发送失败",
+    "capchaSendSuccess": "验证码已发送到您的电子邮件。",
+    "capchaTimer": " {{capchaTimer}}秒后重新发送",
+    "capchaTimeout": "验证码已过期",
+    "capchaError": "验证码错误",
+    "login": "登录",
+    "register": "注册",
+    "forgot": "忘记密码？",
+    "loginWithGoogle": "使用 Google 登录",
+    "remember": "记住我",
+    "emailError": "请输入有效的电子邮件地址",
+    "passwordError": "请输入密码",
+    "loginError": "登录失败",
+    "registerError": "注册失败",
+    "forgotError": "重置密码失败",
+    "forgotSuccess": "已发送重置密码邮件，请在您的电子邮件中检查重置密码的说明。",
+    "forgotSuccessTitle": "密码重置成功！"
+  },  
+  "settings": {
       "title": "设置",
       "language": "Language",
       "whenask": {

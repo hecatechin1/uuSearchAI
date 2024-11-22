@@ -1,5 +1,36 @@
 {
-    "settings": {
+  "login": {
+    "title": "Login to uuGPT",
+    "email": "Email",
+    "emailPlaceholder": "Log in or Register with Email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "passwordRepeat": "Repeat Password",
+    "passwordRepeatPlaceholder": "Repeat your password",
+    "passwordRepeatError": "Passwords do not match",
+    "capcha": "Capcha",
+    "capchaPlaceholder": "Capcha code sent to your email",
+    "capchaSend": "Send",
+    "capchaSendAgain": "Send Again",
+    "capchaSendError": "Capcha sending failed",
+    "capchaSendSuccess": "Capcha code sent successfully",
+    "capchaTimer": "Resend after {{capchaTimer}}s",
+    "capchaTimeout": "Capcha code has expired",
+    "capchaError": "Capcha code is wrong",
+    "login": "Login",
+    "register": "Register",
+    "forgot": "Forgot Password",
+    "loginWithGoogle": "Login with Google",
+    "remember": "Remember Me",
+    "emailError": "Email is required",
+    "passwordError": "Password is required",
+    "loginError": "Login failed",
+    "registerError": "Register failed",
+    "forgotError": "Forgot password failed",
+    "forgotSuccess": "Please check your email for instructions on how to reset your password.",
+    "forgotSuccessTitle": "Success"
+  },  
+  "settings": {
       "title": "Settings",
       "language": "Language",
       "whenask": {

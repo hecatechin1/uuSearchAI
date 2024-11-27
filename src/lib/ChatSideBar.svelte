@@ -1,5 +1,6 @@
 <script lang="ts">
     import { t } from 'svelte-i18n'; // 导入本地化方法
+    import {currentChat} from '../stores/userStores';
   
     // 模拟历史聊天记录
     let history = [
@@ -10,7 +11,8 @@
     export let onSelectChat;
   
     const selectChat = (chatId:string) => {
-      onSelectChat(chatId);
+      // onSelectChat(chatId);
+      currentChat.set(chatId);
     };
   </script>
   

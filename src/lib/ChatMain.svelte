@@ -1,12 +1,12 @@
 <script lang="ts">
-  import ChatMessage from "./ChatMessage.svelte";
+  // import ChatMessage from "./ChatMessage.svelte";
   import { t } from "svelte-i18n"; // 导入本地化方法
   import {get, writable } from "svelte/store";
-  import DeleteIcon from "./assets/delete.svg";
-  import SendDisabledIcon from "./assets/send-disable.svg";
-  import SendIcon from "./assets/send.svg";
-  import SendHoverIcon from "./assets/send-hover.svg";
-  import WaitIcon from "./assets/wait.svg";
+  import DeleteIcon from "../assets/delete.svg";
+  import SendDisabledIcon from "../assets/send-disable.svg";
+  import SendIcon from "../assets/send.svg";
+  // import SendHoverIcon from "../assets/send-hover.svg";
+  import WaitIcon from "../assets/wait.svg";
   import { closeStream } from "../services/uuAIServices";
   import {
     settingsVisible,
@@ -15,6 +15,7 @@
     lineBreakKey,
     isStreaming,
   } from "../stores/stores";
+  import {currentChat} from "../stores/userStores";
   export let selectedChatId;
 
   let input: string = "";
@@ -26,11 +27,15 @@
     "Shift+Enter": "011",
     "Ctrl+Enter": "101",
   };
-
+  currentChat.subscribe((value) => {
+    if (value) {
+      selectedChatId = value;
+    }
+  });
 
   let userInput = "";
   let isSendHovered = false;
-
+  
   //发送聊天消息
   const sendMessage = () => {};
 
@@ -97,11 +102,12 @@
 
 <div class="flex-1 flex flex-col">
   <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+    <div><p>{selectedChatId}</p></div>
     {#if $messages.length > 0}
       <div class="flex grow max-w-full px-2">
         <div class="w-full">
           {#each $messages as message, i}
-            <ChatMessage {message} index={i} />
+            <!-- <ChatMessage {message} index={i} /> -->
           {/each}
           <div class="tailblock h-10 w-full"></div>
         </div>
@@ -237,5 +243,5 @@
 </div>
 
 <style>
-  @import "../../styles/styles.css";
+  @import "../styles/styles.css";
 </style>

@@ -22,4 +22,4 @@
 <!-- style里写样式，也可以像下面一样引用一个文件 -->
 <style>
     @import "../../styles/styles.css";
-  </style>
+</style>

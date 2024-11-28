@@ -19,6 +19,7 @@ module.exports = {
         themegrey:"#505860",
         themegreylight:"#ABABAB",
         themegreyhover:"#EBEDED",
+        themegreyhover2:"#dddee1",
         themegreyborder:"#EBEDED"
 
       },

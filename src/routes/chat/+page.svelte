@@ -7,7 +7,7 @@
     import {waitLocale} from "svelte-i18n";
     // 状态管理
     let selectedChatId = "1";
-  let isReady = false;
+    let isReady = false;
     const handleChatSelection = (chatId: string) => {
       selectedChatId = chatId;
     };

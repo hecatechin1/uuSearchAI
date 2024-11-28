@@ -70,14 +70,14 @@
                 </div>
                 <ol>
                   {#each chats as chat}
-                    <li class="relative">
+                    <li class="relative" >
                       <div class="no-draggable group relative rounded-lg active:opacity-90 hover:bg-themegreyhover">
-                        <a class="flex items-center gap-2 p-2" href="#">
+                        <span on:click={()=>selectChat(chat.id)}  class="flex items-center gap-2 p-2">
                           <div class="relative grow overflow-hidden whitespace-nowrap">
                             {chat.title}
                             <div class="absolute bottom-0 top-0 to-transparent right-0 bg-gradient-to-l w-10 from-60%"></div>
                           </div>
-                        </a>
+                        </span>
                         <div class="absolute bottom-0 top-0 items-center gap-1.5 pr-2 right-0 flex hidden group-hover:flex">
                           <span>
                             <button class="btn-custom w-8 flex items-center justify-center text-themegrey transition hover:bg-themegreyhover2 radix-state-open:text-themegrey"

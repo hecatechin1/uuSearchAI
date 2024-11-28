@@ -17,7 +17,3 @@ export const userVipTime = writable(0);
 
 //当前会话
 export const currentChat = writable('');
-
-
-
-

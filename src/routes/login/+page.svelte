@@ -1,17 +1,46 @@
 <script>
-  import {t} from 'svelte-i18n'; // 导入本地化方法
+  import { t } from "svelte-i18n"; // 导入本地化方法
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
+  // import type { AnyNode } from 'postcss';
 
   let email = "";
   let password = "";
   let error = "";
-
+  $: isFormValid = email !== '' && password !== '';
   const dispatch = createEventDispatcher();
+// 邮箱提交方法
+async function handleEmailSubmit() {
+    if(!validateEmail(email)){
+      error = "请输入正确的邮箱地址";
+      return;
+    }
 
-  function handleEmailSubmit() {
-    // 邮箱提交方法
-    
+    password = await hash256(password);
+    console.log(password)
+  }
+
+  //验证邮箱格式函数
+  function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  // 密码加密函数
+  async function hash256(str) {
+    // 将输入字符串转为 ArrayBuffer
+    const encoder = new TextEncoder();
+    const data = encoder.encode(str);
+
+    // 使用 SubtleCrypto API 计算 SHA-256 哈希值
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+
+    // 将 ArrayBuffer 转换为十六进制字符串
+    const hashArray = Array.from(new Uint8Array(hashBuffer)); // 将 buffer 转为字节数组
+    const hashHex = hashArray
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join(""); // 转为十六进制字符串
+    return hashHex;
   }
 
   function handleGoogleLogin() {
@@ -23,16 +52,19 @@
   }
 </script>
 
-<main class="flex items-center justify-center min-h-screen bg-gray-100" style="background-image: url(/src/assets/home/bg.png); background-size: cover; background-position: center;">
-  
-  
+<main
+  class="flex items-center justify-center min-h-screen bg-gray-100"
+  style="background-image: url(/src/assets/home/bg.png); background-size: cover; background-position: center;"
+>
   <div class="bg-white p-10 rounded-lg shadow-md w-full max-w-md">
     <h1 class="text-3xl font-semibold text-center mb-6">登录到 uuGPT</h1>
 
     <!-- 登录表单 -->
-    <form on:submit|preventDefault={handleEmailSubmit}>
+    <form >
       <div class="mb-5">
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="email">邮箱地址</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="email"
+          >邮箱地址</label
+        >
         <input
           type="email"
           id="email"
@@ -43,7 +75,10 @@
         />
       </div>
       <div class="mb-5">
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="password">密码</label>
+        <label
+          class="block text-sm font-medium text-gray-700 mb-1"
+          for="password">密码</label
+        >
         <input
           type="password"
           id="password"
@@ -56,9 +91,11 @@
         <div class="text-red-500 text-sm mb-5">{error}</div>
       {/if}
       <button
+      on:click={handleEmailSubmit}
         type="submit"
         class="w-full bg-blue-600 text-white font-semibold py-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
+        disabled={!isFormValid}
+       >
         登录
       </button>
     </form>

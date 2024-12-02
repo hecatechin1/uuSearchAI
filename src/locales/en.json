@@ -1,5 +1,7 @@
 {
   "login": {
+    "welcome": "Welcome to uuGPT",
+    "welcomeBack": "Welcome Back,",
     "title": "Login to uuGPT",
     "email": "Email",
     "emailPlaceholder": "Log in or Register with Email",

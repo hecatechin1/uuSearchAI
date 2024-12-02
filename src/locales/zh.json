@@ -1,9 +1,12 @@
 {
   "login": {
+    "welcome": "欢迎使用 uuGPT",
+    "welcomeBack": "欢迎回来,",
     "title": "登录 uuGPT",
     "email": "Email",
     "emailPlaceholder": "使用电子邮件登录或注册",
     "password": "密码",
+    "passwordLogin": "密码登录",
     "passwordPlaceholder": "输入密码",
     "passwordRepeat": "重复密码",
     "passwordRepeatPlaceholder": "再次输入密码",

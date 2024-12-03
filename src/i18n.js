@@ -26,19 +26,8 @@ register('th', () => import('./locales/th.json'));
 register('tr', () => import('./locales/tr.json'));
 register('vi', () => import('./locales/vi.json'));
 
-// onMount(() => {
-//   const initialLocale = localStorage.getItem("locale") || getLocaleFromNavigator().split('-')[0] || "en";
-//   init({
-//     fallbackLocale: initialLocale,
-//     initialLocale: initialLocale
-//   });
-//   locale.set(initialLocale);
-//   locale.subscribe((newLocale) => {
-//     localStorage.setItem("locale", newLocale);
-//   });
-// });
-
 const initializeI18n = async () => {
+
   const initialLocale = localStorage.getItem("locale") || getLocaleFromNavigator().split('-')[0] || "en";
   init({
     fallbackLocale: initialLocale,
@@ -50,9 +39,4 @@ const initializeI18n = async () => {
   });
 };
 export { initializeI18n };
-// init({
-//   fallbackLocale: 'en',
-//   initialLocale: 'en'
-// });
-// locale.set('en');
 

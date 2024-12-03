@@ -19,7 +19,6 @@
   function handleSave() {
     dispatch("settings-changed");
     //保存设置
-
   }
 
   function changeSendKey(event: any) {

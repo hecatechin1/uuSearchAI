@@ -99,3 +99,58 @@ export async function verifycode(code: string, code_id: string) {
   }
 }
 
+
+//注册
+export async function setPassword(email: string, password: string) {
+  try {
+    let res = await createTimeOutFetch()(`https://api.uigpt.com/user/signup?email=${email}&password=${password}`);
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    } else {
+      return 1;
+    }
+  } catch (error) {
+    return 1;
+  }
+}
+
+//登录
+export async function login(email: string, password: string) {
+  try {
+    let res = await createTimeOutFetch()(`https://api.uigpt.com/user/login?email=${email}&password=${password}`);
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    } else {
+      return 1;
+    }
+  } catch (error) {
+    return 1;
+  }
+}
+//重置密码
+export async function resetPassword(email: string, password: string) {
+  try {
+    let res = await createTimeOutFetch()(`https://api.uigpt.com/user/update`,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+      },
+      body:JSON.stringify({
+        info:{
+          
+        }
+      })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    } else {
+      return 1;
+    }
+  } catch (error) {
+    return 1;
+  }
+}
+

@@ -2,7 +2,7 @@
   import { flip } from "svelte/animate"; //不能直接导入animate，需要导入animate里的方法
   import { t } from "svelte-i18n"; // 导入本地化方法
   import { onMount } from "svelte";
-  import {getErrorMessage } from "../utils/generalUtils";
+  import { getErrorMessage } from "../utils/generalUtils";
   import { createEventDispatcher } from "svelte";
   import uugpIcon from "../assets/aianswer-avtar.svg";
   import accountIcon from "../assets/login/account.svg";
@@ -16,62 +16,77 @@
   import passwordIcon from "../assets/login/password.svg";
   import resetpasswordIcon from "../assets/login/resetpassword.svg";
   import verifyIcon from "../assets/login/verify.svg";
-  import {showErrorMessage,showSuccessMessage} from "../stores/globalParamentStores"
-  import {checkUserEmail,sendUserEmailCode,checkverifycode} from "../manages/userinfoManages";
-  import {writable,get } from "svelte/store";
+  import {
+    showErrorMessage,
+    showSuccessMessage,
+  } from "../stores/globalParamentStores";
+  import {
+    checkUserEmail,
+    sendUserEmailCode,
+    checkverifycode,
+    setUserPassword,
+    resetUserPassword,
+    userLogin,
+  } from "../manages/userinfoManages";
+  import { writable, get } from "svelte/store";
   export let isPage; //通过父组件判断是否显示关闭按钮
-
+  export let isResetPassword = false;
   const dispatch = createEventDispatcher();
   const status_email = "email";
   const status_password = "password";
   const status_vcode = "vcode";
   const status_resetPassword = "resetPassword";
   const currentStatus = [];
-  const loginPageName = writable('');//当前窗口
+  const loginPageName = writable(""); //当前窗口
 
-  let email = "";//输入的邮箱
-  let password = "";//输入的密码
-  let confirmPassword = "";//输入的确认密码
+  let email = ""; //输入的邮箱
+  let password = ""; //输入的密码
+  let confirmPassword = ""; //输入的确认密码
   let verifyCode = "";
-  let isAgree = true;  //同意协议
+  let isAgree = true; //同意协议
   let showPassword = false; // 是否显示密码明文
   let isWaitting = false; // 是否正在加载中，用于控制按钮的禁用和loading状态
   let sendedVcode = false; // 是否正在发送验证码
-  let timeLeft  = 0;//验证码倒计时
+  let timeLeft = 0; //验证码倒计时
   let error = "";
   let successMessage = "";
 
-  loginPageName.subscribe((value) => {    isWaitting = false;  });
+  loginPageName.subscribe((value) => {
+    isWaitting = false;
+  });
 
   onMount(async () => {
     // console.log(isPage);
-    changeStatus(status_email);
+    // if(isResetPassword){
+    //   changeStatus(status_resetPassword);
+    // }
+    changeStatus(status_resetPassword);
   });
-//验证邮箱
+  //验证邮箱
   async function handleEmailSubmit() {
     // 格式验证
     if (!validateEmail(email)) {
-      showErrorMessage('格式不正确');
+      showErrorMessage("格式不正确");
       return;
     }
     //勾选同意协议
-    if(!isAgree){
-      showErrorMessage('请先同意协议');
+    if (!isAgree) {
+      showErrorMessage("请先同意协议");
       return;
     }
     isWaitting = true;
     let res = await checkUserEmail(email);
-    if(res==1){
+    if (res == 1) {
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }
-    if(res){
+    if (res) {
       changeStatus(status_password);
-    }else{
+    } else {
       changeStatus(status_vcode);
     }
   }
-//发送验证码
+  //发送验证码
   async function handleSendVcode() {
     sendedVcode = true;
     timeLeft = 60;
@@ -80,35 +95,66 @@
         timeLeft--;
       } else {
         sendedVcode = false;
-        clearInterval(timer);  
+        clearInterval(timer);
       }
-    }, 1000); 
-    let res = await sendUserEmailCode(email); 
-    if(res!=0){
+    }, 1000);
+    let res = await sendUserEmailCode(email);
+    if (res != 0) {
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }
-    showSuccessMessage('验证码已发送,请检查邮件');
+    showSuccessMessage("验证码已发送,请检查邮件");
   }
-//验证邮箱验证码
-  async function handleCheckVcode(){
+  //验证邮箱验证码
+  async function handleCheckVcode() {
     let regex = /^\d{6}$/;
-    if(!verifyCode){
-      showErrorMessage('请输入验证码');
+    if (!verifyCode) {
+      showErrorMessage("请输入验证码");
       return;
     }
-    if(!regex.test(verifyCode)){
-      showErrorMessage('请输入有效验证码');
+    if (!regex.test(verifyCode)) {
+      showErrorMessage("请输入有效验证码");
       return;
     }
     isWaitting = true;
     let res = await checkverifycode(verifyCode);
     isWaitting = false;
+    if (res != 0) {
+      showErrorMessage(getErrorMessage(res.toString()));
+      return;
+    }
+    showSuccessMessage("验证成功");
+    changeStatus(status_resetPassword);
+  }
+  //设置密码
+  async function handleSetPassword(){
+    if(!password || !confirmPassword){
+      showErrorMessage("请输入密码");
+      return;
+    }
+    if(password!=confirmPassword){
+      showErrorMessage("两次输入的密码不一致");
+      return;
+    }
+    const regex_chat = /^[a-zA-Z0-9]$/;
+    const regex_length = /^.{6,24}$/;
+    if(!regex_chat.test(password)){showErrorMessage('包含非法字符,只能出现字母和数字')}
+    if(!regex_length.test(password)){showErrorMessage('长度必须在6-24位之间')}
+    isWaitting = true;
+    let res;
+    if(isResetPassword){
+      res = await resetUserPassword(email,password);
+    }else{
+      res = await setUserPassword(email,password);
+    }
+    // let res = await setUserPassword(email,password);
+    isWaitting = false;
     if(res!=0){
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }
-      showSuccessMessage('验证成功');
+    showSuccessMessage(isResetPassword?"修改密码成功":"设置成功");
+    isResetPassword = false;
   }
 
   function handleGoogleLogin() {
@@ -129,16 +175,16 @@
   function close() {
     dispatch("close-card");
   }
-//切换窗口
-  function changeStatus(to){
+  //切换窗口
+  function changeStatus(to) {
     currentStatus.push(to);
     loginPageName.set(to);
   }
   //返回
-  function back(){
+  function back() {
     currentStatus.pop();
     console.log(currentStatus);
-    loginPageName.set(currentStatus[currentStatus.length-1]);
+    loginPageName.set(currentStatus[currentStatus.length - 1]);
   }
 </script>
 
@@ -183,7 +229,7 @@
             />
           </div>
           <div class="flex items-center mb-4 w-full">
-            <input type="checkbox" bind:checked={isAgree} class="mr-2"/>
+            <input type="checkbox" bind:checked={isAgree} class="mr-2" />
             <label for="terms" class="text-sm flex-1"
               >我同意 uuGPT <a
                 class="hover:text-blue-700 hover:underline"
@@ -192,14 +238,15 @@
             >
           </div>
           <button
-          disabled={isWaitting}
-          on:click={handleEmailSubmit}
+            disabled={isWaitting}
+            on:click={handleEmailSubmit}
             type="submit"
             class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
           >
             <span class="text-white font-semibold">下一步</span>
             <!-- 加载过程禁用按钮并显示loading动画 -->
-            {#if isWaitting}<span class="message-loader w-6 h-6 ml-3"></span>{/if}
+            {#if isWaitting}<span class="message-loader w-6 h-6 ml-3"
+              ></span>{/if}
           </button>
         </form>
 
@@ -228,7 +275,7 @@
         <!-- 登录框左上角标题栏 -->
         <div class="flex items-center mb-6">
           <button
-          on:click={back}
+            on:click={back}
             class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded"
           >
             <img src={backIcon} alt="返回" class="w-8 h-8" />
@@ -318,7 +365,7 @@
         <!-- 登录框左上角标题栏 -->
         <div class="flex items-center mb-6">
           <button
-          on:click={back}
+            on:click={back}
             class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded"
           >
             <img src={backIcon} alt="返回" class="w-8 h-8" />
@@ -339,7 +386,7 @@
               type="button"
               class="text-themegreen hover:underline py-2 mb-5"
             >
-              {sendedVcode?`${timeLeft}s后重新发送`:'发送验证码'}
+              {sendedVcode ? `${timeLeft}s后重新发送` : "发送验证码"}
             </button>
 
             <div class="relative w-full mb-4">
@@ -381,7 +428,7 @@
         <!-- 登录框左上角标题栏 -->
         <div class="flex items-center mb-6">
           <button
-          on:click={back}
+            on:click={back}
             class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded"
           >
             <img src={backIcon} alt="返回" class="w-8 h-8" />
@@ -402,18 +449,32 @@
                 />
               </span>
               <!-- 密码输入框 -->
-              <input
-                type="password"
-                id="passwordInput"
-                class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
-                bind:value={password}
-                required
-                autofocus
-                placeholder="请输入密码"
-              />
+              {#if showPassword}
+                <input
+                  type="text"
+                  class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
+                  bind:value={password}
+                  required
+                  autofocus
+                  placeholder="请输入密码"
+                />
+              {:else}
+                <input
+                  type="password"
+                  class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
+                  bind:value={password}
+                  required
+                  autofocus
+                  placeholder="请输入密码"
+                />
+              {/if}
+
               <!-- 右侧显示/隐藏密码图标 -->
 
               <button
+                on:click={() => {
+                  showPassword = !showPassword;
+                }}
                 type="button"
                 class="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer hover:bg-gray-200 rounded"
                 aria-label="Toggle password visibility"
@@ -443,18 +504,30 @@
                 />
               </span>
               <!-- 密码输入框 -->
-              <input
-                type="password"
-                id="passwordInput"
-                class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
-                bind:value={confirmPassword}
-                required
-                autofocus
-                placeholder="请输入密码"
-              />
+              {#if showPassword}
+                <input
+                  type="text"
+                  class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
+                  bind:value={confirmPassword}
+                  required
+                  autofocus
+                  placeholder="请输入密码"
+                />
+              {:else}
+                <input
+                  type="password"
+                  class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
+                  bind:value={confirmPassword}
+                  required
+                  autofocus
+                  placeholder="请输入密码"
+                />
+              {/if}
+
               <!-- 右侧显示/隐藏密码图标 -->
 
               <button
+                on:click={() => {showPassword =!showPassword}}
                 type="button"
                 class="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer hover:bg-gray-200 rounded"
                 aria-label="Toggle password visibility"
@@ -476,12 +549,15 @@
             </div>
             <div class="h-8"></div>
             <button
+            disabled={isWaitting}
+            on:click={handleSetPassword}
               type="submit"
               class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
             >
               <span class="text-white font-semibold">确认并登录</span>
               <!-- 加载过程禁用按钮并显示loading动画 -->
-              <!-- <span class="message-loader w-6 h-6 ml-3"></span> -->
+
+              {#if isWaitting}<span class="message-loader w-6 h-6 ml-3"></span>{/if}
             </button>
           </form>
         </div>
@@ -499,6 +575,7 @@
     {/if}
   </div>
 </div>
+
 <style>
- @import "../styles/skeleton.css";
+  @import "../styles/skeleton.css";
 </style>

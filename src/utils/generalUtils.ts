@@ -54,4 +54,20 @@ export function formatMessageForMarkdown(content: string): string {
     "101":" no uid",//暂时不用翻译
   }
 
+    // 密码加密函数
+    export async function hash256(str:string) {
+      // 将输入字符串转为 ArrayBuffer
+      const encoder = new TextEncoder();
+      const data = encoder.encode(str);
+  
+      // 使用 SubtleCrypto API 计算 SHA-256 哈希值
+      const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  
+      // 将 ArrayBuffer 转换为十六进制字符串
+      const hashArray = Array.from(new Uint8Array(hashBuffer)); // 将 buffer 转为字节数组
+      const hashHex = hashArray
+        .map((byte) => byte.toString(16).padStart(2, "0"))
+        .join(""); // 转为十六进制字符串
+      return hashHex;
+    }
   

@@ -5,6 +5,7 @@
   import { onMount } from "svelte";
   import { waitLocale } from "svelte-i18n";
   import{showError,showSuccess,message} from "../stores/globalParamentStores"
+  import {getUserInfo} from '../manages/userinfoManages';
   let loading = true;
 
   showError.subscribe((value)=>{
@@ -25,6 +26,7 @@
   });
 
   onMount(async () => {
+    getUserInfo();
     await initializeI18n();
     await waitLocale();
     loading = false; // 设置为已加载

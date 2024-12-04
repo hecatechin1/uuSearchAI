@@ -1,4 +1,4 @@
-import { type Writable, writable } from "svelte/store";
+import { type Writable, writable,get } from "svelte/store";
 
 //userID
 export const userID = writable('');
@@ -17,3 +17,20 @@ export const userVipTime = writable(0);
 
 //当前会话
 export const currentChat = writable('');
+
+//邮箱验证码随机ID
+const emailCodeID = writable('');
+export function getEmailCodeId(retry:boolean = false){
+    if(get(emailCodeID)!='' && !retry){
+        return get(emailCodeID);
+    }
+    let codeID = Math.random().toString(36).substring(2, 15);
+    emailCodeID.set(codeID);
+    return codeID;
+}
+//设置五分钟过期
+emailCodeID.subscribe((value)=>{
+    setTimeout(()=>{
+        emailCodeID.set('');
+    },5*60*1000);
+});

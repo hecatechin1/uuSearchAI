@@ -1,3 +1,4 @@
+import {showErrorMessage,showSuccessMessage} from "../stores/globalParamentStores";
 // utils/generalUtils.ts
 
 // Utility function for formatting messages for Markdown rendering
@@ -28,6 +29,29 @@ export function formatMessageForMarkdown(content: string): string {
  export function countTicks(str: string) {
     let out: number = str.split("").filter((char) => char === "`").length;
     return out;
+  }
+
+// 请求超时处理,默认一分钟超时
+  export function createTimeOutFetch(timeout = 60*1000) {
+    return (resource:string, options={}) => {
+      let controller = new AbortController();
+      options = options || {};
+      options.signal = controller.signal;
+      setTimeout(() => {
+        controller.abort();
+      }, timeout);
+      return fetch(resource, options)
+    }
+  }
+
+  export function getErrorMessage(code:string){
+    return ErrorMessage[code];
+  }
+
+  const ErrorMessage = {
+    "1":"网络错误",
+    "1000":"邮箱验证失败，请检查邮箱或者重新发送验证码",
+    "101":" no uid",//暂时不用翻译
   }
 
   

@@ -2,6 +2,7 @@
   import { flip } from "svelte/animate"; //不能直接导入animate，需要导入animate里的方法
   import { t } from "svelte-i18n"; // 导入本地化方法
   import { onMount } from "svelte";
+  import {getErrorMessage } from "../utils/generalUtils";
   import { createEventDispatcher } from "svelte";
   import uugpIcon from "../assets/aianswer-avtar.svg";
   import accountIcon from "../assets/login/account.svg";
@@ -16,7 +17,8 @@
   import resetpasswordIcon from "../assets/login/resetpassword.svg";
   import verifyIcon from "../assets/login/verify.svg";
   import {showErrorMessage,showSuccessMessage} from "../stores/globalParamentStores"
-
+  import {checkUserEmail,sendUserEmailCode,checkverifycode} from "../manages/userinfoManages";
+  import {writable,get } from "svelte/store";
   export let isPage; //通过父组件判断是否显示关闭按钮
 
   const dispatch = createEventDispatcher();
@@ -25,43 +27,88 @@
   const status_vcode = "vcode";
   const status_resetPassword = "resetPassword";
   const currentStatus = [];
+  const loginPageName = writable('');//当前窗口
 
-
-
-
-  let loginPageName = status_email;
-  
-  let email = "";
-  let password = "";
-  let confirmPassword = "";
+  let email = "";//输入的邮箱
+  let password = "";//输入的密码
+  let confirmPassword = "";//输入的确认密码
+  let verifyCode = "";
+  let isAgree = true;  //同意协议
+  let showPassword = false; // 是否显示密码明文
+  let isWaitting = false; // 是否正在加载中，用于控制按钮的禁用和loading状态
+  let sendedVcode = false; // 是否正在发送验证码
+  let timeLeft  = 0;//验证码倒计时
   let error = "";
   let successMessage = "";
 
-  let showPassword = false; // 是否显示密码明文
+  loginPageName.subscribe((value) => {    isWaitting = false;  });
 
   onMount(async () => {
     // console.log(isPage);
+    changeStatus(status_email);
   });
-
-  function handleEmailSubmit() {
-
+//验证邮箱
+  async function handleEmailSubmit() {
     // 格式验证
     if (!validateEmail(email)) {
       showErrorMessage('格式不正确');
       return;
     }
-
-
-
-    // 模拟登录提交
-    setTimeout(() => {
-      if (email === "test@example.com" && password === "password") {
-        successMessage = "登录成功！";
+    //勾选同意协议
+    if(!isAgree){
+      showErrorMessage('请先同意协议');
+      return;
+    }
+    isWaitting = true;
+    let res = await checkUserEmail(email);
+    if(res==1){
+      showErrorMessage(getErrorMessage(res.toString()));
+      return;
+    }
+    if(res){
+      changeStatus(status_password);
+    }else{
+      changeStatus(status_vcode);
+    }
+  }
+//发送验证码
+  async function handleSendVcode() {
+    sendedVcode = true;
+    timeLeft = 60;
+    let timer = setInterval(() => {
+      if (timeLeft > 0) {
+        timeLeft--;
       } else {
-        error = "邮箱或密码错误，请重试。";
+        sendedVcode = false;
+        clearInterval(timer);  
       }
-    }, 1000);
-
+    }, 1000); 
+    let res = await sendUserEmailCode(email); 
+    if(res!=0){
+      showErrorMessage(getErrorMessage(res.toString()));
+      return;
+    }
+    showSuccessMessage('验证码已发送,请检查邮件');
+  }
+//验证邮箱验证码
+  async function handleCheckVcode(){
+    let regex = /^\d{6}$/;
+    if(!verifyCode){
+      showErrorMessage('请输入验证码');
+      return;
+    }
+    if(!regex.test(verifyCode)){
+      showErrorMessage('请输入有效验证码');
+      return;
+    }
+    isWaitting = true;
+    let res = await checkverifycode(verifyCode);
+    isWaitting = false;
+    if(res!=0){
+      showErrorMessage(getErrorMessage(res.toString()));
+      return;
+    }
+      showSuccessMessage('验证成功');
   }
 
   function handleGoogleLogin() {
@@ -82,6 +129,17 @@
   function close() {
     dispatch("close-card");
   }
+//切换窗口
+  function changeStatus(to){
+    currentStatus.push(to);
+    loginPageName.set(to);
+  }
+  //返回
+  function back(){
+    currentStatus.pop();
+    console.log(currentStatus);
+    loginPageName.set(currentStatus[currentStatus.length-1]);
+  }
 </script>
 
 <div
@@ -100,7 +158,7 @@
     {/if}
 
     <!-- 登录内容容器 -->
-    {#if loginPageName === status_email}
+    {#if $loginPageName === status_email}
       <div class="animate-fade">
         <h1
           class="text-3xl font-semibold text-center mt-10 mb-10 flex items-center justify-center space-x-3"
@@ -125,7 +183,7 @@
             />
           </div>
           <div class="flex items-center mb-4 w-full">
-            <input type="checkbox" id="terms" class="mr-2" checked />
+            <input type="checkbox" bind:checked={isAgree} class="mr-2"/>
             <label for="terms" class="text-sm flex-1"
               >我同意 uuGPT <a
                 class="hover:text-blue-700 hover:underline"
@@ -134,13 +192,14 @@
             >
           </div>
           <button
+          disabled={isWaitting}
           on:click={handleEmailSubmit}
             type="submit"
             class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
           >
             <span class="text-white font-semibold">下一步</span>
             <!-- 加载过程禁用按钮并显示loading动画 -->
-            <!-- <span class="message-loader w-6 h-6 ml-3"></span> -->
+            {#if isWaitting}<span class="message-loader w-6 h-6 ml-3"></span>{/if}
           </button>
         </form>
 
@@ -164,11 +223,12 @@
     {/if}
 
     <!-- 登录输入密码 -->
-    {#if loginPageName === status_password}
+    {#if $loginPageName === status_password}
       <div class="animate-fade">
         <!-- 登录框左上角标题栏 -->
         <div class="flex items-center mb-6">
           <button
+          on:click={back}
             class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded"
           >
             <img src={backIcon} alt="返回" class="w-8 h-8" />
@@ -253,11 +313,12 @@
     {/if}
 
     <!-- 输验证码 -->
-    {#if loginPageName === status_vcode}
+    {#if $loginPageName === status_vcode}
       <div class="animate-fade">
         <!-- 登录框左上角标题栏 -->
         <div class="flex items-center mb-6">
           <button
+          on:click={back}
             class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded"
           >
             <img src={backIcon} alt="返回" class="w-8 h-8" />
@@ -273,10 +334,12 @@
 
             <!-- 发送验证码按钮，有倒计时，加载完成后先自动发送一次 -->
             <button
+              disabled={sendedVcode}
+              on:click={handleSendVcode}
               type="button"
               class="text-themegreen hover:underline py-2 mb-5"
             >
-              发送验证码
+              {sendedVcode?`${timeLeft}s后重新发送`:'发送验证码'}
             </button>
 
             <div class="relative w-full mb-4">
@@ -289,6 +352,7 @@
                 />
               </span>
               <input
+                bind:value={verifyCode}
                 type="text"
                 class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
                 placeholder="请输入验证码"
@@ -299,6 +363,8 @@
             <div class="h-8"></div>
 
             <button
+              disabled={isWaitting}
+              on:click={handleCheckVcode}
               type="submit"
               class="w-full bg-themegreen text-white font-semibold py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen"
             >
@@ -310,11 +376,12 @@
     {/if}
 
     <!-- 设置新密码 -->
-    {#if loginPageName === status_resetPassword}
+    {#if $loginPageName === status_resetPassword}
       <div class="animate-fade">
         <!-- 登录框左上角标题栏 -->
         <div class="flex items-center mb-6">
           <button
+          on:click={back}
             class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded"
           >
             <img src={backIcon} alt="返回" class="w-8 h-8" />
@@ -432,3 +499,6 @@
     {/if}
   </div>
 </div>
+<style>
+ @import "../styles/skeleton.css";
+</style>

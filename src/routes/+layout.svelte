@@ -6,6 +6,7 @@
   import { waitLocale } from "svelte-i18n";
   import{showError,showSuccess,message} from "../stores/globalParamentStores"
   import {getUserInfo} from '../manages/userinfoManages';
+  import { fly } from 'svelte/transition';
   let loading = true;
 
   showError.subscribe((value)=>{
@@ -34,17 +35,23 @@
 </script>
 
 {#if $showError}
-<div>
-  <h1 style="color:red">{$message}</h1>
-</div>
+  <div transition:fly="{{ y: 20, duration: 500 }}" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-md transition" role="alert">
+    <span class="block sm:inline">{$message}</span>
+  </div>
 {/if}
 
 {#if $showSuccess}
-<div>
-  <h1 style="color:green">{$message}</h1>
-</div>
+<div transition:fly="{{ y: 20, duration: 500 }}" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-md" role="alert">
+    <span class="block sm:inline">{$message}</span>
+  </div>
 {/if}
 
+<!-- 改成默认类型吧，比如showDefault，我先用一下error试试，另外，通知显示的时长太短，加长一点，3s吧 -->
+<!-- {#if $showError}
+<div transition:fly="{{ y: 20, duration: 500 }}" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-black text-gray-100 px-4 py-3 rounded-lg shadow-md" role="alert">
+    <span class="block sm:inline">{$message}</span>
+  </div>
+{/if} -->
 
 
 {#if loading}

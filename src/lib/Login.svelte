@@ -50,6 +50,7 @@
   let timeLeft = 0; //验证码倒计时
   let error = "";
   let successMessage = "";
+  let forgotPassword = false; //是否忘记密码
 
   loginPageName.subscribe((value) => {
     isWaitting = false;
@@ -66,12 +67,12 @@
   async function handleEmailSubmit() {
     // 格式验证
     if (!validateEmail(email)) {
-      showErrorMessage("格式不正确");
+      showErrorMessage($t("login.emailFormatError"));
       return;
     }
     //勾选同意协议
     if (!isAgree) {
-      showErrorMessage("请先同意协议");
+      showErrorMessage($t("login.agreeTermsError"));
       return;
     }
     isWaitting = true;
@@ -103,17 +104,17 @@
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }
-    showSuccessMessage("验证码已发送,请检查邮件");
+    showSuccessMessage($t("login.verificationCodeSentSuccess"));
   }
   //验证邮箱验证码
   async function handleCheckVcode() {
     let regex = /^\d{6}$/;
     if (!verifyCode) {
-      showErrorMessage("请输入验证码");
+      showErrorMessage($t("login.enterVerificationCodeError"));
       return;
     }
     if (!regex.test(verifyCode)) {
-      showErrorMessage("请输入有效验证码");
+      showErrorMessage($t("login.invalidVerificationCodeError"));
       return;
     }
     isWaitting = true;
@@ -123,23 +124,23 @@
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }
-    showSuccessMessage("验证成功");
+    showSuccessMessage($t("login.verifySuccess"));
     changeStatus(status_resetPassword);
   }
   //设置密码
   async function handleSetPassword(){
     if(!password || !confirmPassword){
-      showErrorMessage("请输入密码");
+      showErrorMessage($t("login.enterPasswordError"));
       return;
     }
     if(password!=confirmPassword){
-      showErrorMessage("两次输入的密码不一致");
+      showErrorMessage($t("login.passwordMismatchError"));
       return;
     }
     const regex_chat = /^[a-zA-Z0-9]$/;
     const regex_length = /^.{6,24}$/;
-    if(!regex_chat.test(password)){showErrorMessage('包含非法字符,只能出现字母和数字')}
-    if(!regex_length.test(password)){showErrorMessage('长度必须在6-24位之间')}
+    if(!regex_chat.test(password)){showErrorMessage($t("login.invalidPasswordCharacterError"));}
+    if(!regex_length.test(password)){showErrorMessage($t("login.passwordLengthError"));}
     isWaitting = true;
     let res;
     if(isResetPassword){
@@ -153,7 +154,7 @@
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }
-    showSuccessMessage(isResetPassword?"修改密码成功":"设置成功");
+    showSuccessMessage(isResetPassword?$t("login.resetPasswordSuccess") : $t("login.loginSuccess"));
     isResetPassword = false;
   }
 
@@ -163,7 +164,7 @@
 
   function handleForgotPassword() {
     // 忘记密码方法
-    error = "忘记密码功能暂未开放，请稍后再试。";
+    error = $t("login.forgotPasswordError");
   }
 
   function validateEmail(email) {
@@ -197,7 +198,7 @@
       <button class="absolute top-4 right-4" on:click={close}>
         <img
           src={closeIcon}
-          alt="关闭"
+          alt={$t("login.close")}
           class="w-10 h-10 text-gray-500 hover:bg-gray-200 rounded"
         />
       </button>
@@ -213,11 +214,11 @@
           <span>uuGPT</span>
         </h1>
         <form>
-          <label for="email" class="sr-only"> {$t("app.assistantname")}</label>
+          <label for="email" class="sr-only">{$t("login.email")}</label>
           <div class="relative w-full">
             <img
               src={accountIcon}
-              alt="邮箱"
+              alt={$t("login.email")}
               class="absolute left-3 top-3 w-6 h-6 opacity-20"
             />
             <input
@@ -225,17 +226,16 @@
               class="w-full pl-12 p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
               bind:value={email}
               required
-              placeholder="请输入邮箱"
+              placeholder={$t("login.emailPlaceholder")}
             />
           </div>
           <div class="flex items-center mb-4 w-full">
             <input type="checkbox" bind:checked={isAgree} class="mr-2" />
             <label for="terms" class="text-sm flex-1"
-              >我同意 uuGPT <a
+              >{$t("login.agreeTerms")} <a
                 class="hover:text-blue-700 hover:underline"
-                href="https://www.maxthon.com/zh/docs/eula/">服务条款</a
-              ></label
-            >
+                href="https://www.maxthon.com/zh/docs/eula/">{$t("login.serviceTermsLink")}</a
+              ></label>
           </div>
           <button
             disabled={isWaitting}
@@ -243,7 +243,7 @@
             type="submit"
             class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
           >
-            <span class="text-white font-semibold">下一步</span>
+            <span class="text-white font-semibold">{$t("login.nextStep")}</span>
             <!-- 加载过程禁用按钮并显示loading动画 -->
             {#if isWaitting}<span class="message-loader w-6 h-6 ml-3"
               ></span>{/if}
@@ -252,7 +252,7 @@
 
         <div class="flex items-center my-6">
           <hr class="flex-grow border-gray-300" />
-          <span class="px-4 text-gray-500 text-sm">or</span>
+          <span class="px-4 text-gray-500 text-sm">{$t("login.or")}</span>
           <hr class="flex-grow border-gray-300" />
         </div>
 
@@ -278,16 +278,16 @@
             on:click={back}
             class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded"
           >
-            <img src={backIcon} alt="返回" class="w-8 h-8" />
+            <img src={backIcon} alt={$t("login.back")} class="w-8 h-8" />
           </button>
-          <span class="text-lg font-semibold">填写密码</span>
+          <span class="text-lg font-semibold">{$t("login.loginTitle")}</span>
         </div>
 
         <!-- 填写密码表单 -->
         <div class="mt-10">
           <form on:submit|preventDefault={handleEmailSubmit}>
             <h3 class="ml-1 mb-5 text-themegreen text-xl font-semibold">
-              <span class="mr-3">🎉</span>欢迎回来!
+              <span class="mr-3">🎉</span>{$t("login.welcomeBack")}
             </h3>
             <div class="mb-5 flex">
               <div class="flex items-center bg-gray-100 rounded-md p-2 pr-4">
@@ -312,7 +312,7 @@
                 bind:value={password}
                 required
                 autofocus
-                placeholder="请输入密码"
+                placeholder={$t("login.passwordPlaceholder")}
               />
               <!-- 右侧显示/隐藏密码图标 -->
 
@@ -341,7 +341,7 @@
               type="submit"
               class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
             >
-              <span class="text-white font-semibold">登录</span>
+              <span class="text-white font-semibold">{$t("login.login")}</span>
               <!-- 加载过程禁用按钮并显示loading动画 -->
               <!-- <span class="message-loader w-6 h-6 ml-3"></span> -->
             </button>
@@ -352,7 +352,7 @@
               on:click={handleForgotPassword}
               class="text-sm text-themegreen hover:underline py-2 px-5"
             >
-              <span>忘记密码？</span>
+              <span>{$t("login.forgotPassword")}</span>
             </button>
           </div>
         </div>
@@ -368,14 +368,15 @@
             on:click={back}
             class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded"
           >
-            <img src={backIcon} alt="返回" class="w-8 h-8" />
+            <img src={backIcon} alt={$t("login.back")} class="w-8 h-8" />
           </button>
-          <span class="text-lg font-semibold">填写验证码</span>
+          <span class="text-lg font-semibold">{$t("login.enterVerificationTitle")}</span>
         </div>
 
         <div class="mt-10">
           <form>
             <p class="mb-2">
+              <!-- todo: 这种模版类型的需要确认怎么写 -->
               请输入发送至 {email ? email : "Email"} 的6位验证码，有效期5分钟
             </p>
 
@@ -386,7 +387,8 @@
               type="button"
               class="text-themegreen hover:underline py-2 mb-5"
             >
-              {sendedVcode ? `${timeLeft}s后重新发送` : "发送验证码"}
+               <!-- todo: 这种模版类型的需要确认怎么写 -->
+              {sendedVcode ? `${timeLeft}s后重新发送` : $t("login.sendVerificationCode")}
             </button>
 
             <div class="relative w-full mb-4">
@@ -402,7 +404,7 @@
                 bind:value={verifyCode}
                 type="text"
                 class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
-                placeholder="请输入验证码"
+                placeholder={$t("login.verificationCodePlaceholder")}
                 required
                 autofocus
               />
@@ -415,7 +417,7 @@
               type="submit"
               class="w-full bg-themegreen text-white font-semibold py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen"
             >
-              下一步
+             {$t("login.nextStep")}
             </button>
           </form>
         </div>
@@ -431,14 +433,26 @@
             on:click={back}
             class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded"
           >
-            <img src={backIcon} alt="返回" class="w-8 h-8" />
+            <img src={backIcon} alt={$t("login.back")} class="w-8 h-8" />
           </button>
-          <span class="text-lg font-semibold">设置密码</span>
+          <span class="text-lg font-semibold">
+            {#if forgotPassword}
+              {$t("login.resetPasswordTitle")}
+            {:else}
+              {$t("login.setPasswordTitle")}
+            {/if}
+          </span>
         </div>
 
         <div class="mt-10">
           <form>
-            <p class="mb-4">请输入新密码/请设置登录密码</p>
+            <p class="mb-4">
+              {#if forgotPassword}
+                {$t("login.resetPasswordText")}
+              {:else}
+                {$t("login.setPasswordText")}
+              {/if}
+            </p>
             <div class="relative w-full mb-4">
               <!-- 左侧密码图标 -->
               <span class="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -456,7 +470,7 @@
                   bind:value={password}
                   required
                   autofocus
-                  placeholder="请输入密码"
+                  placeholder={forgotPassword? $t("login.resetPasswordPlaceholder") : $t("login.setPasswordPlaceholder")}
                 />
               {:else}
                 <input
@@ -465,7 +479,7 @@
                   bind:value={password}
                   required
                   autofocus
-                  placeholder="请输入密码"
+                  placeholder={forgotPassword? $t("login.resetPasswordPlaceholder") : $t("login.setPasswordPlaceholder")}
                 />
               {/if}
 
@@ -511,7 +525,7 @@
                   bind:value={confirmPassword}
                   required
                   autofocus
-                  placeholder="请输入密码"
+                  placeholder={$t("login.confirmPasswordPlaceholder")}
                 />
               {:else}
                 <input
@@ -520,7 +534,7 @@
                   bind:value={confirmPassword}
                   required
                   autofocus
-                  placeholder="请输入密码"
+                  placeholder={$t("login.confirmPasswordPlaceholder")}
                 />
               {/if}
 
@@ -554,7 +568,7 @@
               type="submit"
               class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
             >
-              <span class="text-white font-semibold">确认并登录</span>
+              <span class="text-white font-semibold">{$t("login.confirmAndLogin")}</span>
               <!-- 加载过程禁用按钮并显示loading动画 -->
 
               {#if isWaitting}<span class="message-loader w-6 h-6 ml-3"></span>{/if}

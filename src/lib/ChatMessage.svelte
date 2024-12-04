@@ -24,9 +24,6 @@
     import RobotIcon from "../assets/aianswer-avtar.svg";
     import MoreIcon from "../assets/moreactions.svg";
     import EditIcon from "../assets/edit.svg";
-    import GPTIcon from "../../assets/gpt.svg";
-    import ClaudeIcon from "../assets/claude.svg";
-    import GeminiIcon from "../assets/gemini.svg";
     import LikeIcon from "../assets/helpful.svg";
     import DislikeIcon from "../assets/unhelpful.svg";
     import LikeActiveIcon from "../assets/helpful-checked.svg";

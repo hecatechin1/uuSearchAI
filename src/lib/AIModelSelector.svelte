@@ -1,5 +1,6 @@
 <script>
-  import { onMount, fade} from 'svelte/transition';
+  import {  fade} from 'svelte/transition';
+  import { onMount } from "svelte";
   import GPTIcon from "../assets/gpt.svg";
   import ClaudeIcon from "../assets/claude.svg";
   import GeminiIcon from "../assets/gemini.svg";

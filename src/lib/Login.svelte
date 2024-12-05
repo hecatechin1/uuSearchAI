@@ -30,7 +30,7 @@
   } from "../manages/userinfoManages";
   import { writable, get } from "svelte/store";
   export let isPage; //通过父组件判断是否显示关闭按钮
-  export let isResetPassword = false;
+  // export let isResetPassword = false;//通过父组件判断是否是重置密码窗口
   const dispatch = createEventDispatcher();
   const status_email = "email";
   const status_password = "password";
@@ -39,7 +39,7 @@
   const currentStatus = [];
   const loginPageName = writable(""); //当前窗口
 
-  let email = ""; //输入的邮箱
+  let email = ""; //输入的邮箱  
   let password = ""; //输入的密码
   let confirmPassword = ""; //输入的确认密码
   let verifyCode = "";
@@ -53,6 +53,10 @@
   let forgotPassword = false; //是否忘记密码
 
   loginPageName.subscribe((value) => {
+    password = "";
+    confirmPassword = "";
+    verifyCode = "";
+    showPassword = false;
     isWaitting = false;
   });
 
@@ -61,7 +65,7 @@
     // if(isResetPassword){
     //   changeStatus(status_resetPassword);
     // }
-    changeStatus(status_resetPassword);
+    changeStatus(status_email);
   });
   //验证邮箱
   async function handleEmailSubmit() {
@@ -77,6 +81,7 @@
     }
     isWaitting = true;
     let res = await checkUserEmail(email);
+    // isWaitting = false;
     if (res == 1) {
       showErrorMessage(getErrorMessage(res.toString()));
       return;
@@ -100,6 +105,7 @@
       }
     }, 1000);
     let res = await sendUserEmailCode(email);
+    isWaitting = false;
     if (res != 0) {
       showErrorMessage(getErrorMessage(res.toString()));
       return;
@@ -134,16 +140,22 @@
       return;
     }
     if(password!=confirmPassword){
-      showErrorMessage($t("login.passwordMismatchError"));
+      showErrorMessage($t("login.passwordRepeatError"));
       return;
     }
-    const regex_chat = /^[a-zA-Z0-9]$/;
+    const regex_chat = /^[a-zA-Z0-9@#$%^&*!]+$/;
     const regex_length = /^.{6,24}$/;
-    if(!regex_chat.test(password)){showErrorMessage($t("login.invalidPasswordCharacterError"));}
-    if(!regex_length.test(password)){showErrorMessage($t("login.passwordLengthError"));}
+    if(!regex_chat.test(password)){
+      console.log(regex_chat.test(password));
+      showErrorMessage($t("login.invalidPasswordCharacterError"));return;}
+    if(!regex_length.test(password)){
+      console.log(regex_length.test(password));
+      showErrorMessage($t("login.passwordLengthError"));
+      return;
+    }
     isWaitting = true;
     let res;
-    if(isResetPassword){
+    if(forgotPassword){
       res = await resetUserPassword(email,password);
     }else{
       res = await setUserPassword(email,password);
@@ -154,17 +166,40 @@
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }
-    showSuccessMessage(isResetPassword?$t("login.resetPasswordSuccess") : $t("login.loginSuccess"));
-    isResetPassword = false;
+    res = await userLogin(email,password);
+    if(res!=0){
+      showErrorMessage(getErrorMessage(res.toString()));
+      return;
+    }
+    showSuccessMessage(forgotPassword?$t("login.resetPasswordSuccess") : $t("login.loginSuccess"));
+    forgotPassword = false;
+    loginSuccess();
   }
+  //登录
+  async function handleLogin(){
+    if(!password){
+      showErrorMessage($t("login.passwordPlaceholder"));
+      return;
+    }
 
+    isWaitting = true;
+    let res = await userLogin(email,password);
+    isWaitting = false;
+    if(res!=0){
+      showErrorMessage(getErrorMessage(res.toString()));
+      return;
+    }
+    showSuccessMessage($t("login.loginSuccess"));
+    loginSuccess();
+  }
+  // 处理Google登录
   function handleGoogleLogin() {
     // 使用Google登录
   }
 
   function handleForgotPassword() {
-    // 忘记密码方法
-    error = $t("login.forgotPasswordError");
+    forgotPassword = true;
+    changeStatus(status_vcode);
   }
 
   function validateEmail(email) {
@@ -175,6 +210,9 @@
   //关闭窗口事件
   function close() {
     dispatch("close-card");
+  }
+  function loginSuccess(){
+    dispatch("login-success");
   }
   //切换窗口
   function changeStatus(to) {
@@ -194,7 +232,7 @@
 >
   <div>
     <!-- 关闭按钮 -->
-    {#if isPage}
+    {#if !isPage}
       <button class="absolute top-4 right-4" on:click={close}>
         <img
           src={closeIcon}
@@ -213,7 +251,7 @@
           <img src={uugpIcon} alt="uuGPT Logo" class="w-10 h-10" />
           <span>uuGPT</span>
         </h1>
-        <form>
+        <form on:submit={handleEmailSubmit}>
           <label for="email" class="sr-only">{$t("login.email")}</label>
           <div class="relative w-full">
             <img
@@ -285,7 +323,7 @@
 
         <!-- 填写密码表单 -->
         <div class="mt-10">
-          <form on:submit|preventDefault={handleEmailSubmit}>
+          <form on:submit|preventDefault={handleLogin}>
             <h3 class="ml-1 mb-5 text-themegreen text-xl font-semibold">
               <span class="mr-3">🎉</span>{$t("login.welcomeBack")}
             </h3>
@@ -305,18 +343,30 @@
                 />
               </span>
               <!-- 密码输入框 -->
-              <input
-                type="password"
-                id="passwordInput"
-                class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
-                bind:value={password}
-                required
-                autofocus
-                placeholder={$t("login.passwordPlaceholder")}
-              />
+               {#if showPassword}
+               <input
+               type="text"
+               class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
+               bind:value={password}
+               required
+               autofocus
+               placeholder={$t("login.passwordPlaceholder")}
+             />
+               {:else}
+               <input
+               type="password"
+               class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
+               bind:value={password}
+               required
+               autofocus
+               placeholder={$t("login.passwordPlaceholder")}
+             />
+               {/if}
+
               <!-- 右侧显示/隐藏密码图标 -->
 
               <button
+              on:click={()=>{showPassword=!showPassword}}
                 type="button"
                 class="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer hover:bg-gray-200 rounded"
                 aria-label="Toggle password visibility"
@@ -338,12 +388,14 @@
             </div>
             <div class="h-8"></div>
             <button
+              disabled={isWaitting}
+              on:click={handleLogin}
               type="submit"
               class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
             >
               <span class="text-white font-semibold">{$t("login.login")}</span>
               <!-- 加载过程禁用按钮并显示loading动画 -->
-              <!-- <span class="message-loader w-6 h-6 ml-3"></span> -->
+              {#if isWaitting}<span class="message-loader w-6 h-6 ml-3"></span>{/if}
             </button>
           </form>
           <!-- 忘记密码链接 -->
@@ -575,16 +627,6 @@
             </button>
           </form>
         </div>
-      </div>
-    {/if}
-
-    <!-- 错误信息显示 -->
-    {#if error}
-      <div class="text-red-500 text-sm my-5 ml-2 animate-fade">{error}</div>
-    {/if}
-    {#if successMessage}
-      <div class="text-green-500 text-sm my-5 ml-2 animate-fade">
-        {successMessage}
       </div>
     {/if}
   </div>

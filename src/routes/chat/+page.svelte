@@ -1,6 +1,6 @@
 <script lang="ts">
-    import ChatSidebar from '../../lib/ChatSidebar.svelte';
-    import ChatMain from '../../lib/ChatMain.svelte';
+    import ChatSidebar from '$lib/ChatSidebar.svelte';
+    import ChatMain from '$lib/ChatMain.svelte';
     import { onMount } from 'svelte';
     import "../../i18n.js";
     import {initializeI18n} from "../../i18n";

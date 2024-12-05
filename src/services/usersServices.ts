@@ -43,6 +43,7 @@ export async function checkEmail(email: string) {
       return 1;
     }
   } catch (e) {
+    console.log("发送错误",e.name);
     return 1;
   }
 }
@@ -103,7 +104,7 @@ export async function verifycode(code: string, code_id: string) {
 //注册
 export async function setPassword(email: string, password: string) {
   try {
-    let res = await createTimeOutFetch()(`https://api.uigpt.com/user/signup?email=${email}&password=${password}`);
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/signup?email=${email}&password=${password}`);
     if (res.ok) {
       const data = await res.json();
       return data;
@@ -118,7 +119,7 @@ export async function setPassword(email: string, password: string) {
 //登录
 export async function login(email: string, password: string) {
   try {
-    let res = await createTimeOutFetch()(`https://api.uigpt.com/user/login?email=${email}&password=${password}`);
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/login?email=${email}&password=${password}`);
     if (res.ok) {
       const data = await res.json();
       return data;
@@ -132,7 +133,7 @@ export async function login(email: string, password: string) {
 //重置密码
 export async function resetPassword(email: string, password: string) {
   try {
-    let res = await createTimeOutFetch()(`https://api.uigpt.com/user/update`,{
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/update`,{
       method:"POST",
       headers:{
         "Content-Type":"application/json",

@@ -14,7 +14,7 @@
       setTimeout(() => {
         showError.set(false);
         message.set("");
-      }, 1000);
+      }, 5000);
     }
   });
   showSuccess.subscribe((value)=>{
@@ -22,7 +22,7 @@
       setTimeout(() => {
         showSuccess.set(false);
         message.set("");
-      }, 1000);
+      }, 5000);
     }
   });
 
@@ -41,7 +41,7 @@
 {/if}
 
 {#if $showSuccess}
-<div transition:fly="{{ y: 20, duration: 500 }}" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-md" role="alert">
+<div transition:fly="{{ y: 20, duration: 500 }}" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-md" role="alert">
     <span class="block sm:inline">{$message}</span>
   </div>
 {/if}

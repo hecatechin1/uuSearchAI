@@ -1,5 +1,5 @@
 <script lang="ts">
-    import ChatSidebar from '$lib/ChatSidebar.svelte';
+    import SiderBar from "$lib/SiderBar.svelte";
     import ChatMain from '$lib/ChatMain.svelte';
     import { onMount } from 'svelte';
     import "../../i18n.js";
@@ -8,10 +8,11 @@
     // 状态管理
     let selectedChatId = "1";
     let isReady = false;
-    const handleChatSelection = (chatId: string) => {
-      selectedChatId = chatId;
-    };
+    
+    function changeChat(event:CustomEvent){
+      console.log(event.detail.text);
 
+    }
     onMount(async ()=>{
       await initializeI18n();
       await waitLocale();
@@ -22,7 +23,7 @@
     <div class="flex h-screen">
       {#if isReady}
         <!-- 侧边栏 -->
-        <ChatSidebar on:selectChat={handleChatSelection} />
+        <SiderBar on:selectChat={changeChat} />
         <!-- 聊天主界面 -->
         <ChatMain selectedChatId={selectedChatId} />
         {/if}

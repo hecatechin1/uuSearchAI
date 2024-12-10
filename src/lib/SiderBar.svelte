@@ -49,7 +49,8 @@
         { id: "2", title: "Chat 2" },
       ],
     },
-    { date: "2024-11-19", chats: [{ id: "3", title: "Chat 3" }] },
+    { date: "2024-11-19", chats: [{ id: "3", title: "Chat 3" },{ id: "1", title: "Chat 1" },
+    ] },
   ];
 
   // export let onSelectChat;
@@ -76,7 +77,7 @@
 </script>
 
 <aside
-  class="z-[21] flex shrink-0 overflow-x-hidden max-md:!w-0 w-64 flex-col h-full bg-grey-700"
+  class="z-[21] flex shrink-0 overflow-x-hidden max-md:!w-0 w-64 flex-col h-full bg-gray-100"
 >
   <div
     class="draggable relative h-full w-full flex-1 items-start border-white/20"
@@ -175,7 +176,7 @@
         >
           {#each history as { date, chats }}
             <div class="relative mt-2 first:mt-0 last:mb-3">
-              <div class="sticky bg-token-sidebar-surface-primary top-0 z-20">
+              <div class="sticky top-0 z-20 bg-gray-100">
                 <span class="flex h-9 items-center">
                   <h3
                     class="px-2 text-xs font-semibold text-ellipsis overflow-hidden break-all pt-3 pb-2 text-token-text-primary"
@@ -188,7 +189,7 @@
                 {#each chats as chat}
                   <li class="relative">
                     <div
-                      class="no-draggable group relative rounded-lg active:opacity-90 hover:bg-themegreyhover"
+                      class="no-draggable group relative rounded-lg active:opacity-90 hover:bg-themegreyhover cursor-pointer"
                     >
                       <span
                         on:click={() => selectChat(chat.id)}
@@ -239,3 +240,7 @@
     </nav>
   </div>
 </aside>
+
+<style>
+
+</style>

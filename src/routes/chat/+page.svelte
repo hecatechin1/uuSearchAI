@@ -1,6 +1,8 @@
 <script lang="ts">
     import SiderBar from "$lib/SiderBar.svelte";
     import ChatMain from '$lib/ChatMain.svelte';
+    import Topbar from "$lib/Topbar.svelte";
+    import SearchChat from "$lib/SearchChat.svelte";
     import { onMount } from 'svelte';
     import "../../i18n.js";
     import {initializeI18n} from "../../i18n";
@@ -19,12 +21,23 @@
       isReady = true;
     });
   </script>
-  
-    <div class="flex h-screen">
-      {#if isReady}
+    {#if isReady}
+    <div class="flex h-screen overflow-hidden">
+        
+      
         <!-- 侧边栏 -->
         <SiderBar on:selectChat={changeChat} />
         <!-- 聊天主界面 -->
-        <ChatMain selectedChatId={selectedChatId} />
-        {/if}
-    </div> 
+        <div class="flex-1 relative ">
+          <Topbar/>
+          <ChatMain selectedChatId={selectedChatId} />
+        </div>
+        
+        
+        
+    </div>
+    {/if}
+
+  <style>
+
+  </style>

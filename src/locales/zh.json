@@ -108,6 +108,7 @@
       "historyChats": "历史聊天记录",
       "closeSidebar": "关闭边栏",
       "showSidebar": "显示边栏",
+      "openPersonalMenu": "打开个人菜单",
       "newChat": "新聊天",
       "search": "搜索聊天",
       "loading": "加载中...",
@@ -134,7 +135,8 @@
       "quit": "退出",
       "confirm": "确认",
       "save": "保存",
-      "saveAs": "另存为"
+      "saveAs": "另存为",
+      "latestChats": "最近聊天"
     },
     "code": {
       "copy": "复制代码",

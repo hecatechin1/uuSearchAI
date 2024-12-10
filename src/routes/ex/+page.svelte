@@ -2,6 +2,7 @@
   import Login from "$lib/Login.svelte";
   import ModelSelector from '$lib/AIModelSelector.svelte';
   import AiModelSelector from "$lib/AIModelSelector.svelte";
+  import SideBarContexMenu from "$lib/SideBarContexMenu.svelte";
 
   let closeCard = false;
   function closeLoginCard() {
@@ -25,3 +26,6 @@ function loginSuccess(){
 
  <AiModelSelector />
 </main> -->
+<div class="fixed">
+<SideBarContexMenu/>
+</div>

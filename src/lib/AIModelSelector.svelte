@@ -5,39 +5,41 @@
   import ClaudeIcon from "../assets/claude.svg";
   import GeminiIcon from "../assets/gemini.svg";
 
-  let isOpen = true;
+  let currentAi = "GPT"
+  let currentModel = "4o-mini"
+
   let selectedAI = 'openai';
   let models = [
     {
       ai: 'openai',
       aiName: 'gpt',
       models: [
-        { name: 'gpt-4o', price: 'SVIP' },
+        { name: 'gpt-4o', price: '' },
         { name: 'gpt-4o-mini', price: '免费' },
-        { name: 'gpt-4-turbo', price: 'SVIP' },
-        { name: 'gpt-4', price: 'SVIP' },
-        { name: 'gpt-3.5-turbo', price: '免费' }
+        { name: 'gpt-4-turbo', price: '' },
+        { name: 'gpt-4', price: '' },
+        { name: 'gpt-3.5-turbo', price: '' }
       ]
     },
     {
       ai: 'anthropic',
       aiName: 'claude',
       models: [
-        { name: 'claude-3-5-sonnet-20241022', price: 'SVIP' },
-        { name: 'claude-3-5-haiku-20241022', price: 'SVIP' },
-        { name: 'claude-3-opus-20240229', price: 'SVIP' },
-        { name: 'claude-3-sonnet-20240229', price: 'SVIP' },
-        { name: 'claude-3-haiku-20240307', price: 'SVIP' }
+        { name: 'claude-3-5-sonnet-20241022', price: '' },
+        { name: 'claude-3-5-haiku-20241022', price: '' },
+        { name: 'claude-3-opus-20240229', price: '' },
+        { name: 'claude-3-sonnet-20240229', price: '' },
+        { name: 'claude-3-haiku-20240307', price: '' }
       ]
     },
     {
       ai: 'google',
       aiName: 'gemini',
       models: [
-        { name: 'models/gemini-1-0-pro', price: 'SVIP' },
-        { name: 'models/gemini-1-0-pro-vision', price: 'SVIP' },
-        { name: 'models/gemini-1-5-flash', price: 'SVIP' },
-        { name: 'models/gemini-1-5-pro', price: 'SVIP' }
+        { name: 'models/gemini-1-0-pro', price: '' },
+        { name: 'models/gemini-1-0-pro-vision', price: '' },
+        { name: 'models/gemini-1-5-flash', price: '' },
+        { name: 'models/gemini-1-5-pro', price: '' }
       ]
     }
   ];
@@ -57,37 +59,20 @@
     selectedAI = models[0].ai;
   });
 </script>
-
-<div class="relative">
-  <!-- Dropdown button -->
-  <button
-    on:click={toggleDropdown}
-    class="w-full bg-themegreen text-white py-3 rounded-md flex justify-between items-center"
-  >
-    <span>Select Model</span>
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      class="h-5 w-5 ml-2"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-      stroke-width="2"
-    >
-      <path d="M6 9l6 6 6-6"></path>
-    </svg>
-  </button>
-
-  <!-- Dropdown menu -->
-  {#if isOpen}
+    
+<!-- transition:fade={{ duration: 300 }} -->
+  <div class="relative">
     <div
-      class="absolute top-full py-2 left-0 w-[250px] bg-white border border-gray-300 rounded-lg mt-2 shadow-lg z-10 max-h-[300px] overflow-y-auto dropdown-menu"
-      transition:fade={{ duration: 300 }}
+      class="absolute top-full py-2 left-0 w-[250px] bg-white border border-gray-300 rounded-lg mt-2 shadow-lg z-50 max-h-[300px] overflow-y-auto dropdown-menu"
+     
     >
       {#each models as { ai, aiName, models: aiModels }}
         <div class="py-2">
           <div class="font-semibold text-themegreen px-4 flex justify-between items-center cursor-pointer" on:click={() => toggleSubMenu(ai)}>
             <div class="flex items-center space-x-2">
-              <img src={ai === 'openai' ? GPTIcon : ai === 'anthropic' ? ClaudeIcon : GeminiIcon} alt={ai} class="w-6 h-6" />
+              <img 
+                src={ai === 'openai' ? GPTIcon : ai === 'anthropic' ? ClaudeIcon : GeminiIcon} 
+                alt={ai} class="w-6 h-6" />
               <span>{aiName}</span>
             </div>
             <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -117,8 +102,7 @@
         </div>
       {/each}
     </div>
-  {/if}
-</div>
+  </div>
 
 <style>
   .dropdown-menu {

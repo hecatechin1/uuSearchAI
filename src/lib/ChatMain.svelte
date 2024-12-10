@@ -1,5 +1,7 @@
 <script lang="ts">
   // import ChatMessage from "./ChatMessage.svelte";
+  import TopbarChat from "./TopbarChat.svelte";
+
   import { t } from "svelte-i18n"; // 导入本地化方法
   import {get, writable } from "svelte/store";
   import DeleteIcon from "../assets/delete.svg";
@@ -17,6 +19,8 @@
   } from "../stores/stores";
   import {currentChat} from "../stores/userStores";
   export let selectedChatId;
+  export let ai="GPT";
+  export let model = "4o-mini"
 
   let input: string = "";
   let textAreaElement; // 定义文本框元素的引用
@@ -100,7 +104,9 @@
   function processMessage() {}
 </script>
 
-<div class="relative h-full w-full flex-1 overflow-auto transition-width">
+<div class="relative h-full w-full flex-1 overflow-auto transition-width overflow-hidden">
+  <TopbarChat
+  />
   <div class="composer-parent flex h-full flex-col focus-visible:outline-0 bg-gray-50">
     <div class="flex-1 overflow-hidden"><p>{selectedChatId}</p></div>
     {#if $messages.length > 0}

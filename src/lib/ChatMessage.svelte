@@ -4,7 +4,7 @@
 
     import {t} from 'svelte-i18n'; // 导入本地化方法
     import SvelteMarkdown from "svelte-markdown"; //导入svelte-markdown
-
+    import {isStreaming} from "../stores/globalParamentStores";
     //导入渲染器
     import CodeRenderer from "../renderers/Code.svelte";
     import LinkRenderer from "../renderers/LinkRenderer.svelte";
@@ -15,7 +15,7 @@
     import ListItemRenderer from "../renderers/ListItem.svelte";
     import CodeSpanRenderer from "../renderers/CodeSpan.svelte";
     import ParagraphRenderer from "../renderers/Paragraph.svelte";
-    import HtmlRenderer from "../../renderers/Html.svelte";
+    import HtmlRenderer from "../renderers/Html.svelte";
 
     //导入所需图标
     import CopyIcon from "../assets/copy.svg";
@@ -37,14 +37,16 @@
     } from "../utils/generalUtils";
 
     let isShowUserFirstQuery = true; //是否显示用户的第一个问题
-    let isStreaming = false;//是否在进行流式传输
+    // let isStreaming = false;//是否在进行流式传输
     let isEditting = false; //是否正在编辑
-
+    let editTextArea;
+    let editingMessageContent: string; //正在编辑的消息内容;
+    let retrybtn;
     const autoExpand = () => {
         //自动展开
     };
 
-    const copyText = () => {
+    const copyText = (a:string,b:number) => {
         //复制文本
     };
 
@@ -73,8 +75,28 @@
         html: HtmlRenderer,
         // 其他自定义的 renderer
     };
+    function deleteMessage(index:number){
 
+    }
+    function toggleLike(index: number){
 
+    }
+    function toggleDislike(index: number){
+
+    }
+    function retry(index){
+        console.log('对话框-换模型',retrybtn.getBoundingClientRect().top);
+    }
+    function cancelEdit(){
+
+    }
+    function submitEdit(index:number){
+
+    }
+
+    function startEditMessage(index:number){
+
+    }
 </script>
 
 <div class="mx-auto flex flex-1 gap-4 text-base md:gap-5 lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem]">
@@ -105,20 +127,21 @@
                 <div class="toolbelt flex gap-3 empty:hidden -ml-2">
                     <div class="flex justify-start rounded-xl items-center">
                         <button
+
                             class="btn-custom copyButton"
                             data-tooltip={$t("app.copy")}
-                            on:click={() => copyText(message.content, i)}
+                            on:click={() => copyText(message.content, index)}
                         >
                             <img
                                 alt={$t("app.copy")}
                                 src={CopyIcon}
-                                class={"copy-icon copyAnime" + i}
+                                class={"copy-icon copyAnime" + index}
                             />
                         </button>
                         <button
                             class="deleteButton btn-custom"
                             data-tooltip={$t("app.delete")}
-                            on:click={() => deleteMessage(i)}
+                            on:click={() => deleteMessage(index)}
                         >
                         <img
                             class="delete-icon"
@@ -131,7 +154,7 @@
                         id="likeBtn"
                         class="btn-custom"
                         data-tooltip={$t("app.like")}
-                        on:click={() => toggleLike(i)}
+                        on:click={() => toggleLike(index)}
                         >
                         <img
                             alt="like"
@@ -145,7 +168,7 @@
                         id="dislikeBtn"
                         class="btn-custom"
                         data-tooltip={$t("app.dislike")}
-                        on:click={() => toggleDislike(i)}
+                        on:click={() => toggleDislike(index)}
                         >
                         <img
                             alt="dislike"
@@ -159,9 +182,10 @@
                         </button>
 
                         <button
+                        bind:this={retrybtn}
                             class="btn-custom"
                             data-tooltip={$t("app.retry")}
-                            on:click={() => retry(i)}
+                            on:click={() => retry(index)}
                             >
                             <img class="" alt={$t("app.retry")} src={RetryIcon} />
                             <span class="btn-text">{"AI"+"model"}</span>
@@ -189,7 +213,7 @@
                     {$isStreaming
                         ? 'bg-themegreylight text-white cursor-not-allowed'
                         : 'hover:bg-themegreenhover hover:text-white'}"
-                        on:click={() => submitEdit(i)}
+                        on:click={() => submitEdit(index)}
                         disabled={$isStreaming}>{$t("app.submit")
                     }
                 </button>
@@ -216,7 +240,7 @@
                                             <button
                                                 data-tooltip={$t("app.edit")}
                                                 class="btn-custom btn-edit flex items-center justify-center text-token-text-secondary transition"
-                                                on:click={() => startEditMessage(i)}
+                                                on:click={() => startEditMessage(index)}
                                             >
                                                 <img class="edit-icon" alt={$t("app.edit",{default:"Edit"})} src={EditIcon}/>
                                             </button>
@@ -232,5 +256,5 @@
     {/if}
 </div>
 <style>
-    @import "../../styles/styles.css";
+    @import "../styles/styles.css";
 </style>

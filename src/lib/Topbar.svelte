@@ -1,13 +1,14 @@
 <script lang="ts">
   import { t } from "svelte-i18n";
   import { onMount } from "svelte";
-
+  import { createEventDispatcher } from "svelte";
   export let ai = "GPT";
   export let model = "4o mini";
-  
+  const dispatch = createEventDispatcher();
+  function showModelSelector() {
+    dispatch("show-selector", { text: "test" });
+  }
 </script>
-
-
 
 <div
   class="draggable sticky top-0 z-10 flex min-h-[44px] items-center justify-center border-transparent bg-gray-100 pl-0 md:hidden"
@@ -26,24 +27,27 @@
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         class="icon-lg mx-2 text-themegreen"
-        ><path
+      >
+        <path
           fill-rule="evenodd"
           clip-rule="evenodd"
           d="M3 8C3 7.44772 3.44772 7 4 7H20C20.5523 7 21 7.44772 21 8C21 8.55228 20.5523 9 20 9H4C3.44772 9 3 8.55228 3 8ZM3 16C3 15.4477 3.44772 15 4 15H14C14.5523 15 15 15.4477 15 16C15 16.5523 14.5523 17 14 17H4C3.44772 17 3 16.5523 3 16Z"
           fill="currentColor"
-        ></path></svg
-      ></button
-    >
+        >
+        </path>
+      </svg>
+    </button>
   </div>
   <div class="no-draggable">
     <button
-      type="button"        
+      on:click={showModelSelector}
+      type="button"
       data-state="closed"
-      class="group flex cursor-pointer items-center gap-1 rounded-lg py-1.5 px-3  hover:bg-gray-200 focused:bg-gray-200 font-semibold text-themegrey overflow-hidden whitespace-nowrap"
-      >
-        <div class="text-themegrey">
-          {ai} 
-          <span class="text-themegrey">{model}</span>
+      class="group flex cursor-pointer items-center gap-1 rounded-lg py-1.5 px-3 hover:bg-gray-200 focused:bg-gray-200 font-semibold text-themegrey overflow-hidden whitespace-nowrap"
+    >
+      <div class="text-themegrey">
+        {ai}
+        <span class="text-themegrey">{model}</span>
       </div>
       <svg
         width="24"
@@ -57,15 +61,16 @@
           clip-rule="evenodd"
           d="M5.29289 9.29289C5.68342 8.90237 6.31658 8.90237 6.70711 9.29289L12 14.5858L17.2929 9.29289C17.6834 8.90237 18.3166 8.90237 18.7071 9.29289C19.0976 9.68342 19.0976 10.3166 18.7071 10.7071L12.7071 16.7071C12.5196 16.8946 12.2652 17 12 17C11.7348 17 11.4804 16.8946 11.2929 16.7071L5.29289 10.7071C4.90237 10.3166 4.90237 9.68342 5.29289 9.29289Z"
           fill="currentColor"
-        ></path></svg
-      ></button
-    >
+        >
+        </path>
+      </svg>
+    </button>
   </div>
   <div
     class="no-draggable absolute bottom-0 right-0 top-0 mr-3 inline-flex items-center justify-center"
   >
-    <span class="flex" data-state="closed"
-      ><button
+    <span class="flex" data-state="closed">
+      <button
         aria-label="新聊天"
         class="h-10 rounded-lg px-2 text-themegreen disabled:opacity-50 enabled:hover:bg-gray-200"
         ><svg

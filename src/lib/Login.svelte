@@ -65,7 +65,7 @@
     // if(isResetPassword){
     //   changeStatus(status_resetPassword);
     // }
-    changeStatus(status_email);
+    changeStatus(status_resetPassword);
   });
   //验证邮箱
   async function handleEmailSubmit() {

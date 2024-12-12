@@ -1,7 +1,8 @@
 <script lang="ts">
   // import ChatMessage from "./ChatMessage.svelte";
+  import {createEventDispatcher} from "svelte";
   import TopbarChat from "./TopbarChat.svelte";
-
+  import ChatMessage from "./ChatMessage.svelte";
   import { t } from "svelte-i18n"; // 导入本地化方法
   import {get, writable } from "svelte/store";
   import DeleteIcon from "../assets/delete.svg";
@@ -21,7 +22,13 @@
   export let selectedChatId;
   export let ai="GPT";
   export let model = "4o-mini"
-
+  messages.set([
+  {"role":"user","content":"test","isDisliked":false,"isLiked":false},
+  {"role":"assistant","content":"你好！请问有什么我可以帮助你的吗？如果你有任何问题或需要信息，请随时告诉我！ \\n\\n这里有一些参考链接供你查看：\\n- [维基百科](https://zh.wikipedia.org)\\n- [百度百科](https://baike.baidu.com)\\n- [知乎](https://www.zhihu.com)","isLiked":false,"isDisliked":false},
+  {"role":"user","content":"test","isDisliked":false,"isLiked":false},
+  {"role":"assistant","content":"你好！看起来你在进行测试。如果你有任何具体问题或需要帮助的地方，请告诉我！我在这里为你提供支持。 \\n\\n这里有一些参考链接供你查看：\\n- [维基百科](https://zh.wikipedia.org)\\n- [百度百科](https://baike.baidu.com)\\n- [知乎](https://www.zhihu.com)","isLiked":false,"isDisliked":false}
+]);
+let dispatch = createEventDispatcher();
   let input: string = "";
   let textAreaElement; // 定义文本框元素的引用
   let isMobile = false;
@@ -102,18 +109,21 @@
   }
 
   function processMessage() {}
+
+  function showModelSelector(event:CustomEvent) {
+    dispatch('show-selector',event.detail);
+  }
 </script>
 
 <div class="relative h-full w-full flex-1 overflow-auto transition-width overflow-hidden">
-  <TopbarChat
-  />
+  <TopbarChat on:show-selector={showModelSelector} />
   <div class="composer-parent flex h-full flex-col focus-visible:outline-0 bg-gray-50">
     <div class="flex-1 overflow-hidden"><p>{selectedChatId}</p></div>
     {#if $messages.length > 0}
       <div class="flex grow max-w-full px-2">
         <div class="w-full">
           {#each $messages as message, i}
-            <!-- <ChatMessage {message} index={i} /> -->
+            <ChatMessage message ={message} index={i} />
           {/each}
           <div class="tailblock h-10 w-full"></div>
         </div>

@@ -1,6 +1,6 @@
-<script>
-  import AiModelSelector from "./AIModelSelector.svelte";
+<script lang="ts">
 
+  import {createEventDispatcher} from "svelte";
   import { t } from "svelte-i18n";
   import { onMount } from "svelte";
   import userAvatar from "../assets/login/avatar-default.svg";
@@ -8,8 +8,15 @@
   export let ai = "GPT";
   export let model = "4o mini";
   export let showSidebar = false;
-
+  let showModelSelectorbtn:HTMLElement;
+  let dispatch = createEventDispatcher();
   let showTopbarModelMenu = true;
+  function showModelSelector(){
+
+    let position = showModelSelectorbtn.getBoundingClientRect();
+    console.log({ top: position.top+position.height,left: position.left});
+    dispatch("show-selector", { top: position.top+position.height,left: position.left});
+  }
 </script>
 
 <div
@@ -68,6 +75,8 @@
     {/if}
 
     <button
+    bind:this={showModelSelectorbtn}
+      on:click={showModelSelector}
       type="button"
       class="relative group flex cursor-pointer items-center gap-1 rounded-lg py-1.5 px-3 hover:bg-gray-200 focused:bg-gray-200 font-semibold text-themegrey overflow-hidden whitespace-nowrap"
       ><div class="text-themegrey">
@@ -117,7 +126,3 @@
   class="no-draggable flex w-full items-center justify-center bg-token-main-surface-primary md:hidden"
 ></div>
 
-<!-- AI选择器需要JS计算位置，主要是左上角坐标。元件宽度260px，高度310px，注意边缘计算 -->
-<div class="fixed z-50" style="top: 44px; left:265px">
-<AiModelSelector />
-</div>

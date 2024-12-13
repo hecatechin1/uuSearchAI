@@ -21,4 +21,4 @@ export const chat_list : Writable<Conversation[]> = writable([]);
 export const current_chat : Writable<Message[]> = writable([]);
 
 //当前会话id
-export const current_chat_id = writable('');
+export const current_chat_id = writable(0);

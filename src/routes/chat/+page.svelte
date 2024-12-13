@@ -17,9 +17,10 @@
     let selectorTop:number;
     let selectorLeft:number;
     function changeChat(event:CustomEvent){
-      console.log(event.detail.text);
-
+      
     }
+
+    
     onMount(async ()=>{
       await initializeI18n();
       await waitLocale();

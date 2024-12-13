@@ -150,7 +150,7 @@
                         />
                         </button>
 
-                        <button
+                        <!-- <button
                         id="likeBtn"
                         class="btn-custom"
                         data-tooltip={$t("app.like")}
@@ -179,7 +179,7 @@
                             ? "small-rotate-animation"
                             : ""}
                         />
-                        </button>
+                        </button> -->
 
                         <button
                         bind:this={retrybtn}

@@ -36,11 +36,10 @@
   }
 
   function selectChat(chatId: number) {
-
-    dispatch("selectChat", { text: chatId });
+    // 点击聊天项时，更新当前聊天项的 ID
+    current_chat_id.set(chatId);
+    dispatch("selectChat", { selected: chatId });
   }
-
-  function getConversationsHistoryList() {}
 
   function handleScroll(event: any) {
     const scrollTop = event.target.scrollTop;

@@ -1,7 +1,8 @@
-import { userID, userEmail, userLevel, userTokens, userVipTime, currentChat,getEmailCodeId } from '../stores/userStores';
+import { userID, userEmail, userLevel, userTokens, userVipTime,getEmailCodeId } from '../stores/userStores';
 import { isLogin } from "../stores/globalParamentStores";
 import { getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login } from "../services/usersServices";
 import {hash256} from "../utils/generalUtils";
+
 export async function getUserInfo() {
     getInfo().then((data) => {
         if (data.code != 0) {
@@ -12,7 +13,6 @@ export async function getUserInfo() {
 
 
 }
-
 export async function checkUserEmail(email: string) {
     let data = await checkEmail(email);
     if (data == 1) {

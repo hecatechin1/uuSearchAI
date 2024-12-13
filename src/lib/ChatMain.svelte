@@ -8,7 +8,6 @@
   import DeleteIcon from "../assets/delete.svg";
   import SendDisabledIcon from "../assets/send-disable.svg";
   import SendIcon from "../assets/send.svg";
-  // import SendHoverIcon from "../assets/send-hover.svg";
   import WaitIcon from "../assets/wait.svg";
   import { closeStream } from "../services/uuAIServices";
   import {
@@ -18,8 +17,8 @@
     lineBreakKey,
     isStreaming,
   } from "../stores/stores";
-  import {currentChat} from "../stores/userStores";
-  export let selectedChatId;
+  import {userID} from "../stores/userStores";
+  export let selectedChatId:string;
   export let ai="GPT";
   export let model = "4o-mini"
   messages.set([
@@ -38,11 +37,11 @@ let dispatch = createEventDispatcher();
     "Shift+Enter": "011",
     "Ctrl+Enter": "101",
   };
-  currentChat.subscribe((value) => {
-    if (value) {
-      selectedChatId = value;
-    }
-  });
+  // currentChat.subscribe((value) => {
+  //   if (value) {
+  //     selectedChatId = value;
+  //   }
+  // });
 
   let userInput = "";
   let isSendHovered = false;

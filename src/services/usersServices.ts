@@ -107,6 +107,7 @@ export async function setPassword(email: string, password: string) {
     let res = await createTimeOutFetch()(`https://api.uugpt.com/user/signup?email=${email}&password=${password}`);
     if (res.ok) {
       const data = await res.json();
+      console.log(data);
       return data;
     } else {
       return 1;

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { flip } from "svelte/animate"; //不能直接导入animate，需要导入animate里的方法
   import { t } from "svelte-i18n"; // 导入本地化方法
   import { onMount } from "svelte";
@@ -36,7 +36,7 @@
   const status_password = "password";
   const status_vcode = "vcode";
   const status_resetPassword = "resetPassword";
-  const currentStatus = [];
+  const currentStatus:string[] = [];
   const loginPageName = writable(""); //当前窗口
 
   let email = ""; //输入的邮箱  
@@ -65,6 +65,7 @@
     // if(isResetPassword){
     //   changeStatus(status_resetPassword);
     // }
+    email = "test@test.com";
     changeStatus(status_resetPassword);
   });
   //验证邮箱
@@ -146,10 +147,8 @@
     const regex_chat = /^[a-zA-Z0-9@#$%^&*!]+$/;
     const regex_length = /^.{6,24}$/;
     if(!regex_chat.test(password)){
-      console.log(regex_chat.test(password));
       showErrorMessage($t("login.invalidPasswordCharacterError"));return;}
     if(!regex_length.test(password)){
-      console.log(regex_length.test(password));
       showErrorMessage($t("login.passwordLengthError"));
       return;
     }
@@ -162,15 +161,18 @@
     }
     // let res = await setUserPassword(email,password);
     isWaitting = false;
+
     if(res!=0){
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }
+
     res = await userLogin(email,password);
     if(res!=0){
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }
+
     showSuccessMessage(forgotPassword?$t("login.resetPasswordSuccess") : $t("login.loginSuccess"));
     forgotPassword = false;
     loginSuccess();
@@ -202,7 +204,7 @@
     changeStatus(status_vcode);
   }
 
-  function validateEmail(email) {
+  function validateEmail(email:string) {
     const re =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
@@ -215,7 +217,7 @@
     dispatch("login-success");
   }
   //切换窗口
-  function changeStatus(to) {
+  function changeStatus(to:string) {
     currentStatus.push(to);
     loginPageName.set(to);
   }

@@ -15,9 +15,6 @@ export const userTokens = writable(0);
 //会员时长
 export const userVipTime = writable(0);
 
-//当前会话
-export const currentChat = writable('');
-
 //邮箱验证码随机ID
 const emailCodeID = writable('');
 export function getEmailCodeId(retry:boolean = false){

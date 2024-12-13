@@ -1,63 +1,42 @@
 <script lang="ts">
   import { t } from "svelte-i18n"; // 导入本地化方法
-  import { currentChat } from "../stores/userStores";
-  import { createEventDispatcher } from "svelte";
-  import {} from "../stores/chatStores";
+  import { get } from "svelte/store";
+  import { userID } from "../stores/userStores";
+  import {
+    chat_list,
+    type Conversation,
+    current_chat_id,
+  } from "../stores/chatStores";
+  import { getChatListData } from "../manages/chatManages";
+  import { createEventDispatcher, onMount } from "svelte";
+  import {
+    showErrorMessage,
+    showSuccessMessage,
+  } from "../stores/globalParamentStores";
   const dispatch = createEventDispatcher();
+  let isReady = false;
   let conversationsHistory = {
     today: [],
     yesterday: [],
     aweekAgo: [],
     amonthAgo: [],
   };
-  // 模拟历史聊天记录
-  let history = [
-    {
-      date: "2024-11-18",
-      chats: [
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-        { id: "1", title: "Chat 1" },
-        { id: "2", title: "Chat 2" },
-      ],
-    },
-    { date: "2024-11-19", chats: [{ id: "3", title: "Chat 3" },{ id: "1", title: "Chat 1" },
-    ] },
-  ];
 
-  // export let onSelectChat;
+  onMount(async () => {
+    userID.set("1733973830");
+    await initlist();
+  });
 
-  function selectChat(chatId: string) {
-    // onSelectChat(chatId);
-    currentChat.set(chatId);
+  async function initlist() {
+    let res = await getChatListData();
+    if (res != 0) {
+      showErrorMessage(res);
+      return;
+    }
+  }
+
+  function selectChat(chatId: number) {
+
     dispatch("selectChat", { text: chatId });
   }
 
@@ -68,11 +47,9 @@
     const clientHeight = event.target.clientHeight;
     const scrollHeight = event.target.scrollHeight;
     const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
-    if(scrollPercentage>90){
+    if (scrollPercentage > 90) {
       //加载剩余的数据
-      
     }
-
   }
 </script>
 
@@ -174,31 +151,30 @@
         <div
           class="flex flex-col gap-2 text-token-text-primary text-sm false mt-2 pb-2"
         >
-          {#each history as { date, chats }}
+          <!--日期循环开始-->
             <div class="relative mt-2 first:mt-0 last:mb-3">
               <div class="sticky top-0 z-20 bg-gray-100">
                 <span class="flex h-9 items-center">
                   <h3
                     class="px-2 text-xs font-semibold text-ellipsis overflow-hidden break-all pt-3 pb-2 text-token-text-primary"
                   >
-                    {date}
                   </h3>
                 </span>
               </div>
               <ol>
-                {#each chats as chat}
+                  {#each $chat_list as chat}
                   <li class="relative">
                     <div
                       class="no-draggable group relative rounded-lg active:opacity-90 hover:bg-themegreyhover cursor-pointer"
                     >
                       <span
-                        on:click={() => selectChat(chat.id)}
+                        on:click={()=>{selectChat(chat.cid)}}
                         class="flex items-center gap-2 p-2"
                       >
                         <div
                           class="relative grow overflow-hidden whitespace-nowrap"
                         >
-                          {chat.title}
+                          {chat.name}
                           <div
                             class="absolute bottom-0 top-0 to-transparent right-0 bg-gradient-to-l w-10 from-60%"
                           ></div>
@@ -231,10 +207,12 @@
                       </div>
                     </div>
                   </li>
-                {/each}
+
+                  {/each}
               </ol>
             </div>
-          {/each}
+          <!--日期循环结束-->
+
         </div>
       </div>
     </nav>
@@ -242,5 +220,4 @@
 </aside>
 
 <style>
-
 </style>

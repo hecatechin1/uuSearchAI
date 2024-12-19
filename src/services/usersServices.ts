@@ -106,6 +106,7 @@ export async function setPassword(email: string, password: string) {
   try {
     let res = await createTimeOutFetch()(`https://api.uugpt.com/user/signup?email=${email}&password=${password}`);
     if (res.ok) {
+      console.log(res);
       const data = await res.json();
       console.log(data);
       return data;
@@ -122,7 +123,9 @@ export async function login(email: string, password: string) {
   try {
     let res = await createTimeOutFetch()(`https://api.uugpt.com/user/login?email=${email}&password=${password}`);
     if (res.ok) {
+      console.log(res);
       const data = await res.json();
+      console.log(data);
       return data;
     } else {
       return 1;

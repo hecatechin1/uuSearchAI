@@ -38,9 +38,7 @@ export function createTimeOutFetch(timeout = 60 * 1000) {
     options = options || {};
     options.signal = controller.signal;
     setTimeout(() => {
-      console.log("请求超时");
       controller.abort();
-      console.log("请求关闭");
     }, timeout);
     return fetch(resource, options)
   }

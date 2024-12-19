@@ -31,3 +31,5 @@ emailCodeID.subscribe((value)=>{
         emailCodeID.set('');
     },5*60*1000);
 });
+//语言
+export const language = writable('');

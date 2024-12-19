@@ -65,8 +65,9 @@
     // if(isResetPassword){
     //   changeStatus(status_resetPassword);
     // }
-    email = "test@test.com";
-    changeStatus(status_resetPassword);
+    email = "test2@test.com";
+    forgotPassword = true;
+    changeStatus(status_email);
   });
   //验证邮箱
   async function handleEmailSubmit() {
@@ -82,8 +83,9 @@
     }
     isWaitting = true;
     let res = await checkUserEmail(email);
-    // isWaitting = false;
-    if (res == 1) {
+    isWaitting = false;
+    if (res === 1) {
+      console.log(res);
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }

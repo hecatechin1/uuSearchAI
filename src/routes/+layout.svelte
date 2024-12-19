@@ -6,6 +6,7 @@
   import { waitLocale } from "svelte-i18n";
   import{showError,showSuccess,message} from "../stores/globalParamentStores"
   import {getUserInfo} from '../manages/userinfoManages';
+  import { userID } from "../stores/userStores";
   import { fly } from 'svelte/transition';
   let loading = true;
 
@@ -27,6 +28,7 @@
   });
 
   onMount(async () => {
+    userID.set("1733973830");
     getUserInfo();
     await initializeI18n();
     await waitLocale();

@@ -23,7 +23,7 @@
   };
 
   onMount(async () => {
-    userID.set("1733973830");
+
     await initlist();
   });
 
@@ -37,8 +37,10 @@
 
   function selectChat(chatId: number) {
     // 点击聊天项时，更新当前聊天项的 ID
+    localStorage.setItem('current_chat_id',chatId);
     current_chat_id.set(chatId);
     dispatch("selectChat", { selected: chatId });
+
   }
 
   function handleScroll(event: any) {
@@ -49,6 +51,10 @@
     if (scrollPercentage > 90) {
       //加载剩余的数据
     }
+  }
+
+  function createNewChat(){
+    current_chat_id.set(0);
   }
 </script>
 
@@ -119,6 +125,7 @@
           </span>
           <span class="flex">
             <button
+            on:click={createNewChat}
               aria-label={$t("app.newChat")}
               data-tooltip={$t("app.newChat")}
               class="max-md:hidden h-10 rounded-lg px-2 text-themegreen focus-visible:outline-0 disabled:text-token-text-quaternary focus-visible:bg-themegreyhover enabled:hover:bg-themegreyhover"

@@ -17,11 +17,11 @@
     isStreaming,
   } from "../stores/stores";
   import { current_chat, current_chat_id } from "../stores/chatStores";
-  import { getMessagesListData } from "../manages/chatManages";
+  import { getMessagesListData,getMessage } from "../manages/chatManages";
   import { showErrorMessage } from "../stores/globalParamentStores";
   export let selectedChatId: string;
-  export let ai = "GPT";
-  export let model = "4o-mini";
+  export let ai = "openai";
+  export let model = "gpt-4o-mini";
 
   let dispatch = createEventDispatcher();
   let isLoading = true;
@@ -52,16 +52,20 @@
 
   onMount(async () => {
     current_chat_id.subscribe(async (value) => {
-      if(value == 0) return;
-      isLoading = true;
-      let data: any = await getMessagesListData();
-      if (data != 0) {
-        showErrorMessage(data);
-        return;
+      if (value != 0) {
+        isLoading = true;
+        let data: any = await getMessagesListData();
+        if (data != 0) {
+          showErrorMessage(data);
+          return;
+        }
+      } else {
+        current_chat.set([]);
       }
       isLoading = false;
     });
-    current_chat_id.set(1733978585512);
+
+    current_chat_id.set(localStorage.getItem("current_chat_id") || 0);
   });
 
   function autoExpand(event: any) {
@@ -80,6 +84,7 @@
       event.target.scrollTop = event.target.scrollHeight;
     }
   }
+
   function handleInput(event: any) {
     autoExpand(event); // 扩展 textarea 的高度
   }
@@ -113,7 +118,12 @@
     }
   }
 
-  function processMessage() {}
+  async function processMessage() {
+    let chats = get(current_chat);
+
+    console.log(chats);
+    await getMessage(chats[chats.length-1].mid,input,ai,model);
+  }
 
   function showModelSelector(event: CustomEvent) {
     dispatch("show-selector", event.detail);
@@ -135,7 +145,7 @@
         <div class="flex grow max-w-full px-2">
           <div class="w-full">
             {#each $current_chat as message, i}
-              <ChatMessage message ={message.message} index={i} />
+              <ChatMessage message={message.message} index={i} />
             {/each}
             <div class="tailblock h-10 w-full"></div>
           </div>

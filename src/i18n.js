@@ -1,7 +1,7 @@
 // src/i18n.js
 
 import { init, getLocaleFromNavigator, register, locale } from 'svelte-i18n';
-import { onMount } from 'svelte';
+import {language} from "./stores/userStores";
 
 // 注册多语言文件
 register('en', () => import('./locales/en.json'));
@@ -29,6 +29,8 @@ register('vi', () => import('./locales/vi.json'));
 const initializeI18n = async () => {
 
   const initialLocale = localStorage.getItem("locale") || getLocaleFromNavigator().split('-')[0] || "en";
+  language.set(initialLocale);
+  // console.log(get(language))
   init({
     fallbackLocale: initialLocale,
     initialLocale: initialLocale

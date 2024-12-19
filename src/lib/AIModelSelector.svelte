@@ -13,34 +13,37 @@
   let models = [
     {
       ai: "openai",
-      aiName: "gpt",
+      aiName: "GPT",
+      img: GPTIcon,
       models: [
-        { name: "gpt-4o", price: "" },
-        { name: "gpt-4o-mini", price: "免费" },
-        { name: "gpt-4-turbo", price: "" },
-        { name: "gpt-4", price: "" },
-        { name: "gpt-3.5-turbo", price: "" },
+        { model: "gpt-4o", name:"4o", price: "" },
+        { model: "gpt-4o-mini", name:"4o-mini", price: "免费" },
+        { model: "gpt-4-turbo", name:"4-turbo", price: "" },
+        { model: "gpt-4", name:"4", price: "" },
+        { model: "gpt-3.5-turbo", name:"3.5-turbo",price: "" },
       ],
     },
     {
       ai: "anthropic",
-      aiName: "claude",
+      aiName: "Claude",
+      img: ClaudeIcon,
       models: [
-        { name: "claude-3-5-sonnet-20241022", price: "" },
-        { name: "claude-3-5-haiku-20241022", price: "" },
-        { name: "claude-3-opus-20240229", price: "" },
-        { name: "claude-3-sonnet-20240229", price: "" },
-        { name: "claude-3-haiku-20240307", price: "" },
+        { model: "claude-3-5-sonnet-20241022", name:"3.5 sonnet",price: "" },
+        { model: "claude-3-5-haiku-20241022", name:"3.5 haiku",price: "" },
+        { model: "claude-3-opus-20240229", name:"3 opus",price: "" },
+        { model: "claude-3-sonnet-20240229", name:"3 sonnet",price: "" },
+        { model: "claude-3-haiku-20240307", name:"3 haiku",price: "" },
       ],
     },
     {
       ai: "google",
-      aiName: "gemini",
+      aiName: "Gemini",
+      img: GeminiIcon,
       models: [
-        { name: "models/gemini-1-0-pro", price: "" },
-        { name: "models/gemini-1-0-pro-vision", price: "" },
-        { name: "models/gemini-1-5-flash", price: "" },
-        { name: "models/gemini-1-5-pro", price: "" },
+        { model: "models/gemini-1-0-pro",name:"1.0 pro", price: "" },
+        { model: "models/gemini-1-0-pro-vision",name:"1.0 pro vision", price: "" },
+        { model: "models/gemini-1-5-flash",name:"1.5 flash", price: "" },
+        { model: "models/gemini-1-5-pro", name:"1.5 pro",price: "" },
       ],
     },
   ];
@@ -110,7 +113,7 @@
                   class="flex justify-between items-center px-4 py-2 w-full text-left hover:bg-gray-100"
                 >
                   <div class="flex items-center space-x-2">
-                    <span>{name}</span>
+                    <span>{aiName} {name}</span>
                   </div>
                   <span class="text-sm text-gray-500">{price}</span>
                 </button>

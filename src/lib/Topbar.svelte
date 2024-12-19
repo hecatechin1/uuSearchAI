@@ -11,7 +11,7 @@
 </script>
 
 <div
-  class="draggable sticky top-0 z-10 flex min-h-[44px] items-center justify-center border-transparent bg-gray-100 pl-0 md:hidden"
+  class="draggable sticky top-0 z-10 flex min-h-[44px] items-center justify-center border-transparent bg-white pl-0 md:hidden"
 >
   <div
     class="no-draggable absolute bottom-0 left-0 top-0 ml-3 inline-flex items-center justify-center"

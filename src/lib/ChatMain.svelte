@@ -7,7 +7,8 @@
   import { get, writable } from "svelte/store";
   import DeleteIcon from "../assets/delete.svg";
   import SendDisabledIcon from "../assets/send-disable.svg";
-  import SendIcon from "../assets/send.svg";
+  import SendHoverIcon from "../assets/sendmessage-hover.svg";
+  import SendIcon from "../assets/sendmessage-default.svg";
   import WaitIcon from "../assets/wait.svg";
   import { closeStream } from "../services/uuAIServices";
   import {
@@ -134,32 +135,37 @@
   <h1>加载中</h1>
 {:else}
   <div
-    class="relative h-full w-full flex-1 overflow-auto transition-width overflow-hidden"
+    class="relative h-full w-full flex-1 transition-width overflow-hidden max-w-full flex-col max-md:h-[calc(100%-44px)]"
   >
-    <TopbarChat on:show-selector={showModelSelector} />
-    <div
-      class="composer-parent flex h-full flex-col focus-visible:outline-0 bg-gray-50"
-    >
-      <div class="flex-1 overflow-hidden"><p>{selectedChatId}</p></div>
-      {#if $current_chat.length > 0}
-        <div class="flex grow max-w-full px-2">
-          <div class="w-full">
-            {#each $current_chat as message, i}
-              <ChatMessage message={message.message} index={i} />
-            {/each}
-            <div class="tailblock h-10 w-full"></div>
+    
+    <div class="composer-parent flex h-full flex-col focus-visible:outline-0 bg-white">
+      <div class="flex-1 overflow-hidden">
+        <div class="h-full">
+          <div class="relative h-full">
+            <div class="h-full w-full overflow-y-auto">
+              <div class="flex flex-col text-sm pb-[82px]">
+                <TopbarChat on:show-selector={showModelSelector} />
+                {#if $current_chat.length > 0}
+                  {#each $current_chat as message, i}
+                    <ChatMessage message={message.message} index={i} />
+                  {/each}
+                  <div class="tailblock h-10 w-full"></div>
+                {:else}
+                  <div class="flex justify-center items-center pt-20">
+                    <p>
+                      {$t("app.noConversation", {
+                        default: "No coversation now, you can ask AI anything.",
+                      })}
+                    </p>
+                  </div>
+                {/if}
+              </div>
+            </div>
           </div>
         </div>
-      {:else}
-        <div class="flex justify-center items-center h-full">
-          <p>
-            {$t("app.noConversation", {
-              default: "No coversation now, you can ask AI anything.",
-            })}
-          </p>
-        </div>
-      {/if}
+      </div>
 
+      <!-- 聊天输入框 -->
       <div
         class="md:pt-0 md:border-transparent md:dark:border-transparent w-full mb-2"
       >
@@ -169,7 +175,7 @@
           <div
             class="mx-auto flex flex-1 gap-2 text-base md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] flex-col items-center"
           >
-            <div class="inputbox-tools w-full px-2 flex mt-1">
+            <div class="inputbox-tools w-full px-2 flex mt-1 hidden">
               <!-- 清除当前聊天中所有message，仅在framed页面中显示 -->
               <button
                 on:click={clearMessages}
@@ -240,7 +246,7 @@
               </button>
             </div>
             <div
-              class="inputbox-container w-full px-3 flex justify-center items-center bg-[#f4f4f4]"
+              class="inputbox-container w-full px-3 flex justify-center items-center bg-gray-100"
             >
               <div
                 class="inputbox w-full flex items-end mt-auto mx-auto py-[0.5rem] relative"
@@ -296,6 +302,9 @@
           </div>
         </div>
       </div>
+      
+
+      
     </div>
   </div>
 {/if}

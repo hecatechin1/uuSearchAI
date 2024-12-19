@@ -10,6 +10,7 @@
     import {waitLocale} from "svelte-i18n";
     import AiModelSelector from "$lib/AIModelSelector.svelte";
 
+
     // 状态管理
     let selectedChatId = "1";
     let isReady = false;
@@ -34,7 +35,7 @@
     }
   </script>
     {#if isReady}
-    <div class="flex h-screen overflow-hidden">
+    <div class="relative flex h-full overflow-hidden">
         <!-- 侧边栏 -->
         <SiderBar on:selectChat={changeChat} />
         <!-- 聊天主界面 -->
@@ -50,5 +51,7 @@
     {/if}
 
   <style>
-
+     :global(html, body) {
+      height: 100%;
+    }
   </style>

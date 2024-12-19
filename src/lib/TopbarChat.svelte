@@ -8,6 +8,8 @@
   export let ai = "GPT";
   export let model = "4o mini";
   export let showSidebar = false;
+
+  let isLogedin = false;
   let showModelSelectorbtn:HTMLElement;
   let dispatch = createEventDispatcher();
   let showTopbarModelMenu = true;
@@ -20,7 +22,7 @@
 </script>
 
 <div
-  class="draggable no-draggable-children sticky min-h-[44px] top-0 p-2 mb-1.5 flex items-center justify-between z-10 h-header-height font-semibold bg-gray-100 max-md:hidden"
+  class="draggable no-draggable-children sticky min-h-[44px] top-0 p-2 mb-1.5 flex items-center justify-between z-10 h-header-height font-semibold bg-white max-md:hidden"
 >
   <div class="absolute start-1/2 -translate-x-1/2"></div>
   <div class="flex items-center gap-0 overflow-hidden">
@@ -100,7 +102,9 @@
     </button>
       
   </div>
+  {#if isLogedin}
   <div class="gap-2 flex items-center pr-1 leading-[0]">
+    
     <button
       aria-label={$t("app.openPersonalMenu", { default: "Open Profile menu" })}
       data-testid="profile-button"
@@ -121,6 +125,11 @@
       </div></button
     >
   </div>
+  {:else}
+    <div class="flex items-center">
+    <button class="submit-edit rounded-lg px-3 py-1 text-white bg-themegreen hover:bg-themegreenhover hover:text-white h-5}">{$t("login.login")}</button>
+  </div>
+  {/if}
 </div>
 <div
   class="no-draggable flex w-full items-center justify-center bg-token-main-surface-primary md:hidden"

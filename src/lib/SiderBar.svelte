@@ -13,6 +13,12 @@
     showErrorMessage,
     showSuccessMessage,
   } from "../stores/globalParamentStores";
+
+  let showSidebar = true;
+  let showSidebarMd = false;
+  $: hiddenClass = showSidebar ? "" : "hidden";
+  $: mdHiddenClass = showSidebarMd ? "" : "max-md:hidden";
+
   const dispatch = createEventDispatcher();
   let isReady = false;
   let conversationsHistory = {
@@ -23,7 +29,6 @@
   };
 
   onMount(async () => {
-
     await initlist();
   });
 
@@ -37,10 +42,9 @@
 
   function selectChat(chatId: number) {
     // 点击聊天项时，更新当前聊天项的 ID
-    localStorage.setItem('current_chat_id',chatId);
+    localStorage.setItem("current_chat_id", chatId);
     current_chat_id.set(chatId);
     dispatch("selectChat", { selected: chatId });
-
   }
 
   function handleScroll(event: any) {
@@ -53,13 +57,13 @@
     }
   }
 
-  function createNewChat(){
+  function createNewChat() {
     current_chat_id.set(0);
   }
 </script>
 
 <aside
-  class="z-[21] flex shrink-0 overflow-x-hidden max-md:!w-0 w-64 flex-col h-full bg-gray-100"
+  class="z-[21] flex-shrink-0 overflow-x-hidden max-md:!fixed max-md:left-0 max-md:top-0 max-md:!z-50 max-md:border-r flex-col h-full bg-gray-100 {hiddenClass} {mdHiddenClass}"
 >
   <div
     class="draggable relative h-full w-full flex-1 items-start border-white/20"
@@ -81,7 +85,7 @@
           <button
             aria-label={$t("app.closeSidebar")}
             data-testid="close-sidebar-button"
-            class="h-10 rounded-lg px-2 text-themegreen focus-visible:outline-0 disabled:text-token-text-quaternary focus-visible:bg-themegreyhover enabled:hover:bg-themegreyhover no-draggable"
+            class="max-md:hidden h-10 rounded-lg px-2 text-themegreen focus-visible:outline-0 disabled:text-token-text-quaternary focus-visible:bg-themegreyhover enabled:hover:bg-themegreyhover no-draggable"
           >
             <svg
               width="24"
@@ -89,7 +93,7 @@
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              class="icon-xl-heavy max-md:hidden"
+              class="icon-xl-heavy"
               ><path
                 fill-rule="evenodd"
                 clip-rule="evenodd"
@@ -98,12 +102,33 @@
               ></path></svg
             >
           </button>
+
+          <!-- 这个是移动端边栏开关按钮 -->
+          <button
+            type="button"
+            class="inline-flex rounded-md hover:bg-gray-200 focus:bg-gray-200 active:opacity-50 py-1.5 md:hidden"
+            data-testid="open-sidebar-button"
+            ><span class="sr-only">显示边栏</span><svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon-lg mx-2 text-themegreen"
+              ><path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M3 8C3 7.44772 3.44772 7 4 7H20C20.5523 7 21 7.44772 21 8C21 8.55228 20.5523 9 20 9H4C3.44772 9 3 8.55228 3 8ZM3 16C3 15.4477 3.44772 15 4 15H14C14.5523 15 15 15.4477 15 16C15 16.5523 14.5523 17 14 17H4C3.44772 17 3 16.5523 3 16Z"
+                fill="currentColor"
+              ></path></svg
+            ></button
+          >
         </span>
         <div class="flex">
           <span class="flex">
             <button
               aria-label="Ctrl K"
-              class="max-md:hidden h-10 rounded-lg px-2 text-themegreen focus-visible:outline-0 disabled:text-token-text-quaternary focus-visible:bg-themegreyhover enabled:hover:bg-themegreyhover"
+              class="h-10 rounded-lg px-2 text-themegreen focus-visible:outline-0 disabled:text-token-text-quaternary focus-visible:bg-themegreyhover enabled:hover:bg-themegreyhover"
               data-testid="search-button"
               type="button"
             >
@@ -125,10 +150,10 @@
           </span>
           <span class="flex">
             <button
-            on:click={createNewChat}
+              on:click={createNewChat}
               aria-label={$t("app.newChat")}
               data-tooltip={$t("app.newChat")}
-              class="max-md:hidden h-10 rounded-lg px-2 text-themegreen focus-visible:outline-0 disabled:text-token-text-quaternary focus-visible:bg-themegreyhover enabled:hover:bg-themegreyhover"
+              class="h-10 rounded-lg px-2 text-themegreen focus-visible:outline-0 disabled:text-token-text-quaternary focus-visible:bg-themegreyhover enabled:hover:bg-themegreyhover"
               data-testid="clear-search-button"
               type="button"
             >
@@ -158,67 +183,110 @@
           class="flex flex-col gap-2 text-token-text-primary text-sm false mt-2 pb-2"
         >
           <!--日期循环开始-->
-            <div class="relative mt-2 first:mt-0 last:mb-3">
-              <div class="sticky top-0 z-20 bg-gray-100">
-                <span class="flex h-9 items-center">
-                  <h3
-                    class="px-2 text-xs font-semibold text-ellipsis overflow-hidden break-all pt-3 pb-2 text-token-text-primary"
-                  >
-                  </h3>
-                </span>
-              </div>
-              <ol>
-                  {#each $chat_list as chat}
-                  <li class="relative">
-                    <div
-                      class="no-draggable group relative rounded-lg active:opacity-90 hover:bg-themegreyhover cursor-pointer"
-                    >
-                      <span
-                        on:click={()=>{selectChat(chat.cid)}}
-                        class="flex items-center gap-2 p-2"
-                      >
-                        <div
-                          class="relative grow overflow-hidden whitespace-nowrap"
-                        >
-                          {chat.name}
-                          <div
-                            class="absolute bottom-0 top-0 to-transparent right-0 bg-gradient-to-l w-10 from-60%"
-                          ></div>
-                        </div>
-                      </span>
-                      <div
-                        class="absolute bottom-0 top-0 items-center gap-1.5 pr-2 right-0 flex hidden group-hover:flex"
-                      >
-                        <span>
-                          <button
-                            class="btn-custom w-8 flex items-center justify-center text-themegrey transition hover:bg-themegreyhover2 radix-state-open:text-themegrey"
-                            data-tooltip={$t("app.options")}
-                          >
-                            <svg
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="icon-md"
-                              ><path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M3 12C3 10.8954 3.89543 10 5 10C6.10457 10 7 10.8954 7 12C7 13.1046 6.10457 14 5 14C3.89543 14 3 13.1046 3 12ZM10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12ZM17 12C17 10.8954 17.8954 10 19 10C20.1046 10 21 10.8954 21 12C21 13.1046 20.1046 14 19 14C17.8954 14 17 13.1046 17 12Z"
-                                fill="currentColor"
-                              ></path></svg
-                            >
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                  </li>
-
-                  {/each}
-              </ol>
+          <div class="relative mt-2 first:mt-0 last:mb-3">
+            <div class="sticky top-0 z-20 bg-gray-100">
+              <span class="flex h-9 items-center">
+                <h3
+                  class="px-2 text-xs font-semibold text-ellipsis overflow-hidden break-all pt-3 pb-2 text-token-text-primary"
+                ></h3>
+              </span>
             </div>
+            <ol>
+              {#each $chat_list as chat}
+                <li class="relative">
+                  <div
+                    class="no-draggable group relative rounded-lg active:opacity-90 hover:bg-themegreyhover cursor-pointer"
+                  >
+                    <span
+                      on:click={() => {
+                        selectChat(chat.cid);
+                      }}
+                      class="flex items-center gap-2 p-2"
+                    >
+                      <div
+                        class="relative grow overflow-hidden whitespace-nowrap"
+                      >
+                        {chat.name}
+                        <div
+                          class="absolute bottom-0 top-0 to-transparent right-0 bg-gradient-to-l w-10 from-60%"
+                        ></div>
+                      </div>
+                    </span>
+                    <div
+                      class="absolute bottom-0 top-0 items-center gap-1.5 pr-2 right-0 flex hidden group-hover:flex"
+                    >
+                      <span>
+                        <button
+                          class="btn-custom w-8 flex items-center justify-center text-themegrey transition hover:bg-themegreyhover2 radix-state-open:text-themegrey"
+                          data-tooltip={$t("app.options")}
+                        >
+                          <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="icon-md"
+                            ><path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M3 12C3 10.8954 3.89543 10 5 10C6.10457 10 7 10.8954 7 12C7 13.1046 6.10457 14 5 14C3.89543 14 3 13.1046 3 12ZM10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12ZM17 12C17 10.8954 17.8954 10 19 10C20.1046 10 21 10.8954 21 12C21 13.1046 20.1046 14 19 14C17.8954 14 17 13.1046 17 12Z"
+                              fill="currentColor"
+                            ></path></svg
+                          >
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                </li>
+              {/each}
+            </ol>
+          </div>
           <!--日期循环结束-->
+        </div>
+      </div>
 
+      <!-- 移动端账号数据显示位置 -->
+      <div class="flex flex-col py-2 empty:hidden min-md:hidden">
+        
+        <div class="flex w-full items-center md:hidden">
+          <div class="max-w-[100%] grow">
+            <div class="group relative" data-headlessui-state="">
+              <button
+                class="flex w-full max-w-[100%] items-center gap-2 rounded-lg text-sm group-ui-open:bg-token-sidebar-surface-secondary p-2 hover:bg-token-sidebar-surface-secondary"
+                data-testid="accounts-profile-button"
+                id="headlessui-menu-button-:rsr:"
+                type="button"
+                aria-haspopup="menu"
+                aria-expanded="false"
+                data-headlessui-state=""
+                ><div
+                  class="flex-shrink-0"
+                  style="view-transition-name: var(--vt-profile-avatar-sidebar);"
+                >
+                  <div
+                    class="flex items-center justify-center overflow-hidden rounded-full"
+                  >
+                    <div class="relative flex">
+                      <img
+                        alt="User"
+                        width="32"
+                        height="32"
+                        class="rounded-sm"
+                        referrerpolicy="no-referrer"
+                        src="https://s.gravatar.com/avatar/33b95e272c6a5a272408023c428cb3ab?s=480&amp;r=pg&amp;d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fry.png"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative -top-px grow -space-y-px truncate text-start text-token-text-primary"
+                >
+                  <div dir="auto">Ray</div>
+                </div></button
+              >
+            </div>
+          </div>
         </div>
       </div>
     </nav>

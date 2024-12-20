@@ -1,14 +1,12 @@
 <script lang="ts">
   export let message;
   export let index;
-
   import { t } from "svelte-i18n"; // 导入本地化方法
   import SvelteMarkdown from "svelte-markdown"; //导入svelte-markdown
   import { isStreaming } from "../stores/globalParamentStores";
   //导入渲染器
   import CodeRenderer from "../renderers/Code.svelte";
   import LinkRenderer from "../renderers/LinkRenderer.svelte";
-  import Devideline from "../renderers/Devideline.svelte";
   import UserCodeRenderer from "../renderers/userCode.svelte";
   import EmRenderer from "../renderers/Em.svelte";
   import ListRenderer from "../renderers/ListRenderer.svelte";
@@ -20,18 +18,10 @@
   //导入所需图标
   import CopyIcon from "../assets/copy.svg";
   import RetryIcon from "../assets/retry.svg";
-  import UserIcon from "../assets/UserIcon.svg";
   import RobotIcon from "../assets/aianswer-avtar.svg";
-  import MoreIcon from "../assets/moreactions.svg";
   import EditIcon from "../assets/edit.svg";
-  import LikeIcon from "../assets/helpful.svg";
-  import DislikeIcon from "../assets/unhelpful.svg";
-  import LikeActiveIcon from "../assets/helpful-checked.svg";
-  import DislikeActiveIcon from "../assets/unhelpful-checked.svg";
   import DeleteIcon from "../assets/delete.svg";
   import gptIcon from "../assets/gpt.svg";
-  import geminiIcon from "../assets/gemini.svg";
-  import claudeIcon from "../assets/claude.svg";
   import toggleIcon from "../assets/toggle.svg";
 
   //导入通用方法
@@ -39,6 +29,8 @@
     copyTextToClipboard,
     formatMessageForMarkdown,
   } from "../utils/generalUtils";
+    import { getMessage } from "../manages/chatManages";
+    import { current_chat } from "../stores/chatStores";
 
   let isShowUserFirstQuery = true; //是否显示用户的第一个问题
   // let isStreaming = false;//是否在进行流式传输
@@ -50,8 +42,14 @@
     //自动展开
   };
 
-  const copyText = (a: string, b: number) => {
+  const copyText = (content: string, index: number) => {
     //复制文本
+    copyTextToClipboard(content.replaceAll('\\n','\n'));
+    let copyelm = document.getElementsByClassName("copyAnime" + index)[0];
+    copyelm.classList.add("small-rotate-animation");
+    setTimeout(() => {
+      copyelm.classList.remove("small-rotate-animation");
+    }, 500);
   };
 
   const likeMessage = () => (message.likes = true);
@@ -67,7 +65,6 @@
     paragraph: ParagraphRenderer,
     html: HtmlRenderer,
     link: LinkRenderer,
-    // hr:Devideline,
   };
 
   const userRenderers = {
@@ -81,10 +78,12 @@
     // 其他自定义的 renderer
   };
   function deleteMessage(index: number) {}
-  function toggleLike(index: number) {}
-  function toggleDislike(index: number) {}
-  function retry(index) {
-    console.log("对话框-换模型", retrybtn.getBoundingClientRect().top);
+  async function retry(index:number) {
+    current_chat.update(v=>{
+      v[index].message.content='';
+      return v;
+    });
+    await getMessage(index-1);
   }
   function cancelEdit() {}
   function submitEdit(index: number) {}

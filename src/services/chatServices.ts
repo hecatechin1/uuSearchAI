@@ -17,10 +17,6 @@ SSE.prototype.resetTimeout = function(){
     },20*1000);
 }
 
-
-
-
-
 //获取conversation列表
 export async function getChatList(){
     try{
@@ -42,7 +38,6 @@ export async function getMessagesList(){
         let response = await createTimeOutFetch()(`https://api.uugpt.com/ai/conv/get?cid=${get(current_chat_id)}`);
         if(response.ok){
             const data = await response.json();
-            console.log(response);
             return data;
         }else{
             return 1;

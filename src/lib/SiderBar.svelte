@@ -7,29 +7,25 @@
     type Conversation,
     current_chat_id,
   } from "../stores/chatStores";
-  import { getChatListData } from "../manages/chatManages";
+  import { closeStream, getChatListData } from "../manages/chatManages";
   import { createEventDispatcher, onMount } from "svelte";
   import {
     showErrorMessage,
     showSuccessMessage,
+    isNewchat,
   } from "../stores/globalParamentStores";
-
-  let showSidebar = true;
-  let showSidebarMd = false;
+  const dispatch = createEventDispatcher();
   $: hiddenClass = showSidebar ? "" : "hidden";
   $: mdHiddenClass = showSidebarMd ? "" : "max-md:hidden";
-
-  const dispatch = createEventDispatcher();
+  let showSidebar = true;
+  let showSidebarMd = false;
   let isReady = false;
-  let conversationsHistory = {
-    today: [],
-    yesterday: [],
-    aweekAgo: [],
-    amonthAgo: [],
-  };
+  let conversationsHistory:any[] = [];
 
   onMount(async () => {
+    isReady = false;
     await initlist();
+    isReady = true;
   });
 
   async function initlist() {
@@ -38,11 +34,16 @@
       showErrorMessage(res);
       return;
     }
+    let list = get(chat_list);
+    console.log(list);
   }
 
-  function selectChat(chatId: number) {
+
+
+  async function selectChat(chatId: number) {
+    closeStream();
     // 点击聊天项时，更新当前聊天项的 ID
-    localStorage.setItem("current_chat_id", chatId);
+    await localStorage.setItem("current_chat_id", chatId);
     current_chat_id.set(chatId);
     dispatch("selectChat", { selected: chatId });
   }
@@ -182,13 +183,73 @@
         <div
           class="flex flex-col gap-2 text-token-text-primary text-sm false mt-2 pb-2"
         >
-          <!--日期循环开始-->
+          <!--日期循环开始 新聊天-->
+          {#if $isNewchat}
           <div class="relative mt-2 first:mt-0 last:mb-3">
             <div class="sticky top-0 z-20 bg-gray-100">
               <span class="flex h-9 items-center">
                 <h3
                   class="px-2 text-xs font-semibold text-ellipsis overflow-hidden break-all pt-3 pb-2 text-token-text-primary"
                 ></h3>
+              </span>
+            </div>
+            <ol>
+              <li class="relative">
+                <div
+                  class="no-draggable group relative rounded-lg active:opacity-90 hover:bg-themegreyhover cursor-pointer"
+                >
+                  <span on:click={() => {}} class="flex items-center gap-2 p-2">
+                    <div
+                      class="relative grow overflow-hidden whitespace-nowrap"
+                    >
+                      新聊天
+                      <div
+                        class="absolute bottom-0 top-0 to-transparent right-0 bg-gradient-to-l w-10 from-60%"
+                      ></div>
+                    </div>
+                  </span>
+                  <div
+                    class="absolute bottom-0 top-0 items-center gap-1.5 pr-2 right-0 flex hidden group-hover:flex"
+                  >
+                    <span>
+                      <button
+                        class="btn-custom w-8 flex items-center justify-center text-themegrey transition hover:bg-themegreyhover2 radix-state-open:text-themegrey"
+                        data-tooltip={$t("app.options")}
+                      >
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="icon-md"
+                          ><path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M3 12C3 10.8954 3.89543 10 5 10C6.10457 10 7 10.8954 7 12C7 13.1046 6.10457 14 5 14C3.89543 14 3 13.1046 3 12ZM10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12ZM17 12C17 10.8954 17.8954 10 19 10C20.1046 10 21 10.8954 21 12C21 13.1046 20.1046 14 19 14C17.8954 14 17 13.1046 17 12Z"
+                            fill="currentColor"
+                          ></path></svg
+                        >
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </li>
+            </ol>
+          </div>
+          {/if}
+          <!--日期循环结束-->
+
+          <!--日期循环开始 今天-->
+
+          <div class="relative mt-2 first:mt-0 last:mb-3">
+            <div class="sticky top-0 z-20 bg-gray-100">
+              <span class="flex h-9 items-center">
+                <h3
+                  class="px-2 text-xs font-semibold text-ellipsis overflow-hidden break-all pt-3 pb-2 text-token-text-primary"
+                >
+                  今天
+                </h3>
               </span>
             </div>
             <ol>
@@ -248,7 +309,6 @@
 
       <!-- 移动端账号数据显示位置 -->
       <div class="flex flex-col py-2 empty:hidden min-md:hidden">
-        
         <div class="flex w-full items-center md:hidden">
           <div class="max-w-[100%] grow">
             <div class="group relative" data-headlessui-state="">

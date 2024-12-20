@@ -43,7 +43,7 @@
         { model: "models/gemini-1-0-pro",name:"1.0 pro", price: "" },
         { model: "models/gemini-1-0-pro-vision",name:"1.0 pro vision", price: "" },
         { model: "models/gemini-1-5-flash",name:"1.5 flash", price: "" },
-        { model: "models/gemini-1-5-pro", name:"1.5 pro",price: "" },
+        { model: "gemini-1.5-pro", name:"1.5 pro",price: "" },
       ],
     },
   ];

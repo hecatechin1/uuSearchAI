@@ -10,19 +10,20 @@
   import SendHoverIcon from "../assets/sendmessage-hover.svg";
   import SendIcon from "../assets/sendmessage-default.svg";
   import WaitIcon from "../assets/wait.svg";
-  import { closeStream } from "../services/uuAIServices";
-  import {
-    settingsVisible,
-    sendKey,
-    lineBreakKey,
-    isStreaming,
-  } from "../stores/stores";
+  // import { closeStream } from "../services/uuAIServices";
+  import { settingsVisible, sendKey, lineBreakKey } from "../stores/stores";
   import { current_chat, current_chat_id } from "../stores/chatStores";
-  import { getMessagesListData,getMessage } from "../manages/chatManages";
-  import { showErrorMessage } from "../stores/globalParamentStores";
+  import { getMessagesListData, getMessage,closeStream } from "../manages/chatManages";
+  import {
+    showErrorMessage,
+    isNewchat,
+    isStreaming,
+  } from "../stores/globalParamentStores";
   export let selectedChatId: string;
-  export let ai = "openai";
-  export let model = "gpt-4o-mini";
+  // export let ai = "openai";
+  // export let model = "gpt-4o-mini";
+  export let ai = "anthropic";
+  export let model = "claude-3-5-haiku-20241022";
 
   let dispatch = createEventDispatcher();
   let isLoading = true;
@@ -65,8 +66,7 @@
       }
       isLoading = false;
     });
-
-    current_chat_id.set(localStorage.getItem("current_chat_id") || 0);
+    current_chat_id.set(Number(localStorage.getItem("current_chat_id") || 0));
   });
 
   function autoExpand(event: any) {
@@ -120,10 +120,35 @@
   }
 
   async function processMessage() {
-    let chats = get(current_chat);
-
-    console.log(chats);
-    await getMessage(chats[chats.length-1].mid,input,ai,model);
+    current_chat.update(v=>{
+        v.push({
+            'message':{
+                'role':'user',
+                'content':input
+            },
+            'cid':get(current_chat_id),
+            'pid':v[v.length-1].mid,
+            "mid":0,
+            'tm':0,
+            'ai':ai,
+            'model':model
+        });
+        v.push({
+            'message':{
+                'role':'assistant',
+                'content':'',
+            },
+            'cid':get(current_chat_id),
+            'pid':0,
+            "mid":0,
+            'tm':0,
+            'ai':ai,
+            'model':model
+        });
+        return v;
+    });
+    input = "";
+    await getMessage(get(current_chat).length-2);
   }
 
   function showModelSelector(event: CustomEvent) {
@@ -137,8 +162,9 @@
   <div
     class="relative h-full w-full flex-1 transition-width overflow-hidden max-w-full flex-col max-md:h-[calc(100%-44px)]"
   >
-    
-    <div class="composer-parent flex h-full flex-col focus-visible:outline-0 bg-white">
+    <div
+      class="composer-parent flex h-full flex-col focus-visible:outline-0 bg-white"
+    >
       <div class="flex-1 overflow-hidden">
         <div class="h-full">
           <div class="relative h-full">
@@ -302,9 +328,6 @@
           </div>
         </div>
       </div>
-      
-
-      
     </div>
   </div>
 {/if}

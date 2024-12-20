@@ -2,6 +2,8 @@ import { type Writable, writable } from "svelte/store";
 export interface Conversation{
     'cid':number;
     'name':string;
+    'tm':number;
+    'daydiff':number,
 }
 export interface Message{
     'message':{
@@ -12,6 +14,8 @@ export interface Message{
     'pid':number;
     "mid":number;
     'tm':number;
+    'ai':string;
+    'model':string;
 }
 
 //会话列表

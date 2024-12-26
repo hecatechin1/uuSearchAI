@@ -1,7 +1,7 @@
-import {getChatList,getMessagesList,sendMessage} from "../services/chatServices";
-import {chat_list,current_chat,current_chat_id,current_message} from "../stores/chatStores";
+import {getChatList,getMessagesList,sendMessage,deleteChat,updateChatInfo} from "../services/chatServices";
+import {chat_list,current_chat,current_chat_id,current_message,current_chat_ai,current_chat_model,models} from "../stores/chatStores";
 import {userID,language} from "../stores/userStores"
-import {isStreaming} from "../stores/globalParamentStores"
+import {isNewchat, isStreaming} from "../stores/globalParamentStores"
 import { get } from 'svelte/store';
 
 let sse_source:any = null;
@@ -13,7 +13,6 @@ export function closeStream(){
     }
     isStreaming.set(false);
 }
-
 
 export async function getChatListData() {
     let data = await getChatList();
@@ -38,6 +37,8 @@ export async function getChatListData() {
             name:c.name,
             tm:c.tm,
             daydiff:dayDiff,
+            ai:c.ai,
+            model:c.model
         });
     }
     chat_list.set(clist);
@@ -45,7 +46,8 @@ export async function getChatListData() {
 }
 
 export async function getMessagesListData() {
-    let data = await getMessagesList();
+    let cid= get(current_chat_id);
+    let data = await getMessagesList(cid);
     if (data == 1) {
         return 1;
     }
@@ -65,24 +67,55 @@ export async function getMessagesListData() {
             'pid':m.pid,
             "mid":m.mid,
             'tm':m.tm,
+            'ai':m.ai,
+           'model':m.model
         });
     }
-    current_chat.set(mlist);
+    //防止操作过快current_chat更新频繁，导致点击的和显示消息不一致
+    if(cid=get(current_chat_id)){
+        current_chat.set(mlist);
+    }
     return 0;
 }
 
 //传入user_msg的index,用index从current_chat中获取msg等参数，然后改变index+1的数据，
 //这样可以同时完成retry和send两个功能
 // export async function getMessage(pid:number,msg:string,ai:string,model:string){
-export async function getMessage(index:number){
-    let  chat = get(current_chat)[index];
-    let msg = chat.message.content;
-    let pid = chat.pid;
-    let ai = chat.ai;
-    let model = chat.model;
+export async function getMessage(msg:string,ai:string,model:string){
     current_message.set("");
     isStreaming.set(true);
     closeStream();
+    let pid = 0;
+    current_chat.update(value=>{
+        if(value.length >= 2){
+            pid = value[value.length-1].mid || 0;
+        }
+        value.push({
+            'message':{
+                'role':'user',
+                'content':msg
+            },
+            'cid':0,
+            'pid':0,
+            "mid":0,
+            'tm':0,
+            'ai':ai,
+            'model':model
+        });
+        value.push({
+            'message':{
+                'role':'assistant',
+                'content':'',
+            },
+            'cid':0,
+            'pid':0,
+            "mid":0,
+            'tm':0,
+            'ai':ai,
+            'model':model
+        });
+        return value;
+    });
     sse_source = await sendMessage(msg,pid,ai,model);
     sse_source.addEventListener("message",(e:any)=>{
         sse_source.resetTimeout();
@@ -90,20 +123,29 @@ export async function getMessage(index:number){
         let msg_info = checkMessageEnd(data);
         if(msg_info){
             current_chat.update(v=>{
-                //修改用户消息的messageid
-                v[index].mid = msg_info.pid;
-                v[index].tm = msg_info.tm;
-                v[index+1].tm=msg_info.tm;
-                v[index+1].message.content = get(current_message);
-                v[index+1].mid = msg_info.mid;
-                v[index+1].pid = msg_info.pid;
+                //因为用户发送msg的msgid只能在sse结束后获取，所以在此处修改用户消息的msgid
+                v[v.length-2].mid = msg_info.pid;
+                v[v.length-2].cid = msg_info.cid;
+                v[v.length-2].pid = get(isNewchat) ? 0: v[v.length-3].mid;
+                v[v.length-2].tm = msg_info.tm;
+                v[v.length-1].tm=msg_info.tm;
+                v[v.length-1].cid=msg_info.cid;
+                v[v.length-1].message.content = get(current_message);
+                v[v.length-1].mid = msg_info.mid;
+                v[v.length-1].pid = msg_info.pid;
                  return v
                 });
             isStreaming.set(false);
+            if(get(isNewchat)){
+                current_chat_id.set(msg_info.cid);
+                setTimeout(()=>{
+                    isNewchat.set(false);//24-12-25  服务器的列表更新有点延迟，列表更新请求延迟一下
+                },3*1000);
+            }
         }else{
             current_message.update(v=>{return v+data});
             current_chat.update(v=>{
-                v[index+1].message.content = get(current_message);
+                v[v.length-1].message.content = get(current_message);
                 return v;
             });
         }
@@ -112,8 +154,6 @@ export async function getMessage(index:number){
         closeStream();
     });
 }
-
-
 
 //用于检查消息是否结束，结束返回mid,cid 未结束返回消息本身
 function checkMessageEnd(msg:string){
@@ -128,4 +168,59 @@ function checkMessageEnd(msg:string){
         }
     }
     return false;
+}
+
+export async function deleteChatData(index:number){
+    let cid = get(chat_list)[index].cid;
+    let data = await deleteChat(cid);
+    if(data==1){
+        return 1;
+    }
+    if(data.code!=0){
+        return data.code;
+    }
+    if(cid==get(current_chat_id)){
+        createNewChat();
+    }
+    chat_list.update(v=>{
+        v.splice(index,1);
+        return v;
+    });
+    return 0;
+}
+
+export async function createNewChat(){
+    closeStream();
+    current_chat.set([]);
+    current_chat_id.set(0);
+    current_chat_ai.set(0);
+    current_chat_model.set(0);
+    isNewchat.set(true);
+}
+
+export async function changeChatModel(ai:number,model:number){
+    current_chat_ai.set(ai);
+    current_chat_model.set(model);
+    let ai_name = models[get(current_chat_ai)].ai;
+    let model_name = models[get(current_chat_ai)].models[get(current_chat_model)].model;
+    let data = await updateChatInfo(get(current_chat_id),'',ai_name,model_name);
+    if(data == 1){
+        return 1;
+    }
+    if(data.code!=0){
+        return data.code;
+    }
+    return 0;
+}
+
+export async function renameChat(cid:number,name:string){
+    let data = await updateChatInfo(cid,name);
+    if(data == 1){
+        return 1;
+    }
+    if(data.code!=0){
+        return data.code;
+    }
+
+    return 0;
 }

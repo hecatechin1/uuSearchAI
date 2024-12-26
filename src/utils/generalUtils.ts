@@ -20,7 +20,19 @@ export async function copyTextToClipboard(text: string): Promise<boolean> {
   }
 }
 
-
+export function clickOutside(node, callback) {
+  function handleClick(event) {
+    if (!node.contains(event.target)) {
+      callback?.();
+    }
+  }
+  document.addEventListener('click', handleClick, true);
+  return {
+    destory() {
+      document.removeEventListener('click', handleClick, true);
+    }
+  }
+}
 
 // Utility function to check if a message is an audio message
 export function isAudioMessage(message: any): message is { audioUrl: string; isAudio: boolean } {
@@ -52,7 +64,7 @@ const ErrorMessage = {
   "1": "网络错误",
   "1000": "邮箱验证失败，请检查邮箱或者重新发送验证码",
   "101": " no uid",//暂时不用翻译
-  "100":"未注册"
+  "100": "未注册"
 }
 
 // 密码加密函数

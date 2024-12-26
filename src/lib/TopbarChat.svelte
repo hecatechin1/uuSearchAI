@@ -1,23 +1,34 @@
 <script lang="ts">
-
-  import {createEventDispatcher} from "svelte";
   import { t } from "svelte-i18n";
-  import { onMount } from "svelte";
+  import { onMount ,createEventDispatcher} from "svelte";
+  import {current_chat_ai,current_chat_model,models} from '../stores/chatStores';
+  import {changeChatModel} from '../manages/chatManages';
   import userAvatar from "../assets/login/avatar-default.svg";
+    import { get } from "svelte/store";
 
   export let ai = "GPT";
   export let model = "4o mini";
   export let showSidebar = false;
-
+  current_chat_ai.subscribe(v=>{
+    ai = models[v].aiName;
+  });
+  current_chat_model.subscribe(v=>{
+    model = models[v].models[get(current_chat_model)].name;
+  });
   let isLogedin = false;
   let showModelSelectorbtn:HTMLElement;
   let dispatch = createEventDispatcher();
   let showTopbarModelMenu = true;
+
   function showModelSelector(){
 
     let position = showModelSelectorbtn.getBoundingClientRect();
     console.log({ top: position.top+position.height,left: position.left});
-    dispatch("show-selector", { top: position.top+position.height,left: position.left});
+    dispatch("show-selector", { top: position.top+position.height,left: position.left,callback:selectedCallback});
+  }
+
+  function selectedCallback(ai:number,model:number){
+    changeChatModel(ai,model);
   }
 </script>
 

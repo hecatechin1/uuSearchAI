@@ -13,7 +13,11 @@
   // import { closeStream } from "../services/uuAIServices";
   import { settingsVisible, sendKey, lineBreakKey } from "../stores/stores";
   import { current_chat, current_chat_id } from "../stores/chatStores";
-  import { getMessagesListData, getMessage,closeStream } from "../manages/chatManages";
+  import {
+    getMessagesListData,
+    getMessage,
+    closeStream,
+  } from "../manages/chatManages";
   import {
     showErrorMessage,
     isNewchat,
@@ -53,8 +57,12 @@
   const feedback = () => {};
 
   onMount(async () => {
+    current_chat_id.set(Number(localStorage.getItem("current_chat_id") || 0));
     current_chat_id.subscribe(async (value) => {
       if (value != 0) {
+        if (get(isNewchat)) {
+          return;
+        }
         isLoading = true;
         let data: any = await getMessagesListData();
         if (data != 0) {
@@ -66,7 +74,6 @@
       }
       isLoading = false;
     });
-    current_chat_id.set(Number(localStorage.getItem("current_chat_id") || 0));
   });
 
   function autoExpand(event: any) {
@@ -91,7 +98,6 @@
   }
 
   function textAreaKeysListener(event: any) {
-    // console.log(event.isComposing);
     let sendCode = parseInt(keys[get(sendKey)], 2);
     let linebreakCode = parseInt(keys[get(lineBreakKey)], 2);
     let e = parseInt(event.key === "Enter" ? "001" : "000", 2);
@@ -120,35 +126,9 @@
   }
 
   async function processMessage() {
-    current_chat.update(v=>{
-        v.push({
-            'message':{
-                'role':'user',
-                'content':input
-            },
-            'cid':get(current_chat_id),
-            'pid':v[v.length-1].mid,
-            "mid":0,
-            'tm':0,
-            'ai':ai,
-            'model':model
-        });
-        v.push({
-            'message':{
-                'role':'assistant',
-                'content':'',
-            },
-            'cid':get(current_chat_id),
-            'pid':0,
-            "mid":0,
-            'tm':0,
-            'ai':ai,
-            'model':model
-        });
-        return v;
-    });
+    let msg = input;
     input = "";
-    await getMessage(get(current_chat).length-2);
+    await getMessage(msg, ai, model);
   }
 
   function showModelSelector(event: CustomEvent) {

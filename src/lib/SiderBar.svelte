@@ -1,53 +1,115 @@
 <script lang="ts">
-  import { t } from "svelte-i18n"; // 导入本地化方法
+  import { init, t } from "svelte-i18n"; // 导入本地化方法
   import { get } from "svelte/store";
   import { userID } from "../stores/userStores";
   import {
     chat_list,
     type Conversation,
     current_chat_id,
+    current_chat_ai,
+    current_chat_model,
   } from "../stores/chatStores";
-  import { closeStream, getChatListData } from "../manages/chatManages";
+  import {
+    closeStream,
+    getChatListData,
+    createNewChat,
+  } from "../manages/chatManages";
   import { createEventDispatcher, onMount } from "svelte";
   import {
     showErrorMessage,
     showSuccessMessage,
     isNewchat,
   } from "../stores/globalParamentStores";
+  import SideBarContexMenu from "./SideBarContexMenu.svelte";
+  import { clickOutside } from "../utils/generalUtils";
+
   const dispatch = createEventDispatcher();
   $: hiddenClass = showSidebar ? "" : "hidden";
   $: mdHiddenClass = showSidebarMd ? "" : "max-md:hidden";
   let showSidebar = true;
   let showSidebarMd = false;
+  let showSidebarMenu = false;
   let isReady = false;
-  let conversationsHistory:any[] = [];
+  let daysdiff: any = {
+    "0": "今天",
+    "1": "昨天",
+    "3": "三天前",
+    "7": "一周前",
+    "30": "一个月前",
+    "180": "半年前",
+    "365": "一年前",
+  };
+  let dataGroup: any = {};
+  let dataGroupsKeys: any[] = [];
+  let menuTop = 0;
+  let menuLeft = 0;
+  let menu_index = 0;
 
   onMount(async () => {
     isReady = false;
-    await initlist();
-    isReady = true;
-  });
-
-  async function initlist() {
     let res = await getChatListData();
     if (res != 0) {
       showErrorMessage(res);
       return;
     }
+    initlist();
+    isReady = true;
+    isNewchat.subscribe(async (v) => {
+      if (!v && isReady) {
+        let res = await getChatListData();
+        initlist();
+      }
+    });
+
+    chat_list.subscribe((v) => {
+      console.log(v);
+      initlist();
+    });
+  });
+
+  function initlist() {
+    let group: any = {};
     let list = get(chat_list);
-    console.log(list);
+    if (list.length == 0) {
+      isNewchat.set(true);
+      return;
+    } else {
+      for (let i = 0; i < list.length; i++) {
+        let diff = list[i].daydiff;
+        let label = getLabel(diff);
+        if (!(label in group)) {
+          group[label] = [];
+        }
+        group[label].push(i);
+      }
+    }
+    dataGroupsKeys = Object.keys(group).sort((a, b) => Number(a) - Number(b));
+    dataGroup = group;
+  }
+  function getLabel(day: number) {
+    const keys = Object.keys(daysdiff)
+      .map(Number)
+      .sort((a, b) => a - b);
+    if (day == 0) return 0;
+    for (let k = 0; k < keys.length - 1; k++) {
+      const c = keys[k];
+      const n = keys[k + 1];
+      if (day >= c && day < n) {
+        return c;
+      }
+    }
+    return keys[keys.length - 1];
   }
 
-
-
-  async function selectChat(chatId: number) {
+  function selectChat(chatId: number) {
     closeStream();
-    // 点击聊天项时，更新当前聊天项的 ID
-    await localStorage.setItem("current_chat_id", chatId);
+    isNewchat.set(false);
+    localStorage.setItem("current_chat_id", chatId.toString());
     current_chat_id.set(chatId);
     dispatch("selectChat", { selected: chatId });
   }
 
+  //TODO：暂时没有分页功能，之后有了再用
   function handleScroll(event: any) {
     const scrollTop = event.target.scrollTop;
     const clientHeight = event.target.clientHeight;
@@ -58,8 +120,24 @@
     }
   }
 
-  function createNewChat() {
-    current_chat_id.set(0);
+  function deleteChat() {
+    initlist();
+    hideMenu();
+  }
+
+  function newChat() {
+    createNewChat();
+  }
+
+  function showMenu(event, index) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    menuTop = rect.top + rect.height;
+    menuLeft = rect.left;
+    menu_index = index;
+    showSidebarMenu = true;
+  }
+  function hideMenu() {
+    showSidebarMenu = false;
   }
 </script>
 
@@ -151,7 +229,7 @@
           </span>
           <span class="flex">
             <button
-              on:click={createNewChat}
+              on:click={newChat}
               aria-label={$t("app.newChat")}
               data-tooltip={$t("app.newChat")}
               class="h-10 rounded-lg px-2 text-themegreen focus-visible:outline-0 disabled:text-token-text-quaternary focus-visible:bg-themegreyhover enabled:hover:bg-themegreyhover"
@@ -185,89 +263,24 @@
         >
           <!--日期循环开始 新聊天-->
           {#if $isNewchat}
-          <div class="relative mt-2 first:mt-0 last:mb-3">
-            <div class="sticky top-0 z-20 bg-gray-100">
-              <span class="flex h-9 items-center">
-                <h3
-                  class="px-2 text-xs font-semibold text-ellipsis overflow-hidden break-all pt-3 pb-2 text-token-text-primary"
-                ></h3>
-              </span>
-            </div>
-            <ol>
-              <li class="relative">
-                <div
-                  class="no-draggable group relative rounded-lg active:opacity-90 hover:bg-themegreyhover cursor-pointer"
-                >
-                  <span on:click={() => {}} class="flex items-center gap-2 p-2">
-                    <div
-                      class="relative grow overflow-hidden whitespace-nowrap"
-                    >
-                      新聊天
-                      <div
-                        class="absolute bottom-0 top-0 to-transparent right-0 bg-gradient-to-l w-10 from-60%"
-                      ></div>
-                    </div>
-                  </span>
-                  <div
-                    class="absolute bottom-0 top-0 items-center gap-1.5 pr-2 right-0 flex hidden group-hover:flex"
-                  >
-                    <span>
-                      <button
-                        class="btn-custom w-8 flex items-center justify-center text-themegrey transition hover:bg-themegreyhover2 radix-state-open:text-themegrey"
-                        data-tooltip={$t("app.options")}
-                      >
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="icon-md"
-                          ><path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M3 12C3 10.8954 3.89543 10 5 10C6.10457 10 7 10.8954 7 12C7 13.1046 6.10457 14 5 14C3.89543 14 3 13.1046 3 12ZM10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12ZM17 12C17 10.8954 17.8954 10 19 10C20.1046 10 21 10.8954 21 12C21 13.1046 20.1046 14 19 14C17.8954 14 17 13.1046 17 12Z"
-                            fill="currentColor"
-                          ></path></svg
-                        >
-                      </button>
-                    </span>
-                  </div>
-                </div>
-              </li>
-            </ol>
-          </div>
-          {/if}
-          <!--日期循环结束-->
-
-          <!--日期循环开始 今天-->
-
-          <div class="relative mt-2 first:mt-0 last:mb-3">
-            <div class="sticky top-0 z-20 bg-gray-100">
-              <span class="flex h-9 items-center">
-                <h3
-                  class="px-2 text-xs font-semibold text-ellipsis overflow-hidden break-all pt-3 pb-2 text-token-text-primary"
-                >
-                  今天
-                </h3>
-              </span>
-            </div>
-            <ol>
-              {#each $chat_list as chat}
+            <div class="relative mt-2 first:mt-0 last:mb-3">
+              <div class="sticky top-0 z-20 bg-gray-100">
+                <span class="flex h-9 items-center">
+                  <h3
+                    class="px-2 text-xs font-semibold text-ellipsis overflow-hidden break-all pt-3 pb-2 text-token-text-primary"
+                  ></h3>
+                </span>
+              </div>
+              <ol>
                 <li class="relative">
                   <div
                     class="no-draggable group relative rounded-lg active:opacity-90 hover:bg-themegreyhover cursor-pointer"
                   >
-                    <span
-                      on:click={() => {
-                        selectChat(chat.cid);
-                      }}
-                      class="flex items-center gap-2 p-2"
-                    >
+                    <span class="flex items-center gap-2 p-2">
                       <div
                         class="relative grow overflow-hidden whitespace-nowrap"
                       >
-                        {chat.name}
+                        新聊天
                         <div
                           class="absolute bottom-0 top-0 to-transparent right-0 bg-gradient-to-l w-10 from-60%"
                         ></div>
@@ -276,34 +289,85 @@
                     <div
                       class="absolute bottom-0 top-0 items-center gap-1.5 pr-2 right-0 flex hidden group-hover:flex"
                     >
-                      <span>
-                        <button
-                          class="btn-custom w-8 flex items-center justify-center text-themegrey transition hover:bg-themegreyhover2 radix-state-open:text-themegrey"
-                          data-tooltip={$t("app.options")}
-                        >
-                          <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="icon-md"
-                            ><path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M3 12C3 10.8954 3.89543 10 5 10C6.10457 10 7 10.8954 7 12C7 13.1046 6.10457 14 5 14C3.89543 14 3 13.1046 3 12ZM10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12ZM17 12C17 10.8954 17.8954 10 19 10C20.1046 10 21 10.8954 21 12C21 13.1046 20.1046 14 19 14C17.8954 14 17 13.1046 17 12Z"
-                              fill="currentColor"
-                            ></path></svg
-                          >
-                        </button>
-                      </span>
+  
                     </div>
                   </div>
                 </li>
-              {/each}
-            </ol>
-          </div>
+              </ol>
+            </div>
+          {/if}
           <!--日期循环结束-->
+
+          <!--日期循环开始 今天-->
+          {#each dataGroupsKeys as key}
+            <div class="relative mt-2 first:mt-0 last:mb-3">
+              <div class="sticky top-0 z-20 bg-gray-100">
+                <span class="flex h-9 items-center">
+                  <h3
+                    class="px-2 text-xs font-semibold text-ellipsis overflow-hidden break-all pt-3 pb-2 text-token-text-primary"
+                  >
+                    {daysdiff[key]}
+                  </h3>
+                </span>
+              </div>
+              <ol>
+                {#each dataGroup[key] as chatIndex}
+                  <li class="relative">
+                    <div
+                      class="no-draggable group relative rounded-lg active:opacity-90 hover:bg-themegreyhover cursor-pointer"
+                    >
+                      <button
+                        on:click={() => {
+                          selectChat(get(chat_list)[chatIndex].cid);
+                        }}
+                      >
+                        <span class="flex items-center gap-2 p-2">
+                          <div
+                            class="relative grow overflow-hidden whitespace-nowrap"
+                          >
+                            {$chat_list[chatIndex].name}
+                            <div
+                              class="absolute bottom-0 top-0 to-transparent right-0 bg-gradient-to-l w-10 from-60%"
+                            ></div>
+                          </div>
+                        </span>
+                      </button>
+                      <div
+                        class="absolute bottom-0 top-0 items-center gap-1.5 pr-2 right-0 flex hidden group-hover:flex"
+                      >
+                        <span>
+                          <button
+                            on:click={(event) => {
+                              showMenu(event, chatIndex);
+                            }}
+                            class="btn-custom w-8 flex items-center justify-center text-themegrey transition hover:bg-themegreyhover2 radix-state-open:text-themegrey"
+                            data-tooltip={$t("app.options")}
+                          >
+                            <svg
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="icon-md"
+                              ><path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M3 12C3 10.8954 3.89543 10 5 10C6.10457 10 7 10.8954 7 12C7 13.1046 6.10457 14 5 14C3.89543 14 3 13.1046 3 12ZM10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12ZM17 12C17 10.8954 17.8954 10 19 10C20.1046 10 21 10.8954 21 12C21 13.1046 20.1046 14 19 14C17.8954 14 17 13.1046 17 12Z"
+                                fill="currentColor"
+                              ></path></svg
+                            >
+                          </button>
+                          <!-- <SideBarContexMenu on:click={} /> -->
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                {/each}
+              </ol>
+            </div>
+            <!--日期循环结束-->
+          {/each}
         </div>
       </div>
 
@@ -351,6 +415,16 @@
       </div>
     </nav>
   </div>
+  {#if showSidebarMenu}
+    <div use:clickOutside={hideMenu}>
+      <SideBarContexMenu
+        left={menuLeft}
+        top={menuTop}
+        index={menu_index}
+        on:closeContextMenu={deleteChat}
+      />
+    </div>
+  {/if}
 </aside>
 
 <style>

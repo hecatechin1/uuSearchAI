@@ -29,6 +29,7 @@
     copyTextToClipboard,
     formatMessageForMarkdown,
   } from "../utils/generalUtils";
+  import {get} from "svelte/store";
     import { getMessage } from "../manages/chatManages";
     import { current_chat } from "../stores/chatStores";
 
@@ -78,12 +79,10 @@
     // 其他自定义的 renderer
   };
   function deleteMessage(index: number) {}
+
   async function retry(index:number) {
-    current_chat.update(v=>{
-      v[index].message.content='';
-      return v;
-    });
-    await getMessage(index-1);
+    let user_message = get(current_chat)[index-1];
+    await getMessage(user_message.message.content,user_message.ai,user_message.model);
   }
   function cancelEdit() {}
   function submitEdit(index: number) {}

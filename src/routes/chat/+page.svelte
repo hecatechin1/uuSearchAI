@@ -9,7 +9,7 @@
     import {initializeI18n} from "../../i18n";
     import {waitLocale} from "svelte-i18n";
     import AiModelSelector from "$lib/AIModelSelector.svelte";
-
+    import {clickOutside} from '../../utils/generalUtils.js';
 
     // 状态管理
     let selectedChatId = "1";
@@ -17,6 +17,7 @@
     let showSelector = false;
     let selectorTop:number;
     let selectorLeft:number;
+    let callback:Function;// 选择模型的回调函数
     function changeChat(event:CustomEvent){
       
     }
@@ -31,7 +32,19 @@
     function showModelSelector(event:CustomEvent){
       selectorTop = event.detail.top;
       selectorLeft = event.detail.left;
+      callback = event.detail.callback;
       showSelector = !showSelector;
+
+    }
+
+    function hideSelector(){
+      showSelector = false;
+    }
+
+    function aiModelSelected(event:CustomEvent){
+      hideSelector();
+      console.log(event.detail);
+      callback(event.detail.ai,event.detail.model);
     }
   </script>
     {#if isReady}
@@ -45,7 +58,9 @@
         </div>
         <!-- AI选择器需要JS计算位置，主要是左上角坐标。元件宽度260px，高度310px，注意边缘计算 -->
          {#if showSelector}
-          <AiModelSelector top={selectorTop}  left={selectorLeft}  />
+         <div use:clickOutside={hideSelector}>
+          <AiModelSelector on:aiModelSelected={aiModelSelected}  top={selectorTop}  left={selectorLeft}  />
+        </div>
         {/if}
     </div>
     {/if}

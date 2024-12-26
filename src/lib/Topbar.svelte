@@ -2,12 +2,29 @@
   import { t } from "svelte-i18n";
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
-  export let ai = "GPT";
-  export let model = "4o mini";
+  import {current_chat_ai,current_chat_model,models} from '../stores/chatStores';
+  import {changeChatModel} from '../manages/chatManages';
+  import { get } from "svelte/store";
+   let ai = "GPT";
+   let model = "4o mini";
+
+  current_chat_ai.subscribe(v=>{
+    ai = models[v].aiName;
+  });
+  current_chat_model.subscribe(v=>{
+    model = models[v].models[get(current_chat_model)].name;
+  });
   const dispatch = createEventDispatcher();
+  let showModelSelectorbtn:HTMLElement;
   function showModelSelector() {
-    dispatch("show-selector", { text: "test" });
+    let position = showModelSelectorbtn.getBoundingClientRect();
+    dispatch("show-selector", {  top: position.top+position.height,left: position.left,callback:selectedCallback});
   }
+  function selectedCallback(ai:number,model:number){
+    changeChatModel(ai,model);
+  }
+
+
 </script>
 
 <div
@@ -41,6 +58,7 @@
   <div class="no-draggable">
     <button
       on:click={showModelSelector}
+      bind:this={showModelSelectorbtn}
       type="button"
       data-state="closed"
       class="group flex cursor-pointer items-center gap-1 rounded-lg py-1.5 px-3 hover:bg-gray-200 focused:bg-gray-200 font-semibold text-themegrey overflow-hidden whitespace-nowrap"

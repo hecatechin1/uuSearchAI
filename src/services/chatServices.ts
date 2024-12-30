@@ -77,8 +77,6 @@ export async function sendMessage(msg: string, pid: number, ai: string, model: s
 
 export async function deleteChat(cid:number){
   try {
-
-    
     let response = await createTimeOutFetch()(
       `https://api.uugpt.com/ai/conv/delete?cid=${cid}`
     );

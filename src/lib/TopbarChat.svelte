@@ -1,33 +1,23 @@
 <script lang="ts">
   import { t } from "svelte-i18n";
   import { onMount ,createEventDispatcher} from "svelte";
-  import {current_chat_ai,current_chat_model,models} from '../stores/chatStores';
+  import {chat_list, current_chat_ainame,current_chat_id,current_chat_modelname,defaultaimodel,models} from '../stores/chatStores';
   import {changeChatModel} from '../manages/chatManages';
   import userAvatar from "../assets/login/avatar-default.svg";
-    import { get } from "svelte/store";
-
-  export let ai = "GPT";
-  export let model = "4o mini";
+  import { get } from "svelte/store";
   export let showSidebar = false;
-  current_chat_ai.subscribe(v=>{
-    ai = models[v].aiName;
-  });
-  current_chat_model.subscribe(v=>{
-    model = models[v].models[get(current_chat_model)].name;
-  });
+
   let isLogedin = false;
   let showModelSelectorbtn:HTMLElement;
   let dispatch = createEventDispatcher();
   let showTopbarModelMenu = true;
 
   function showModelSelector(){
-
     let position = showModelSelectorbtn.getBoundingClientRect();
-    console.log({ top: position.top+position.height,left: position.left});
     dispatch("show-selector", { top: position.top+position.height,left: position.left,callback:selectedCallback});
   }
 
-  function selectedCallback(ai:number,model:number){
+  function selectedCallback(ai:string,model:string){
     changeChatModel(ai,model);
   }
 </script>
@@ -93,8 +83,8 @@
       type="button"
       class="relative group flex cursor-pointer items-center gap-1 rounded-lg py-1.5 px-3 hover:bg-gray-200 focused:bg-gray-200 font-semibold text-themegrey overflow-hidden whitespace-nowrap"
       ><div class="text-themegrey">
-        {ai}
-        <span class="text-themegrey">{model}</span>
+        {$current_chat_ainame}
+        <span class="text-themegrey">{$current_chat_modelname}</span>
       </div>
       <svg
         width="24"

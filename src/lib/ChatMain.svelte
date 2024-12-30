@@ -12,7 +12,14 @@
   import WaitIcon from "../assets/wait.svg";
   // import { closeStream } from "../services/uuAIServices";
   import { settingsVisible, sendKey, lineBreakKey } from "../stores/stores";
-  import { current_chat, current_chat_id } from "../stores/chatStores";
+  import {
+    current_chat,
+    current_chat_ai,
+    current_chat_id,
+    current_chat_model,
+    getAiName,
+    getModelName,
+  } from "../stores/chatStores";
   import {
     getMessagesListData,
     getMessage,
@@ -24,10 +31,6 @@
     isStreaming,
   } from "../stores/globalParamentStores";
   export let selectedChatId: string;
-  // export let ai = "openai";
-  // export let model = "gpt-4o-mini";
-  export let ai = "anthropic";
-  export let model = "claude-3-5-haiku-20241022";
 
   let dispatch = createEventDispatcher();
   let isLoading = true;
@@ -57,7 +60,6 @@
   const feedback = () => {};
 
   onMount(async () => {
-    current_chat_id.set(Number(localStorage.getItem("current_chat_id") || 0));
     current_chat_id.subscribe(async (value) => {
       if (value != 0) {
         if (get(isNewchat)) {
@@ -128,16 +130,25 @@
   async function processMessage() {
     let msg = input;
     input = "";
-    await getMessage(msg, ai, model);
+    await getMessage(msg, get(current_chat_ai), get(current_chat_model));
   }
 
   function showModelSelector(event: CustomEvent) {
     dispatch("show-selector", event.detail);
   }
+
+  function tryOtherModel(event: CustomEvent) {
+    dispatch("show-selector", event.detail);
+  }
 </script>
 
 {#if isLoading}
-  <h1>加载中</h1>
+  <div class="main-chat-skeleton">
+    <div class="message skeleton mb-5 message-flex-end"></div>
+    <div class="message skeleton"></div>
+    <div class="message large skeleton"></div>
+    <div class="message skeleton"></div>
+  </div>
 {:else}
   <div
     class="relative h-full w-full flex-1 transition-width overflow-hidden max-w-full flex-col max-md:h-[calc(100%-44px)]"
@@ -153,7 +164,11 @@
                 <TopbarChat on:show-selector={showModelSelector} />
                 {#if $current_chat.length > 0}
                   {#each $current_chat as message, i}
-                    <ChatMessage message={message.message} index={i} />
+                    <ChatMessage
+                      on:show-selector={tryOtherModel}
+                      {message}
+                      index={i}
+                    />
                   {/each}
                   <div class="tailblock h-10 w-full"></div>
                 {:else}
@@ -314,4 +329,5 @@
 
 <style>
   @import "../styles/styles.css";
+  @import "../styles/skeleton.css";
 </style>

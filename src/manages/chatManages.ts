@@ -1,5 +1,5 @@
 import {getChatList,getMessagesList,sendMessage,deleteChat,updateChatInfo} from "../services/chatServices";
-import {chat_list,current_chat,current_chat_id,current_message,current_chat_ai,current_chat_model,models} from "../stores/chatStores";
+import {chat_list,current_chat,current_chat_id,current_message,current_chat_ai,current_chat_model,getIndexByCid, defaultaimodel} from "../stores/chatStores";
 import {userID,language} from "../stores/userStores"
 import {isNewchat, isStreaming} from "../stores/globalParamentStores"
 import { get } from 'svelte/store';
@@ -133,6 +133,8 @@ export async function getMessage(msg:string,ai:string,model:string){
                 v[v.length-1].message.content = get(current_message);
                 v[v.length-1].mid = msg_info.mid;
                 v[v.length-1].pid = msg_info.pid;
+                v[v.length-1].ai = msg_info.ai;
+                v[v.length-1].model = msg_info.model;
                  return v
                 });
             isStreaming.set(false);
@@ -164,7 +166,9 @@ function checkMessageEnd(msg:string){
             mid:msg_info.mid,
             cid:msg_info.cid,
             tm:msg_info.tm,
-            pid:msg_info.pid
+            pid:msg_info.pid,
+            ai:msg_info.ai,
+            model:msg_info.model
         }
     }
     return false;
@@ -191,25 +195,27 @@ export async function deleteChatData(index:number){
 
 export async function createNewChat(){
     closeStream();
-    current_chat.set([]);
     current_chat_id.set(0);
-    current_chat_ai.set(0);
-    current_chat_model.set(0);
+    defaultaimodel();
     isNewchat.set(true);
 }
 
-export async function changeChatModel(ai:number,model:number){
+export async function changeChatModel(ai:string ,model:string){
     current_chat_ai.set(ai);
     current_chat_model.set(model);
-    let ai_name = models[get(current_chat_ai)].ai;
-    let model_name = models[get(current_chat_ai)].models[get(current_chat_model)].model;
-    let data = await updateChatInfo(get(current_chat_id),'',ai_name,model_name);
+    let data = await updateChatInfo(get(current_chat_id),'',ai,model);
     if(data == 1){
         return 1;
     }
     if(data.code!=0){
         return data.code;
     }
+    let index = getIndexByCid(get(current_chat_id));
+    chat_list.update(v=>{
+        v[index].ai = ai;
+        v[index].model = model;
+        return v;
+    });
     return 0;
 }
 

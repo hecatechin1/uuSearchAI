@@ -2,25 +2,17 @@
   import { t } from "svelte-i18n";
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
-  import {current_chat_ai,current_chat_model,models} from '../stores/chatStores';
+  import {current_chat_ainame,current_chat_modelname,models} from '../stores/chatStores';
   import {changeChatModel} from '../manages/chatManages';
   import { get } from "svelte/store";
-   let ai = "GPT";
-   let model = "4o mini";
 
-  current_chat_ai.subscribe(v=>{
-    ai = models[v].aiName;
-  });
-  current_chat_model.subscribe(v=>{
-    model = models[v].models[get(current_chat_model)].name;
-  });
   const dispatch = createEventDispatcher();
   let showModelSelectorbtn:HTMLElement;
   function showModelSelector() {
     let position = showModelSelectorbtn.getBoundingClientRect();
     dispatch("show-selector", {  top: position.top+position.height,left: position.left,callback:selectedCallback});
   }
-  function selectedCallback(ai:number,model:number){
+  function selectedCallback(ai:string,model:string){
     changeChatModel(ai,model);
   }
 
@@ -64,8 +56,8 @@
       class="group flex cursor-pointer items-center gap-1 rounded-lg py-1.5 px-3 hover:bg-gray-200 focused:bg-gray-200 font-semibold text-themegrey overflow-hidden whitespace-nowrap"
     >
       <div class="text-themegrey">
-        {ai}
-        <span class="text-themegrey">{model}</span>
+        {$current_chat_ainame}
+        <span class="text-themegrey">{$current_chat_modelname}</span>
       </div>
       <svg
         width="24"

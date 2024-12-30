@@ -29,23 +29,26 @@
     copyTextToClipboard,
     formatMessageForMarkdown,
   } from "../utils/generalUtils";
-  import {get} from "svelte/store";
-    import { getMessage } from "../manages/chatManages";
-    import { current_chat } from "../stores/chatStores";
-
+  import { get } from "svelte/store";
+  import { getMessage } from "../manages/chatManages";
+  import { current_chat, current_chat_ai, current_chat_id, current_chat_model,getAiName,getModelName } from "../stores/chatStores";
+  import { onMount,createEventDispatcher } from "svelte";
+  let dispatch = createEventDispatcher();
+  let showModelSelectorbtn:HTMLElement;
   let isShowUserFirstQuery = true; //是否显示用户的第一个问题
   // let isStreaming = false;//是否在进行流式传输
   let isEditting = false; //是否正在编辑
   let editTextArea;
   let editingMessageContent: string; //正在编辑的消息内容;
   let retrybtn;
+  let ast_ai = getAiName(message.message.role=='user'? message.ai : get(current_chat)[index-1].ai);  let ast_model = getModelName(message.message.role=='user'? message.model : get(current_chat)[index-1].model);
   const autoExpand = () => {
     //自动展开
   };
 
   const copyText = (content: string, index: number) => {
     //复制文本
-    copyTextToClipboard(content.replaceAll('\\n','\n'));
+    copyTextToClipboard(content.replaceAll("\\n", "\n"));
     let copyelm = document.getElementsByClassName("copyAnime" + index)[0];
     copyelm.classList.add("small-rotate-animation");
     setTimeout(() => {
@@ -53,10 +56,15 @@
     }, 500);
   };
 
-  const likeMessage = () => (message.likes = true);
-  const dislikeMessage = () => (message.dislikes = true);
-  const retryMessage = () =>
-    alert($t("app.retrying", { default: "Retrying..." }));
+
+  function showModelSelector(){
+    let position = showModelSelectorbtn.getBoundingClientRect();
+    dispatch("show-selector", { top: position.top+position.height,left: position.left,callback:selectedCallback});
+  }
+  async function selectedCallback(ai:string,model:string){
+    let msg = get(current_chat)[index-1].message.content;
+    await getMessage(msg,ai,model);
+  }
 
   const renderers = {
     code: CodeRenderer,
@@ -80,125 +88,151 @@
   };
   function deleteMessage(index: number) {}
 
-  async function retry(index:number) {
-    let user_message = get(current_chat)[index-1];
-    await getMessage(user_message.message.content,user_message.ai,user_message.model);
+  async function retry(index: number) {
+    let user_message = get(current_chat)[index - 1];
+    await getMessage(
+      user_message.message.content,
+      user_message.ai,
+      user_message.model,
+    );
   }
   function cancelEdit() {}
   function submitEdit(index: number) {}
 
   function startEditMessage(index: number) {}
+
+  onMount(() => {});
 </script>
 
-{#if message.role === "assistant"}
-<article
-class="w-full scroll-mb-[var(--thread-trailing-height,150px)] text-token-text-primary focus-visible:outline-2 focus-visible:outline-offset-[-4px]"
-dir="auto"
-data-testid="conversation-turn-53"
-data-scroll-anchor="false"
->
-<h6 class="sr-only">{$t("app.assistantname", { default: "uuGPT" })}</h6>
-<div
-  class="m-auto text-base py-[18px] px-3 md:px-4 w-full md:px-5 lg:px-4 xl:px-5"
->
-  <div
-    class="mx-auto flex flex-1 gap-2 text-base md:gap-3 lg:gap-4 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem]"
+{#if message.message.role === "assistant"}
+  <article
+    class="w-full scroll-mb-[var(--thread-trailing-height,150px)] text-token-text-primary focus-visible:outline-2 focus-visible:outline-offset-[-4px]"
+    dir="auto"
+    data-testid="conversation-turn-53"
+    data-scroll-anchor="false"
   >
-    <div class="flex-shrink-0 flex flex-col relative items-end">
-      <div>
-        <div class="pt-0">
-          <div
-            class="gizmo-shadow-stroke flex h-8 w-8 items-center justify-center overflow-hidden rounded-full"
-          >
-            <div class="h-full w-full">
+    <h6 class="sr-only">{$t("app.assistantname", { default: "uuGPT" })}</h6>
+    <div
+      class="m-auto text-base py-[18px] px-3 md:px-4 w-full md:px-5 lg:px-4 xl:px-5"
+    >
+      <div
+        class="mx-auto flex flex-1 gap-2 text-base md:gap-3 lg:gap-4 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem]"
+      >
+        <div class="flex-shrink-0 flex flex-col relative items-end">
+          <div>
+            <div class="pt-0">
               <div
-                class="gizmo-shadow-stroke relative flex h-full items-center justify-center rounded-full bg-token-main-surface-primary text-token-text-primary"
+                class="gizmo-shadow-stroke flex h-8 w-8 items-center justify-center overflow-hidden rounded-full"
               >
-              <img src={RobotIcon} alt="Profile" class="w-[1.5rem] h-[1.5rem]" />
+                <div class="h-full w-full">
+                  <div
+                    class="gizmo-shadow-stroke relative flex h-full items-center justify-center rounded-full bg-token-main-surface-primary text-token-text-primary"
+                  >
+                    <img
+                      src={RobotIcon}
+                      alt="Profile"
+                      class="w-[1.5rem] h-[1.5rem]"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div
-      class="group/conversation-turn relative flex w-full min-w-0 flex-col agent-turn"
-    >
-      <div class="flex-col gap-1 md:gap-3">
-        <div class="flex max-w-full flex-col flex-grow">
-        
-          <div
-            data-message-author-role="assistant"
-            data-message-id={message.mid}
-            dir="auto"
-            class="min-h-8 text-message flex w-full flex-col items-end gap-2 whitespace-normal break-words text-start [.text-message+&amp;]:mt-5"
-            data-message-model-slug={message.model}
-          >
-            <div
-              class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px] message-display"
-            >
-                <SvelteMarkdown
-                {renderers}
-                source={formatMessageForMarkdown(message.content.toString())}
-              />
+        <div
+          class="group/conversation-turn relative flex w-full min-w-0 flex-col agent-turn"
+        >
+          <div class="flex-col gap-1 md:gap-3">
+            <div class="flex max-w-full flex-col flex-grow">
+              <div
+                data-message-author-role="assistant"
+                data-message-id={message.mid}
+                dir="auto"
+                class="min-h-8 text-message flex w-full flex-col items-end gap-2 whitespace-normal break-words text-start [.text-message+&amp;]:mt-5"
+                data-message-model-slug={message.model}
+              >
+                <div
+                  class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px] message-display"
+                >
+                  <SvelteMarkdown
+                    {renderers}
+                    source={formatMessageForMarkdown(
+                      message.message.content.toString(),
+                    )}
+                  />
+                </div>
+              </div>
             </div>
+
+            <!-- 消息工具栏 -->
+            {#if $isStreaming === false}
+              <div class="toolbelt flex gap-2 empty:hidden">
+                <div
+                  class="flex justify-start rounded-xl items-center ml-[-0.6rem]"
+                >
+                  <button
+                    class="btn-custom"
+                    data-tooltip={$t("app.copy")}
+                    on:click={() => copyText(message.content, index)}
+                  >
+                    <img
+                      alt={$t("app.copy")}
+                      src={CopyIcon}
+                      class={"copy-icon copyAnime" + index}
+                    />
+                  </button>
+                  <button
+                    class="deleteButton btn-custom"
+                    data-tooltip={$t("app.delete")}
+                    on:click={() => deleteMessage(index)}
+                  >
+                    <img
+                      class="delete-icon"
+                      alt={$t("app.delete")}
+                      src={DeleteIcon}
+                    />
+                  </button>
+
+                  <button
+                    bind:this={retrybtn}
+                    class="btn-custom"
+                    data-tooltip={$t("app.retry")}
+                    on:click={() => retry(index)}
+                  >
+                    <img class="" alt={$t("app.retry")} src={RetryIcon} />
+                  </button>
+
+                  <button
+                  bind:this={showModelSelectorbtn}
+                  on:click={showModelSelector}
+                    class="btn-custom btn-switch"
+                    data-tooltip={$t("settings.switchMode")}
+                  >
+                    <img
+                      class="h-4 w-4"
+                      alt={$t("settings.switchMode")}
+                      src={gptIcon}
+                    />
+                    <span class="btn-text">{ast_ai} {ast_model}</span>
+                    <span class="h-2 w-2">
+                      <img
+                        class="h-2 w-2"
+                        alt={$t("settings.switchMode")}
+                        src={toggleIcon}
+                      />
+                    </span>
+                  </button>
+                </div>
+              </div>
+            {/if}
+
+            <div class="pr-2 lg:pr-0"></div>
           </div>
         </div>
-
-        <!-- 消息工具栏 -->
-        {#if $isStreaming === false}
-        <div class="toolbelt flex gap-2 empty:hidden">
-          <div class="flex justify-start rounded-xl items-center ml-[-0.6rem]">
-            <button
-              class="btn-custom"
-              data-tooltip={$t("app.copy")}
-              on:click={() => copyText(message.content, index)}
-            >
-              <img
-                alt={$t("app.copy")}
-                src={CopyIcon}
-                class={"copy-icon copyAnime" + index}
-              />
-            </button>
-            <button
-              class="deleteButton btn-custom"
-              data-tooltip={$t("app.delete")}
-              on:click={() => deleteMessage(index)}
-            >
-              <img class="delete-icon" alt={$t("app.delete")} src={DeleteIcon} />
-            </button>
-  
-            <button
-              bind:this={retrybtn}
-              class="btn-custom"
-              data-tooltip={$t("app.retry")}
-              on:click={() => retry(index)}
-            >
-              <img class="" alt={$t("app.retry")} src={RetryIcon} />
-            </button>
-
-            <button
-              class="btn-custom btn-switch"
-              data-tooltip={$t("settings.switchMode")}
-              
-            >
-              <img class="h-4 w-4" alt={$t("settings.switchMode")} src={gptIcon} />
-              <span class="btn-text">{message.ai} {message.model}</span>
-              <span class="h-2 w-2">
-                <img class="h-2 w-2" alt={$t("settings.switchMode")} src={toggleIcon} />
-              </span>
-            </button>
-          </div>
-        </div>
-      {/if}
-
-        <div class="pr-2 lg:pr-0"></div>
       </div>
     </div>
-  </div>
-</div>
-</article>
-{:else if message.role === "user"}
+  </article>
+{:else if message.message.role === "user"}
   <article class="w-full focus-visible:outline-offset-[-4px]">
     <h5 class="sr-only">{$t("app.youSaid", { default: "You Said:" })}</h5>
     <div
@@ -217,11 +251,11 @@ data-scroll-anchor="false"
                     <div class="grid">
                       <textarea
                         class="col-start-1 col-end-2 row-start-1 row-end-2 resize-none overflow-y-auto p-0 m-0 w-full border-0 bg-transparent focus:outline-none"
-                        >{message.content}</textarea
+                        >{message.message.content}</textarea
                       ><span
                         class="invisible col-start-1 col-end-2 row-start-1 row-end-2 whitespace-pre-wrap p-0"
                       >
-                        {message.content}
+                        {message.message.content}
                       </span>
                     </div>
                   </div>
@@ -256,7 +290,7 @@ data-scroll-anchor="false"
                     >
                       <!-- 消息内容 -->
                       <div class="whitespace-pre-wrap">
-                        {message.content}
+                        {message.message.content}
                       </div>
 
                       <!-- 消息编辑按钮 -->

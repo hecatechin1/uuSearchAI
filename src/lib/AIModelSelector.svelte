@@ -25,7 +25,7 @@
     openSubMenu = openSubMenu === ai ? '' : ai;
   }
 
-  function selectedModel(ai:number, model:number){
+  function selectedModel(ai:string, model:string){
     dispatch("aiModelSelected", { ai:ai, model:model});
   }
 
@@ -72,7 +72,7 @@
             <div class="pl-4 mt-2" transition:fade={{ duration: 300 }}>
               {#each aiModels as { name, price,model },model_index}
                 <button
-                  on:click={() => (selectedModel(ai_index, model_index))}
+                  on:click={() => (selectedModel(ai, model))}
                   class="flex justify-between items-center px-4 py-2 w-full text-left hover:bg-gray-100"
                 >
                   <div class="flex items-center space-x-2">

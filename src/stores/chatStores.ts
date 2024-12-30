@@ -99,7 +99,6 @@ current_chat_id.subscribe(v => {
     let chats = get(chat_list);
     for (let i = 0; i < chats.length; i++) {
         let c = chats[i];
-        console.log(c,v);
         if (c.cid == v) {
             current_chat_ai.set(c.ai);
             current_chat_model.set(c.model);

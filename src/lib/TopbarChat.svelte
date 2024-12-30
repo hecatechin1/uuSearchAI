@@ -20,6 +20,10 @@
   function selectedCallback(ai:string,model:string){
     changeChatModel(ai,model);
   }
+
+  onMount(()=>{
+    
+  });
 </script>
 
 <div

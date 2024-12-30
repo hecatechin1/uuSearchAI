@@ -417,7 +417,8 @@
     <div class="chat-item skeleton"></div>
     <div class="chat-item skeleton"></div>
     <div class="chat-item skeleton"></div>
-    <div class="message-loader"></div>
+    <!-- 分布加载转圈loading -->
+    <!-- <div class="message-loader"></div> -->
   </aside>
 {/if}
 

@@ -20,9 +20,8 @@
             "icon": freeIcon,
             "features": [
                 "Daily 5000 tokens",
-                "Access to legacy GPT models",
-                "No PDF/Voice interaction",
-                "$1 recharge for 1 million GPT-4o mini tokens"
+                "Access to GPT-4o mini",
+                "No File interaction",
             ]
         },
         {

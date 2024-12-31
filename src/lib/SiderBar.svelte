@@ -126,10 +126,10 @@
 
 {#if isReady}
   <aside
-    class="z-[21] flex-shrink-0 overflow-x-hidden max-md:!fixed max-md:left-0 max-md:top-0 max-md:!z-50 max-md:border-r flex-col h-full bg-gray-100 {hiddenClass} {mdHiddenClass}"
+    class="z-[21] w-[260px] flex-shrink-0 overflow-x-hidden max-md:!fixed max-md:left-0 max-md:top-0 max-md:!z-50 max-md:border-r flex-col h-full bg-gray-100 {hiddenClass} {mdHiddenClass}"
   >
     <div
-      class="draggable relative h-full w-full flex-1 items-start border-white/20"
+      class="draggable relative h-full w-full flex-1 items-start border-white"
     >
       <h2
         style="position:absolute;border:0;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;word-wrap:normal"
@@ -296,7 +296,8 @@
                   {#each dataGroup[key] as chatIndex}
                     <li class="relative">
                       <div
-                        class="no-draggable group relative rounded-lg active:opacity-90 hover:bg-themegreyhover cursor-pointer"
+                        class="no-draggable group relative rounded-lg active:bg-themegreyhover2 focused:bg-themegreyhover2 hover:bg-themegreyhover cursor-pointer"
+                        
                       >
                         <button
                           on:click={() => {
@@ -340,9 +341,18 @@
                                 ></path></svg
                               >
                             </button>
-                            <!-- <SideBarContexMenu on:click={} /> -->
+                            
                           </span>
                         </div>
+
+                        <!-- 重命名div 编辑时显示，失去焦点保存 -->
+                        <div
+                          class="absolute bottom-0 left-[7px] right-2 top-[6px] items-center rounded-lg"
+                          >
+                          <input class="w-full border bg-transparent p-0 text-sm border-themegreen bg-white focus:outline-none border-2 rounded" autofocus value={$chat_list[chatIndex].name}/>
+                        </div>
+                      
+
                       </div>
                     </li>
                   {/each}
@@ -410,7 +420,7 @@
   </aside>
 {:else}
   <aside
-    class="sidebar-skeleton z-[21] flex shrink-0 overflow-x-hidden max-md:!w-0 w-64 flex-col h-full bg-grey-700"
+    class="sidebar-skeleton z-[21] flex shrink-0 overflow-x-hidden max-md:!w-0 w-64 flex-col h-full bg-grey-700 w-[260px]"
   >
     <div class="header skeleton"></div>
     <div class="chat-item skeleton"></div>

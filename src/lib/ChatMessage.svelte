@@ -21,6 +21,7 @@
   import RobotIcon from "../assets/aianswer-avtar.svg";
   import EditIcon from "../assets/edit.svg";
   import DeleteIcon from "../assets/delete.svg";
+  import MoreIcon from "../assets/more.svg";
   import gptIcon from "../assets/gpt.svg";
   import toggleIcon from "../assets/toggle.svg";
 
@@ -182,18 +183,6 @@
                     />
                   </button>
                   <button
-                    class="deleteButton btn-custom"
-                    data-tooltip={$t("app.delete")}
-                    on:click={() => deleteMessage(index)}
-                  >
-                    <img
-                      class="delete-icon"
-                      alt={$t("app.delete")}
-                      src={DeleteIcon}
-                    />
-                  </button>
-
-                  <button
                     bind:this={retrybtn}
                     class="btn-custom"
                     data-tooltip={$t("app.retry")}
@@ -221,6 +210,18 @@
                         src={toggleIcon}
                       />
                     </span>
+                  </button>
+
+                  <button
+                    class="moreButton btn-custom"
+                    data-tooltip={$t("app.delete")}
+                    on:click={() => deleteMessage(index)}
+                  >
+                    <img
+                      class="delete-icon"
+                      alt={$t("app.delete")}
+                      src={MoreIcon}
+                    />
                   </button>
                 </div>
               </div>

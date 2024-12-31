@@ -1,1 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="M479.858 896Q460 896 446 881.858q-14-14.141-14-34Q432 828 446.142 814q14.141-14 34-14Q500 800 514 814.142q14 14.141 14 34Q528 868 513.858 882q-14.141 14-34 14Zm0-272Q460 624 446 609.858q-14-14.141-14-34Q432 556 446.142 542q14.141-14 34-14Q500 528 514 542.142q14 14.141 14 34Q528 596 513.858 610q-14.141 14-34 14Zm0-272Q460 352 446 337.858q-14-14.141-14-34Q432 284 446.142 270q14.141-14 34-14Q500 256 514 270.142q14 14.141 14 34Q528 324 513.858 338q-14.141 14-34 14Z"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10">
+  <g id="more" transform="translate(-77.5 -619.784)">
+    <rect id="矩形_3693" data-name="矩形 3693" width="10" height="10" transform="translate(77.5 619.784)" fill="none"/>
+    <circle id="椭圆_444" data-name="椭圆 444" cx="1.25" cy="1.25" r="1.25" transform="translate(83.75 619.784) rotate(90)" fill="#4a928c"/>
+    <circle id="椭圆_449" data-name="椭圆 449" cx="1.25" cy="1.25" r="1.25" transform="translate(83.75 623.534) rotate(90)" fill="#4a928c"/>
+    <circle id="椭圆_446" data-name="椭圆 446" cx="1.25" cy="1.25" r="1.25" transform="translate(83.75 627.284) rotate(90)" fill="#4a928c"/>
+  </g>
+</svg>

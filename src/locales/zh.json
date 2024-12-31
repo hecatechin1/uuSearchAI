@@ -139,7 +139,9 @@
       "save": "保存",
       "saveAs": "另存为",
       "latestChats": "最近聊天",
-      "youSaid": "您说:"
+      "youSaid": "您说:",
+      "deleteThisMessage": "删除此消息",
+      "deleteToTheEnd": "删除此条及之后所有消息"
     },
     "code": {
       "copy": "复制代码",

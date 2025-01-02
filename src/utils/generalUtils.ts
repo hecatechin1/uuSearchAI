@@ -34,6 +34,38 @@ export function clickOutside(node, callback) {
   }
 }
 
+export function getElementPostionDiff(ele : HTMLElement) {
+  let rect = ele.getBoundingClientRect();
+  let postion = {
+    top:0,
+    left:0,
+    right:0,
+    bottom:0
+  }
+  // 元素的中心点坐标
+  const centerX = rect.left;
+  const centerY = rect.top;
+
+  // 视口中心点坐标
+  const viewportCenterX = window.innerWidth / 2;
+  const viewportCenterY = window.innerHeight / 2;
+
+  // 水平判断
+  if(centerX < viewportCenterX){
+    postion.left = rect.left;
+  }else{
+    postion.right = window.innerWidth - rect.left;
+  }
+
+  if(centerY < viewportCenterY ){
+    postion.top = rect.bottom;
+  }else{
+    postion.bottom = window.innerHeight - rect.top;
+  }
+
+  return postion;
+}
+
 // Utility function to check if a message is an audio message
 export function isAudioMessage(message: any): message is { audioUrl: string; isAudio: boolean } {
   return message.isAudio === true;

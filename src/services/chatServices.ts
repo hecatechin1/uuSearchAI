@@ -118,3 +118,18 @@ export async function updateChatInfo(cid:number,name='',ai='',model=''){
   }
 
 }
+
+export async function deleteMessage(cid:number,mid:number,toEnd:boolean=false){
+  try{
+    let response = await createTimeOutFetch()(`https://api.uugpt.com/ai/msg/delete?cid=${cid}&mid=${mid}&toEnd=${toEnd}`);
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      return 1;
+    }
+  }catch(e){
+    return 1;
+  }
+
+}

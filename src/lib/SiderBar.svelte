@@ -7,6 +7,7 @@
     closeStream,
     getChatListData,
     createNewChat,
+    renameChat,
   } from "../manages/chatManages";
   import { createEventDispatcher, onMount } from "svelte";
   import {
@@ -14,7 +15,7 @@
     showSuccessMessage,
     isNewchat,
   } from "../stores/globalParamentStores";
-  import SideBarContexMenu from "./SideBarContexMenu.svelte";
+  import SideBarContexMenu from "$lib/SideBarContexMenu.svelte";
   import { clickOutside } from "../utils/generalUtils";
 
   const dispatch = createEventDispatcher();
@@ -38,7 +39,9 @@
   let menuTop = 0;
   let menuLeft = 0;
   let menu_index = 0;
-
+  let isShowRenameBox = false;
+  let renameIndex = -1;
+  let renameValue = "";
   onMount(async () => {
     dataLoaded.subscribe((v) => {
       if (v) {
@@ -121,6 +124,31 @@
   }
   function hideMenu() {
     showSidebarMenu = false;
+  }
+  function showRenameBox(event: CustomEvent) {
+    hideMenu();
+    renameValue = $chat_list[event.detail.index].name;
+    isShowRenameBox = true;
+    renameIndex = event.detail.index;
+  }
+
+  async function rename() {
+    if ($chat_list[renameIndex].name == renameValue) {
+      isShowRenameBox = false;
+      renameIndex = -1;
+      renameValue = "";
+      return;
+    }
+    // return;
+    let code = await renameChat($chat_list[renameIndex].cid, renameValue);
+    if (code == 0) {
+      showSuccessMessage("修改成功");
+    } else {
+      showErrorMessage("修改失败");
+    }
+    isShowRenameBox = false;
+    renameIndex = -1;
+    renameValue = "";
   }
 </script>
 
@@ -297,7 +325,6 @@
                     <li class="relative">
                       <div
                         class="no-draggable group relative rounded-lg active:bg-themegreyhover2 focused:bg-themegreyhover2 hover:bg-themegreyhover cursor-pointer"
-                        
                       >
                         <button
                           on:click={() => {
@@ -341,18 +368,25 @@
                                 ></path></svg
                               >
                             </button>
-                            
                           </span>
                         </div>
 
                         <!-- 重命名div 编辑时显示，失去焦点保存 -->
-                        <div
-                          class="absolute bottom-0 left-[7px] right-2 top-[6px] items-center rounded-lg"
+                        {#if isShowRenameBox && renameIndex == chatIndex}
+                          <div
+                            use:clickOutside={rename}
+                            class="absolute bottom-0 left-[7px] right-2 top-[6px] items-center rounded-lg"
                           >
-                          <input class="w-full border bg-transparent p-0 text-sm border-themegreen bg-white focus:outline-none border-2 rounded" autofocus value={$chat_list[chatIndex].name}/>
-                        </div>
-                      
-
+                            <input
+                              on:keyup={(event) => {
+                                if (event.key === "Enter") rename();
+                              }}
+                              class="w-full border bg-transparent p-0 text-sm border-themegreen bg-white focus:outline-none border-2 rounded"
+                              autofocus
+                              bind:value={renameValue}
+                            />
+                          </div>
+                        {/if}
                       </div>
                     </li>
                   {/each}
@@ -413,6 +447,7 @@
           left={menuLeft}
           top={menuTop}
           index={menu_index}
+          on:show-renamebox={showRenameBox}
           on:closeContextMenu={hideMenu}
         />
       </div>

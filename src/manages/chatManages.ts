@@ -1,5 +1,5 @@
-import {getChatList,getMessagesList,sendMessage,deleteChat,updateChatInfo} from "../services/chatServices";
-import {chat_list,current_chat,current_chat_id,current_message,current_chat_ai,current_chat_model,getIndexByCid, defaultaimodel} from "../stores/chatStores";
+import {getChatList,getMessagesList,sendMessage,deleteChat,updateChatInfo,deleteMessage} from "../services/chatServices";
+import {chat_list,current_chat,current_chat_id,current_message,current_chat_ai,current_chat_model,getIndexByCid, defaultaimodel,} from "../stores/chatStores";
 import {userID,language} from "../stores/userStores"
 import {isNewchat, isStreaming} from "../stores/globalParamentStores"
 import { get } from 'svelte/store';
@@ -126,7 +126,7 @@ export async function getMessage(msg:string,ai:string,model:string){
                 //因为用户发送msg的msgid只能在sse结束后获取，所以在此处修改用户消息的msgid
                 v[v.length-2].mid = msg_info.pid;
                 v[v.length-2].cid = msg_info.cid;
-                v[v.length-2].pid = get(isNewchat) ? 0: v[v.length-3].mid;
+                v[v.length-2].pid = (get(isNewchat) || v.length==2)  ? 0: v[v.length-3].mid;
                 v[v.length-2].tm = msg_info.tm;
                 v[v.length-1].tm=msg_info.tm;
                 v[v.length-1].cid=msg_info.cid;
@@ -220,6 +220,13 @@ export async function changeChatModel(ai:string ,model:string){
 }
 
 export async function renameChat(cid:number,name:string){
+    let index = getIndexByCid(cid);
+    let oldName = get(chat_list)[index].name;
+
+    chat_list.update(v=>{
+        v[index].name = '正在修改。。。';
+        return v;
+    });
     let data = await updateChatInfo(cid,name);
     if(data == 1){
         return 1;
@@ -227,6 +234,31 @@ export async function renameChat(cid:number,name:string){
     if(data.code!=0){
         return data.code;
     }
+        chat_list.update(v=>{
+            if(data.code ==0){
+                v[index].name = name;
+            }else{
+                v[index].name = oldName;
+            }
+            return v;
+        });
+    
+    return 0;
+}
 
+export async function deleteMessageData(index:number,toEnd=false){
+    let cid = get(current_chat)[index].cid;
+    let mid = get(current_chat)[index-1].mid;
+    let data = await deleteMessage(cid,mid,toEnd);
+    if(data ==1) return 1;
+    if(data.code!=0) return data.code;
+    current_chat.update(v=>{
+        if(toEnd){
+            v.splice(index-1,v.length-index+1);
+        }else{
+            v.splice(index-1,2);
+        }
+        return v;
+    });
     return 0;
 }

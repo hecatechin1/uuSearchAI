@@ -1,9 +1,9 @@
 <script lang="ts">
   export let message;
-  export let index;
+  export let index:number;
   import { t } from "svelte-i18n"; // 导入本地化方法
   import SvelteMarkdown from "svelte-markdown"; //导入svelte-markdown
-  import { isStreaming } from "../stores/globalParamentStores";
+  import { isStreaming, showErrorMessage, showSuccess, showSuccessMessage } from "../stores/globalParamentStores";
   //导入渲染器
   import CodeRenderer from "../renderers/Code.svelte";
   import LinkRenderer from "../renderers/LinkRenderer.svelte";
@@ -29,11 +29,14 @@
   import {
     copyTextToClipboard,
     formatMessageForMarkdown,
+    clickOutside,
+    getElementPostionDiff
   } from "../utils/generalUtils";
   import { get } from "svelte/store";
-  import { getMessage } from "../manages/chatManages";
+  import { deleteMessageData, getMessage } from "../manages/chatManages";
   import { current_chat, current_chat_ai, current_chat_id, current_chat_model,getAiName,getModelName } from "../stores/chatStores";
   import { onMount,createEventDispatcher } from "svelte";
+    import DeleteMessageContexMenu from "./DeleteMessageContexMenu.svelte";
   let dispatch = createEventDispatcher();
   let showModelSelectorbtn:HTMLElement;
   let isShowUserFirstQuery = true; //是否显示用户的第一个问题
@@ -43,6 +46,12 @@
   let editingMessageContent: string; //正在编辑的消息内容;
   let retrybtn;
   let ast_ai = getAiName(message.message.role=='user'? message.ai : get(current_chat)[index-1].ai);  let ast_model = getModelName(message.message.role=='user'? message.model : get(current_chat)[index-1].model);
+  let isShowDeleteMenu = false;
+  let menuLeft:number;
+  let menuTop:number;
+  let menuRight:number;
+  let menuBottom:number;
+  let deleteMessageBtn:HTMLElement;
   const autoExpand = () => {
     //自动展开
   };
@@ -87,7 +96,39 @@
     html: HtmlRenderer,
     // 其他自定义的 renderer
   };
-  function deleteMessage(index: number) {}
+
+  function deleteMessage(index: number) {
+    const rect = deleteMessageBtn.getBoundingClientRect();
+    let d = getElementPostionDiff(deleteMessageBtn);
+    menuLeft = d.left;
+    menuRight = d.right;
+    menuTop = d.top;
+    menuBottom = d.bottom;
+    isShowDeleteMenu = true;
+  }
+
+  function hideMenu(){
+    isShowDeleteMenu = false;
+  }
+  async function deleteThisMessage(){
+    hideMenu();
+    let d = await deleteMessageData(index);
+    if(d!=0){
+      showErrorMessage(d);
+    }else{
+      showSuccessMessage('删除成功');
+    }
+  }
+
+  async function deleteToEnd(){
+    hideMenu();
+    let d = await deleteMessageData(index,true);
+    if(d!=0){
+      showErrorMessage(d);
+    }else{
+      showSuccessMessage('删除成功');
+    }
+  }
 
   async function retry(index: number) {
     let user_message = get(current_chat)[index - 1];
@@ -169,7 +210,7 @@
             {#if $isStreaming === false}
               <div class="toolbelt flex gap-2 empty:hidden">
                 <div
-                  class="flex justify-start rounded-xl items-center ml-[-0.6rem]"
+                  class="relative flex justify-start rounded-xl items-center ml-[-0.6rem]"
                 >
                   <button
                     class="btn-custom"
@@ -213,6 +254,7 @@
                   </button>
 
                   <button
+                  bind:this={deleteMessageBtn}
                     class="moreButton btn-custom"
                     data-tooltip={$t("app.delete")}
                     on:click={() => deleteMessage(index)}
@@ -222,7 +264,21 @@
                       alt={$t("app.delete")}
                       src={MoreIcon}
                     />
+
                   </button>
+
+                  {#if isShowDeleteMenu }
+                  <div use:clickOutside={hideMenu} style="z-index : 50">
+                    <DeleteMessageContexMenu
+                      left={menuLeft}
+                      top={menuTop}
+                      right={menuRight}
+                      bottom={menuBottom}
+                      on:deleteThisMessage={deleteThisMessage}
+                      on:deleteToTheEnd={deleteToEnd}
+                    />
+                  </div>
+                  {/if}
                 </div>
               </div>
             {/if}
@@ -309,6 +365,7 @@
                             src={EditIcon}
                           />
                         </button>
+
                       </div>
                     </div>
                   </div>

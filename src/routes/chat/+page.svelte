@@ -9,6 +9,7 @@
   import { initializeI18n } from "../../i18n";
   import { waitLocale } from "svelte-i18n";
   import AiModelSelector from "$lib/AIModelSelector.svelte";
+  import  Login from "$lib/Login.svelte";
   import { clickOutside } from "../../utils/generalUtils.js";
   import {
     closeStream,
@@ -31,7 +32,10 @@
   let showSelector = false;
   let selectorTop: number;
   let selectorLeft: number;
+  let selectorBottom: number;
+  let selectorRight : number;
   let callback: Function; // 选择模型的回调函数
+  let showLogin = false;
   function changeChat(event: CustomEvent) {}
 
   onMount(async () => {
@@ -54,8 +58,10 @@
   });
 
   function showModelSelector(event: CustomEvent) {
-    selectorTop = event.detail.top;
-    selectorLeft = event.detail.left;
+    selectorTop = event.detail.position.top;
+    selectorLeft = event.detail.position.left;
+    selectorBottom = event.detail.position.bottom;
+    selectorRight = event.detail.position.right;
     callback = event.detail.callback;
     showSelector = !showSelector;
   }
@@ -77,7 +83,7 @@
     <!-- 聊天主界面 -->
     <div class="flex-1 relative">
       <Topbar on:show-selector={showModelSelector} />
-      <ChatMain {selectedChatId} on:show-selector={showModelSelector} />
+      <ChatMain {selectedChatId} on:show-selector={showModelSelector} on:showLoginBox={()=>showLogin = true}/>
     </div>
     <!-- AI选择器需要JS计算位置，主要是左上角坐标。元件宽度260px，高度310px，注意边缘计算 -->
     {#if showSelector}
@@ -86,8 +92,13 @@
           on:aiModelSelected={aiModelSelected}
           top={selectorTop}
           left={selectorLeft}
+          bottom={selectorBottom}
+          right={selectorRight}
         />
       </div>
+    {/if}
+    {#if showLogin}
+      <Login on:close-card={()=>showLogin = false} isPage={false} />
     {/if}
   </div>
 {/if}

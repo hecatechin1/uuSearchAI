@@ -4,8 +4,9 @@
   import {chat_list, current_chat_ainame,current_chat_id,current_chat_modelname,defaultaimodel,models} from '../stores/chatStores';
   import {changeChatModel} from '../manages/chatManages';
   import userAvatar from "../assets/login/avatar-default.svg";
-  import { get } from "svelte/store";
-  export let showSidebar = false;
+  import {getElementPostionDiff} from '../utils/generalUtils.js';
+  import {showSidebar} from '../stores/globalParamentStores';
+  // export let showSidebar = false;
 
   let isLogedin = false;
   let showModelSelectorbtn:HTMLElement;
@@ -13,14 +14,16 @@
   let showTopbarModelMenu = true;
 
   function showModelSelector(){
-    let position = showModelSelectorbtn.getBoundingClientRect();
-    dispatch("show-selector", { top: position.top+position.height,left: position.left,callback:selectedCallback});
+    let position = getElementPostionDiff(showModelSelectorbtn);
+    dispatch("show-selector", { position:position,callback:selectedCallback});
   }
 
   function selectedCallback(ai:string,model:string){
     changeChatModel(ai,model);
   }
-
+  function showLoginBox(){
+    dispatch('showLoginBox');
+  }
   onMount(()=>{
     
   });
@@ -33,10 +36,11 @@
   <div class="flex items-center gap-0 overflow-hidden">
     <!-- 侧边栏关闭时显示的按钮 -->
 
-    {#if showSidebar}
+    {#if !$showSidebar}
       <div class="flex items-center">
         <span class="flex" data-state="closed"
           ><button
+          on:click={()=>{showSidebar.update(v=>{return !v})}}
             aria-label={$t("app.closeSidebar")}
             data-testid="close-sidebar-button"
             class="h-10 rounded-lg px-2 text-themegreen focus-visible:outline-0 disabled:text-token-text-quaternary focus-visible:bg-themegreyhover enabled:hover:bg-themegreyhover no-draggable"
@@ -132,7 +136,7 @@
   </div>
   {:else}
     <div class="flex items-center">
-    <button class="submit-edit rounded-lg px-3 py-1 text-white bg-themegreen hover:bg-themegreenhover hover:text-white h-5}">{$t("login.login")}</button>
+    <button on:click={showLoginBox} class="submit-edit rounded-lg px-3 py-1 text-white bg-themegreen hover:bg-themegreenhover hover:text-white h-5}">{$t("login.login")}</button>
   </div>
   {/if}
 </div>

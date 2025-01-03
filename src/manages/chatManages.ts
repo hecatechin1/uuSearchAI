@@ -83,8 +83,9 @@ export async function getMessagesListData() {
 // export async function getMessage(pid:number,msg:string,ai:string,model:string){
 export async function getMessage(msg:string,ai:string,model:string){
     current_message.set("");
-    isStreaming.set(true);
+
     closeStream();
+    isStreaming.set(true);
     let pid = 0;
     current_chat.update(value=>{
         if(value.length >= 2){

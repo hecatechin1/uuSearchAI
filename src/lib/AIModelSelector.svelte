@@ -1,55 +1,57 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
-  import { onDestroy, onMount,createEventDispatcher } from "svelte";
+  import { onDestroy, onMount, createEventDispatcher } from "svelte";
   import GPTIcon from "../assets/gpt.svg";
   import ClaudeIcon from "../assets/claude.svg";
   import GeminiIcon from "../assets/gemini.svg";
-  import {models} from '../stores/chatStores';
-  export let top;
-  export let left;
+  import { models } from "../stores/chatStores";
+  export let top = 0;
+  export let left = 0;
+  export let right = 0;
+  export let bottom = 0;
 
   let dispatch = createEventDispatcher();
 
   let aiImg = {
-    'openai': GPTIcon,
-    'anthropic': ClaudeIcon,
-    'google': GeminiIcon,
+    openai: GPTIcon,
+    anthropic: ClaudeIcon,
+    google: GeminiIcon,
   };
-  let openSubMenu:string = '';
+  let openSubMenu: string = "";
 
-  function toggleDropdown() {
-    
+  function toggleDropdown() {}
+
+  function toggleSubMenu(ai: string) {
+    openSubMenu = openSubMenu === ai ? "" : ai;
   }
 
-  function toggleSubMenu(ai:string) {
-    openSubMenu = openSubMenu === ai ? '' : ai;
+  function selectedModel(ai: string, model: string) {
+    dispatch("aiModelSelected", { ai: ai, model: model });
   }
-
-  function selectedModel(ai:string, model:string){
-    dispatch("aiModelSelected", { ai:ai, model:model});
-  }
-
 
 </script>
 
 <!-- transition:fade={{ duration: 300 }} -->
-<div class="fixed z-50" style:top={`${top}px`} style:left={`${left}px`}>
+<div
+  class="fixed z-50"
+  style="position: fixed;"
+  style:left={left > 0 ? `${left}px` : undefined}
+  style:top={top > 0 ? `${top}px` : undefined}
+  style:right={right > 0 ? `${right}px` : undefined}
+  style:bottom={bottom > 0 ? `${bottom}px` : undefined}
+>
   <div class="relative">
     <div
-      class="absolute top-full py-2 left-0 w-[250px] bg-white border border-gray-300 rounded-lg mt-2 shadow-lg z-50 max-h-[300px] overflow-y-auto dropdown-menu"
+      class=" top-full py-2 left-0 w-[250px] bg-white border border-gray-300 rounded-lg mt-2 shadow-lg z-50 max-h-[300px] overflow-y-auto dropdown-menu"
     >
       {#each models as { ai, aiName, models: aiModels }, ai_index}
         <div class="py-2">
-          <button on:click={()=>toggleSubMenu(ai)}>
+          <button on:click={() => toggleSubMenu(ai)}>
             <div
               class="font-semibold text-themegreen px-4 flex justify-between items-center cursor-pointer"
             >
               <div class="flex items-center space-x-2">
-                <img
-                  src={aiImg[ai]}
-                  alt={ai}
-                  class="w-6 h-6"
-                />
+                <img src={aiImg[ai]} alt={ai} class="w-6 h-6" />
                 <span>{aiName}</span>
               </div>
               <svg
@@ -70,9 +72,9 @@
           <!-- Submenu -->
           {#if openSubMenu === ai}
             <div class="pl-4 mt-2" transition:fade={{ duration: 300 }}>
-              {#each aiModels as { name, price,model },model_index}
+              {#each aiModels as { name, price, model }, model_index}
                 <button
-                  on:click={() => (selectedModel(ai, model))}
+                  on:click={() => selectedModel(ai, model)}
                   class="flex justify-between items-center px-4 py-2 w-full text-left hover:bg-gray-100"
                 >
                   <div class="flex items-center space-x-2">

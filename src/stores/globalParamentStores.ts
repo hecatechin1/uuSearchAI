@@ -6,6 +6,9 @@ export const isLogin = writable(false);//用于控制登录状态
 export const currentConversationID = writable('');//用于控制当前的会话ID
 export const isStreaming = writable(false);//用于控制是否正在流式传输
 export const isNewchat = writable(false);//用于控制是否是新的会话
+export const showSidebar = writable(true);//用于控制是否显示侧边栏
+export const showSidebarMd = writable(false);//用于控制是否显示侧边栏的移动端版本
+// showSidebarMd.update(v=>{console.log(v); return v;});
 export function showErrorMessage(msg:string){
     message.set(msg);
     showError.set(true);

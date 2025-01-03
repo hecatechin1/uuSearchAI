@@ -52,6 +52,7 @@
   let menuRight:number;
   let menuBottom:number;
   let deleteMessageBtn:HTMLElement;
+  
   const autoExpand = () => {
     //自动展开
   };
@@ -68,8 +69,8 @@
 
 
   function showModelSelector(){
-    let position = showModelSelectorbtn.getBoundingClientRect();
-    dispatch("show-selector", { top: position.top+position.height,left: position.left,callback:selectedCallback});
+    let position = getElementPostionDiff(showModelSelectorbtn);
+    dispatch("show-selector", { position:position,callback:selectedCallback});
   }
   async function selectedCallback(ai:string,model:string){
     let msg = get(current_chat)[index-1].message.content;
@@ -98,7 +99,6 @@
   };
 
   function deleteMessage(index: number) {
-    const rect = deleteMessageBtn.getBoundingClientRect();
     let d = getElementPostionDiff(deleteMessageBtn);
     menuLeft = d.left;
     menuRight = d.right;
@@ -235,6 +235,7 @@
                   <button
                   bind:this={showModelSelectorbtn}
                   on:click={showModelSelector}
+
                     class="btn-custom btn-switch"
                     data-tooltip={$t("settings.switchMode")}
                   >

@@ -1,6 +1,6 @@
 <script lang="ts">
   // import ChatMessage from "./ChatMessage.svelte";
-  import { createEventDispatcher, onMount } from "svelte";
+  import { createEventDispatcher, onMount,afterUpdate } from "svelte";
   import TopbarChat from "./TopbarChat.svelte";
   import ChatMessage from "./ChatMessage.svelte";
   import { t } from "svelte-i18n"; // 导入本地化方法
@@ -37,6 +37,8 @@
   let input: string = "";
   let textAreaElement; // 定义文本框元素的引用
   let isMobile = false;
+  let container: any;
+  let shouldScroll = true;
   const textMaxHeight = 300; // Maximum height in pixels
   const keys = {
     Enter: "001",
@@ -46,7 +48,6 @@
 
   let userInput = "";
   let isSendHovered = false;
-
   //发送聊天消息
   const sendMessage = () => {};
 
@@ -76,7 +77,20 @@
       }
       isLoading = false;
     });
+
   });
+  afterUpdate(() => {
+    if (shouldScroll && container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  });
+  function handleScroll(){
+        // 判断用户是否滚动到接近底部
+    const threshold = 50; // 像素阈值
+    const position = container.scrollTop + container.clientHeight;
+    const height = container.scrollHeight;
+    shouldScroll = position > height - threshold;
+  }
 
   function autoExpand(event: any) {
     event.target.style.height = "inherit"; // 重置高度
@@ -85,7 +99,7 @@
       parseInt(computed.getPropertyValue("border-top-width"), 10) +
       event.target.scrollHeight +
       parseInt(computed.getPropertyValue("border-bottom-width"), 10);
-
+    console.log(height);
     const newHeight = Math.min(height, textMaxHeight);
     event.target.style.height = `${newHeight}px`; // 设置计算后的高度
 
@@ -114,16 +128,15 @@
 
     if (!(linebreakCode ^ kd) || (event.key === "Enter" && isMobile)) {
       event.preventDefault();
-      const textarea = this;
+      const textarea = event.target as HTMLTextAreaElement;
       const start = textarea.selectionStart;
       const end = textarea.selectionEnd;
-
       textarea.value =
         textarea.value.substring(0, start) +
         "\n" +
         textarea.value.substring(end);
-
       textarea.selectionStart = textarea.selectionEnd = start + 1;
+      textarea.dispatchEvent(new Event('input'));
     }
   }
 
@@ -137,8 +150,11 @@
     dispatch("show-selector", event.detail);
   }
 
-  function tryOtherModel(event: CustomEvent) {
+  function  tryOtherModel(event: CustomEvent) {
     dispatch("show-selector", event.detail);
+  }
+  function showLoginBox(event:CustomEvent){
+    dispatch("showLoginBox",event.detail);
   }
 </script>
 
@@ -159,9 +175,9 @@
       <div class="flex-1 overflow-hidden">
         <div class="h-full">
           <div class="relative h-full">
-            <div class="h-full w-full overflow-y-auto">
-              <div class="flex flex-col text-sm pb-[82px]">
-                <TopbarChat on:show-selector={showModelSelector} />
+            <div bind:this={container} class="h-full w-full overflow-y-auto" on:scroll={handleScroll}>
+              <div  class="flex flex-col text-sm pb-[82px]">
+                <TopbarChat on:show-selector={showModelSelector} on:showLoginBox={showLoginBox} />
                 {#if $current_chat.length > 0}
                   {#each $current_chat as message, i}
                     <ChatMessage

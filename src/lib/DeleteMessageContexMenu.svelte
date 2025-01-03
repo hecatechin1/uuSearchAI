@@ -19,7 +19,6 @@
     function deleteToEnd(){
         dispatch('deleteToTheEnd');
     }
-    console.log(left,right,top,bottom);
 </script>
 
 <div

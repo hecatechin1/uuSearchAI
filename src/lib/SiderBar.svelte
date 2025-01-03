@@ -14,15 +14,24 @@
     showErrorMessage,
     showSuccessMessage,
     isNewchat,
+    showSidebar,
+    showSidebarMd
   } from "../stores/globalParamentStores";
   import SideBarContexMenu from "$lib/SideBarContexMenu.svelte";
+  import SearchChat from "$lib/SearchChat.svelte";
   import { clickOutside } from "../utils/generalUtils";
 
   const dispatch = createEventDispatcher();
-  $: hiddenClass = showSidebar ? "" : "hidden";
-  $: mdHiddenClass = showSidebarMd ? "" : "max-md:hidden";
-  let showSidebar = true;
-  let showSidebarMd = false;
+  $: hiddenClass = $showSidebar ? "" : "hidden";
+  $: mdHiddenClass = $showSidebarMd ? "" : "max-md:hidden";
+  showSidebarMd.subscribe(v=>{
+    showSidebar.set(true);
+    return v;
+  });
+  let activeIndex = -1;
+  let showMenuIndex = -1;
+  // let showSidebar = true;
+  // let showSidebarMd = false;
   let showSidebarMenu = false;
   let isReady = false;
   let daysdiff: any = {
@@ -42,6 +51,7 @@
   let isShowRenameBox = false;
   let renameIndex = -1;
   let renameValue = "";
+  let showSearchBox = false;
   onMount(async () => {
     dataLoaded.subscribe((v) => {
       if (v) {
@@ -50,6 +60,8 @@
     });
     current_chat_id.subscribe((v) => {
       localStorage.setItem("current_chat_id", v.toString());
+      let index = get(chat_list).findIndex(c=>c.cid == v);
+      activeIndex = index;
     });
     isNewchat.subscribe(async (v) => {
       if (!v && isReady) {
@@ -94,6 +106,7 @@
 
   function selectChat(index: number) {
     closeStream();
+    activeIndex = index;
     let cc = get(chat_list)[index];
     isNewchat.set(false);
     current_chat_id.set(cc.cid);
@@ -116,6 +129,8 @@
   }
 
   function showMenu(event, index) {
+    
+    showMenuIndex = index;
     const rect = event.currentTarget.getBoundingClientRect();
     menuTop = rect.top + rect.height;
     menuLeft = rect.left;
@@ -124,6 +139,7 @@
   }
   function hideMenu() {
     showSidebarMenu = false;
+    showMenuIndex = -1;
   }
   function showRenameBox(event: CustomEvent) {
     hideMenu();
@@ -150,6 +166,21 @@
     renameIndex = -1;
     renameValue = "";
   }
+
+  function closeSearchBox(){
+    showSearchBox = false;
+  }
+
+  function searchBox_newChat(){
+    closeSearchBox();
+    newChat();
+  }
+
+  function searchBox_selectChat(event:CustomEvent){
+    // console.log(event.detail);
+    closeSearchBox();
+    selectChat(event.detail);
+  }
 </script>
 
 {#if isReady}
@@ -174,6 +205,7 @@
         >
           <span class="flex" data-state="closed">
             <button
+            on:click={()=>{showSidebar.update(v=>{ return !v})}}
               aria-label={$t("app.closeSidebar")}
               data-testid="close-sidebar-button"
               class="max-md:hidden h-10 rounded-lg px-2 text-themegreen focus-visible:outline-0 disabled:text-token-text-quaternary focus-visible:bg-themegreyhover enabled:hover:bg-themegreyhover no-draggable"
@@ -196,6 +228,7 @@
 
             <!-- 这个是移动端边栏开关按钮 -->
             <button
+            on:click={()=>{showSidebarMd.update(v=>{return!v})}}
               type="button"
               class="inline-flex rounded-md hover:bg-gray-200 focus:bg-gray-200 active:opacity-50 py-1.5 md:hidden"
               data-testid="open-sidebar-button"
@@ -218,6 +251,7 @@
           <div class="flex">
             <span class="flex">
               <button
+              on:click={()=>{showSearchBox = true}}
                 aria-label="Ctrl K"
                 class="h-10 rounded-lg px-2 text-themegreen focus-visible:outline-0 disabled:text-token-text-quaternary focus-visible:bg-themegreyhover enabled:hover:bg-themegreyhover"
                 data-testid="search-button"
@@ -322,9 +356,11 @@
                 </div>
                 <ol>
                   {#each dataGroup[key] as chatIndex}
-                    <li class="relative">
+                    <li  class="relative" >
                       <div
-                        class="no-draggable group relative rounded-lg active:bg-themegreyhover2 focused:bg-themegreyhover2 hover:bg-themegreyhover cursor-pointer"
+                      class:bg-themegreyhover2={activeIndex == chatIndex}
+                      class:bg-themegreyhover = {showMenuIndex == chatIndex}
+                        class="no-draggable group relative rounded-lg hover:bg-themegreyhover cursor-pointer"
                       >
                         <button
                           on:click={() => {
@@ -343,14 +379,16 @@
                           </span>
                         </button>
                         <div
-                          class="absolute bottom-0 top-0 items-center gap-1.5 pr-2 right-0 flex hidden group-hover:flex"
+                        class:hidden={showMenuIndex != chatIndex}
+                          class="absolute bottom-0 top-0 hidden items-center gap-1.5 pr-2 right-0 flex  group-hover:flex"
                         >
                           <span>
                             <button
                               on:click={(event) => {
                                 showMenu(event, chatIndex);
                               }}
-                              class="btn-custom w-8 flex items-center justify-center text-themegrey transition hover:bg-themegreyhover2 radix-state-open:text-themegrey"
+                              class:bg-themegreyhover2 = {showMenuIndex == chatIndex}
+                              class="btn-custom w-8 flex items-center justify-center text-themegrey transition hover:bg-themegreyhover2 "
                               data-tooltip={$t("app.options")}
                             >
                               <svg
@@ -451,6 +489,16 @@
           on:closeContextMenu={hideMenu}
         />
       </div>
+    {/if}
+
+    {#if showSearchBox}
+    <div>
+      <SearchChat
+      on:close = {closeSearchBox}
+      on:newChat={searchBox_newChat}
+      on:selectChat={searchBox_selectChat}
+      />
+    </div>
     {/if}
   </aside>
 {:else}

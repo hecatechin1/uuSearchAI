@@ -4,13 +4,15 @@
   import { createEventDispatcher } from "svelte";
   import {current_chat_ainame,current_chat_modelname,models} from '../stores/chatStores';
   import {changeChatModel} from '../manages/chatManages';
+  import {getElementPostionDiff} from '../utils/generalUtils';
   import { get } from "svelte/store";
+  import {showSidebar,showSidebarMd} from '../stores/globalParamentStores';
 
   const dispatch = createEventDispatcher();
   let showModelSelectorbtn:HTMLElement;
   function showModelSelector() {
-    let position = showModelSelectorbtn.getBoundingClientRect();
-    dispatch("show-selector", {  top: position.top+position.height,left: position.left,callback:selectedCallback});
+    let position = getElementPostionDiff(showModelSelectorbtn);
+    dispatch("show-selector", {  position:position,callback:selectedCallback});
   }
   function selectedCallback(ai:string,model:string){
     changeChatModel(ai,model);
@@ -26,6 +28,7 @@
     class="no-draggable absolute bottom-0 left-0 top-0 ml-3 inline-flex items-center justify-center"
   >
     <button
+    on:click={()=>{showSidebarMd.update(v=>{return !v})}}
       type="button"
       class="inline-flex rounded-md hover:bg-gray-200 focus:bg-gray-200 active:opacity-50 py-1.5"
       data-testid="open-sidebar-button"

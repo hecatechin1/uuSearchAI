@@ -26,6 +26,7 @@
 	"type": "module",
 	"dependencies": {
 		"@sveltejs/adapter-static": "^3.0.4",
+		"browser-signature": "^1.0.7",
 		"highlight.js": "^11.10.0",
 		"js-sha256": "^0.11.0",
 		"sse.js": "^2.5.0",

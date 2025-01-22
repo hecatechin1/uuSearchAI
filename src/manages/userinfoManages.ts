@@ -8,6 +8,7 @@ export async function getUserInfo() {
         if (data.code != 0) {
             return;
         }
+        userID.set(data.info.uid);
         isLogin.set(true);
     });
 
@@ -77,5 +78,7 @@ export async function userLogin(email:string,password:string){
     if (data.code!= 0) {
         return data.code;
     }
+    userID.set(data.uid);
+    isLogin.set(true);
     return 0;
 }

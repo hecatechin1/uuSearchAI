@@ -27,6 +27,7 @@
 	"dependencies": {
 		"@sveltejs/adapter-static": "^3.0.4",
 		"highlight.js": "^11.10.0",
+		"js-sha256": "^0.11.0",
 		"sse.js": "^2.5.0",
 		"svelte-i18n": "^4.0.0",
 		"svelte-markdown": "^0.4.1"

@@ -11,7 +11,6 @@
   let loading = true;
 
   showError.subscribe((value)=>{
-    console.log(value);
     if (value) {
       setTimeout(() => {
         showError.set(false);
@@ -29,7 +28,7 @@
   });
 
   onMount(async () => {
-    userID.set("1733973830");
+    // userID.set("1733973830");
     getUserInfo();
     await initializeI18n();
     await waitLocale();

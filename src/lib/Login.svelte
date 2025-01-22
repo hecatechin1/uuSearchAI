@@ -65,8 +65,8 @@
     // if(isResetPassword){
     //   changeStatus(status_resetPassword);
     // }
-    email = "test2@test.com";
-    forgotPassword = true;
+    // email = "m18636399676@163.com";
+    // forgotPassword = true;
     changeStatus(status_email);
   });
   //验证邮箱

@@ -1,5 +1,4 @@
-import { showErrorMessage, showSuccessMessage } from "../stores/globalParamentStores";
-// utils/generalUtils.ts
+import {sha256} from 'js-sha256'
 
 // Utility function for formatting messages for Markdown rendering
 export function formatMessageForMarkdown(content: string): string {
@@ -20,8 +19,8 @@ export async function copyTextToClipboard(text: string): Promise<boolean> {
   }
 }
 
-export function clickOutside(node, callback) {
-  function handleClick(event) {
+export function clickOutside(node:any, callback:any) {
+  function handleClick(event:any) {
     if (!node.contains(event.target)) {
       callback?.();
     }
@@ -101,10 +100,11 @@ const ErrorMessage = {
 
 // 密码加密函数
 export async function hash256(str: string) {
+  return sha256(str).toString();
   // 将输入字符串转为 ArrayBuffer
   const encoder = new TextEncoder();
   const data = encoder.encode(str);
-
+  console.log(window)
   // 使用 SubtleCrypto API 计算 SHA-256 哈希值
   const hashBuffer = await crypto.subtle.digest("SHA-256", data);
 

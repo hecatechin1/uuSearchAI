@@ -8,6 +8,7 @@ export const isStreaming = writable(false);//用于控制是否正在流式传�
 export const isNewchat = writable(false);//用于控制是否是新的会话
 export const showSidebar = writable(true);//用于控制是否显示侧边栏
 export const showSidebarMd = writable(false);//用于控制是否显示侧边栏的移动端版本
+export const browser_signature = writable('');//用于控制浏览器的签名
 // showSidebarMd.update(v=>{console.log(v); return v;});
 export function showErrorMessage(msg:string){
     message.set(msg);

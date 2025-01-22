@@ -4,12 +4,13 @@
   import { initializeI18n } from "../i18n";
   import { onMount } from "svelte";
   import { waitLocale } from "svelte-i18n";
-  import{showError,showSuccess,message} from "../stores/globalParamentStores"
+  import{showError,showSuccess,message,browser_signature} from "../stores/globalParamentStores"
   import {getUserInfo} from '../manages/userinfoManages';
   import { userID } from "../stores/userStores";
   import { fly } from 'svelte/transition';
+  import browserSignature from 'browser-signature';
   let loading = true;
-
+ 
   showError.subscribe((value)=>{
     if (value) {
       setTimeout(() => {
@@ -28,6 +29,8 @@
   });
 
   onMount(async () => {
+    const signature = browserSignature();
+    browser_signature.set(signature);
     // userID.set("1733973830");
     getUserInfo();
     await initializeI18n();

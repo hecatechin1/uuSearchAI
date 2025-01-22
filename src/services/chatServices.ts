@@ -3,7 +3,7 @@ import { createTimeOutFetch } from "../utils/generalUtils";
 import { get } from "svelte/store";
 import { userID, language } from "../stores/userStores";
 import { current_chat_id, current_message } from "../stores/chatStores";
-import { isNewchat, isStreaming } from "../stores/globalParamentStores";
+import { isNewchat, isStreaming,browser_signature } from "../stores/globalParamentStores";
 
 SSE.prototype.timeoutId = null;
 SSE.prototype.resetTimeout = function () {
@@ -60,6 +60,7 @@ export async function sendMessage(msg: string, pid: number, ai: string, model: s
       role: "user",
       content: msg,
     },
+    did:get(browser_signature),
     lan: get(language),
   };
   if(isNewchat){

@@ -42,8 +42,8 @@ export async function checkEmail(email: string) {
     } else {
       return 1;
     }
-  } catch (e) {
-    console.log("发送错误",e.name);
+  } catch (e:any) {
+    // console.log("发送错误",e.name);
     return 1;
   }
 }

@@ -93,5 +93,60 @@
       "copy": "Copy Code",
       "copied": "Copied"
     },
-    "aisystem":"Please respond in English. Your response must be provided in Markdown format. At the end of your response, include three clickable reference links."
+    "aisystem":"Please respond in English. Your response must be provided in Markdown format. At the end of your response, include three clickable reference links.",
+    "pricing": {
+    "choosePlanTitle": "Choose Your Plan",
+    "choosePlanDescription": "Select the most suitable plan for your needs and enjoy powerful AI services.",
+
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+
+    "freePlanName": "Free Plan",
+    "freePlanDesc": "Free Plan Description",
+    "freePlanFeature1": "40 daily accesses to basic models (GPT-4o mini, Claude 3 Haiku)",
+    "freePlanFeature2": "Basic-model-powered writing, translation, and summarization",
+
+    "basicPlanName": "Basic Plan",
+    "basicPlanDesc": "Ideal for small projects and personal use",
+    "basicPlanFeature1": "Up to 5000 monthly accesses to basic models (GPT-4o mini, Claude 3 Haiku)",
+    "basicPlanFeature2": "Up to 200 monthly accesses to advanced models (o1-preview, Claude 3.5, Gemini 1.5 Pro)",
+    "basicAnnualSaveText": "Save 48%",
+
+    "proPlanName": "Pro Plan",
+    "proPlanDesc": "Perfect for heavy usage, includes all features",
+    "proPlanFeature1": "Unlimited access to basic models (GPT-4o mini, Claude 3 Haiku)",
+    "proPlanFeature2": "Unlimited access to advanced models (o1-preview, Claude 3.5, Gemini 1.5 Pro)",
+    "proAnnualSaveText": "Save 45%",
+
+    "firstMonth": "First month",
+    "after": "Afterwards",
+    "perMonth": "/mo",
+    "yearlyPay": "Yearly payment",
+
+    "recommended": "Recommended",
+    "selectPlan": "Select Plan",
+    "currentPlan": "Current Plan",
+
+    "priceComparisonTitle": "AI Service Price Comparison",
+    "priceComparisonDesc": "Compared to subscribing GPT, Claude, and Gemini separately, our aggregate plan helps you save more!",
+    "priceComparisonService": "Service",
+    "priceComparisonMonthly": "Monthly",
+    "priceComparisonAnnual": "Annual",
+    "priceComparisonGPT": "GPT",
+    "priceComparisonClaude": "Claude",
+    "priceComparisonGemini": "Gemini",
+    "priceComparisonOurPlan": "Our Plan",
+    "priceComparisonConclusion": "Pay once for multiple AI services, no need for separate subscriptions, saving you time and money!",
+
+    "limitedOffer": "Limited Offer",
+    "limitedTime": "Limited Time",
+    "save": "Save",
+    "specialPrice": "Special Price",
+
+    "faqTitle": "Frequently Asked Questions",
+    "faqQ1": "Can I cancel my subscription anytime?",
+    "faqA1": "Yes, you can cancel or modify your plan at any time in your account settings, effective next billing cycle.",
+    "faqQ2": "Do you provide invoices or receipts?",
+    "faqA2": "We provide digital receipts upon each successful payment. Check your account center or contact support if needed."
+  }
   }

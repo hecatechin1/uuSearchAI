@@ -178,8 +178,9 @@
     "yearlyPay": "按年支付",
 
     "recommended": "推荐",
+    "current": "当前",
     "selectPlan": "立即开始",
-    "currentPlan": "当前方案",
+    "currentPlan": "变更方案",
 
     "priceComparisonTitle": "AI服务价格对比",
     "priceComparisonDesc": "与分别订阅 GPT、Claude 和 Gemini 相比，我们的聚合服务可以帮你节省更多！",

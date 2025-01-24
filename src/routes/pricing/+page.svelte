@@ -11,7 +11,7 @@
   let isAnnual = true;
 
   // 当前用户的方案，可能是 'none' | 'free' | 'basic' | 'pro'
-  let currentUserPlan: string = 'basic';
+  let currentUserPlan: string = 'free';
 
   // 逻辑：某些方案在当前订阅情况下不显示按钮
   function showFreeButton() {
@@ -32,20 +32,44 @@
   }
 
   // pricing数据
+  // 将 feature 的翻译键储存在 features 数组中，后面用 #each 渲染
   const pricing = {
+    free: {
+      features: [
+        "pricing.freePlanFeature1",
+        "pricing.freePlanFeature2"
+      ]
+    },
     basic: {
       monthlySubsequent: 4.9,   // 月付之后的价格
       annualSubsequent: 4.08,   // 年付折算月价
-      annualTotal: 49, 
+      annualTotal: 49,
       annualSaveText: $t("pricing.basicAnnualSaveText"),
+      features: [
+        "pricing.basicPlanFeature1",
+        "pricing.basicPlanFeature2"
+        // 需要时可继续添加更多
+      ]
     },
     pro: {
       monthlySubsequent: 9.9,
       annualSubsequent: 8.25,
       annualTotal: 99,
       annualSaveText: $t("pricing.proAnnualSaveText"),
-    },
+      features: [
+        "pricing.proPlanFeature1",
+        "pricing.proPlanFeature2"
+        // 需要时可继续添加更多
+      ]
+    }
   };
+
+  // FAQ 数组
+  const faqs = [
+    { question: "pricing.faqQ1", answer: "pricing.faqA1" },
+    { question: "pricing.faqQ2", answer: "pricing.faqA2" },
+    // 如需要更多FAQ，可继续往这里添加
+  ];
 </script>
 
 <div class="min-h-screen bg-gray-50 py-12">
@@ -80,7 +104,8 @@
       <!-- pro(Pro)方案放在最前 -->
       <div
         class="relative p-6 rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 transform hover:scale-105 
-               outline outline-2 outline-themegreen"
+               outline-2 outline-themegreen overflow-hidden"
+               class:outline="{currentUserPlan === 'pro' || currentUserPlan === 'free'}"
       >
         <!-- 插画或图标，示例放在卡片顶部 -->
         <div class="flex justify-center mb-4">
@@ -89,7 +114,8 @@
 
         <!-- 推荐角标 -->
         <div class="absolute top-0 right-0 bg-themegreen text-white text-xs font-bold py-1 px-3 rounded-bl">
-          {$t("pricing.recommended")}
+          <!-- 如果 currentUserPlan 为 'pro'，显示 '当前计划'，否则显示 '推荐' -->
+          {currentUserPlan === 'pro' ? $t("pricing.current") : $t("pricing.recommended")}
         </div>
 
         <h3 class="text-2xl font-semibold text-gray-800">
@@ -131,33 +157,26 @@
 
         <!-- 功能说明（示例仅用2条，你可以添加更多） -->
         <ul class="mt-6 space-y-4">
-          <li class="flex items-center text-gray-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5 text-themegreen mr-2"
-              fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-            </svg>
-            {$t("pricing.proPlanFeature1")}
-          </li>
-          <li class="flex items-center text-gray-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5 text-themegreen mr-2"
-              fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-            </svg>
-            {$t("pricing.proPlanFeature2")}
-          </li>
+          {#each pricing.pro.features as featureKey}
+            <li class="flex items-center text-gray-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 text-themegreen mr-2"
+                fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+              </svg>
+              {$t(featureKey)}
+            </li>
+          {/each}
         </ul>
 
         <!-- 按钮 -->
         {#if showproButton()}
           <button
-            class="w-full mt-6 py-2 bg-themegreen text-white font-semibold rounded-lg hover:opacity-90 transition"
-            disabled={currentUserPlan === 'pro' || currentUserPlan === 'basic'}
+            class="w-full mt-6 py-2 bg-themegreen text-white font-semibold rounded-lg hover:opacity-90 transition
+              {currentUserPlan === 'basic' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}"
+            disabled={currentUserPlan === 'basic'}
           >
             {getButtonText('pro')}
           </button>
@@ -166,12 +185,20 @@
 
       <!-- Basic 方案 -->
       <div
-        class="relative p-6 rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 transform hover:scale-105"
+        class="relative p-6 rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 transform hover:scale-105 outline-2 outline-themegreen overflow-hidden"
+               class:outline="{currentUserPlan === 'basic'}"
       >
         <div class="flex justify-center mb-4">
           <!-- 插画/图标 -->
           <img src={basicIcon} alt="Basic Plan Icon" class="h-12" />
         </div>
+
+        {#if currentUserPlan === 'basic'}
+          <!-- 推荐角标，仅当 currentUserPlan 为 'basic' 时显示 -->
+          <div class="absolute top-0 right-0 bg-themegreen text-white text-xs font-bold py-1 px-3 rounded-bl">
+            {$t("pricing.current")}
+          </div>
+        {/if}
 
         <h3 class="text-2xl font-semibold text-gray-800">
           {$t("pricing.basicPlanName")}
@@ -210,32 +237,25 @@
         {/if}
 
         <ul class="mt-6 space-y-4">
-          <li class="flex items-center text-gray-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5 text-themegreen mr-2"
-              fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-            </svg>
-            {$t("pricing.basicPlanFeature1")}
-          </li>
-          <li class="flex items-center text-gray-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5 text-themegreen mr-2"
-              fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-            </svg>
-            {$t("pricing.basicPlanFeature2")}
-          </li>
+          {#each pricing.basic.features as featureKey}
+            <li class="flex items-center text-gray-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 text-themegreen mr-2"
+                fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+              </svg>
+              {$t(featureKey)}
+            </li>
+          {/each}
         </ul>
 
         {#if showBasicButton()}
           <button
-            class="w-full mt-6 py-2 bg-themegreen text-white font-semibold rounded-lg hover:opacity-90 transition"
-            disabled={currentUserPlan === 'basic'}
+            class="w-full mt-6 py-2 bg-themegreen text-white font-semibold rounded-lg hover:opacity-90 transition
+              {currentUserPlan === 'pro' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}"
+            disabled={currentUserPlan === 'pro'}
           >
             {getButtonText('basic')}
           </button>
@@ -259,26 +279,18 @@
         </p>
         <p class="mt-5 font-bold text-3xl text-themegreen">US$0</p>
         <ul class="mt-6 space-y-4">
-          <li class="flex items-center text-gray-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5 text-themegreen mr-2"
-              fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-            </svg>
-            {$t("pricing.freePlanFeature1")}
-          </li>
-          <li class="flex items-center text-gray-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5 text-themegreen mr-2"
-              fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-            </svg>
-            {$t("pricing.freePlanFeature2")}
-          </li>
+          {#each pricing.free.features as featureKey}
+            <li class="flex items-center text-gray-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 text-themegreen mr-2"
+                fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+              </svg>
+              {$t(featureKey)}
+            </li>
+          {/each}
         </ul>
 
         <!-- 根据逻辑判断是否显示 -->
@@ -287,7 +299,7 @@
             class="w-full mt-6 py-2 bg-themegreen text-white font-semibold rounded-lg hover:opacity-90 transition"
             disabled={currentUserPlan === 'free'}
           >
-            {getButtonText('free')}
+            {$t("pricing.current")}
           </button>
         {/if}
       </div>
@@ -348,21 +360,17 @@
       <h3 class="text-2xl font-bold text-gray-800 mb-4">
         {$t("pricing.faqTitle")}
       </h3>
-      <!-- 示例：常见问题 #1 -->
-      <div class="mb-4">
-        <div class="font-semibold text-gray-700 mb-2">
-          {$t("pricing.faqQ1")}
+      <!-- 常见问题 列表循环 -->
+      {#each faqs as item}
+        <div class="mb-4">
+          <div class="font-semibold text-gray-700 mb-2">
+            {$t(item.question)}
+          </div>
+          <p class="text-gray-600">
+            {$t(item.answer)}
+          </p>
         </div>
-        <p class="text-gray-600">{$t("pricing.faqA1")}</p>
-      </div>
-      <!-- 示例：常见问题 #2 -->
-      <div class="mb-4">
-        <div class="font-semibold text-gray-700 mb-2">
-          {$t("pricing.faqQ2")}
-        </div>
-        <p class="text-gray-600">{$t("pricing.faqA2")}</p>
-      </div>
-      <!-- 你可以继续添加更多 -->
+      {/each}
     </div>
   </div>
 </div>

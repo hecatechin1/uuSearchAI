@@ -21,7 +21,7 @@
 <div
     class="absolute z-50 py-2 min-w-[180px] max-w-[280px] bg-white border border-gray-300 rounded-lg mt-2 shadow-lg z-10 max-h-[300px] overflow-y-auto dropdown-menu
     max-md:left-2 max-md:bottom-[60px]
-    min-md:right-2 min-md:top-[36px]
+    md:right-2 md:top-[36px]
     "
     transition:fade={{ duration: 300 }}
 >

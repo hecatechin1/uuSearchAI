@@ -2,6 +2,7 @@
     import { fade } from 'svelte/transition';
     import { onMount } from "svelte";
     import { t } from 'svelte-i18n';
+    import { createEventDispatcher } from "svelte";
     import passwordIcon from '../assets/login/password.svg';
     import logoutIcon from '../assets/login/logout.svg';
     import changePasswordIcon from '../assets/login/resetpassword.svg';
@@ -9,14 +10,22 @@
     import accountIcon from '../assets/login/account.svg';
     import settingsIcon from '../assets/settings.svg';
     import feedbackIcon from '../assets/feedback.svg';
+    import {userEmail} from "../stores/userStores";
+    import { goto } from '$app/navigation';
 
+    const dispatch = createEventDispatcher();
 
+    let useremail = "";
+  function closeCard(){
+    dispatch('close-card');
+  }
 
-    let useremail = "rt@test.com";
-
+  function resetpassword(){
+    dispatch('reset-password');
+  }
 </script>
 
-<div class="fixed top-0 left-0 w-screen h-screen" style="z-index: 1000; background:rgba(0,0,0,0.6)">
+<div on:click={closeCard} class="fixed top-0 left-0 w-screen h-screen" style="z-index: 1000;">
 
 <div
     class="absolute z-50 py-2 min-w-[180px] max-w-[280px] bg-white border border-gray-300 rounded-lg mt-2 shadow-lg z-10 max-h-[300px] overflow-y-auto dropdown-menu
@@ -29,17 +38,17 @@
     <div class="flex items-center justify-center text-themegreen h-5 w-5">
         <img class="h-5 w-5" src={accountIcon} alt="uuGPt account"/>
     </div>
-    <span class="whitespace-nowrap">{useremail}</span>
+    <span class="whitespace-nowrap">{$userEmail}</span>
   </div>
 
-  <div class="flex items-center text-sm cursor-pointer disabled:opacity-50 group relative hover:bg-[#f5f5f5] rounded-md my-0 px-2 mx-2 gap-2.5 py-2 pr-3">
+  <div on:click={resetpassword} class="flex items-center text-sm cursor-pointer disabled:opacity-50 group relative hover:bg-[#f5f5f5] rounded-md my-0 px-2 mx-2 gap-2.5 py-2 pr-3">
     <div class="flex items-center justify-center text-themegreen h-5 w-5">
         <img class="h-5 w-5" src={passwordIcon} alt="uuGPt account"/>
     </div>
     <span class="whitespace-nowrap">{$t("login.changePassword")}</span>
   </div>
 
-  <div class="flex items-center text-sm cursor-pointer disabled:opacity-50 group relative hover:bg-[#f5f5f5] rounded-md my-0 px-2 mx-2 gap-2.5 py-2 pr-3">
+  <div on:click={()=>{goto('/pricing')}} class="flex items-center text-sm cursor-pointer disabled:opacity-50 group relative hover:bg-[#f5f5f5] rounded-md my-0 px-2 mx-2 gap-2.5 py-2 pr-3">
     <div class="flex items-center justify-center text-themegreen h-5 w-5">
         <img src={planIcon} alt="uuGPt account"/>
     </div>

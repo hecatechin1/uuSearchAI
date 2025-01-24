@@ -20,6 +20,7 @@
     showErrorMessage,
     showSuccessMessage,
     isNewchat,
+    isLogin,
   } from "../../stores/globalParamentStores";
   import {
     chat_list,
@@ -27,6 +28,7 @@
     dataLoaded,
   } from "../../stores/chatStores.js";
     import UserContexMenu from "$lib/UserContexMenu.svelte";
+
   // 状态管理
   let selectedChatId = "1";
   let isReady = false;
@@ -37,11 +39,13 @@
   let selectorRight : number;
   let callback: Function; // 选择模型的回调函数
   let showLogin = false;
+  let isResetPassword = false;
+  let showUserContexMenu = false;
   function changeChat(event: CustomEvent) {}
 
   onMount(async () => {
-    await initializeI18n();
-    await waitLocale();
+    // await initializeI18n();
+    // await waitLocale();
 
     let res = await getChatListData();
     if (res != 0) {
@@ -56,6 +60,7 @@
     dataLoaded.set(true);
 
     isReady = true;
+    isLogin.set(true);
   });
 
   function showModelSelector(event: CustomEvent) {
@@ -75,16 +80,21 @@
     hideSelector();
     callback(event.detail.ai, event.detail.model);
   }
+
+  function resetPassword(){
+    isResetPassword = true;
+    showLogin = true;
+  }
 </script>
 
 {#if isReady}
   <div class="relative flex h-full overflow-hidden">
     <!-- 侧边栏 -->
-    <SiderBar on:selectChat={changeChat} on:showLoginBox={()=>showLogin = true} />
+    <SiderBar on:selectChat={changeChat} on:showLoginBox={()=>showLogin = true} on:show-user-menu={()=>showUserContexMenu = true} />
     <!-- 聊天主界面 -->
     <div class="flex-1 relative">
       <Topbar on:show-selector={showModelSelector} />
-      <ChatMain {selectedChatId} on:show-selector={showModelSelector} on:showLoginBox={()=>showLogin = true}/>
+      <ChatMain {selectedChatId} on:show-user-menu={()=>showUserContexMenu = true} on:show-selector={showModelSelector} on:showLoginBox={()=>showLogin = true}/>
     </div>
     <!-- AI选择器需要JS计算位置，主要是左上角坐标。元件宽度260px，高度310px，注意边缘计算 -->
     {#if showSelector}
@@ -101,9 +111,16 @@
 
   </div>
   {#if showLogin}
-      <Login on:close-card={()=>showLogin = false} isPage={false} on:login-success={()=>showLogin=false}/>
+      <Login 
+      on:close-card={()=>showLogin = false}
+      isPage={false}
+      isResetPassword={isResetPassword}
+      on:login-success={()=>showLogin=false}
+      />
   {/if}
-  <UserContexMenu/>
+  {#if showUserContexMenu}
+  <UserContexMenu on:close-card={()=>showUserContexMenu = false} on:reset-password={resetPassword}/>
+  {/if}
 {/if}
 
 <style>

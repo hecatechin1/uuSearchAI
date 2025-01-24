@@ -116,7 +116,9 @@
     current_chat_id.set(cc.cid);
     dispatch("selectChat", { selected: cc.cid });
   }
-
+  function showUserMenu(){
+    dispatch('show-user-menu');
+  }
   //TODO：暂时没有分页功能，之后有了再用
   function handleScroll(event: any) {
     const scrollTop = event.target.scrollTop;
@@ -456,6 +458,7 @@
               <div class="group relative" data-headlessui-state="">
                 {#if $isLogin}
                 <button
+                on:click={showUserMenu}
                 class="flex w-full max-w-[100%] items-center gap-2 rounded-lg text-sm group-ui-open:bg-token-sidebar-surface-secondary p-2 hover:bg-token-sidebar-surface-secondary"
                 data-testid="accounts-profile-button"
                 id="headlessui-menu-button-:rsr:"

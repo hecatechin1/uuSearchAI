@@ -17,7 +17,9 @@
     let position = getElementPostionDiff(showModelSelectorbtn);
     dispatch("show-selector", { position:position,callback:selectedCallback});
   }
-
+  function showUserMenu(){
+    dispatch('show-user-menu');
+  }
   function selectedCallback(ai:string,model:string){
     changeChatModel(ai,model);
   }
@@ -115,6 +117,7 @@
   <div class="gap-2 flex items-center pr-1 leading-[0]">
     
     <button
+    on:click={showUserMenu}
       aria-label={$t("app.openPersonalMenu", { default: "Open Profile menu" })}
       data-testid="profile-button"
       class="flex h-10 w-10 items-center justify-center rounded-full hover:bg-gray-200 focus-visible:bg-gray-200"

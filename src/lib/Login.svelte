@@ -29,7 +29,9 @@
     userLogin,
   } from "../manages/userinfoManages";
   import { writable, get } from "svelte/store";
+  import {userEmail} from "../stores/userStores";
   export let isPage; //通过父组件判断是否显示关闭按钮
+  export let isResetPassword;
   // export let isResetPassword = false;//通过父组件判断是否是重置密码窗口
   const dispatch = createEventDispatcher();
   const status_email = "email";
@@ -66,8 +68,15 @@
     //   changeStatus(status_resetPassword);
     // }
     // email = "m18636399676@163.com";
-    // forgotPassword = true;
-    changeStatus(status_email);
+
+    if(isResetPassword){
+      email = get(userEmail)
+      forgotPassword = true;
+      changeStatus(status_vcode);
+    }else{
+      changeStatus(status_email);
+    }
+    
   });
   //验证邮箱
   async function handleEmailSubmit() {

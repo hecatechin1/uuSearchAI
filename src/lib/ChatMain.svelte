@@ -156,6 +156,9 @@
   function showLoginBox(event:CustomEvent){
     dispatch("showLoginBox",event.detail);
   }
+  function showUserMenu(){
+    dispatch('show-user-menu');
+  }
 </script>
 
 {#if isLoading}
@@ -177,7 +180,7 @@
           <div class="relative h-full">
             <div bind:this={container} class="h-full w-full overflow-y-auto" on:scroll={handleScroll}>
               <div  class="flex flex-col text-sm pb-[82px]">
-                <TopbarChat on:show-selector={showModelSelector} on:showLoginBox={showLoginBox} />
+                <TopbarChat on:show-selector={showModelSelector} on:showLoginBox={showLoginBox} on:show-user-menu={showUserMenu} />
                 {#if $current_chat.length > 0}
                   {#each $current_chat as message, i}
                     <ChatMessage

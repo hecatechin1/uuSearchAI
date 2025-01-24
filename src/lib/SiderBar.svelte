@@ -1,7 +1,8 @@
 <script lang="ts">
   import { init, t } from "svelte-i18n"; // 导入本地化方法
+  import avatarIcon from "../assets/login/avatar-default.svg";
   import { get } from "svelte/store";
-  import { userID } from "../stores/userStores";
+  import { userID, userEmail } from "../stores/userStores";
   import { chat_list, current_chat_id, dataLoaded } from "../stores/chatStores";
   import {
     closeStream,
@@ -15,7 +16,8 @@
     showSuccessMessage,
     isNewchat,
     showSidebar,
-    showSidebarMd
+    showSidebarMd,
+    isLogin,
   } from "../stores/globalParamentStores";
   import SideBarContexMenu from "$lib/SideBarContexMenu.svelte";
   import SearchChat from "$lib/SearchChat.svelte";
@@ -24,7 +26,7 @@
   const dispatch = createEventDispatcher();
   $: hiddenClass = $showSidebar ? "" : "hidden";
   $: mdHiddenClass = $showSidebarMd ? "" : "max-md:hidden";
-  showSidebarMd.subscribe(v=>{
+  showSidebarMd.subscribe((v) => {
     showSidebar.set(true);
     return v;
   });
@@ -60,7 +62,7 @@
     });
     current_chat_id.subscribe((v) => {
       localStorage.setItem("current_chat_id", v.toString());
-      let index = get(chat_list).findIndex(c=>c.cid == v);
+      let index = get(chat_list).findIndex((c) => c.cid == v);
       activeIndex = index;
     });
     isNewchat.subscribe(async (v) => {
@@ -103,7 +105,9 @@
     }
     return keys[keys.length - 1];
   }
-
+  function showLoginBox(){
+    dispatch('showLoginBox');
+  }
   function selectChat(index: number) {
     closeStream();
     activeIndex = index;
@@ -129,7 +133,6 @@
   }
 
   function showMenu(event, index) {
-    
     showMenuIndex = index;
     const rect = event.currentTarget.getBoundingClientRect();
     menuTop = rect.top + rect.height;
@@ -167,16 +170,16 @@
     renameValue = "";
   }
 
-  function closeSearchBox(){
+  function closeSearchBox() {
     showSearchBox = false;
   }
 
-  function searchBox_newChat(){
+  function searchBox_newChat() {
     closeSearchBox();
     newChat();
   }
 
-  function searchBox_selectChat(event:CustomEvent){
+  function searchBox_selectChat(event: CustomEvent) {
     // console.log(event.detail);
     closeSearchBox();
     selectChat(event.detail);
@@ -205,7 +208,11 @@
         >
           <span class="flex" data-state="closed">
             <button
-            on:click={()=>{showSidebar.update(v=>{ return !v})}}
+              on:click={() => {
+                showSidebar.update((v) => {
+                  return !v;
+                });
+              }}
               aria-label={$t("app.closeSidebar")}
               data-testid="close-sidebar-button"
               class="max-md:hidden h-10 rounded-lg px-2 text-themegreen focus-visible:outline-0 disabled:text-token-text-quaternary focus-visible:bg-themegreyhover enabled:hover:bg-themegreyhover no-draggable"
@@ -228,7 +235,11 @@
 
             <!-- 这个是移动端边栏开关按钮 -->
             <button
-            on:click={()=>{showSidebarMd.update(v=>{return!v})}}
+              on:click={() => {
+                showSidebarMd.update((v) => {
+                  return !v;
+                });
+              }}
               type="button"
               class="inline-flex rounded-md hover:bg-gray-200 focus:bg-gray-200 active:opacity-50 py-1.5 md:hidden"
               data-testid="open-sidebar-button"
@@ -251,7 +262,9 @@
           <div class="flex">
             <span class="flex">
               <button
-              on:click={()=>{showSearchBox = true}}
+                on:click={() => {
+                  showSearchBox = true;
+                }}
                 aria-label="Ctrl K"
                 class="h-10 rounded-lg px-2 text-themegreen focus-visible:outline-0 disabled:text-token-text-quaternary focus-visible:bg-themegreyhover enabled:hover:bg-themegreyhover"
                 data-testid="search-button"
@@ -356,10 +369,10 @@
                 </div>
                 <ol>
                   {#each dataGroup[key] as chatIndex}
-                    <li  class="relative" >
+                    <li class="relative">
                       <div
-                      class:bg-themegreyhover2={activeIndex == chatIndex}
-                      class:bg-themegreyhover = {showMenuIndex == chatIndex}
+                        class:bg-themegreyhover2={activeIndex == chatIndex}
+                        class:bg-themegreyhover={showMenuIndex == chatIndex}
                         class="no-draggable group relative rounded-lg hover:bg-themegreyhover cursor-pointer"
                       >
                         <button
@@ -379,16 +392,17 @@
                           </span>
                         </button>
                         <div
-                        class:hidden={showMenuIndex != chatIndex}
-                          class="absolute bottom-0 top-0 hidden items-center gap-1.5 pr-2 right-0 flex  group-hover:flex"
+                          class:hidden={showMenuIndex != chatIndex}
+                          class="absolute bottom-0 top-0 hidden items-center gap-1.5 pr-2 right-0 flex group-hover:flex"
                         >
                           <span>
                             <button
                               on:click={(event) => {
                                 showMenu(event, chatIndex);
                               }}
-                              class:bg-themegreyhover2 = {showMenuIndex == chatIndex}
-                              class="btn-custom w-8 flex items-center justify-center text-themegrey transition hover:bg-themegreyhover2 "
+                              class:bg-themegreyhover2={showMenuIndex ==
+                                chatIndex}
+                              class="btn-custom w-8 flex items-center justify-center text-themegrey transition hover:bg-themegreyhover2"
                               data-tooltip={$t("app.options")}
                             >
                               <svg
@@ -440,39 +454,46 @@
           <div class="flex w-full items-center md:hidden">
             <div class="max-w-[100%] grow">
               <div class="group relative" data-headlessui-state="">
+                {#if $isLogin}
                 <button
-                  class="flex w-full max-w-[100%] items-center gap-2 rounded-lg text-sm group-ui-open:bg-token-sidebar-surface-secondary p-2 hover:bg-token-sidebar-surface-secondary"
-                  data-testid="accounts-profile-button"
-                  id="headlessui-menu-button-:rsr:"
-                  type="button"
-                  aria-haspopup="menu"
-                  aria-expanded="false"
-                  data-headlessui-state=""
-                  ><div
-                    class="flex-shrink-0"
-                    style="view-transition-name: var(--vt-profile-avatar-sidebar);"
+                class="flex w-full max-w-[100%] items-center gap-2 rounded-lg text-sm group-ui-open:bg-token-sidebar-surface-secondary p-2 hover:bg-token-sidebar-surface-secondary"
+                data-testid="accounts-profile-button"
+                id="headlessui-menu-button-:rsr:"
+                type="button"
+                aria-haspopup="menu"
+                aria-expanded="false"
+                data-headlessui-state=""
+                ><div
+                  class="flex-shrink-0"
+                  style="view-transition-name: var(--vt-profile-avatar-sidebar);"
+                >
+                  <div
+                    class="flex items-center justify-center overflow-hidden rounded-full"
                   >
-                    <div
-                      class="flex items-center justify-center overflow-hidden rounded-full"
-                    >
-                      <div class="relative flex">
-                        <img
-                          alt="User"
-                          width="32"
-                          height="32"
-                          class="rounded-sm"
-                          referrerpolicy="no-referrer"
-                          src="https://s.gravatar.com/avatar/33b95e272c6a5a272408023c428cb3ab?s=480&amp;r=pg&amp;d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fry.png"
-                        />
-                      </div>
+                    <div class="relative flex">
+                      <img
+                        alt="User"
+                        width="32"
+                        height="32"
+                        class="rounded-sm"
+                        referrerpolicy="no-referrer"
+                        src={avatarIcon}
+                      />
                     </div>
                   </div>
-                  <div
-                    class="relative -top-px grow -space-y-px truncate text-start text-token-text-primary"
-                  >
-                    <div dir="auto">Ray</div>
-                  </div></button
+                </div>
+                <div
+                  class="relative -top-px grow -space-y-px truncate text-start text-token-text-primary"
                 >
+                  <div dir="auto">{$userEmail}</div>
+                </div>
+              </button>
+                {:else}
+                <div class="flex items-center">
+                  <button on:click={showLoginBox} class="submit-edit rounded-lg px-3 py-1 text-white bg-themegreen hover:bg-themegreenhover hover:text-white h-5}">{$t("login.login")}</button>
+                </div>
+                {/if}
+
               </div>
             </div>
           </div>
@@ -492,13 +513,13 @@
     {/if}
 
     {#if showSearchBox}
-    <div>
-      <SearchChat
-      on:close = {closeSearchBox}
-      on:newChat={searchBox_newChat}
-      on:selectChat={searchBox_selectChat}
-      />
-    </div>
+      <div>
+        <SearchChat
+          on:close={closeSearchBox}
+          on:newChat={searchBox_newChat}
+          on:selectChat={searchBox_selectChat}
+        />
+      </div>
     {/if}
   </aside>
 {:else}

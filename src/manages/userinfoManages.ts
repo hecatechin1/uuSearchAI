@@ -9,6 +9,7 @@ export async function getUserInfo() {
             return;
         }
         userID.set(data.info.uid);
+        userEmail.set(data.email);
         isLogin.set(true);
     });
 
@@ -78,7 +79,9 @@ export async function userLogin(email:string,password:string){
     if (data.code!= 0) {
         return data.code;
     }
-    userID.set(data.uid);
-    isLogin.set(true);
+    // userID.set(data.uid);
+    // userEmail.set(data.email);
+    // isLogin.set(true);
+    getUserInfo();//重新请求用户数据，更新用户信息
     return 0;
 }

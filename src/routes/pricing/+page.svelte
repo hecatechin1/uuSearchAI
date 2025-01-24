@@ -6,12 +6,15 @@
   import standardIcon from '../../assets/pricing/standard-icon.svg';
   import proIcon from '../../assets/pricing/pro-icon.svg';
   import payAsYouGoIcon from '../../assets/pricing/pay-as-you-go-icon.svg';
+  import { goto } from "$app/navigation";
+  import {getPaymentAddress, getPlanManageAddress} from '../../manages/planManages';
+    import { showErrorMessage, showSuccessMessage } from "../../stores/globalParamentStores";
 
   // 是否按年订阅
   let isAnnual = true;
 
   // 当前用户的方案，可能是 'none' | 'free' | 'basic' | 'pro'
-  let currentUserPlan: string = 'free';
+  let currentUserPlan: string = 'pro';
 
   // 逻辑：某些方案在当前订阅情况下不显示按钮
   function showFreeButton() {
@@ -70,6 +73,40 @@
     { question: "pricing.faqQ2", answer: "pricing.faqA2" },
     // 如需要更多FAQ，可继续往这里添加
   ];
+
+  async function planManage(){
+    let data = await getPlanManageAddress();
+    if(data!=0){
+      showErrorMessage('链接获取失败');
+    }
+    window.location.href = data;
+  }
+  async function pay(plan:string){
+    let data = await getPaymentAddress(plan, isAnnual);
+    if(data!=0){
+      showErrorMessage('支付链接获取失败');
+    }
+    window.location.href = data;
+    showSuccessMessage('正在支付');
+  }
+  function basicbtnAct(){
+    if(currentUserPlan==='basic'){
+      planManage();
+    }else{
+      pay('uugpt_basic'+(isAnnual?'_yearly':''));
+    }
+  }
+
+  function probtnAct(){
+    if(currentUserPlan==='pro'){
+      planManage();
+    }else{
+      pay('uugpt_pro'+(isAnnual?'_yearly':''));
+    }
+  }
+  function back2Chat(){
+    goto('/chat');
+  }
 </script>
 
 <div class="min-h-screen bg-gray-50 py-12">
@@ -174,6 +211,7 @@
         <!-- 按钮 -->
         {#if showproButton()}
           <button
+          on:click={probtnAct}
             class="w-full mt-6 py-2 bg-themegreen text-white font-semibold rounded-lg hover:opacity-90 transition
               {currentUserPlan === 'basic' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}"
             disabled={currentUserPlan === 'basic'}
@@ -253,6 +291,7 @@
 
         {#if showBasicButton()}
           <button
+          on:click={basicbtnAct}
             class="w-full mt-6 py-2 bg-themegreen text-white font-semibold rounded-lg hover:opacity-90 transition
               {currentUserPlan === 'pro' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}"
             disabled={currentUserPlan === 'pro'}
@@ -296,6 +335,7 @@
         <!-- 根据逻辑判断是否显示 -->
         {#if showFreeButton()}
           <button
+          on:click={back2Chat}
             class="w-full mt-6 py-2 bg-themegreen text-white font-semibold rounded-lg hover:opacity-90 transition"
             disabled={currentUserPlan === 'free'}
           >

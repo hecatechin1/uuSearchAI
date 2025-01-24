@@ -26,6 +26,7 @@
     current_chat_id,
     dataLoaded,
   } from "../../stores/chatStores.js";
+    import UserContexMenu from "$lib/UserContexMenu.svelte";
   // 状态管理
   let selectedChatId = "1";
   let isReady = false;
@@ -79,7 +80,7 @@
 {#if isReady}
   <div class="relative flex h-full overflow-hidden">
     <!-- 侧边栏 -->
-    <SiderBar on:selectChat={changeChat} />
+    <SiderBar on:selectChat={changeChat} on:showLoginBox={()=>showLogin = true} />
     <!-- 聊天主界面 -->
     <div class="flex-1 relative">
       <Topbar on:show-selector={showModelSelector} />
@@ -97,10 +98,12 @@
         />
       </div>
     {/if}
-    {#if showLogin}
-      <Login on:close-card={()=>showLogin = false} isPage={false} />
-    {/if}
+
   </div>
+  {#if showLogin}
+      <Login on:close-card={()=>showLogin = false} isPage={false} on:login-success={()=>showLogin=false}/>
+  {/if}
+  <UserContexMenu/>
 {/if}
 
 <style>

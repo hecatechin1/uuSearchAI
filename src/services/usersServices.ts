@@ -122,14 +122,14 @@ export async function login(email: string, password: string) {
     let res = await createTimeOutFetch()(`https://api.uugpt.com/user/login?email=${email}&password=${password}`);
     if (res.ok) {
       const data = await res.json();
-      const cookie =res.headers.get('set-cookie');
-      const expires = new Date();
-      expires.setTime(expires.getTime() + (30 * 24 * 60 * 60 * 1000)); // 设置过期时间
-      document.cookie = `uugpt_ut =${cookie}; expires=${expires.toUTCString()}; path=/`;
-      // document.cookie = cookie;
-      res.headers.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-      });
+      // const cookie =res.headers.get('set-cookie');
+      // const expires = new Date();
+      // expires.setTime(expires.getTime() + (30 * 24 * 60 * 60 * 1000)); // 设置过期时间
+      // document.cookie = `uugpt_ut =${cookie}; expires=${expires.toUTCString()}; path=/`;
+      // // document.cookie = cookie;
+      // res.headers.forEach((value, key) => {
+      //   console.log(`${key}: ${value}`);
+      // });
       return data;
     } else {
       return 1;

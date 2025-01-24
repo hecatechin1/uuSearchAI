@@ -5,7 +5,7 @@
   import {changeChatModel} from '../manages/chatManages';
   import userAvatar from "../assets/login/avatar-default.svg";
   import {getElementPostionDiff} from '../utils/generalUtils.js';
-  import {showSidebar} from '../stores/globalParamentStores';
+  import {showSidebar,isLogin} from '../stores/globalParamentStores';
   // export let showSidebar = false;
 
   let isLogedin = false;
@@ -111,7 +111,7 @@
     </button>
       
   </div>
-  {#if isLogedin}
+  {#if $isLogin}
   <div class="gap-2 flex items-center pr-1 leading-[0]">
     
     <button

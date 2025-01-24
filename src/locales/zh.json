@@ -1,4 +1,85 @@
-{
+{ "home":{
+  "nav": {
+    "logo": "UUGPT",
+    "chat": "聊天",
+    "features": "功能",
+    "pricing": "价格方案",
+    "reviews": "用户评价",
+    "profile": "个人中心",
+    "login": "登录",
+    "register": "注册"
+  },
+  "hero": {
+    "title": "UUGPT 让多模型AI对话更高效",
+    "subtitleLine1": "集成 GPT、Gemini、Claude 等多模型",
+    "subtitleLine2": "21 种语言支持，云端安全同步。",
+    "subtitleLine3": "移动端 & PC 端统一访问，无需翻墙，中国大陆地区直连。",
+    "startChatBtn": "开始聊天",
+    "activeUsers": "活跃用户",
+    "supportLangs": "支持语言",
+    "lowestPrice": "价格低至"
+  },
+  "features": {
+    "title": "为什么选择 UUGPT",
+    "multiModel": {
+      "title": "多模型智能对话",
+      "desc": "轻松切换 GPT、Gemini、Claude 等模型，涵盖学术写作、编程辅助和创意生成等场景，一站式满足你的多样化需求。"
+    },
+    "security": {
+      "title": "安全 & 隐私",
+      "desc": "采用 HTTPS 加密，云端存储对话记录可自主删除。匿名用户清除 Cookie 后无痕，保障你的隐私与数据安全。"
+    },
+    "flexiblePricing": {
+      "title": "灵活付费 + 首月优惠",
+      "desc": "提供免费版、基础版、和高级版供选择。新用户首月仅需 1 美元，让你以超低成本体验 UUGPT 的强大功能。"
+    },
+    "cloudStorage": {
+      "title": "云端存储",
+      "desc": "对话记录保存在云端，可跨设备访问，不怕本地丢失，让你随时随地查看与管理。"
+    },
+    "multiModal": {
+      "title": "多模态功能",
+      "desc": "支持发送图片、PDF、txt、Word 等多种格式，满足更多场景需求，全面提升沟通效率。"
+    },
+    "intelligentSearch": {
+      "title": "智能搜索",
+      "desc": "可将 UUGPT 嵌入第三方搜索中进行 AI 搜索，帮助你快速锁定关键信息。"
+    }
+  },
+  "reviews": {
+    "title": "用户怎么说",
+    "reviewer1": {
+      "name": "Jondier Junior",
+      "type": "验证用户",
+      "comment": "“UUGPT 的多模型切换真的很方便，首月优惠的价格实在太香了，推荐给身边朋友都说好！”"
+    },
+    "reviewer2": {
+      "name": "Paul Edison",
+      "type": "验证用户",
+      "comment": "“从匿名到高级付费都能选择，非常灵活。云端存储和加密方式让我很放心，给好评。”"
+    },
+    "reviewer3": {
+      "name": "Erik Bass",
+      "type": "验证用户",
+      "comment": "“界面简洁、响应速度很快，尤其在中国大陆使用完全不卡顿。对我这种需要跨语言交流的人帮助很大。”"
+    }
+  },
+  "cta": {
+    "title": "马上体验 UUGPT",
+    "subtitle": "加入数千用户行列，体验更加高效便捷的 AI 对话管理，轻松应对学习、工作和创作各种场景！",
+    "buttonText": "立即开始"
+  },
+  "footer": {
+    "changelog": "更新日志",
+    "faq": "常见问题",
+    "terms": "服务条款",
+    "privacy": "隐私政策",
+    "seoText": "多模型智能对话, GPT, Gemini, Claude, 21种语言支持, 云端存储, 加密安全, 灵活付费, 中国大陆直连, AI 辅助写作, 创意生成, 编程辅助, AIGC",
+    "logo": "UUGPT",
+    "copyright":
+      "© 2025 UUGPT. All rights reserved."
+  }
+},
   "login": {
     "title": "登录 uuGPT",
     "welcome": "欢迎使用 uuGPT",

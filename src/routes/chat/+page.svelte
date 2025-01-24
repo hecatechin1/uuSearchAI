@@ -60,7 +60,7 @@
     dataLoaded.set(true);
 
     isReady = true;
-    isLogin.set(true);
+    // isLogin.set(true);
   });
 
   function showModelSelector(event: CustomEvent) {

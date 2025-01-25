@@ -9,7 +9,7 @@ export async function getUserInfo() {
             return;
         }
         userID.set(data.info.uid);
-        userEmail.set(data.email);
+        userEmail.set(data.info.email);
         isLogin.set(true);
     });
 

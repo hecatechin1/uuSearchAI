@@ -14,7 +14,10 @@ export async function fetchData() {
 //获取用户信息
 export async function getInfo() {
   try {
-    let response = await createTimeOutFetch()(`https://api.uugpt.com/user/info`);
+    let response = await createTimeOutFetch()(`https://api.uugpt.com/user/info`,{
+      method:"GET",
+     credentials: 'include'
+    });
     if (response.ok) {
       const data = await response.json();
       console.log(data); // 打印数据
@@ -119,7 +122,10 @@ export async function setPassword(email: string, password: string) {
 //登录
 export async function login(email: string, password: string) {
   try {
-    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/login?email=${email}&password=${password}`);
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/login?email=${email}&password=${password}`,{
+      method:"GET",
+     credentials: 'include'
+    });
     if (res.ok) {
       const data = await res.json();
       // const cookie =res.headers.get('set-cookie');
@@ -146,6 +152,7 @@ export async function resetPassword(email: string, password: string) {
       headers:{
         "Content-Type":"application/json",
       },
+      credentials: 'include',
       body:JSON.stringify({
         info:{
         "password":password,

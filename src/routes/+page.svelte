@@ -4,9 +4,10 @@
   // 示例图片导入（请根据实际路径修改）
   import heroBg from "../assets/home/hero-bg.png";
   import aiLogos from "../assets/RobotIcon.svg";
-  import feature1 from "../assets/home/feature-1.png";
-  import feature2 from "../assets/home/feature-2.png";
-  import feature3 from "../assets/home/feature-3.png";
+  import feature1 from "../assets/home/feature-1.svg";
+  import feature2 from "../assets/home/feature-2.svg";
+  import feature3 from "../assets/home/feature-3.svg";
+  import feature4 from "../assets/home/feature-4.svg";
   import avatar1 from "../assets/home/user1.png";
   import avatar2 from "../assets/home/user2.png";
   import avatar3 from "../assets/home/user3.png";
@@ -231,20 +232,7 @@
           ></div>
           <div class="relative space-y-6">
             <div class="p-3 rounded-xl bg-gray-50 w-fit">
-              <!-- 改成锁的图标 -->
-              <svg
-                class="w-12 h-12 text-emerald-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.5"
-                  d="M12 11V7a4 4 0 00-8 0v4H4a2 2 0 012-2h1m12 0h-1a2 2 0 00-2 2v4a2 2 0 002 2h1a2 2 0 002-2v-4a2 2 0 00-2-2z"
-                />
-              </svg>
+              <img src={feature2} alt="多模型切换" class="w-12 h-12" />
             </div>
             <h3 class="text-xl font-semibold">
               {$t('home.features.security.title')}
@@ -265,7 +253,7 @@
           ></div>
           <div class="relative space-y-6">
             <div class="p-3 rounded-xl bg-gray-50 w-fit">
-              <img src={feature2} alt="付费" class="w-12 h-12" />
+              <img src={feature3} alt="付费" class="w-12 h-12" />
             </div>
             <h3 class="text-xl font-semibold">
               {$t('home.features.flexiblePricing.title')}
@@ -286,7 +274,7 @@
           ></div>
           <div class="relative space-y-6">
             <div class="p-3 rounded-xl bg-gray-50 w-fit">
-              <img src={feature3} alt="云端存储" class="w-12 h-12" />
+              <img src={feature4} alt="云端存储" class="w-12 h-12" />
             </div>
             <h3 class="text-xl font-semibold">
               {$t('home.features.cloudStorage.title')}

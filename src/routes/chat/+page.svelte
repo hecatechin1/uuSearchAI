@@ -28,6 +28,7 @@
     dataLoaded,
   } from "../../stores/chatStores.js";
     import UserContexMenu from "$lib/UserContexMenu.svelte";
+    import UserSettings from "$lib/UserSettings.svelte";
 
   // 状态管理
   let selectedChatId = "1";
@@ -41,6 +42,7 @@
   let showLogin = false;
   let isResetPassword = false;
   let showUserContexMenu = false;
+  let showSettings = false;
   function changeChat(event: CustomEvent) {}
 
   onMount(async () => {
@@ -122,6 +124,9 @@
   {#if showUserContexMenu}
   <UserContexMenu on:close-card={()=>showUserContexMenu = false} on:reset-password={resetPassword}/>
   {/if}
+  <!-- {#if showSettings}
+    <UserSettings />
+  {/if} -->
 {/if}
 
 <style>

@@ -24,6 +24,7 @@
   import MoreIcon from "../assets/more.svg";
   import gptIcon from "../assets/gpt.svg";
   import toggleIcon from "../assets/toggle.svg";
+  import errorIcon from "../assets/pricing/failure.svg";
 
   //导入通用方法
   import {
@@ -204,6 +205,39 @@
                   />
                 </div>
               </div>
+
+               <!-- TODO: 如果服务端发生错误500, 链接不上服务器 显示这个标签，隐藏同级标签和消息工具栏 -->
+                <div class="flex">
+                  <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full">
+                    <img src={errorIcon} alt="Error" class="w-6 h-6 mr-1 inline-flex" />
+                    <span>服务端错误，点击重试</span>
+                  </div>
+                </div>
+
+                <!-- TODO: 如果服务端发生错误类型，设备超出限制 显示这个标签，隐藏同级标签和消息工具栏 -->
+                <div class="flex">
+                  <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full">
+                    <img src={errorIcon} alt="Error" class="w-6 h-6 mr-1 inline-flex" />
+                    <span>设备数超出限制。您当前的可同时使用设备数为(deviceLimit)台。如需增加可用设备数请<a href="./pricing" target="_blank" class="font-bold underline text-red-700 px-2">升级计划</a>。请注意，不同的浏览器会被记为多台设备。</span>
+                  </div>
+                </div>
+
+                <!-- TODO: 如果token或对话次数额度超限 显示这个标签，隐藏同级标签和消息工具栏 -->
+                <div class="flex">
+                  <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full">
+                    <img src={errorIcon} alt="Error" class="w-6 h-6 mr-1 inline-flex" />
+                    <span>当前模型对话限额已用尽，请更换其他模型或<a href="./pricing" target="_blank" class="font-bold underline text-red-700 px-2">升级计划</a>。</span>
+                  </div>
+                </div>
+
+                <!-- TODO: 如果使用中的计划到期 显示这个标签，隐藏同级标签和消息工具栏 -->
+                <div class="flex">
+                  <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full">
+                    <img src={errorIcon} alt="Error" class="w-6 h-6 mr-1 inline-flex" />
+                    <span>您的订阅已经到期，请<a href="./pricing" target="_blank" class="font-bold underline text-red-700 px-2">升级计划</a>继续使用。</span>
+                  </div>
+                </div>
+
             </div>
 
             <!-- 消息工具栏 -->
@@ -286,8 +320,12 @@
 
             <div class="pr-2 lg:pr-0"></div>
           </div>
+
+         
         </div>
       </div>
+
+     
     </div>
   </article>
 {:else if message.message.role === "user"}

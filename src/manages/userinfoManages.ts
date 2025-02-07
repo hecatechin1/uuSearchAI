@@ -1,7 +1,9 @@
 import { userID, userEmail, userLevel, userTokens, userPlanEndtime,userPlanMode,userSubMode,getEmailCodeId } from '../stores/userStores';
 import { isLogin } from "../stores/globalParamentStores";
-import { getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login } from "../services/usersServices";
+import { getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login, updateData } from "../services/usersServices";
 import {hash256} from "../utils/generalUtils";
+import {sendKey,lineBreakKey,language} from "../stores/settingsStores";
+import {get} from "svelte/store";
 
 export async function getUserInfo() {
     getInfo().then((data) => {
@@ -93,5 +95,16 @@ export async function userLogin(email:string,password:string){
     // userEmail.set(data.email);
     // isLogin.set(true);
     getUserInfo();//重新请求用户数据，更新用户信息
+    return 0;
+}
+
+export async function UpdateUserData_Settings(send:string,linebreak:string,lang:string){
+    let data = await updateData({sendkey:send,linebreakkey:linebreak,language:lang});
+    if (data == 1) {
+        return 1;
+    }
+    if (data.code!= 0) {
+        return data.code;
+    }
     return 0;
 }

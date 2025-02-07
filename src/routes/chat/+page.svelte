@@ -110,7 +110,7 @@
   <UserContexMenu on:show-settings={()=>{showSettings = true;}} on:close-card={()=>showUserContexMenu = false} on:reset-password={resetPassword}/>
   {/if}
   {#if showSettings}
-    <UserSettings />
+    <UserSettings on:close-settings={()=>{showSettings = false}}/>
   {/if}
 {/if}
 

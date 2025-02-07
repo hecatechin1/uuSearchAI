@@ -171,3 +171,25 @@ export async function resetPassword(email: string, password: string) {
   }
 }
 
+//更改玩家数据（设置按键，语言等）
+export async function updateData(data:any){
+  try{
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/userdata/set`,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+      },
+      credentials: 'include',
+      body:JSON.stringify(data)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    } else {
+      return 1;
+    }
+  }catch(error){
+    return 1;
+  }
+}
+

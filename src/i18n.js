@@ -30,7 +30,6 @@ const initializeI18n = async () => {
 
   const initialLocale = localStorage.getItem("locale") || getLocaleFromNavigator().split('-')[0] || "en";
   language.set(initialLocale);
-  // console.log(get(language))
   init({
     fallbackLocale: initialLocale,
     initialLocale: initialLocale

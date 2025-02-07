@@ -1,17 +1,14 @@
 <script>
     import { fade } from 'svelte/transition';
-    import { onMount } from "svelte";
     import { t } from 'svelte-i18n';
     import { createEventDispatcher } from "svelte";
     import passwordIcon from '../assets/login/password.svg';
     import logoutIcon from '../assets/login/logout.svg';
-    import changePasswordIcon from '../assets/login/resetpassword.svg';
     import planIcon from '../assets/login/plan.svg';
     import accountIcon from '../assets/login/account.svg';
     import settingsIcon from '../assets/settings.svg';
     import feedbackIcon from '../assets/feedback.svg';
     import {userEmail} from "../stores/userStores";
-    import { goto } from '$app/navigation';
 
     const dispatch = createEventDispatcher();
 
@@ -22,6 +19,13 @@
 
   function resetpassword(){
     dispatch('reset-password');
+  }
+
+  function logout(){
+    dispatch('logout');
+  }
+  function feedback(){
+    window.open('https://forms.gle/9sWKVZTnV8gf9onSA', '_blank');
   }
 </script>
 
@@ -48,7 +52,7 @@
     <span class="whitespace-nowrap">{$t("login.changePassword")}</span>
   </div>
 
-  <div on:click={()=>{goto('/pricing')}} class="flex items-center text-sm cursor-pointer disabled:opacity-50 group relative hover:bg-[#f5f5f5] rounded-md my-0 px-2 mx-2 gap-2.5 py-2 pr-3">
+  <div on:click={()=>{window.open('/pricing', '_blank');}} class="flex items-center text-sm cursor-pointer disabled:opacity-50 group relative hover:bg-[#f5f5f5] rounded-md my-0 px-2 mx-2 gap-2.5 py-2 pr-3">
     <div class="flex items-center justify-center text-themegreen h-5 w-5">
         <img src={planIcon} alt="uuGPt account"/>
     </div>
@@ -63,14 +67,14 @@
     <span class="whitespace-nowrap">{$t("settings.title")}</span>
   </div>
 
-  <div class="flex items-center text-sm cursor-pointer disabled:opacity-50 group relative hover:bg-[#f5f5f5] rounded-md my-0 px-2 mx-2 gap-2.5 py-2 pr-3">
+  <div on:click={feedback} class="flex items-center text-sm cursor-pointer disabled:opacity-50 group relative hover:bg-[#f5f5f5] rounded-md my-0 px-2 mx-2 gap-2.5 py-2 pr-3">
     <div class="flex items-center justify-center text-themegreen h-5 w-5">
         <img src={feedbackIcon} alt="Feedback"/>
     </div>
     <span class="whitespace-nowrap">{$t("app.feedback")}</span>
   </div>
   <div role="separator" aria-orientation="horizontal" class="mx-5 my-1 h-px bg-themegreyborder"></div>
-  <div class="flex items-center text-sm cursor-pointer disabled:opacity-50 group relative hover:bg-[#f5f5f5] rounded-md my-0 px-2 mx-2 gap-2.5 py-2 pr-3">
+  <div on:click={logout} class="flex items-center text-sm cursor-pointer disabled:opacity-50 group relative hover:bg-[#f5f5f5] rounded-md my-0 px-2 mx-2 gap-2.5 py-2 pr-3">
     <div class="flex items-center justify-center text-themegreen h-5 w-5">
         <img src={logoutIcon} alt="Log out" class="ml-[-2px]"/>
     </div>

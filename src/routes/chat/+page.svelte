@@ -85,6 +85,7 @@
     isResetPassword = true;
     showLogin = true;
   }
+
 </script>
 
 {#if isReady}

@@ -10,9 +10,9 @@ export async function getUserInfo() {
         }
         userID.set(data.info.uid);
         userEmail.set(data.info.email);
-        userPlanEndtime.set(data.info.endTime);
-        userPlanMode.set(data.info.product);
-        userSubMode.set(data.info.mode);
+        userPlanEndtime.set(data.info.pay.endTime);
+        userPlanMode.set(data.info.pay.product);
+        userSubMode.set(data.info.pay.mode);
         isLogin.set(true);
     });
 

@@ -283,6 +283,14 @@
     "faqQ1": "我可以随时取消订阅吗？",
     "faqA1": "是的，你可以随时在账户设置中取消或调整你的订阅方案，取消后下个账单周期生效。",
     "faqQ2": "你们提供发票/收据吗？",
-    "faqA2": "我们会在每次成功支付后提供相应的电子收据，必要时请在账户中心查看或联系客服。"
+    "faqA2": "我们会在每次成功支付后提供相应的电子收据，必要时请在账户中心查看或联系客服。",
+
+    "paymentProcessing": "支付处理中",
+    "paymentProcessingMessage": "请稍候，正在处理您的支付...",
+    "paymentSuccess": "支付成功",
+    "paymentSuccessMessage": "感谢您的购买！",
+    "paymentFailure": "支付失败",
+    "paymentFailureMessage": "支付失败，请检查您的支付信息并重试。",
+    "close": "关闭"
   }
   }

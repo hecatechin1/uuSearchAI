@@ -3,6 +3,7 @@
   import ModelSelector from '$lib/AIModelSelector.svelte';
   import AiModelSelector from "$lib/AIModelSelector.svelte";
   import UserContexMenu from "$lib/UserContexMenu.svelte";
+  import PaymentModal from "$lib/PaymentModal.svelte";
 
   let closeCard = false;
   function closeLoginCard() {
@@ -26,6 +27,11 @@ function loginSuccess(){
 
  <AiModelSelector />
 </main> -->
-<div class="fixed">
-<UserContexMenu/>
-</div>
+
+<!-- 模态框组件 -->
+<PaymentModal
+  showModal={showPaymentModal}
+  message={paymentModalMessage}
+  success={paymentSuccess}
+  on:close={closeModal}
+/>

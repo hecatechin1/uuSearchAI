@@ -25,7 +25,6 @@
       <!-- Logo / 项目名 -->
       <div class="flex items-center">
         <a href="/" class="text-2xl font-extrabold text-primary">
-          <!-- 使用 i18n 示例：如果想对项目名做多语言，也可改为 {$t('home.nav.logo')} -->
           UUGPT
         </a>
       </div>

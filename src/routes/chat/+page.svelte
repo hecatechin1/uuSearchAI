@@ -1,34 +1,19 @@
 <script lang="ts">
   import SiderBar from "$lib/SiderBar.svelte";
-
   import ChatMain from "$lib/ChatMain.svelte";
   import Topbar from "$lib/Topbar.svelte";
-  import SearchChat from "$lib/SearchChat.svelte";
-  import { onMount } from "svelte";
-  import "../../i18n.js";
-  import { initializeI18n } from "../../i18n";
-  import { waitLocale } from "svelte-i18n";
+  import UserSettings from "$lib/UserSettings.svelte";
+  import UserContexMenu from "$lib/UserContexMenu.svelte";
   import AiModelSelector from "$lib/AIModelSelector.svelte";
   import  Login from "$lib/Login.svelte";
+  import { onMount } from "svelte";
+  import "../../i18n.js";
   import { clickOutside } from "../../utils/generalUtils.js";
-  import {
-    closeStream,
-    getChatListData,
-    createNewChat,
-  } from "../../manages/chatManages";
-  import {
-    showErrorMessage,
-    showSuccessMessage,
-    isNewchat,
-    isLogin,
-  } from "../../stores/globalParamentStores";
-  import {
-    chat_list,
-    current_chat_id,
-    dataLoaded,
-  } from "../../stores/chatStores.js";
-    import UserContexMenu from "$lib/UserContexMenu.svelte";
-    import UserSettings from "$lib/UserSettings.svelte";
+  import {getChatListData,} from "../../manages/chatManages";
+  import {showErrorMessage,isNewchat,} from "../../stores/globalParamentStores";
+  import {current_chat_id,dataLoaded,} from "../../stores/chatStores.js";
+
+
 
   // 状态管理
   let selectedChatId = "1";
@@ -122,11 +107,11 @@
       />
   {/if}
   {#if showUserContexMenu}
-  <UserContexMenu on:close-card={()=>showUserContexMenu = false} on:reset-password={resetPassword}/>
+  <UserContexMenu on:show-settings={()=>{showSettings = true;}} on:close-card={()=>showUserContexMenu = false} on:reset-password={resetPassword}/>
   {/if}
-  <!-- {#if showSettings}
+  {#if showSettings}
     <UserSettings />
-  {/if} -->
+  {/if}
 {/if}
 
 <style>

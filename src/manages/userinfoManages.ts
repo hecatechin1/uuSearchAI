@@ -1,4 +1,4 @@
-import { userID, userEmail, userLevel, userTokens, userVipTime,getEmailCodeId } from '../stores/userStores';
+import { userID, userEmail, userLevel, userTokens, userPlanEndtime,userPlanMode,userSubMode,getEmailCodeId } from '../stores/userStores';
 import { isLogin } from "../stores/globalParamentStores";
 import { getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login } from "../services/usersServices";
 import {hash256} from "../utils/generalUtils";
@@ -10,10 +10,17 @@ export async function getUserInfo() {
         }
         userID.set(data.info.uid);
         userEmail.set(data.info.email);
+        userPlanEndtime.set(data.info.endTime);
+        userPlanMode.set(data.info.product);
+        userSubMode.set(data.info.mode);
         isLogin.set(true);
     });
 
 
+}
+
+export function userLogout(){
+    document.cookie = 'myCookie=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
 }
 export async function checkUserEmail(email: string) {
     let data = await checkEmail(email);

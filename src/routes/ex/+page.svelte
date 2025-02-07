@@ -13,7 +13,17 @@
 function loginSuccess(){
   closeLoginCard();
 }
-  
+
+  let showPaymentModal = true;
+  let paymentProcessing = true;
+  let paymentSuccess = true;
+
+
+  // 关闭模态框
+  function closeModal() {
+    showPaymentModal = false;
+  }
+
 </script>
 <!-- <div class="flex items-center justify-center min-h-screen">
   {#if !closeCard }  
@@ -31,7 +41,8 @@ function loginSuccess(){
 <!-- 模态框组件 -->
 <PaymentModal
   showModal={showPaymentModal}
-  message={paymentModalMessage}
+  processing={paymentProcessing}
   success={paymentSuccess}
   on:close={closeModal}
 />
+

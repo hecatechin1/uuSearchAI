@@ -2,8 +2,6 @@
   import { t } from "svelte-i18n"; // 一定要记得 import，并在模板中使用 {$t('home.xxx')}
 
   // 示例图片导入（请根据实际路径修改）
-  import heroBg from "../assets/home/hero-bg.png";
-  import aiLogos from "../assets/RobotIcon.svg";
   import feature1 from "../assets/home/feature-1.svg";
   import feature2 from "../assets/home/feature-2.svg";
   import feature3 from "../assets/home/feature-3.svg";
@@ -14,8 +12,8 @@
   import gptIcon from "../assets/gpt.svg";
   import geminiIcon from "../assets/gemini.svg";
   import claudeIcon from "../assets/claude.svg";
+  import {isLogin} from '../stores/globalParamentStores'
 
-  let isLoggedIn = false;
 </script>
 
 <!-- 整页容器 -->
@@ -47,9 +45,9 @@
       </nav>
 
       <!-- 登录 / 注册 / 个人中心 -->
-      {#if isLoggedIn}
+      {#if $isLogin}
         <a
-          href="/profile"
+          href="/chat"
           class="text-sm font-medium text-[var(--secondary,#f9f9f9)] hover:text-[var(--secondary,#f9f9f9)] transition-colors"
           >{$t('home.nav.profile')}</a
         >

@@ -73,6 +73,7 @@
     class="relative w-full pt-20 pb-20 bg-gradient-to-br from-[#d522e5] via-[#7856f3] to-[#7856f3] text-white overflow-hidden"
     style="background-size: cover; background-position: center;"
   >
+
     <div
       class="absolute inset-0 transprant bg-gradient-to-r from-blue-400 to-emerald-400 pointer-events-none opacity-[0.3]"
     ></div>
@@ -500,3 +501,5 @@
     </div>
   </footer>
 </main>
+
+

@@ -3,6 +3,7 @@
   import freeIcon from "../../assets/pricing/free-icon.svg";
   import basicIcon from "../../assets/pricing/basic-icon.svg";
   import proIcon from "../../assets/pricing/pro-icon.svg";
+  import saleIcon from "../../assets/pricing/sale.svg";
   import { goto } from "$app/navigation";
   import {
     getPaymentAddress,
@@ -24,7 +25,7 @@
   // 是否按年订阅
   let isAnnual = true;
 
-  // 当前用户的方案，可能是 'none' | 'free' | 'basic' | 'pro'
+  // 当前用户的方案，可能是  'free' | 'basic' | 'pro'
   let currentUserPlan: string = "free";
   let isLoaded = false;
   let showCard_pro = true;
@@ -36,7 +37,7 @@
       if (value) {
         let plan = get(userPlanMode);
         currentUserPlan = plan.split("_")[1];
-        isAnnual = plan.split("_")[2] === "yearly";
+        isAnnual = plan.split("_")[2] === "monthly" ? false : true;
         cardControler();
         isLoaded = true;
       }
@@ -163,6 +164,7 @@
     <p class="text-center text-gray-600 mb-8">
       {$t("pricing.choosePlanDescription")}
     </p>
+    
     <!-- 月/年切换按钮 -->
     <div class="flex justify-center items-center mb-10">
       <span class="mr-3 text-gray-700">{$t("pricing.monthly")}</span>
@@ -180,7 +182,7 @@
     </div>
 
     <!-- 定价卡片 (Pro -> Basic -> Free) -->
-    <div class="grid md:grid-cols-3 gap-8">
+    <div class="grid md:grid-cols-3 gap-4">
       {#if showCard_pro}
         <!-- pro(Pro)方案放在最前 -->
         <div
@@ -218,12 +220,6 @@
               class="mt-5 font-bold text-2xl text-themegreen inline-flex items-center gap-1"
             >
               {$t("pricing.firstMonth")} US$1
-              <!-- 特价徽章 -->
-              <span
-                class="bg-red-500 text-white text-xs px-2 py-1 rounded-full"
-              >
-                {$t("pricing.limitedOffer")}
-              </span>
             </p>
             <p class="text-sm text-gray-500 mt-1">
               {$t("pricing.after")} US${pricing.pro.monthlySubsequent}/{$t(
@@ -244,7 +240,7 @@
                 {$t("pricing.limitedOffer")}
               </span>
             </p>
-            <p class="text-sm text-gray-500 mt-1">
+            <p class="text-sm text-gray-800 mt-1">
               {$t("pricing.after")} US${pricing.pro.annualSubsequent}/{$t(
                 "pricing.perMonth",
               )}
@@ -334,7 +330,7 @@
                 {$t("pricing.limitedOffer")}
               </span>
             </p>
-            <p class="text-sm text-gray-500 mt-1">
+            <p class="text-sm text-gray-800 mt-1">
               {$t("pricing.after")} US${pricing.basic.monthlySubsequent}/{$t(
                 "pricing.perMonth",
               )}
@@ -343,9 +339,9 @@
           {:else}
             <!-- 年付: 首月$1 + 之后$4.08 -->
             <p
-              class="mt-5 font-bold text-2xl text-themegreen inline-flex items-center gap-1"
+              class="mt-5 font-bold text-xl text-themegreen inline-flex items-center gap-1"
             >
-              {$t("pricing.firstMonth")} US$1
+              <span class="pt-3">{$t("pricing.firstMonth")} US</span><span class="text-5xl">$1</span>
               <!-- 特价徽章 -->
               <span
                 class="bg-red-500 text-white text-xs px-2 py-1 rounded-full"
@@ -353,10 +349,12 @@
                 {$t("pricing.limitedOffer")}
               </span>
             </p>
-            <p class="text-sm text-gray-500 mt-1">
-              {$t("pricing.after")} US${pricing.basic.annualSubsequent}/{$t(
+            <p class="text-m text-gray-800 mt-1">
+              {$t("pricing.after")} <span class="text-gray-800 font-bold">US$
+             {pricing.basic.annualSubsequent}/
+              {$t(
                 "pricing.perMonth",
-              )}
+              )} </span>
               ({$t("pricing.yearlyPay")} US${pricing.basic.annualTotal}
               {pricing.basic.annualSaveText
                 ? ` (${pricing.basic.annualSaveText})`

@@ -325,13 +325,6 @@
             <!--日期循环开始 新聊天-->
             {#if $isNewchat}
               <div class="relative mt-2 first:mt-0 last:mb-3">
-                <div class="sticky top-0 z-20 bg-gray-100">
-                  <span class="flex h-9 items-center">
-                    <h3
-                      class="px-2 text-xs font-semibold text-ellipsis overflow-hidden break-all pt-3 pb-2 text-token-text-primary"
-                    ></h3>
-                  </span>
-                </div>
                 <ol>
                   <li class="relative">
                     <div

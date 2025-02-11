@@ -233,24 +233,40 @@
     "choosePlanTitle": "选择合适的订阅计划",
     "choosePlanDescription": "根据你的需求灵活选择，享受强大的AI服务",
 
-    "monthly": "按月",
-    "yearly": "按年",
+    "monthly": "按月付费",
+    "yearly": "按月付费",
 
     "freePlanName": "免费计划",
-    "freePlanDesc": "免费方案描述",
-    "freePlanFeature1": "每日40次基础模型访问 (GPT-4o mini, Claude 3 Haiku)",
-    "freePlanFeature2": "基础模型驱动的智能写作、翻译和总结",
+    "freePlanDesc": "基础场景及个人使用",
+    "freePlanFeatures": [
+        "同个对话自由切换大模型",
+        "基础模型驱动的智能写作、翻译和总结",
+        "保护隐私，可不登录匿名使用",
+        "云端保存消息记录",
+        "2台登录设备(不同浏览器会被记录为不同设备)",
+        "每天有限制次数的基础模型问答 (GPT-4o mini, Claude 3 Haiku)"
+    ],
 
     "basicPlanName": "基础套餐",
-    "basicPlanDesc": "适合中小型项目和个人用户",
-    "basicPlanFeature1": "每月5000次基础模型访问 (GPT-4o mini, Claude 3 Haiku)",
-    "basicPlanFeature2": "每月200次高级模型访问 (o1-preview, Claude 3.5, Gemini 1.5 Pro)",
+    "basicPlanDesc": "适用于大多数日常使用场景",
+    "basicPlanFeatures": [
+        "覆盖基础模型的所有功能",
+        "5台登录设备(不同浏览器会被记录为不同设备)",
+        "每月5000次基础模型访问 (GPT-4o mini, Claude 3 Haiku)",
+        "更多高级模型可用 (o1-preview, Claude 3.5, Gemini 1.5 Pro)",
+        "即将解锁文件上传功能，语音输入"
+    ],
     "basicAnnualSaveText": "省 48%",
 
     "proPlanName": "高级套餐",
-    "proPlanDesc": "适合高需求用户，提供所有功能",
-    "proPlanFeature1": "无限次基础模型访问 (GPT-4o mini, Claude 3 Haiku)",
-    "proPlanFeature2": "无限次高级模型访问 (o1-preview, Claude 3.5, Gemini 1.5 Pro)",
+    "proPlanDesc": "满足深度使用需求，享受最高优先级",
+    "proPlanFeatures": [
+        "覆盖免费和基础计划所有功能",
+        "10台登录设备(不同浏览器会被记录为不同设备)",
+        "无限次基础模型访问 (GPT-4o mini, Claude 3 Haiku)",
+        "高峰期优先访问权利",
+        "即将解锁更多功能的特权"
+    ],
     "proAnnualSaveText": "省 45%",
 
     "firstMonth": "首月",
@@ -291,6 +307,12 @@
     "paymentSuccessMessage": "感谢您的购买！",
     "paymentFailure": "支付失败",
     "paymentFailureMessage": "支付失败，请检查您的支付信息并重试。",
-    "close": "关闭"
+    "close": "关闭",
+    "saveMore": "立省20%",
+    "mostPopular": "最受欢迎",
+    "then": "之后",
+    "save20": "节省20%",
+    "allInOne": "一体化解决方案", 
+    "priceNote": "一次订阅即可使用 GPT-4、Claude 和 Gemini Pro"
   }
   }

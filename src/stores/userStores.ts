@@ -11,7 +11,7 @@ export const userTokens = writable(0);
 //会员时长
 export const userPlanEndtime = writable(0);
 //会员类型
-export const userPlanMode = writable('free');
+export const userPlanMode = writable('uugpt_free');
 //订阅类型
 export const userSubMode = writable('free');
 

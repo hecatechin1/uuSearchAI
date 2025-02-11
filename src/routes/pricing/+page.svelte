@@ -138,7 +138,7 @@
 <div class="min-h-screen bg-gray-50 py-12">
   <div class="max-w-6xl mx-auto px-4">
     <!-- 页面主标题与副标题 -->
-    {#if currentUserPlan === "free"}
+    {#if currentUserPlan != "pro" && currentUserPlan!= "basic"}
       <h2 class="text-4xl font-extrabold text-center text-gray-800 mb-4">
         {$t("pricing.choosePlanTitle")}
       </h2>
@@ -185,12 +185,12 @@
       {#if showCard_pro}
         <!-- pro(Pro)方案放在最前 -->
         <div
-          class="relative flex flex-col rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 transform hover:scale-105
+          class="relative flex flex-col rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 transform 
                outline outline-2 outline-themegreen overflow-hidden"
         >
           <!-- 推荐角标 -->
           {#if currentUserPlan != "pro"}
-          <div class="absolute top-0 right-0 bg-themegreen text-white text-xs font-bold py-1 px-3 rounded-bl">
+          <div class="absolute top-0 right-0 bg-themegreen text-white font-bold py-1 px-3 rounded-bl-lg">
               {$t("pricing.recommended")}
           </div>
           {/if} 
@@ -266,7 +266,7 @@
       {#if showCard_Basic}
         <!-- Basic 方案 -->
         <div
-          class="relative flex flex-col rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 transform hover:scale-105
+          class="relative flex flex-col rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 transform
                outline outline-2 outline-gray-50 overflow-hidden"
         >
 
@@ -340,7 +340,7 @@
       {#if showCard_free}
         <!-- Free 方案（放在最后） -->
         <div
-        class="relative flex flex-col rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 transform hover:scale-105
+        class="relative flex flex-col rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 transform
              outline outline-2 outline-gray-50 overflow-hidden"
       >
 

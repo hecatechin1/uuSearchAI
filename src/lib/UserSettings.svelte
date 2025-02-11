@@ -4,20 +4,24 @@
     import CloseIcon from "../assets/close.svg";
     import { writable, get, derived } from "svelte/store";
     import { onMount } from "svelte";
-
-    import { settingsVisible, sendKey, lineBreakKey } from "../stores/stores";
+    import {} from "../manages/userinfoManages";
+    import {sendKey, lineBreakKey } from "../stores/settingsStores";
+    import { language } from "../stores/userStores";
+    import {UpdateUserData_Settings} from "../manages/userinfoManages"
 
     const keys = ["Enter", "Shift+Enter", "Ctrl+Enter"];
     const dispatch = createEventDispatcher();
     // 切换语言
     function changeLanguage(event: any) {
         locale.set(event.target.value);
+        language.set(event.target.value);
         handleSave();
         // console.log(get(locale));
     }
 
     function handleSave() {
         dispatch("settings-changed");
+        UpdateUserData_Settings(get(sendKey), get(lineBreakKey),get(language));
         //保存设置
     }
 

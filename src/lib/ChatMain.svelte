@@ -11,7 +11,8 @@
   import SendIcon from "../assets/sendmessage-default.svg";
   import WaitIcon from "../assets/wait.svg";
   // import { closeStream } from "../services/uuAIServices";
-  import { settingsVisible, sendKey, lineBreakKey } from "../stores/stores";
+  // import { settingsVisible, sendKey, lineBreakKey } from "../stores/stores";
+  import {sendKey,language,lineBreakKey} from "../stores/settingsStores";
   import {
     current_chat,
     current_chat_ai,
@@ -39,6 +40,7 @@
   let isMobile = false;
   let container: any;
   let shouldScroll = true;
+  
   const textMaxHeight = 300; // Maximum height in pixels
   const keys = {
     Enter: "001",

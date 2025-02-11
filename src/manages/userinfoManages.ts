@@ -1,6 +1,6 @@
 import { userID, userEmail, userLevel, userTokens, userPlanEndtime,userPlanMode,userSubMode,getEmailCodeId } from '../stores/userStores';
 import { isLogin } from "../stores/globalParamentStores";
-import { getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login, updateData } from "../services/usersServices";
+import { getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login, updateData,getUserData } from "../services/usersServices";
 import {hash256} from "../utils/generalUtils";
 import {sendKey,lineBreakKey,language} from "../stores/settingsStores";
 import {get} from "svelte/store";
@@ -17,7 +17,7 @@ export async function getUserInfo() {
             userPlanMode.set(data.info.pay.product);
             userSubMode.set(data.info.pay.mode);
         }
-
+        getUpdateUserData_Settings();
         isLogin.set(true);
     });
 
@@ -100,6 +100,28 @@ export async function userLogin(email:string,password:string){
 
 export async function UpdateUserData_Settings(send:string,linebreak:string,lang:string){
     let data = await updateData({sendkey:send,linebreakkey:linebreak,language:lang});
+    if (data == 1) {
+        return 1;
+    }
+    if (data.code!= 0) {
+        return data.code;
+    }
+    return 0;
+}
+
+export async function getUpdateUserData_Settings(){
+    let data = await getUserData();
+    let userdata = data.data;
+    if(userdata.sendkey){
+        sendKey.set(userdata.sendkey);
+    }
+    if(userdata.linebreakkey){
+        lineBreakKey.set(userdata.linebreakkey);
+    }
+    if(userdata.language){
+        language.set(userdata.language);
+    }
+    language.set(userdata.language);
     if (data == 1) {
         return 1;
     }

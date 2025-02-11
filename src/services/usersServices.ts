@@ -193,3 +193,17 @@ export async function updateData(data:any){
   }
 }
 
+export async function getUserData(){
+  try {
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/userdata`);
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    } else {
+      return 1;
+    }
+  } catch (error) {
+    return 1;
+  }
+}
+

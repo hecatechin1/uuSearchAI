@@ -151,6 +151,8 @@
     "pricing": {
       "choosePlanTitle": "Choose Your Plan",
       "choosePlanDescription": "Select the most suitable plan for your needs and enjoy powerful AI services.",
+      "planTitle": "Your Subscription",
+      "planDescription": "Your plan determines the AI services and features you can access.",
 
       "monthly": "Monthly",
       "yearly": "Yearly",
@@ -191,12 +193,13 @@
       "firstMonth": "First month",
       "after": "Afterwards",
       "perMonth": "/mo",
-      "yearlyPay": "Yearly payment",
+      "perYear": "/yr",
+      "yearlyPay": "billed annually",
 
       "recommended": "Recommended",
       "current": "Selected",
       "selectPlan": "Select Plan",
-      "currentPlan": "Current Plan",
+      "currentPlan": "Cancel Plan",
 
       "priceComparisonTitle": "AI Service Price Comparison",
       "priceComparisonDesc": "Compared to subscribing GPT, Claude, and Gemini separately, our aggregate plan helps you save more!",

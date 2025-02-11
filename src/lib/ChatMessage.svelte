@@ -53,6 +53,8 @@
   let menuRight:number;
   let menuBottom:number;
   let deleteMessageBtn:HTMLElement;
+  let messageError = false;
+  let messageErrorType = "";
   
   const autoExpand = () => {
     //自动展开
@@ -187,6 +189,7 @@
         >
           <div class="flex-col gap-1 md:gap-3">
             <div class="flex max-w-full flex-col flex-grow">
+              {#if !messageError}
               <div
                 data-message-author-role="assistant"
                 data-message-id={message.mid}
@@ -205,7 +208,9 @@
                   />
                 </div>
               </div>
-
+              {/if}
+              {#if messageError && messageErrorType == "500"}
+              
                <!-- TODO: 如果服务端发生错误500, 链接不上服务器 显示这个标签，隐藏同级标签和消息工具栏 -->
                 <div class="flex">
                   <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full">
@@ -213,7 +218,9 @@
                     <span>服务端错误，点击重试</span>
                   </div>
                 </div>
-
+                {/if}
+                {#if messageError && messageErrorType == "device_limit_exceeded"}
+                
                 <!-- TODO: 如果服务端发生错误类型，设备超出限制 显示这个标签，隐藏同级标签和消息工具栏 -->
                 <div class="flex">
                   <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full">
@@ -221,7 +228,9 @@
                     <span>设备数超出限制。您当前的可同时使用设备数为(deviceLimit)台。如需增加可用设备数请<a href="./pricing" target="_blank" class="font-bold underline text-red-700 px-2">升级计划</a>。请注意，不同的浏览器会被记为多台设备。</span>
                   </div>
                 </div>
-
+                {/if}
+                {#if messageError && messageErrorType == "insufficient_quota"}
+                
                 <!-- TODO: 如果token或对话次数额度超限 显示这个标签，隐藏同级标签和消息工具栏 -->
                 <div class="flex">
                   <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full">
@@ -229,7 +238,9 @@
                     <span>当前模型对话限额已用尽，请更换其他模型或<a href="./pricing" target="_blank" class="font-bold underline text-red-700 px-2">升级计划</a>。</span>
                   </div>
                 </div>
-
+                {/if}
+                {#if messageError && messageErrorType == "context_length_exceeded"}
+                
                 <!-- TODO: 如果使用中的计划到期 显示这个标签，隐藏同级标签和消息工具栏 -->
                 <div class="flex">
                   <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full">
@@ -237,11 +248,11 @@
                     <span>您的订阅已经到期，请<a href="./pricing" target="_blank" class="font-bold underline text-red-700 px-2">升级计划</a>继续使用。</span>
                   </div>
                 </div>
-
+                {/if}
             </div>
-
+            
             <!-- 消息工具栏 -->
-            {#if $isStreaming === false}
+            {#if $isStreaming === false && !messageError}
               <div class="toolbelt flex gap-2 empty:hidden">
                 <div
                   class="relative flex justify-start rounded-xl items-center ml-[-0.6rem]"

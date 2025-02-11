@@ -30,7 +30,9 @@
     showErrorMessage,
     isNewchat,
     isStreaming,
+    isLogin,
   } from "../stores/globalParamentStores";
+    import { guest_signup } from "../manages/userinfoManages";
   export let selectedChatId: string;
 
   let dispatch = createEventDispatcher();
@@ -145,6 +147,10 @@
   async function processMessage() {
     let msg = input;
     input = "";
+    //判断是否登录，如果没有登录则先注册未非登录用户
+    if(!get(isLogin)){
+      guest_signup(); 
+    }
     await getMessage(msg, get(current_chat_ai), get(current_chat_model));
   }
 

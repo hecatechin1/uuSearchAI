@@ -83,7 +83,7 @@ export async function getMessagesListData() {
 // export async function getMessage(pid:number,msg:string,ai:string,model:string){
 export async function getMessage(msg:string,ai:string,model:string){
     current_message.set("");
-
+    
     closeStream();
     isStreaming.set(true);
     let pid = 0;
@@ -123,6 +123,7 @@ export async function getMessage(msg:string,ai:string,model:string){
         let data = e.data;
         let msg_info = checkMessageEnd(data);
         if(msg_info){
+            //TODO:根据返回的消息，判断是否有错误，例如token不足，设备数量超限然后提示用户
             current_chat.update(v=>{
                 //因为用户发送msg的msgid只能在sse结束后获取，所以在此处修改用户消息的msgid
                 v[v.length-2].mid = msg_info.pid;

@@ -119,6 +119,21 @@ export async function setPassword(email: string, password: string) {
   }
 }
 
+export async function guestSignup() {
+  try {
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/signup`);
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    } else {
+      return 1;
+    }
+  } catch (error) {
+    return 1;
+  }
+}
+ 
+
 //登录
 export async function login(email: string, password: string) {
   try {

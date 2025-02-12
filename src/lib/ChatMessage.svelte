@@ -23,6 +23,8 @@
   import DeleteIcon from "../assets/delete.svg";
   import MoreIcon from "../assets/more.svg";
   import gptIcon from "../assets/gpt.svg";
+  import ClaudeIcon from "../assets/claude.svg";
+  import GeminiIcon from "../assets/gemini.svg";
   import toggleIcon from "../assets/toggle.svg";
   import errorIcon from "../assets/pricing/failure.svg";
 
@@ -46,7 +48,8 @@
   let editTextArea;
   let editingMessageContent: string; //正在编辑的消息内容;
   let retrybtn;
-  let ast_ai = getAiName(message.message.role=='user'? message.ai : get(current_chat)[index-1].ai);  let ast_model = getModelName(message.message.role=='user'? message.model : get(current_chat)[index-1].model);
+  let ast_ai = getAiName(message.message.role=='user'? message.ai : get(current_chat)[index-1].ai);
+  let ast_model = getModelName(message.message.role=='user'? message.model : get(current_chat)[index-1].model);
   let isShowDeleteMenu = false;
   let menuLeft:number;
   let menuTop:number;
@@ -287,7 +290,7 @@
                     <img
                       class="h-4 w-4"
                       alt={$t("settings.switchMode")}
-                      src={gptIcon}
+                      src={ast_ai == 'GPT'? gptIcon : ast_ai == 'Claude'? ClaudeIcon : GeminiIcon}
                     />
                     <span class="btn-text">{ast_ai} {ast_model}</span>
                     <span class="h-2 w-2">

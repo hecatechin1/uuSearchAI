@@ -1,7 +1,8 @@
 <script lang="ts">
   import { t } from "svelte-i18n"; // 一定要记得 import，并在模板中使用 {$t('home.xxx')}
 
-  // 示例图片导入（请根据实际路径修改）
+  // 图片导入
+  import uugptIcon from "../assets/aianswer-avtar.svg";
   import feature1 from "../assets/home/feature-1.svg";
   import feature2 from "../assets/home/feature-2.svg";
   import feature3 from "../assets/home/feature-3.svg";
@@ -13,6 +14,7 @@
   import geminiIcon from "../assets/gemini.svg";
   import claudeIcon from "../assets/claude.svg";
   import {isLogin} from '../stores/globalParamentStores'
+  import userAvatar from '../assets/login/avatar-default.svg'
 
 </script>
 
@@ -23,8 +25,8 @@
     <div class="container mx-auto px-4 py-4 flex items-center justify-between">
       <!-- Logo / 项目名 -->
       <div class="flex items-center">
-        <a href="/" class="text-2xl font-extrabold text-primary">
-          UUGPT
+        <a href="/" class="text-2xl font-extrabold text-primary flex items-center">
+          <img class="w-10 h-10 mr-2 inline-block" src={uugptIcon} alt="UUGPT icon"> <span>UUGPT</span>
         </a>
       </div>
 
@@ -49,8 +51,12 @@
         <a
           href="/chat"
           class="text-sm font-medium text-[var(--secondary,#f9f9f9)] hover:text-[var(--secondary,#f9f9f9)] transition-colors"
-          >{$t('home.nav.profile')}</a
-        >
+          >
+          <img
+            src={userAvatar}
+            alt="User Avatar"
+            class="w-8 h-8 rounded-full object-cover"/>
+        </a>
       {:else}
         <div class="space-x-4">
           <a
@@ -446,7 +452,7 @@
       </p>
       <a
         href="/chat"
-        class="inline-block px-8 py-3 bg-themegreen text-white text-lg rounded hover:bg-themegreenhover transition-colors shadow-md font-semibold"
+        class="inline-block px-8 py-3 bg-gray-900 text-white text-lg rounded hover:bg-gray-800 transition-colors shadow-md font-semibold"
       >
         {$t('home.cta.buttonText')}
       </a>
@@ -460,7 +466,9 @@
       <div>
         <h3 class="text-xl font-extrabold">
           <!-- 如需多语言，可改为 {$t('home.footer.logo')} -->
-          UUGPT
+          <a href="/" class="text-2xl font-extrabold text-primary flex items-center">
+            <img class="w-10 h-10 mr-2 inline-block" src={uugptIcon} alt="UUGPT icon"> <span>UUGPT</span>
+          </a>
         </h3>
         <p class="text-sm text-white/70 mt-2">
           {$t('home.footer.copyright')}

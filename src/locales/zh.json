@@ -1,4 +1,5 @@
-{ "home":{
+{ 
+  "home":{
   "nav": {
     "logo": "UUGPT",
     "chat": "聊天",
@@ -208,7 +209,7 @@
       "all": "全部",
       "free": "免费",
       "new": "新",
-      "atachments": "附件",
+      "attachments": "附件",
       "image": "图像",
       "imageGen": "图像生成",
       "pdf": "PDF",
@@ -222,13 +223,24 @@
       "latestChats": "最近聊天",
       "youSaid": "您说:",
       "deleteThisMessage": "删除此消息",
-      "deleteToTheEnd": "删除此条及之后所有消息"
+      "deleteToTheEnd": "删除此条及之后所有消息",
+      "date": {
+        "today": "今天",
+        "yesterday": "昨天",
+        "threeDaysAgo": "三天前",
+        "oneWeekAgo": "一周前",
+        "oneMonthAgo": "一个月前",
+        "halfYearAgo": "半年前",
+        "oneYearAgo": "一年前"
+      },
+      "renameSuccess": "修改成功",
+      "renameFailure": "修改失败"
     },
     "code": {
       "copy": "复制代码",
       "copied": "已复制"
     },
-    "aisystem":"请用中文回答。您的回答必须以 Markdown 格式提供。在您的回答末尾，包含三个可点击的参考链接。",
+    "aisystem":"请用中文回答。您的回答必须以 Markdown 格式提供。当且仅当回答内容复杂或需要参考资料时，在末尾包含 1-3 个与内容直接相关的权威参考链接，链接必须真实存在且与主题强相关。简单明确的回答无需引用链接。",
     "pricing": {
     "choosePlanTitle": "选择合适的订阅计划",
     "choosePlanDescription": "根据你的需求灵活选择，享受强大的AI服务",

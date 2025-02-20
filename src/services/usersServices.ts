@@ -159,6 +159,24 @@ export async function login(email: string, password: string) {
     return 1;
   }
 }
+
+//退出登录
+export async function logout() {
+  try {
+    let res = await createTimeOutFetch()(``,{
+      method:"GET",
+     credentials: 'include'
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    } else {
+      return 1;
+    }
+  } catch (error) {
+    return 1;
+  }
+}
 //重置密码
 export async function resetPassword(email: string, password: string) {
   try {

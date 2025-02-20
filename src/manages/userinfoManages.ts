@@ -1,6 +1,6 @@
 import { userID, userEmail, userLevel, userTokens, userPlanEndtime,userPlanMode,userSubMode,getEmailCodeId } from '../stores/userStores';
 import { isLogin } from "../stores/globalParamentStores";
-import { getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login, updateData,getUserData, guestSignup } from "../services/usersServices";
+import { getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login, updateData,getUserData, guestSignup,logout } from "../services/usersServices";
 import {hash256} from "../utils/generalUtils";
 import {sendKey,lineBreakKey,language} from "../stores/settingsStores";
 import {get} from "svelte/store";
@@ -24,9 +24,17 @@ export async function getUserInfo() {
 
 }
 
-export function userLogout(){
-    document.cookie = '';
+export async function userLogout(){
+    let data = await logout();
+    if (data == 1) {
+        return 1;
+    }
+    if (data.code != 0) {
+        return 1;
+    }
     isLogin.set(false);
+    return 0;
+
 }
 export async function checkUserEmail(email: string) {
     let data = await checkEmail(email);

@@ -37,13 +37,13 @@
   let showSidebarMenu = false;
   let isReady = false;
   let daysdiff: any = {
-    "0": "今天",
-    "1": "昨天",
-    "3": "三天前",
-    "7": "一周前",
-    "30": "一个月前",
-    "180": "半年前",
-    "365": "一年前",
+    "0": $t("app.date.today"),
+    "1": $t("app.date.yesterday"), 
+    "3": $t("app.date.threeDaysAgo"),
+    "7": $t("app.date.oneWeekAgo"),
+    "30": $t("app.date.oneMonthAgo"),
+    "180": $t("app.date.halfYearAgo"),
+    "365": $t("app.date.oneYearAgo"),
   };
   let dataGroup: any = {};
   let dataGroupsKeys: any[] = [];
@@ -163,9 +163,9 @@
     // return;
     let code = await renameChat($chat_list[renameIndex].cid, renameValue);
     if (code == 0) {
-      showSuccessMessage("修改成功");
+      showSuccessMessage($t("app.renameSuccess"));
     } else {
-      showErrorMessage("修改失败");
+      showErrorMessage($t("app.renameFailure"));
     }
     isShowRenameBox = false;
     renameIndex = -1;
@@ -245,7 +245,7 @@
               type="button"
               class="inline-flex rounded-md hover:bg-gray-200 focus:bg-gray-200 active:opacity-50 py-1.5 md:hidden"
               data-testid="open-sidebar-button"
-              ><span class="sr-only">显示边栏</span><svg
+              ><span class="sr-only">{$t("app.showSidebar")}</span><svg
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -311,7 +311,7 @@
           class="flex-col flex-1 transition-opacity duration-500 relative -mr-2 pr-2 overflow-y-auto"
         >
           <div
-            class="flex flex-col gap-2 text-token-text-primary text-sm false mt-2 pb-2"
+            class="flex flex-col gap-2 text-sm false mt-2 pb-2"
           >
             <!--日期循环开始 新聊天-->
             {#if $isNewchat}
@@ -325,7 +325,7 @@
                         <div
                           class="relative grow overflow-hidden whitespace-nowrap"
                         >
-                          新聊天
+                          {$t("app.newChat")}
                           <div
                             class="absolute bottom-0 top-0 to-transparent right-0 bg-gradient-to-l w-10 from-60%"
                           ></div>
@@ -347,7 +347,7 @@
                 <div class="sticky top-0 z-20 bg-gray-100">
                   <span class="flex h-9 items-center">
                     <h3
-                      class="px-2 text-xs font-semibold text-ellipsis overflow-hidden break-all pt-3 pb-2 text-token-text-primary"
+                      class="px-2 text-xs font-semibold text-ellipsis overflow-hidden break-all pt-3 pb-2 text-gray-500"
                     >
                       {daysdiff[key]}
                     </h3>

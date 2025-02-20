@@ -25,7 +25,8 @@ export async function getUserInfo() {
 }
 
 export function userLogout(){
-    document.cookie = 'myCookie=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+    document.cookie = '';
+    isLogin.set(false);
 }
 export async function checkUserEmail(email: string) {
     let data = await checkEmail(email);

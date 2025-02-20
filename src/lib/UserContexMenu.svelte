@@ -9,6 +9,7 @@
     import settingsIcon from '../assets/settings.svg';
     import feedbackIcon from '../assets/feedback.svg';
     import {userEmail} from "../stores/userStores";
+    import {userLogout} from "../manages/userinfoManages";
 
     const dispatch = createEventDispatcher();
 
@@ -22,7 +23,8 @@
   }
 
   function logout(){
-    dispatch('logout');
+    userLogout();
+    window.location.reload();
   }
   function feedback(){
     window.open('https://forms.gle/9sWKVZTnV8gf9onSA', '_blank');

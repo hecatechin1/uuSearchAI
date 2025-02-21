@@ -38,7 +38,7 @@
   let dispatch = createEventDispatcher();
   let isLoading = true;
   let input: string = "";
-  let textAreaElement; // 定义文本框元素的引用
+  let textAreaElement:HTMLTextAreaElement; // 定义文本框元素的引用
   let isMobile = false;
   let container: any;
   let shouldScroll = true;
@@ -152,6 +152,8 @@
       guest_signup(); 
     }
     await getMessage(msg, get(current_chat_ai), get(current_chat_model));
+    textAreaElement.style.height = "1.5rem"; // Reset the height after sending
+    textAreaElement.style.lineHeight = "1.2rem";
   }
 
   function showModelSelector(event: CustomEvent) {

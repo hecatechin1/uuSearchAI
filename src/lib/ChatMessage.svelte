@@ -27,7 +27,6 @@
   import GeminiIcon from "../assets/gemini.svg";
   import toggleIcon from "../assets/toggle.svg";
   import errorIcon from "../assets/pricing/failure.svg";
-
   //导入通用方法
   import {
     copyTextToClipboard,
@@ -38,8 +37,8 @@
   import { get } from "svelte/store";
   import { deleteMessageData, getMessage } from "../manages/chatManages";
   import { current_chat, current_chat_ai, current_chat_id, current_chat_model,getAiName,getModelName } from "../stores/chatStores";
-  import { onMount,createEventDispatcher } from "svelte";
-    import DeleteMessageContexMenu from "./DeleteMessageContexMenu.svelte";
+  import { onMount,createEventDispatcher,afterUpdate } from "svelte";
+  import DeleteMessageContexMenu from "./DeleteMessageContexMenu.svelte";
   let dispatch = createEventDispatcher();
   let showModelSelectorbtn:HTMLElement;
   let isShowUserFirstQuery = true; //是否显示用户的第一个问题
@@ -56,9 +55,9 @@
   let menuRight:number;
   let menuBottom:number;
   let deleteMessageBtn:HTMLElement;
-  let messageError = false;
-  let messageErrorType = "";
-  
+  let messageError = message.error_code != 0;
+  let messageErrorType = message.error_code;
+  let showMenu = false;
   const autoExpand = () => {
     //自动展开
   };
@@ -150,6 +149,9 @@
   function startEditMessage(index: number) {}
 
   onMount(() => {});
+  afterUpdate(() => {
+    showMenu = get(current_chat).length-1 == index ? !get(isStreaming) : true;
+  });
 </script>
 
 {#if message.message.role === "assistant"}
@@ -222,7 +224,7 @@
                   </div>
                 </div>
                 {/if}
-                {#if messageError && messageErrorType == "device_limit_exceeded"}
+                {#if messageError && messageErrorType == "104"}
                 
                 <!-- TODO: 如果服务端发生错误类型，设备超出限制 显示这个标签，隐藏同级标签和消息工具栏 -->
                 <div class="flex">
@@ -232,7 +234,7 @@
                   </div>
                 </div>
                 {/if}
-                {#if messageError && messageErrorType == "insufficient_quota"}
+                {#if messageError && messageErrorType == "103"}
                 
                 <!-- TODO: 如果token或对话次数额度超限 显示这个标签，隐藏同级标签和消息工具栏 -->
                 <div class="flex">
@@ -242,7 +244,7 @@
                   </div>
                 </div>
                 {/if}
-                {#if messageError && messageErrorType == "context_length_exceeded"}
+                {#if messageError && messageErrorType == "102"}
                 
                 <!-- TODO: 如果使用中的计划到期 显示这个标签，隐藏同级标签和消息工具栏 -->
                 <div class="flex">
@@ -255,7 +257,7 @@
             </div>
             
             <!-- 消息工具栏 -->
-            {#if $isStreaming === false && !messageError}
+            {#if showMenu}
               <div class="toolbelt flex gap-2 empty:hidden">
                 <div
                   class="relative flex justify-start rounded-xl items-center ml-[-0.6rem]"

@@ -5,41 +5,57 @@
     import { writable, get, derived } from "svelte/store";
     import { onMount } from "svelte";
     import {} from "../manages/userinfoManages";
-    import {sendKey, lineBreakKey } from "../stores/settingsStores";
+    import { sendKey, lineBreakKey } from "../stores/settingsStores";
     import { language } from "../stores/userStores";
-    import {UpdateUserData_Settings} from "../manages/userinfoManages"
+    import { UpdateUserData_Settings } from "../manages/userinfoManages";
 
     const keys = ["Enter", "Shift+Enter", "Ctrl+Enter"];
+    let sendk ;
+    let breakk;
+    let lang;
+    onMount(async () => {
+        console.log(get(sendKey), get(lineBreakKey), get(language));
+        sendKey.subscribe((value) => {
+            sendk = value;
+        });
+
+        lineBreakKey.subscribe((value) => {
+            breakk = value; 
+        })
+        language.subscribe((value) => {
+            lang = value; 
+        })
+    });
     const dispatch = createEventDispatcher();
     // 切换语言
     function changeLanguage(event: any) {
         locale.set(event.target.value);
         language.set(event.target.value);
-        handleSave();
+        // handleSave();
         // console.log(get(locale));
     }
 
     function handleSave() {
         dispatch("settings-changed");
-        UpdateUserData_Settings(get(sendKey), get(lineBreakKey),get(language));
         //保存设置
     }
 
     function changeSendKey(event: any) {
         if (get(sendKey) != event.target.value) {
             sendKey.set(event.target.value);
-            handleSave();
+            // handleSave();
         }
     }
 
     function changeBreakLineKey(event: any) {
         if (get(lineBreakKey) != event.target.value) {
             lineBreakKey.set(event.target.value);
-            handleSave();
+            // handleSave();
         }
     }
 
     function handleClose() {
+        UpdateUserData_Settings(get(sendKey), get(lineBreakKey), get(language));
         //关闭设置弹窗
         dispatch("close-settings");
     }
@@ -136,8 +152,8 @@
                             >
                             <select class="" on:change={changeSendKey}>
                                 {#each keys as k}
-                                    {#if k != $lineBreakKey}
-                                        {#if k == $sendKey}
+                                    {#if k != breakk}
+                                        {#if k == sendk}
                                             <option
                                                 class="text-gray-600"
                                                 selected>{k}</option
@@ -157,8 +173,8 @@
                             >
                             <select class="" on:change={changeBreakLineKey}>
                                 {#each keys as k}
-                                    {#if k != $sendKey}
-                                        {#if k == $lineBreakKey}
+                                    {#if k != sendk}
+                                        {#if k == breakk}
                                             <option
                                                 class="text-gray-600"
                                                 selected>{k}</option

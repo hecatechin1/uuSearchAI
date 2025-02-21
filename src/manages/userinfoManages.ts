@@ -4,6 +4,7 @@ import { getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword
 import {hash256} from "../utils/generalUtils";
 import {sendKey,lineBreakKey,language} from "../stores/settingsStores";
 import {get} from "svelte/store";
+// import {} from "cookie";
 
 export async function getUserInfo() {
     getInfo().then((data) => {
@@ -25,14 +26,15 @@ export async function getUserInfo() {
 }
 
 export async function userLogout(){
-    let data = await logout();
-    if (data == 1) {
-        return 1;
-    }
-    if (data.code != 0) {
-        return 1;
-    }
-    isLogin.set(false);
+    document.cookie = 'uugpt_ut=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=.uugpt.com; path=/;';
+    // let data = await logout();
+    // if (data == 1) {
+    //     return 1;
+    // }
+    // if (data.code != 0) {
+    //     return 1;
+    // }
+    // isLogin.set(false);
     return 0;
 
 }

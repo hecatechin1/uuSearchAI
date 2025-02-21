@@ -228,7 +228,10 @@ export async function updateData(data:any){
 
 export async function getUserData(){
   try {
-    let res = await createTimeOutFetch()(`https://api.uugpt.com/userdata`);
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/userdata`,{
+      method:"GET",
+      credentials: 'include',
+    });
     if (res.ok) {
       const data = await res.json();
       return data;

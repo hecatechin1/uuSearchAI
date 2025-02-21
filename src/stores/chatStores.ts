@@ -19,6 +19,7 @@ export interface Message {
     'tm': number;
     'ai': string;
     'model': string;
+    'error_code':string;
 }
 //会话列表
 export const chat_list: Writable<Conversation[]> = writable([]);

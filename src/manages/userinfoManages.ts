@@ -1,5 +1,5 @@
 import { userID, userEmail, userLevel, userTokens, userPlanEndtime,userPlanMode,userSubMode,getEmailCodeId } from '../stores/userStores';
-import { isLogin } from "../stores/globalParamentStores";
+import { isLogin,isGuest } from "../stores/globalParamentStores";
 import { getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login, updateData,getUserData, guestSignup,logout } from "../services/usersServices";
 import {hash256} from "../utils/generalUtils";
 import {sendKey,lineBreakKey,language} from "../stores/settingsStores";
@@ -11,6 +11,7 @@ export async function getUserInfo() {
         if (data.code != 0) {
             return;
         }
+
         userID.set(data.info.uid);
         userEmail.set(data.info.email);
         if(data.info.pay){
@@ -158,6 +159,7 @@ export async function guest_signup(){
     if (data.code!= 0) {
         return data.code;
     }
+    isGuest.set(true);
     userID.set(data.uid);
     return 0;
 }

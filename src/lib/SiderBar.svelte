@@ -68,7 +68,9 @@
     isNewchat.subscribe(async (v) => {
       console.log(v,isReady);
       if (!v && isReady) {
+        isReady = false;
         let res = await getChatListData();
+        isReady = true;
       }
     });
     chat_list.subscribe((v) => {

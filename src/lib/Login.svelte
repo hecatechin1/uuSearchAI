@@ -30,6 +30,7 @@
   } from "../manages/userinfoManages";
   import { writable, get } from "svelte/store";
   import {userEmail} from "../stores/userStores";
+  import {isGuest} from "../stores/globalParamentStores";
   export let isPage; //通过父组件判断是否显示关闭按钮
   export let isResetPassword;
   // export let isResetPassword = false;//通过父组件判断是否是重置密码窗口
@@ -208,6 +209,10 @@
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }
+    if(get(isGuest)){
+            localStorage.setItem("current_chat_id", '0');
+            isGuest.set(false);
+        }
     showSuccessMessage($t("login.loginSuccess"));
     loginSuccess();
   }

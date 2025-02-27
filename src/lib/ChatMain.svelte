@@ -10,6 +10,7 @@
   import SendHoverIcon from "../assets/sendmessage-hover.svg";
   import SendIcon from "../assets/sendmessage-active.svg";
   import WaitIcon from "../assets/stop.svg";
+  import {getErrorMessage} from "../utils/generalUtils";
   // import { closeStream } from "../services/uuAIServices";
   // import { settingsVisible, sendKey, lineBreakKey } from "../stores/stores";
   import {sendKey,language,lineBreakKey} from "../stores/settingsStores";
@@ -150,7 +151,11 @@
     input = "";
     //判断是否登录，如果没有登录则先注册未非登录用户
     if(!get(isLogin)){
-      await guest_signup();
+      let data = await guest_signup();
+      if(data!= 0){
+        showErrorMessage("连接不上服务器");
+        return;
+      }
     }
     await getMessage(msg, get(current_chat_ai), get(current_chat_model));
     textAreaElement.style.height = "1.6rem"; // Reset the height after sending
@@ -217,7 +222,7 @@
       </div>
 
       <!-- 聊天输入框 -->
-       {#if $current_chat.length > 0}
+       <!-- {#if $current_chat.length > 0} -->
 
       <div
         class="md:pt-0 md:border-transparent md:dark:border-transparent w-full mb-2"
@@ -357,7 +362,7 @@
           </div>
         </div>
       </div>
-      {/if}
+      <!-- {/if} -->
     </div>
   </div>
 {/if}

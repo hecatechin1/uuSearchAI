@@ -158,6 +158,6 @@ export async function guest_signup(){
     if (data.code!= 0) {
         return data.code;
     }
-    userID.set(data.uid);
-    return 0;
+    await getUserInfo();
+      return 0;
 }

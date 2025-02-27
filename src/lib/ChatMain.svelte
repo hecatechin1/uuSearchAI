@@ -149,7 +149,7 @@
     input = "";
     //判断是否登录，如果没有登录则先注册未非登录用户
     if(!get(isLogin)){
-      guest_signup(); 
+      await guest_signup();
     }
     await getMessage(msg, get(current_chat_ai), get(current_chat_model));
     textAreaElement.style.height = "1.5rem"; // Reset the height after sending

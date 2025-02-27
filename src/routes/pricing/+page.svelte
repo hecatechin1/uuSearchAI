@@ -149,9 +149,9 @@
       <!-- 月/年切换按钮 -->
     <div class="flex justify-center items-center mb-10">
       <span class="mr-3 text-gray-500 transition-all duration-300 ease-in-out"
-        class:text-xl={isAnnual} 
-        class:font-bold={isAnnual}
-        class:text-themegreen={isAnnual}
+      class:text-xl={!isAnnual}
+      class:font-bold={!isAnnual}
+      class:text-themegreen={!isAnnual}
         >{$t("pricing.monthly")}</span>
       <label class="relative inline-flex items-center cursor-pointer">
         <input type="checkbox" class="sr-only peer" bind:checked={isAnnual} />
@@ -164,9 +164,9 @@
         ></div>
       </label>
       <span class="ml-3 text-gray-500 transition-all duration-300 ease-in-out"
-        class:text-xl={!isAnnual}
-        class:font-bold={!isAnnual}
-        class:text-themegreen={!isAnnual}
+        class:text-xl={isAnnual}
+        class:font-bold={isAnnual}
+        class:text-themegreen={isAnnual}
       >{$t("pricing.yearly")}</span>
     </div>
 
@@ -186,7 +186,7 @@
         <!-- pro(Pro)方案放在最前 -->
         <div
           class="relative flex flex-col rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 transform 
-               outline outline-2 outline-themegreen overflow-hidden"
+               outline outline-0 outline-themegreen overflow-hidden"
         >
           <!-- 推荐角标 -->
           {#if currentUserPlan != "pro"}

@@ -526,4 +526,18 @@
 
 <style>
   @import "../styles/skeleton.css";
+
+
+    /* 移动端动画 */
+    .max-md\:fixed {
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  
+  .sidebar-visible.max-md\:fixed {
+    transform: translateX(0);
+    opacity: 1;
+    transition-delay: 0s;
+  }
 </style>

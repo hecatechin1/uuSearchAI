@@ -44,6 +44,7 @@
   let isShowUserFirstQuery = true; //是否显示用户的第一个问题
   // let isStreaming = false;//是否在进行流式传输
   let isEditting = false; //是否正在编辑
+  let isHovered = false; //历史消息是否悬停（悬停显示菜单）
   let editTextArea;
   let editingMessageContent: string; //正在编辑的消息内容;
   let retrybtn;
@@ -150,7 +151,7 @@
 
   onMount(() => {});
   afterUpdate(() => {
-    showMenu = get(current_chat).length-1 == index ? !get(isStreaming) : true;
+    showMenu = $current_chat.length - 1 === index ? !$isStreaming : false;
   });
 </script>
 
@@ -191,6 +192,8 @@
         </div>
         <div
           class="group/conversation-turn relative flex w-full min-w-0 flex-col agent-turn"
+          on:mouseover={() => isHovered = true}
+          on:mouseout={() => isHovered = false}
         >
           <div class="flex-col gap-1 md:gap-3">
             <div class="flex max-w-full flex-col flex-grow">
@@ -257,8 +260,10 @@
             </div>
             
             <!-- 消息工具栏 -->
-            {#if showMenu}
-              <div class="toolbelt flex gap-2 empty:hidden">
+            <div class="toolbelt flex gap-2 empty:hidden 
+              {!get(isStreaming) && index === $current_chat.length - 1 ? 'opacity-100 visible' : 'opacity-0 invisible'}
+              {index !== $current_chat.length - 1 && 'group-hover/conversation-turn:opacity-100 group-hover/conversation-turn:visible'}
+              transition-opacity duration-300 ease-in-out">
                 <div
                   class="relative flex justify-start rounded-xl items-center ml-[-0.6rem]"
                 >
@@ -332,7 +337,6 @@
                   {/if}
                 </div>
               </div>
-            {/if}
 
             <div class="pr-2 lg:pr-0"></div>
           </div>

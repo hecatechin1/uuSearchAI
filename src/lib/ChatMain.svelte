@@ -6,10 +6,10 @@
   import { t } from "svelte-i18n"; // 导入本地化方法
   import { get, writable } from "svelte/store";
   import DeleteIcon from "../assets/delete.svg";
-  import SendDisabledIcon from "../assets/send-disable.svg";
+  import SendDisabledIcon from "../assets/sendmessage-default.svg";
   import SendHoverIcon from "../assets/sendmessage-hover.svg";
-  import SendIcon from "../assets/sendmessage-default.svg";
-  import WaitIcon from "../assets/wait.svg";
+  import SendIcon from "../assets/sendmessage-active.svg";
+  import WaitIcon from "../assets/stop.svg";
   // import { closeStream } from "../services/uuAIServices";
   // import { settingsVisible, sendKey, lineBreakKey } from "../stores/stores";
   import {sendKey,language,lineBreakKey} from "../stores/settingsStores";
@@ -42,6 +42,7 @@
   let isMobile = false;
   let container: any;
   let shouldScroll = true;
+  let isFocused = false; // 添加输入框聚焦状态变量
   
   const textMaxHeight = 300; // Maximum height in pixels
   const keys = {
@@ -152,7 +153,7 @@
       await guest_signup();
     }
     await getMessage(msg, get(current_chat_ai), get(current_chat_model));
-    textAreaElement.style.height = "1.5rem"; // Reset the height after sending
+    textAreaElement.style.height = "1.6rem"; // Reset the height after sending
     textAreaElement.style.lineHeight = "1.2rem";
   }
 
@@ -296,7 +297,7 @@
               </button>
             </div>
             <div
-              class="inputbox-container w-full px-3 flex justify-center items-center bg-gray-100"
+              class="inputbox-container w-full px-3 flex justify-center items-center bg-gray-100 transition-all {isFocused ? 'border-2 border-themegreen' : 'border-2 border-transparent'}"
             >
               <div
                 class="inputbox w-full flex items-end mt-auto mx-auto py-[0.5rem] relative"
@@ -309,8 +310,10 @@
                   rows="1"
                   bind:value={input}
                   on:input={handleInput}
-                  style="overflow-y: auto; overflow:visible !important; line-height: 1.2rem; min-height: 1.5rem;"
+                  style="overflow-y: auto; overflow:visible !important; line-height: 1.2rem; min-height: 1.6rem;"
                   on:keydown={textAreaKeysListener}
+                  on:focus={() => isFocused = true}
+                  on:blur={() => isFocused = false}
                 ></textarea>
                 <button
                   class="cursor-pointer text:themegreen hover:themegreenhover transition-colors"

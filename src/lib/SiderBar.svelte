@@ -66,7 +66,7 @@
       activeIndex = index;
     });
     isNewchat.subscribe(async (v) => {
-      console.log(v);
+      console.log(v,isReady);
       if (!v && isReady) {
         let res = await getChatListData();
       }

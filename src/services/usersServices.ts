@@ -121,7 +121,10 @@ export async function setPassword(email: string, password: string) {
 
 export async function guestSignup() {
   try {
-    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/signup`);
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/signup`,{
+      method:"GET",
+     credentials: 'include'
+    });
     if (res.ok) {
       const data = await res.json();
       return data;

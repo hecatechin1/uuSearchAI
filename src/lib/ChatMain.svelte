@@ -217,6 +217,8 @@
       </div>
 
       <!-- 聊天输入框 -->
+       {#if $current_chat.length > 0}
+
       <div
         class="md:pt-0 md:border-transparent md:dark:border-transparent w-full mb-2"
       >
@@ -355,6 +357,7 @@
           </div>
         </div>
       </div>
+      {/if}
     </div>
   </div>
 {/if}

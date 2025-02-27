@@ -37,6 +37,7 @@
     // await initializeI18n();
     // await waitLocale();
     isLogin.subscribe( async (v) => {
+      if(!v) {isNewchat.set(true); return;}
       let res = await getChatListData();
       if (res != 0) {
         showErrorMessage(res);

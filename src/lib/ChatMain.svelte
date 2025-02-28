@@ -1,6 +1,6 @@
 <script lang="ts">
   // import ChatMessage from "./ChatMessage.svelte";
-  import { createEventDispatcher, onMount,afterUpdate } from "svelte";
+  import { createEventDispatcher, onMount, afterUpdate } from "svelte";
   import TopbarChat from "./TopbarChat.svelte";
   import ChatMessage from "./ChatMessage.svelte";
   import { t } from "svelte-i18n"; // 导入本地化方法
@@ -10,10 +10,10 @@
   import SendHoverIcon from "../assets/sendmessage-hover.svg";
   import SendIcon from "../assets/sendmessage-active.svg";
   import WaitIcon from "../assets/stop.svg";
-  import {getErrorMessage} from "../utils/generalUtils";
+  import { getErrorMessage } from "../utils/generalUtils";
   // import { closeStream } from "../services/uuAIServices";
   // import { settingsVisible, sendKey, lineBreakKey } from "../stores/stores";
-  import {sendKey,language,lineBreakKey} from "../stores/settingsStores";
+  import { sendKey, language, lineBreakKey } from "../stores/settingsStores";
   import {
     current_chat,
     current_chat_ai,
@@ -33,18 +33,19 @@
     isStreaming,
     isLogin,
   } from "../stores/globalParamentStores";
-    import { guest_signup } from "../manages/userinfoManages";
+  import { guest_signup } from "../manages/userinfoManages";
   export let selectedChatId: string;
 
   let dispatch = createEventDispatcher();
   let isLoading = true;
   let input: string = "";
-  let textAreaElement:HTMLTextAreaElement; // 定义文本框元素的引用
+  let textAreaElement: HTMLTextAreaElement; // 定义文本框元素的引用
   let isMobile = false;
   let container: any;
   let shouldScroll = true;
   let isFocused = false; // 添加输入框聚焦状态变量
-  
+  let isNewInputFocused = false; // 添加新聊天输入框聚焦状态变量
+
   const textMaxHeight = 300; // Maximum height in pixels
   const keys = {
     Enter: "001",
@@ -83,15 +84,14 @@
       }
       isLoading = false;
     });
-
   });
   afterUpdate(() => {
     if (shouldScroll && container) {
       container.scrollTop = container.scrollHeight;
     }
   });
-  function handleScroll(){
-        // 判断用户是否滚动到接近底部
+  function handleScroll() {
+    // 判断用户是否滚动到接近底部
     const threshold = 50; // 像素阈值
     const position = container.scrollTop + container.clientHeight;
     const height = container.scrollHeight;
@@ -142,17 +142,25 @@
         "\n" +
         textarea.value.substring(end);
       textarea.selectionStart = textarea.selectionEnd = start + 1;
-      textarea.dispatchEvent(new Event('input'));
+      textarea.dispatchEvent(new Event("input"));
     }
+  }
+
+  function getRandomPrompts() {
+    const prompts = ($t('promptRefer') as unknown as string[]) || []; // Add double assertion
+    return prompts
+      .slice()
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 6);
   }
 
   async function processMessage() {
     let msg = input;
     input = "";
     //判断是否登录，如果没有登录则先注册未非登录用户
-    if(!get(isLogin)){
+    if (!get(isLogin)) {
       let data = await guest_signup();
-      if(data!= 0){
+      if (data != 0) {
         showErrorMessage("连接不上服务器");
         return;
       }
@@ -166,14 +174,14 @@
     dispatch("show-selector", event.detail);
   }
 
-  function  tryOtherModel(event: CustomEvent) {
+  function tryOtherModel(event: CustomEvent) {
     dispatch("show-selector", event.detail);
   }
-  function showLoginBox(event:CustomEvent){
-    dispatch("showLoginBox",event.detail);
+  function showLoginBox(event: CustomEvent) {
+    dispatch("showLoginBox", event.detail);
   }
-  function showUserMenu(){
-    dispatch('show-user-menu');
+  function showUserMenu() {
+    dispatch("show-user-menu");
   }
 </script>
 
@@ -194,9 +202,17 @@
       <div class="flex-1 overflow-hidden">
         <div class="h-full">
           <div class="relative h-full">
-            <div bind:this={container} class="h-full w-full overflow-y-auto" on:scroll={handleScroll}>
-              <div  class="flex flex-col text-sm pb-[82px]">
-                <TopbarChat on:show-selector={showModelSelector} on:showLoginBox={showLoginBox} on:show-user-menu={showUserMenu} />
+            <div
+              bind:this={container}
+              class="h-full w-full overflow-y-auto"
+              on:scroll={handleScroll}
+            >
+              <div class="flex flex-col text-sm pb-[82px]">
+                <TopbarChat
+                  on:show-selector={showModelSelector}
+                  on:showLoginBox={showLoginBox}
+                  on:show-user-menu={showUserMenu}
+                />
                 {#if $current_chat.length > 0}
                   {#each $current_chat as message, i}
                     <ChatMessage
@@ -207,12 +223,87 @@
                   {/each}
                   <div class="tailblock h-10 w-full"></div>
                 {:else}
-                  <div class="flex justify-center items-center pt-20">
-                    <p>
-                      {$t("app.noConversation", {
-                        default: "No coversation now, you can ask AI anything.",
+                  <div
+                    class="flex flex-col justify-center items-center pt-20 m-auto px-3 md:px-4 w-full md:px-5 lg:px-4 xl:px-5 gap-6 max-w-3xl"
+                  >
+                    <h1
+                      class="relative justify-center text-center text-2xl font-semibold"
+                    >
+                      {$t("app.startNewChat", {
+                        default: "Ask AI anything",
                       })}
-                    </p>
+                    </h1>
+                    <!-- 新聊天的输入框 -->
+                    <div
+                      class="inputbox-container w-full max-md:max-w-[80%] px-1 flex flex-col justify-center items-center bg-gray-100 transition-all border-2 rounded-md {isNewInputFocused
+                        ? 'border-themegreen'
+                        : 'border-transparent'}"
+                    >
+                      <textarea
+                        class="input-box bg-transparent w-full p-3 flex-1 border-0 resize-none border-none focus:outline-none text-[1rem]"
+                        placeholder={$t("app.textareaPlaceholder", {
+                          default: "Type your message...",
+                        })}
+                        rows="4"
+                        style="overflow-y: auto; overflow:visible !important; line-height: 1.2rem;"
+                        bind:value={input}
+                        on:input={handleInput}
+                        on:keydown={textAreaKeysListener}
+                        on:focus={() => (isNewInputFocused = true)}
+                        on:blur={() => (isNewInputFocused = false)}
+                      ></textarea>
+                      <div class="btn-set w-full flex justify-end pr-3 pb-2">
+                        <button
+                          class="cursor-pointer text:themegreen hover:themegreenhover transition-colors"
+                          on:click={() => {
+                            if ($isStreaming) {
+                              closeStream();
+                            } else {
+                              processMessage();
+                            }
+                          }}
+                          on:mouseover={() => (isSendHovered = true)}
+                          on:mouseleave={() => (isSendHovered = false)}
+                          on:focus={() => (isSendHovered = true)}
+                          on:blur={() => (isSendHovered = false)}
+                          disabled={!$isStreaming && !input.trim().length}
+                        >
+                          {#if $isStreaming}
+                            <img
+                              src={WaitIcon}
+                              alt="wait"
+                              class="min-w-[32px] w-[32px]"
+                            />
+                          {:else if input.trim().length === 0}
+                            <img
+                              src={SendDisabledIcon}
+                              alt="send"
+                              class="min-w-[32px] w-[32px]"
+                            />
+                          {:else}
+                            <img
+                              src={isSendHovered ? SendHoverIcon : SendIcon}
+                              alt="send"
+                              class="min-w-[32px] w-[32px]"
+                            />
+                          {/if}
+                        </button>
+                      </div>
+                    </div>
+
+                    {#if $t('promptRefer')?.length > 0}
+                    <div class="max-md:hidden flex flex-wrap justify-center gap-2 w-full max-w-3xl mx-auto">
+                      {#each getRandomPrompts() as prompt}
+                        <button
+                          on:click={() => input = prompt}
+                          class="text-left p-2 rounded-md bg-white hover:bg-gray-50 border transition-colors truncate"
+                          style="min-width: 200px;"
+                        >
+                          {prompt}
+                        </button>
+                      {/each}
+                    </div>
+                  {/if}
                   </div>
                 {/if}
               </div>
@@ -222,7 +313,7 @@
       </div>
 
       <!-- 聊天输入框 -->
-       <!-- {#if $current_chat.length > 0} -->
+      {#if $current_chat.length > 0}
 
       <div
         class="md:pt-0 md:border-transparent md:dark:border-transparent w-full mb-2"
@@ -304,7 +395,9 @@
               </button>
             </div>
             <div
-              class="inputbox-container w-full px-3 flex justify-center items-center bg-gray-100 transition-all {isFocused ? 'border-2 border-themegreen' : 'border-2 border-transparent'}"
+              class="inputbox-container w-full px-3 flex justify-center items-center bg-gray-100 transition-all {isFocused
+                ? 'border-2 border-themegreen'
+                : 'border-2 border-transparent'}"
             >
               <div
                 class="inputbox w-full flex items-end mt-auto mx-auto py-[0.5rem] relative"
@@ -319,8 +412,8 @@
                   on:input={handleInput}
                   style="overflow-y: auto; overflow:visible !important; line-height: 1.2rem; min-height: 1.6rem;"
                   on:keydown={textAreaKeysListener}
-                  on:focus={() => isFocused = true}
-                  on:blur={() => isFocused = false}
+                  on:focus={() => (isFocused = true)}
+                  on:blur={() => (isFocused = false)}
                 ></textarea>
                 <button
                   class="cursor-pointer text:themegreen hover:themegreenhover transition-colors"
@@ -362,7 +455,7 @@
           </div>
         </div>
       </div>
-      <!-- {/if} -->
+      {/if}
     </div>
   </div>
 {/if}

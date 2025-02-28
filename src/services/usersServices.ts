@@ -20,7 +20,7 @@ export async function getInfo() {
     });
     if (response.ok) {
       const data = await response.json();
-      console.log(data); // 打印数据
+      // console.log(data); // 打印数据
       return data;
     } else {
       return 1;

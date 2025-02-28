@@ -32,7 +32,7 @@
     const signature = browserSignature();
     browser_signature.set(signature);
     // userID.set("1733973830");
-    getUserInfo();
+    await getUserInfo();
     await initializeI18n();
     await waitLocale();
     loading = false; // 设置为已加载

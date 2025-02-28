@@ -222,6 +222,7 @@
                     />
                   {/each}
                   <div class="tailblock h-10 w-full"></div>
+                  
                 {:else}
                   <div
                     class="flex flex-col justify-center items-center pt-20 m-auto px-3 md:px-4 w-full md:px-5 lg:px-4 xl:px-5 gap-6 max-w-3xl"

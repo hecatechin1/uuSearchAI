@@ -198,6 +198,7 @@
           <div class="flex-col gap-1 md:gap-3">
             <div class="flex max-w-full flex-col flex-grow">
               {#if !messageError}
+
               <div
                 data-message-author-role="assistant"
                 data-message-id={message.mid}
@@ -214,6 +215,7 @@
                       message.message.content.toString(),
                     )}
                   />
+                  
                 </div>
               </div>
               {/if}

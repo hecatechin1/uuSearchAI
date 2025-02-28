@@ -61,12 +61,12 @@
       }
     });
     current_chat_id.subscribe((v) => {
+      // console.log("current_chat_id", v);
       localStorage.setItem("current_chat_id", v.toString());
       let index = get(chat_list).findIndex((c) => c.cid == v);
       activeIndex = index;
     });
     isNewchat.subscribe(async (v) => {
-      console.log(v,isReady);
       if (!v && isReady) {
         isReady = false;
         let res = await getChatListData();
@@ -117,6 +117,7 @@
     let cc = get(chat_list)[index];
     isNewchat.set(false);
     current_chat_id.set(cc.cid);
+
     dispatch("selectChat", { selected: cc.cid });
   }
   function showUserMenu(){

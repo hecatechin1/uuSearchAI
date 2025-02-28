@@ -43,6 +43,7 @@
         showErrorMessage(res);
         return;
       }
+
       let chatid = Number(localStorage.getItem("current_chat_id") || 0);
       current_chat_id.set(chatid);
       if (chatid == 0) {

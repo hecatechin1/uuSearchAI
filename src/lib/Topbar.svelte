@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
   import {current_chat_ainame,current_chat_modelname,models} from '../stores/chatStores';
-  import {changeChatModel} from '../manages/chatManages';
+  import {changeChatModel,createNewChat} from '../manages/chatManages';
   import {getElementPostionDiff} from '../utils/generalUtils';
   import { get } from "svelte/store";
   import {showSidebar,showSidebarMd} from '../stores/globalParamentStores';
@@ -84,6 +84,9 @@
   >
     <span class="flex" data-state="closed">
       <button
+      on:click={() => {
+        createNewChat(true);
+      }}
         aria-label="新聊天"
         class="h-10 rounded-lg px-2 text-themegreen disabled:opacity-50 enabled:hover:bg-gray-200"
         ><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1" fill="currentColor">

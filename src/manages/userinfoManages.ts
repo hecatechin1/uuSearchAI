@@ -7,21 +7,34 @@ import {get} from "svelte/store";
 // import {} from "cookie";
 
 export async function getUserInfo() {
-    getInfo().then((data) => {
-        if (data.code != 0) {
-            return;
-        }
+    let data = await getInfo();
+    if (data.code != 0) {
+        return;
+    }
+    userID.set(data.info.uid);
+    userEmail.set(data.info.email);
+    if(data.info.pay){
+        userPlanEndtime.set(data.info.pay.endTime);
+        userPlanMode.set(data.info.pay.product);
+        userSubMode.set(data.info.pay.mode);
+    }
+    getUpdateUserData_Settings();
+    isLogin.set(true);
+    // getInfo().then((data) => {
+    //     if (data.code != 0) {
+    //         return;
+    //     }
 
-        userID.set(data.info.uid);
-        userEmail.set(data.info.email);
-        if(data.info.pay){
-            userPlanEndtime.set(data.info.pay.endTime);
-            userPlanMode.set(data.info.pay.product);
-            userSubMode.set(data.info.pay.mode);
-        }
-        getUpdateUserData_Settings();
-        isLogin.set(true);
-    });
+    //     userID.set(data.info.uid);
+    //     userEmail.set(data.info.email);
+    //     if(data.info.pay){
+    //         userPlanEndtime.set(data.info.pay.endTime);
+    //         userPlanMode.set(data.info.pay.product);
+    //         userSubMode.set(data.info.pay.mode);
+    //     }
+    //     getUpdateUserData_Settings();
+    //     isLogin.set(true);
+    // });
 
 
 }

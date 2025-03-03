@@ -14,6 +14,12 @@ export const userPlanEndtime = writable(0);
 export const userPlanMode = writable('uugpt_free');
 //订阅类型
 export const userSubMode = writable('free');
+//用户头像
+export const userAvatar = writable('');
+//用户昵称
+export const userNickname = writable('');
+//用户类型，普通用户，遨游用户
+export const userType = writable('');
 
 
 //邮箱验证码随机ID

@@ -1,10 +1,28 @@
-import { userID, userEmail, userLevel, userTokens, userPlanEndtime,userPlanMode,userSubMode,getEmailCodeId } from '../stores/userStores';
+import { userID, userEmail, userLevel, userTokens, userPlanEndtime,userPlanMode,userSubMode,getEmailCodeId, userAvatar, userType } from '../stores/userStores';
 import { isLogin,isGuest } from "../stores/globalParamentStores";
-import { getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login, updateData,getUserData, guestSignup,logout } from "../services/usersServices";
-import {hash256} from "../utils/generalUtils";
+import { getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login, updateData,getUserData, guestSignup,logout,getMaxthonUserInfo,loginMxUser } from "../services/usersServices";
+import {hash256,getCookieValue} from "../utils/generalUtils";
 import {sendKey,lineBreakKey,language} from "../stores/settingsStores";
 import {get} from "svelte/store";
 // import {} from "cookie";
+
+
+
+export async function userLoginForMaxthon(){
+    let mxtoken = getCookieValue('MXTOKEN');
+    if(mxtoken!=null){
+        let mxProfileData = await getMaxthonUserInfo(mxtoken);
+        if(mxProfileData!=1){
+            let logindata = await loginMxUser(mxtoken);
+            if(logindata.code==0){
+                userEmail.set(mxProfileData.email);
+                userAvatar.set(mxProfileData.avatar);
+                userType.set('maxthon');
+                return;
+            }
+        }
+    }
+}
 
 export async function getUserInfo() {
     let data = await getInfo();
@@ -12,7 +30,8 @@ export async function getUserInfo() {
         return;
     }
     userID.set(data.info.uid);
-    userEmail.set(data.info.email);
+    console.log(get(userType),get(userEmail));
+    if(get(userType) != 'maxthon') userEmail.set(data.info.email);
     if(data.info.pay){
         userPlanEndtime.set(data.info.pay.endTime);
         userPlanMode.set(data.info.pay.product);
@@ -20,23 +39,6 @@ export async function getUserInfo() {
     }
     getUpdateUserData_Settings();
     isLogin.set(true);
-    // getInfo().then((data) => {
-    //     if (data.code != 0) {
-    //         return;
-    //     }
-
-    //     userID.set(data.info.uid);
-    //     userEmail.set(data.info.email);
-    //     if(data.info.pay){
-    //         userPlanEndtime.set(data.info.pay.endTime);
-    //         userPlanMode.set(data.info.pay.product);
-    //         userSubMode.set(data.info.pay.mode);
-    //     }
-    //     getUpdateUserData_Settings();
-    //     isLogin.set(true);
-    // });
-
-
 }
 
 export async function userLogout(){

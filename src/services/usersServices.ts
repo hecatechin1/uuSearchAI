@@ -1,8 +1,9 @@
 import { } from "../stores/userStores";
-import {createTimeOutFetch} from "../utils/generalUtils";
+import {createTimeOutFetch,getCookieValue} from "../utils/generalUtils";
 
 //登录，注册
 export async function fetchData() {
+
   const response = await fetch('/api/data'); // 请求 API
   if (response.ok) {
     await response.json(); // 解析 JSON 数据
@@ -28,10 +29,46 @@ export async function getInfo() {
   } catch (e) {
     return 1;
   }
+}
 
+export async function getMaxthonUserInfo(maxthonToken:string){
+  try {
+    let response = await createTimeOutFetch()(`https://api.maxthon.com/web/profile`,{
+      method:"GET",
+     credentials: 'include',
+     headers:{
+      "mxtoken":maxthonToken, 
+     }
+    //  mxtoken:maxthonToken,
+    });
+    if (response.ok) {
+      const data = await response.json();
+      // console.log(data); // 打印数据
+      return data;
+    } else {
+      return 1;
+    }
+  } catch (e) {
+    return 1;
+  }
+}
 
-
-
+export async function loginMxUser(mxtoken:string) {
+  try {
+    let response = await createTimeOutFetch()(`https://api.uugpt.com/user/login_partner?partner=mx&mxtoken=${mxtoken}`,{
+      method:"GET",
+     credentials: 'include'
+    });
+    if (response.ok) {
+      const data = await response.json();
+      // console.log(data); // 打印数据
+      return data;
+    } else {
+      return 1;
+    }
+  } catch (e) {
+    return 1;
+  }
 }
 
 //验证邮箱是否存在

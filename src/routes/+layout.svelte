@@ -5,9 +5,10 @@
   import { onMount } from "svelte";
   import { waitLocale } from "svelte-i18n";
   import{showError,showSuccess,message,browser_signature} from "../stores/globalParamentStores"
-  import {getUserInfo} from '../manages/userinfoManages';
+  import {getUserInfo,userLoginForMaxthon} from '../manages/userinfoManages';
   import { userID } from "../stores/userStores";
   import { fly } from 'svelte/transition';
+  import {getCookieValue} from '../utils/generalUtils'
   import browserSignature from 'browser-signature';
   let loading = true;
  
@@ -32,7 +33,12 @@
     const signature = browserSignature();
     browser_signature.set(signature);
     // userID.set("1733973830");
+    if(getCookieValue('MXTOKEN') != null){
+      await userLoginForMaxthon();
+    }
     await getUserInfo();
+    
+
     await initializeI18n();
     await waitLocale();
     loading = false; // 设置为已加载

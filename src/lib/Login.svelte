@@ -474,7 +474,6 @@
             <div class="mt-10">
               <form>
                 <p class="mb-2">
-                  <!-- todo: 这种模版类型的需要确认怎么写 -->
                   请输入发送至 {email ? email : "Email"} 的6位验证码，有效期5分钟
                 </p>
 
@@ -485,14 +484,13 @@
                   type="button"
                   class="text-themegreen hover:underline py-2 mb-5"
                 >
-                  <!-- todo: 这种模版类型的需要确认怎么写 -->
                   {sendedVcode
                     ? `${timeLeft}s后重新发送`
                     : $t("login.sendVerificationCode")}
                 </button>
 
                 <div class="relative w-full mb-4">
-                  <!-- 左侧密码图标 -->
+                  <!-- 左侧验证图标 -->
                   <span
                     class="absolute inset-y-0 left-0 flex items-center pl-3"
                   >
@@ -525,7 +523,191 @@
             </div>
           </div>
         {/if}
+        <!-- 忘记密码重置 -->
+        {#if forgotPassword}
+          <div class="animate-fade">
+            <!-- 登录框左上角标题栏 -->
+            <div class="flex items-center mb-6">
+              <button
+                on:click={back}
+                class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded">
+                <img src={backIcon} alt={$t("login.back")} class="w-8 h-8" />
+              </button>
+              <span class="text-lg font-semibold">
+                {$t("login.resetPasswordTitle")}
+              </span>
+            </div>
+            <div class="mt-10">
+              <form>
+                <p class="mb-2">
+                  请输入发送至 {email ? email : "Email"} 的6位验证码，有效期5分钟
+                </p>
 
+                <!-- 发送验证码按钮，有倒计时，加载完成后先自动发送一次 -->
+                <button
+                  disabled={sendedVcode}
+                  on:click={handleSendVcode}
+                  type="button"
+                  class="text-themegreen hover:underline py-2 mb-5"
+                >
+                  {sendedVcode
+                    ? `${timeLeft}s后重新发送`
+                    : $t("login.sendVerificationCode")}
+                </button>
+
+                <div class="relative w-full mb-4">
+                  <!-- 左侧验证码图标 -->
+                  <span
+                    class="absolute inset-y-0 left-0 flex items-center pl-3"
+                  >
+                    <img
+                      src={verifyIcon}
+                      alt="uupgt password icon"
+                      class="w-4 h-4 text-gray-400 opacity-20"
+                    />
+                  </span>
+                  <input
+                    bind:value={verifyCode}
+                    type="text"
+                    class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
+                    placeholder={$t("login.verificationCodePlaceholder")}
+                    required
+                    autofocus
+                  />
+                </div>
+                <div class="relative w-full mb-4">
+                  <!-- 左侧密码图标 -->
+                  <span
+                    class="absolute inset-y-0 left-0 flex items-center pl-3"
+                  >
+                    <img
+                      src={passwordIcon}
+                      alt="uupgt password icon"
+                      class="w-4 h-4 text-gray-400 opacity-20"
+                    />
+                  </span>
+                  <!-- 密码输入框 -->
+                  {#if showPassword}
+                    <input
+                      type="text"
+                      class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
+                      bind:value={password}
+                      required
+                      autofocus
+                      placeholder={$t("login.resetPasswordPlaceholder")}
+                    />
+                  {:else}
+                    <input
+                      type="password"
+                      class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
+                      bind:value={password}
+                      required
+                      autofocus
+                      placeholder={$t("login.resetPasswordPlaceholder")}
+                    />
+                  {/if}
+
+                  <!-- 右侧显示/隐藏密码图标 -->
+
+                  <button
+                    on:click={() => {
+                      showPassword = !showPassword;
+                    }}
+                    type="button"
+                    class="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer hover:bg-gray-200 rounded"
+                    aria-label="Toggle password visibility"
+                  >
+                    {#if showPassword}
+                      <img
+                        src={eyeOpenIcon}
+                        alt="uupgt password show icon"
+                        class="w-4 h-4 text-gray-400"
+                      />
+                    {:else}
+                      <img
+                        src={eyeCloseIcon}
+                        alt="uupgt password hide icon"
+                        class="w-4 h-4 text-gray-400 opacity-20"
+                      />
+                    {/if}
+                  </button>
+                </div>
+                <div class="relative w-full mb-4">
+                  <!-- 左侧密码图标 -->
+                  <span
+                    class="absolute inset-y-0 left-0 flex items-center pl-3"
+                  >
+                    <img
+                      src={passwordIcon}
+                      alt="uupgt password icon"
+                      class="w-4 h-4 text-gray-400 opacity-20"
+                    />
+                  </span>
+                  <!-- 密码输入框 -->
+                  {#if showPassword}
+                    <input
+                      type="text"
+                      class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
+                      bind:value={confirmPassword}
+                      required
+                      autofocus
+                      placeholder={$t("login.confirmPasswordPlaceholder")}
+                    />
+                  {:else}
+                    <input
+                      type="password"
+                      class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
+                      bind:value={confirmPassword}
+                      required
+                      autofocus
+                      placeholder={$t("login.confirmPasswordPlaceholder")}
+                    />
+                  {/if}
+
+                  <!-- 右侧显示/隐藏密码图标 -->
+
+                  <button
+                    on:click={() => {
+                      showPassword = !showPassword;
+                    }}
+                    type="button"
+                    class="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer hover:bg-gray-200 rounded"
+                    aria-label="Toggle password visibility"
+                  >
+                    {#if showPassword}
+                      <img
+                        src={eyeOpenIcon}
+                        alt="uupgt password show icon"
+                        class="w-4 h-4 text-gray-400"
+                      />
+                    {:else}
+                      <img
+                        src={eyeCloseIcon}
+                        alt="uupgt password hide icon"
+                        class="w-4 h-4 text-gray-400 opacity-20"
+                      />
+                    {/if}
+                  </button>
+                </div>
+
+                <button
+                  disabled={isWaitting}
+                  on:click={handleSetPassword}
+                  type="submit"
+                  class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
+                >
+                  <span class="text-white font-semibold"
+                    >{$t("login.confirmAndLogin")}</span
+                  >
+                  <!-- 加载过程禁用按钮并显示loading动画 -->
+
+                  {#if isWaitting}<span class="message-loader w-6 h-6 ml-3"
+                    ></span>{/if}
+                </button>
+              </form>
+            </div>
+          </div>
+        {/if}
         <!-- 设置新密码 -->
         {#if $loginPageName === status_resetPassword}
           <div class="animate-fade">

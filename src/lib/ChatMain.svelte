@@ -35,6 +35,7 @@
   } from "../stores/globalParamentStores";
   import { guest_signup } from "../manages/userinfoManages";
   export let selectedChatId: string;
+  export let isFramed = false;
 
   let dispatch = createEventDispatcher();
   let isLoading = true;
@@ -208,17 +209,20 @@
               on:scroll={handleScroll}
             >
               <div class="flex flex-col text-sm pb-[82px]">
-                <TopbarChat
+                {#if !isFramed}
+                  <TopbarChat
                   on:show-selector={showModelSelector}
                   on:showLoginBox={showLoginBox}
                   on:show-user-menu={showUserMenu}
-                />
+                  />
+                {/if}
                 {#if $current_chat.length > 0}
                   {#each $current_chat as message, i}
                     <ChatMessage
                       on:show-selector={tryOtherModel}
                       {message}
                       index={i}
+                      isFramed={isFramed}
                     />
                   {/each}
                   <div class="tailblock h-10 w-full"></div>
@@ -325,76 +329,78 @@
           <div
             class="mx-auto flex flex-1 gap-2 text-base md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] flex-col items-center"
           >
-            <div class="inputbox-tools w-full px-2 flex mt-1 hidden">
-              <!-- 清除当前聊天中所有message，仅在framed页面中显示 -->
-              <button
-                on:click={clearMessages}
-                class="py-1 px-2 border rounded-lg text-gray-700 hover:bg-gray-100 flex items-center mr-2"
-              >
-                <img
-                  class="delete-icon w-4 h-4 text-blue-500 mr-1"
-                  alt={$t("app.delete")}
-                  src={DeleteIcon}
-                />
-                <span
-                  >{$t("topbar.clearConversation", { default: "Clear" })}</span
+            {#if isFramed}
+              <div class="inputbox-tools w-full px-2 flex mt-1">
+                <!-- 清除当前聊天中所有message，仅在framed页面中显示 -->
+                <button
+                  on:click={clearMessages}
+                  class="py-1 px-2 border rounded-lg text-gray-700 hover:bg-gray-100 flex items-center mr-2"
                 >
-              </button>
+                  <img
+                    class="delete-icon w-4 h-4 text-blue-500 mr-1"
+                    alt={$t("app.delete")}
+                    src={DeleteIcon}
+                  />
+                  <span
+                    >{$t("topbar.clearConversation", { default: "Clear" })}</span
+                  >
+                </button>
 
-              <button
-                on:click={feedback}
-                class="py-1 px-2 border rounded-lg text-gray-700 hover:bg-gray-100 flex items-center mr-2"
-              >
-                <svg
-                  class="w-5 h-5 text-blue-500 mr-1"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  on:click={feedback}
+                  class="py-1 px-2 border rounded-lg text-gray-700 hover:bg-gray-100 flex items-center mr-2"
                 >
-                  <path
-                    fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v2a1 1 0 102 0V6zm0 4a1 1 0 10-2 0v4a1 1 0 102 0v-4z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-                <span>{$t("app.feedback")}</span>
-              </button>
-              <button
-                on:click={openSettings}
-                class="py-1 px-2 border rounded-lg text-gray-700 hover:bg-gray-100 flex items-center"
-              >
-                <svg
-                  class="w-4 h-4 text-blue-500 mr-1"
-                  fill="currentColor"
-                  viewBox="0 0 14 14"
-                  xmlns="http://www.w3.org/2000/svg"
+                  <svg
+                    class="w-5 h-5 text-blue-500 mr-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v2a1 1 0 102 0V6zm0 4a1 1 0 10-2 0v4a1 1 0 102 0v-4z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                  <span>{$t("app.feedback")}</span>
+                </button>
+                <button
+                  on:click={openSettings}
+                  class="py-1 px-2 border rounded-lg text-gray-700 hover:bg-gray-100 flex items-center"
                 >
-                  <!-- 设置图标 -->
-                  <path
-                    id="路径_3870"
-                    data-name="路径 3870"
-                    d="M77.5,705.5H70.938a2,2,0,0,0-3.875,0H64.5a.5.5,0,0,0,0,1h2.563a2,2,0,0,0,3.875,0H77.5a.5.5,0,0,0,0-1ZM69,707.016A1.016,1.016,0,1,1,70.016,706,1.016,1.016,0,0,1,69,707.016Z"
-                    transform="translate(-64 -694)"
-                    fill="#4a928c"
-                  />
-                  <path
-                    id="路径_3871"
-                    data-name="路径 3871"
-                    d="M77.5,385.5H74.938a2,2,0,0,0-3.875,0H64.5a.5.5,0,1,0,0,1h6.563a2,2,0,0,0,3.875,0H77.5a.5.5,0,0,0,0-1ZM73,387.016A1.016,1.016,0,1,1,74.016,386,1.016,1.016,0,0,1,73,387.016Z"
-                    transform="translate(-64 -379)"
-                    fill="#4a928c"
-                  />
-                  <path
-                    id="路径_3872"
-                    data-name="路径 3872"
-                    d="M64.5,66.5h2.563a2,2,0,0,0,3.875,0H77.5a.5.5,0,0,0,0-1H70.938a2,2,0,0,0-3.875,0H64.5a.5.5,0,0,0,0,1ZM69,64.984A1.016,1.016,0,1,1,67.984,66,1.016,1.016,0,0,1,69,64.984Z"
-                    transform="translate(-64 -64)"
-                    fill="#4a928c"
-                  />
-                </svg>
-                <span>{$t("topbar.setting", { default: "Settings" })}</span>
-              </button>
-            </div>
+                  <svg
+                    class="w-4 h-4 text-blue-500 mr-1"
+                    fill="currentColor"
+                    viewBox="0 0 14 14"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <!-- 设置图标 -->
+                    <path
+                      id="路径_3870"
+                      data-name="路径 3870"
+                      d="M77.5,705.5H70.938a2,2,0,0,0-3.875,0H64.5a.5.5,0,0,0,0,1h2.563a2,2,0,0,0,3.875,0H77.5a.5.5,0,0,0,0-1ZM69,707.016A1.016,1.016,0,1,1,70.016,706,1.016,1.016,0,0,1,69,707.016Z"
+                      transform="translate(-64 -694)"
+                      fill="#4a928c"
+                    />
+                    <path
+                      id="路径_3871"
+                      data-name="路径 3871"
+                      d="M77.5,385.5H74.938a2,2,0,0,0-3.875,0H64.5a.5.5,0,1,0,0,1h6.563a2,2,0,0,0,3.875,0H77.5a.5.5,0,0,0,0-1ZM73,387.016A1.016,1.016,0,1,1,74.016,386,1.016,1.016,0,0,1,73,387.016Z"
+                      transform="translate(-64 -379)"
+                      fill="#4a928c"
+                    />
+                    <path
+                      id="路径_3872"
+                      data-name="路径 3872"
+                      d="M64.5,66.5h2.563a2,2,0,0,0,3.875,0H77.5a.5.5,0,0,0,0-1H70.938a2,2,0,0,0-3.875,0H64.5a.5.5,0,0,0,0,1ZM69,64.984A1.016,1.016,0,1,1,67.984,66,1.016,1.016,0,0,1,69,64.984Z"
+                      transform="translate(-64 -64)"
+                      fill="#4a928c"
+                    />
+                  </svg>
+                  <span>{$t("topbar.setting", { default: "Settings" })}</span>
+                </button>
+              </div>
+            {/if}
             <div
               class="inputbox-container w-full px-3 flex justify-center items-center bg-gray-100 transition-all {isFocused
                 ? 'border-2 border-themegreen'

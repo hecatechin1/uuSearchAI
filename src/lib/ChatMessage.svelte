@@ -39,11 +39,14 @@
   import { current_chat, current_chat_ai, current_chat_id, current_chat_model,getAiName,getModelName } from "../stores/chatStores";
   import { onMount,createEventDispatcher,afterUpdate } from "svelte";
   import DeleteMessageContexMenu from "./DeleteMessageContexMenu.svelte";
+  export let isFramed = false;
+
   let dispatch = createEventDispatcher();
   let showModelSelectorbtn:HTMLElement;
   let isShowUserFirstQuery = true; //是否显示用户的第一个问题
   // let isStreaming = false;//是否在进行流式传输
   let isEditting = false; //是否正在编辑
+  let isEdittingEnabeld = false; //是否可以编辑
   let isHovered = false; //历史消息是否悬停（悬停显示菜单）
   let editTextArea;
   let editingMessageContent: string; //正在编辑的消息内容;
@@ -289,6 +292,7 @@
                     <img class="" alt={$t("app.retry")} src={RetryIcon} />
                   </button>
 
+                  {#if !isFramed}
                   <button
                   bind:this={showModelSelectorbtn}
                   on:click={showModelSelector}
@@ -310,6 +314,7 @@
                       />
                     </span>
                   </button>
+                  {/if}
 
                   <button
                   bind:this={deleteMessageBtn}
@@ -412,6 +417,7 @@
                       </div>
 
                       <!-- 消息编辑按钮 -->
+                      {#if isEdittingEnabeld}
                       <div
                         class="absolute bottom-0 right-full top-0 -mr-3.5 hidden pr-5 pt-1 [.group\/conversation-turn:hover_&]:block"
                       >
@@ -428,6 +434,7 @@
                         </button>
 
                       </div>
+                      {/if}
                     </div>
                   </div>
                 </div>

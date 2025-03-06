@@ -40,31 +40,34 @@ export let models = [
         ai: "openai",
         aiName: "GPT",
         models: [
-            { model: "gpt-4o", name: "4o", price: "" },
             { model: "gpt-4o-mini", name: "4o-mini", price: "免费" },
-            { model: "gpt-4-turbo", name: "4-turbo", price: "" },
+            { model: "gpt-4o", name: "4o", price: "推荐" },
             { model: "gpt-4", name: "4", price: "" },
             { model: "gpt-3.5-turbo", name: "3.5-turbo", price: "" },
+            { model: "o1", name: "o1", price: "限量" },
+            { model: "o1-mini", name: "o1-mini", price: "" },
+            { model: "o3-mini", name: "o3-mini", price: "推荐" }
         ],
     },
     {
         ai: "anthropic",
         aiName: "Claude",
         models: [
-            { model: "claude-3-5-sonnet-20241022", name: "3.5 sonnet", price: "" },
-            { model: "claude-3-5-haiku-20241022", name: "3.5 haiku", price: "" },
-            { model: "claude-3-opus-20240229", name: "3 opus", price: "" },
-            { model: "claude-3-sonnet-20240229", name: "3 sonnet", price: "" },
             { model: "claude-3-haiku-20240307", name: "3 haiku", price: "" },
+            { model: "claude-3-sonnet-20240229", name: "3 sonnet", price: "" },
+            { model: "claude-3-5-haiku-latest", name: "3.5 haiku", price: "" },
+            { model: "claude-3-5-sonnet-latest", name: "3.5 sonnet", price: "" },
+            { model: "claude-3-7-sonnet-latest", name: "3.7 sonnet", price: "" },
+            { model: "claude-3-opus-latest", name: "3 opus", price: "限量" }
         ],
     },
     {
         ai: "google",
         aiName: "Gemini",
         models: [
-            { model: "models/gemini-1-0-pro", name: "1.0 pro", price: "" },
-            { model: "models/gemini-1-0-pro-vision", name: "1.0 pro vision", price: "" },
-            { model: "models/gemini-1-5-flash", name: "1.5 flash", price: "" },
+            { model: "gemini-2.0-flash", name: "2.0 flash", price: "" },
+            { model: "gemini-2.0-flash-lite", name: "2.0 flash lite", price: "" },
+            { model: "gemini-1.5-flash", name: "1.5 flash", price: "" },
             { model: "gemini-1.5-pro", name: "1.5 pro", price: "" },
         ],
     },

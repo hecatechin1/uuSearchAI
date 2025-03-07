@@ -39,6 +39,7 @@
   const status_password = "password";
   const status_vcode = "vcode";
   const status_resetPassword = "resetPassword";
+  const status_forgetPassword = "forgetPassword";
   const currentStatus: string[] = [];
   const loginPageName = writable(""); //当前窗口
 
@@ -216,6 +217,14 @@
     showSuccessMessage($t("login.loginSuccess"));
     loginSuccess();
   }
+  //忘记密码的邮箱验证码是单独的接口
+  async function handleSendForgetPasswordVscode() {
+    
+  }
+
+  async function forgetPassword(){
+
+  }
   // 处理Google登录
   function handleGoogleLogin() {
     // 使用Google登录
@@ -223,7 +232,7 @@
 
   function handleForgotPassword() {
     forgotPassword = true;
-    changeStatus(status_vcode);
+    changeStatus(status_forgetPassword);
   }
 
   function validateEmail(email: string) {
@@ -524,7 +533,7 @@
           </div>
         {/if}
         <!-- 忘记密码重置 -->
-        {#if forgotPassword}
+        {#if $loginPageName === status_forgetPassword}
           <div class="animate-fade">
             <!-- 登录框左上角标题栏 -->
             <div class="flex items-center mb-6">

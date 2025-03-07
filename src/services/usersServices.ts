@@ -283,3 +283,20 @@ export async function getUserData(){
   }
 }
 
+export async function sendForgetEmailCode(email:string){
+  try{
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/sendCode?email=${email}`,{
+      method:"GET",
+      credentials: 'include',
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    } else {
+      return 1;
+    }
+  }catch(error){
+    return 1;
+  }
+}
+

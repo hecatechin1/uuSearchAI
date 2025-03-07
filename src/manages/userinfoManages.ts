@@ -178,3 +178,7 @@ export async function guest_signup(){
     userID.set(data.uid);
     return 0;
 }
+
+export async function sendForgetEmailCode(email:string){
+    
+}

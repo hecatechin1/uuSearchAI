@@ -26,13 +26,15 @@ register('th', () => import('./locales/th.json'));
 register('tr', () => import('./locales/tr.json'));
 register('vi', () => import('./locales/vi.json'));
 
+
+
 const initializeI18n = async () => {
 
   const initialLocale = localStorage.getItem("locale") || getLocaleFromNavigator().split('-')[0] || "en";
   language.set(initialLocale);
   init({
     fallbackLocale: initialLocale,
-    initialLocale: initialLocale
+    initialLocale: initialLocale,
   });
   locale.set(initialLocale);
   locale.subscribe((newLocale) => {

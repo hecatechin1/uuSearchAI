@@ -258,6 +258,8 @@
     console.log(currentStatus);
     loginPageName.set(currentStatus[currentStatus.length - 1]);
   }
+
+  
 </script>
 
 <div  class={isPage? "" : "login-viewbox"}>
@@ -313,6 +315,7 @@
                   ></label
                 >
               </div>
+              <div class="w-full h-10"></div>
               <button
                 disabled={isWaitting}
                 on:click={handleEmailSubmit}
@@ -483,7 +486,7 @@
             <div class="mt-10">
               <form>
                 <p class="mb-2">
-                  请输入发送至 {email ? email : "Email"} 的6位验证码，有效期5分钟
+                  {$t('login.enterVerificationCode', { email: email || 'Email' })}
                 </p>
 
                 <!-- 发送验证码按钮，有倒计时，加载完成后先自动发送一次 -->
@@ -493,9 +496,9 @@
                   type="button"
                   class="text-themegreen hover:underline py-2 mb-5"
                 >
-                  {sendedVcode
-                    ? `${timeLeft}s后重新发送`
-                    : $t("login.sendVerificationCode")}
+                {sendedVcode
+                  ? $t('login.resendVerificationCode', { seconds: timeLeft })
+                  : $t("login.sendVerificationCode")}
                 </button>
 
                 <div class="relative w-full mb-4">

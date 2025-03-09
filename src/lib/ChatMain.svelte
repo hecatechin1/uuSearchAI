@@ -240,7 +240,7 @@
                     </h1>
                     <!-- 新聊天的输入框 -->
                     <div
-                      class="inputbox-container w-full max-md:max-w-[80%] px-1 flex flex-col justify-center items-center bg-gray-100 transition-all border-2 rounded-md {isNewInputFocused
+                      class="inputbox-container w-full max-md:max-w-[96%] px-1 flex flex-col justify-center items-center bg-gray-100 transition-all border-2 rounded-md {isNewInputFocused
                         ? 'border-themegreen'
                         : 'border-transparent'}"
                     >

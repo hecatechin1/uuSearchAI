@@ -244,7 +244,9 @@
         "oneYearAgo": "一年前"
       },
       "renameSuccess": "修改成功",
-      "renameFailure": "修改失败"
+      "renameFailure": "修改失败",
+      "gotouugpt":"✨ 需要永久保存聊天记录或体验更强大的AI模型？",
+      "gotouugptlink": "点击前往 UUGPT"
     },
     "code": {
       "copy": "复制代码",

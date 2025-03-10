@@ -442,6 +442,16 @@
                         message.content.toString(),
                       )}
                     />
+                    {#if $isStreaming === false}
+                        <div class="inline-block bg-[#f8f8f8] border border-[#f2f2f2] rounded-lg mb-2 p-2.5 pr-4 hover:bg-gray-100 hover:border-gray-200 ease-in-out">
+                            <span class="text-gray-600">
+                            {$t("app.gotouugpt", {default: "✨ Need to save chats or use advanced AI?"})}
+                            </span>
+                            <span class="font-bold underline decoration-[#4A928C] text-[#4A928C] ml-2 hover:text-[#3a7470] transition-colors cursor-pointer">
+                            {$t("app.gotouugptlink", {default: "Visit UUGPT"})} ➔
+                            </span>
+                        </div>
+                    {/if}
                   </div>
 
                   {#if $isStreaming === false}

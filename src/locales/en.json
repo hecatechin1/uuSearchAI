@@ -233,7 +233,9 @@
         "oneYearAgo": "One year ago"
       },
       "renameSuccess": "Rename successful",
-      "renameFailure": "Rename failed"
+      "renameFailure": "Rename failed",
+      "gotouugpt":"✨ Need to permanently save chat history or access more advanced AI models?",
+      "gotouugptlink": "Click to visit UUGPT"
     },
     "code": {
       "copy": "Copy Code",

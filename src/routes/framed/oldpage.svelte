@@ -333,19 +333,6 @@
     const editedContent = editingMessageContent; // Temporarily store the edited content
     sendRetryMessage(editedContent, i + 1);
     cancelEdit();
-    // // Calculate how many messages need to be deleted
-    // const deleteCount =
-    //   $conversations[$chosenConversationId].history.length - i;
-    // // Delete messages from the end to the current one, including itself
-    // for (let j = 0; j < deleteCount; j++) {
-    //   deleteMessageFromConversation(
-    //     $conversations[$chosenConversationId].history.length - 1,
-    //   );
-    // }
-    // // Process the edited message as new input
-    // let convId = $chosenConversationId;
-    // routeMessage(editedContent, convId, pdfOutput);
-    // cancelEdit(); // Reset editing state
   }
 
   // 点赞和踩的方法  因为history是openai API里的ChatCompletionRequestMessage类型，

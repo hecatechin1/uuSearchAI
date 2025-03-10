@@ -1,5 +1,4 @@
 <script lang="ts">
-  // import ChatMessage from "./ChatMessage.svelte";
   import { createEventDispatcher, onMount, afterUpdate } from "svelte";
   import TopbarChat from "./TopbarChat.svelte";
   import ChatMessage from "./ChatMessage.svelte";
@@ -11,8 +10,6 @@
   import SendIcon from "../assets/sendmessage-active.svg";
   import WaitIcon from "../assets/stop.svg";
   import { getErrorMessage } from "../utils/generalUtils";
-  // import { closeStream } from "../services/uuAIServices";
-  // import { settingsVisible, sendKey, lineBreakKey } from "../stores/stores";
   import { sendKey, language, lineBreakKey } from "../stores/settingsStores";
   import {
     current_chat,
@@ -34,7 +31,8 @@
     isLogin,
   } from "../stores/globalParamentStores";
   import { guest_signup } from "../manages/userinfoManages";
-  export let selectedChatId: string;
+    import { messages } from "../stores/stores";
+    import { sendRegularMessage } from "../manages/messageManages";
   export let isFramed = false;
 
   let dispatch = createEventDispatcher();
@@ -56,11 +54,12 @@
 
   let userInput = "";
   let isSendHovered = false;
-  //发送聊天消息
-  const sendMessage = () => {};
+
 
   // 清除当前聊天中所有message
-  const clearMessages = () => {};
+  const clearMessages = () => {
+    messages.set([]);
+  };
 
   // 打开设置弹窗
   const openSettings = () => {};
@@ -69,6 +68,8 @@
   const feedback = () => {};
 
   onMount(async () => {
+    isMobile =/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
     current_chat_id.subscribe(async (value) => {
       if (value != 0) {
         if (get(isNewchat)) {
@@ -86,11 +87,13 @@
       isLoading = false;
     });
   });
+
   afterUpdate(() => {
     if (shouldScroll && container) {
       container.scrollTop = container.scrollHeight;
     }
   });
+
   function handleScroll() {
     // 判断用户是否滚动到接近底部
     const threshold = 50; // 像素阈值
@@ -158,6 +161,16 @@
   async function processMessage() {
     let msg = input;
     input = "";
+    if(isFramed){
+      await sendMessage_framed(msg);
+    }else{
+      await sendMessage(msg);
+    }
+    textAreaElement.style.height = "1.6rem"; // Reset the height after sending
+    textAreaElement.style.lineHeight = "1.2rem";
+  }
+
+  async function sendMessage(msg:string){
     //判断是否登录，如果没有登录则先注册未非登录用户
     if (!get(isLogin)) {
       let data = await guest_signup();
@@ -167,9 +180,13 @@
       }
     }
     await getMessage(msg, get(current_chat_ai), get(current_chat_model));
-    textAreaElement.style.height = "1.6rem"; // Reset the height after sending
-    textAreaElement.style.lineHeight = "1.2rem";
   }
+
+  async function sendMessage_framed(msg:string){
+
+    await sendRegularMessage(msg);
+
+  };
 
   function showModelSelector(event: CustomEvent) {
     dispatch("show-selector", event.detail);
@@ -216,15 +233,28 @@
                   on:show-user-menu={showUserMenu}
                   />
                 {/if}
-                {#if $current_chat.length > 0}
-                  {#each $current_chat as message, i}
+                {#if ($current_chat.length > 0) || ( $messages.length > 0)}
+
+                  {#if $current_chat.length >0}
+                    {#each $current_chat as message, i}
+                      <ChatMessage
+                        on:show-selector={tryOtherModel}
+                        {message}
+                        index={i}
+                        isFramed={isFramed}
+                      />
+                    {/each}
+                  {/if}
+
+                  {#if $messages.length >0}
+                    {#each $messages as message, i}
                     <ChatMessage
-                      on:show-selector={tryOtherModel}
                       {message}
                       index={i}
                       isFramed={isFramed}
                     />
-                  {/each}
+                    {/each}
+                  {/if}
                   <div class="tailblock h-10 w-full"></div>
                   
                 {:else}
@@ -240,7 +270,8 @@
                     </h1>
                     <!-- 新聊天的输入框 -->
                     <div
-                      class="inputbox-container w-full max-md:max-w-[96%] px-1 flex flex-col justify-center items-center bg-gray-100 transition-all border-2 rounded-md {isNewInputFocused
+                      class="inputbox-container w-full max-md:max-w-[96%] px-1 flex flex-col justify-center items-center bg-gray-100 transition-all border-2 rounded-md 
+                      {isNewInputFocused
                         ? 'border-themegreen'
                         : 'border-transparent'}"
                     >
@@ -318,7 +349,7 @@
       </div>
 
       <!-- 聊天输入框 -->
-      {#if $current_chat.length > 0}
+      {#if ($current_chat.length>0) || ($messages.length>0)}
 
       <div
         class="md:pt-0 md:border-transparent md:dark:border-transparent w-full mb-2"

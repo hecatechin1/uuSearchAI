@@ -1,4 +1,5 @@
 import { type Writable, writable, get } from "svelte/store";
+
 export interface Conversation {
     'cid': number;
     'name': string;
@@ -35,7 +36,7 @@ export const current_message = writable('');
 
 export const dataLoaded = writable(false);
 
-export let models = [
+export const models = [
     {
         ai: "openai",
         aiName: "GPT",

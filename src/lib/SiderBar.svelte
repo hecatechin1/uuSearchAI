@@ -19,6 +19,7 @@
     showSidebarMd,
     isLogin,
   } from "../stores/globalParamentStores";
+  import {userType,userAvatar} from "../stores/userStores";
   import SideBarContexMenu from "$lib/SideBarContexMenu.svelte";
   import SearchChat from "$lib/SearchChat.svelte";
   import { clickOutside } from "../utils/generalUtils";
@@ -468,7 +469,7 @@
                         height="32"
                         class="rounded-sm"
                         referrerpolicy="no-referrer"
-                        src={avatarIcon}
+                        src={$userAvatar || avatarIcon}
                       />
                     </div>
                   </div>

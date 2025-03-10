@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let message;
+  export let message:any;
   export let index:number;
   import { t } from "svelte-i18n"; // 导入本地化方法
   import SvelteMarkdown from "svelte-markdown"; //导入svelte-markdown
@@ -39,6 +39,7 @@
   import { current_chat, current_chat_ai, current_chat_id, current_chat_model,getAiName,getModelName } from "../stores/chatStores";
   import { onMount,createEventDispatcher,afterUpdate } from "svelte";
   import DeleteMessageContexMenu from "./DeleteMessageContexMenu.svelte";
+    import { sendRetryMessage } from "../manages/messageManages";
   export let isFramed = false;
 
   let dispatch = createEventDispatcher();
@@ -51,22 +52,26 @@
   let editTextArea;
   let editingMessageContent: string; //正在编辑的消息内容;
   let retrybtn;
-  let ast_ai = getAiName(message.message.role=='user'? message.ai : get(current_chat)[index-1].ai);
-  let ast_model = getModelName(message.message.role=='user'? message.model : get(current_chat)[index-1].model);
+
   let isShowDeleteMenu = false;
   let menuLeft:number;
   let menuTop:number;
   let menuRight:number;
   let menuBottom:number;
   let deleteMessageBtn:HTMLElement;
-  let messageError = message.error_code != 0;
-  let messageErrorType = message.error_code;
+  $:messageError = message.error_code != 0 && !isFramed;
+  $:messageErrorType = message.error_code;
+  $:content = isFramed ? message.content : message.message.content;
+  $:role = isFramed ? message.role : message.message.role;
+  let ast_ai = isFramed ?'': getAiName(message.message.role=='user'? message.ai : get(current_chat)[index-1].ai);
+  let ast_model =isFramed?"": getModelName(message.message.role=='user'? message.model : get(current_chat)[index-1].model);
+
   let showMenu = false;
   const autoExpand = () => {
     //自动展开
   };
-
   const copyText = (content: string, index: number) => {
+    console.log(content,index);
     //复制文本
     copyTextToClipboard(content.replaceAll("\\n", "\n"));
     let copyelm = document.getElementsByClassName("copyAnime" + index)[0];
@@ -140,6 +145,10 @@
   }
 
   async function retry(index: number) {
+    if (isFramed){
+      sendRetryMessage(content,index);
+      return;
+    }
     let user_message = get(current_chat)[index - 1];
     await getMessage(
       user_message.message.content,
@@ -152,13 +161,17 @@
 
   function startEditMessage(index: number) {}
 
-  onMount(() => {});
+  onMount(() => {
+    
+  });
   afterUpdate(() => {
+
+    if(isFramed) return;
     showMenu = $current_chat.length - 1 === index ? !$isStreaming : false;
   });
 </script>
 
-{#if message.message.role === "assistant"}
+{#if role === "assistant"}
   <article
     class="w-full scroll-mb-[var(--thread-trailing-height,150px)] text-token-text-primary focus-visible:outline-2 focus-visible:outline-offset-[-4px]"
     dir="auto"
@@ -215,14 +228,14 @@
                   <SvelteMarkdown
                     {renderers}
                     source={formatMessageForMarkdown(
-                      message.message.content.toString(),
+                      content.toString(),
                     )}
                   />
                   
                 </div>
               </div>
               {/if}
-              {#if messageError && messageErrorType == "500"}
+              {#if messageError && messageErrorType == "ERR_API_TIMEOUT"}
               
                <!-- TODO: 如果服务端发生错误500, 链接不上服务器 显示这个标签，隐藏同级标签和消息工具栏 -->
                 <div class="flex">
@@ -232,7 +245,8 @@
                   </div>
                 </div>
                 {/if}
-                {#if messageError && messageErrorType == "104"}
+
+                {#if messageError && messageErrorType == "ERR_NO_MORE_DEVICE"}
                 
                 <!-- TODO: 如果服务端发生错误类型，设备超出限制 显示这个标签，隐藏同级标签和消息工具栏 -->
                 <div class="flex">
@@ -242,7 +256,7 @@
                   </div>
                 </div>
                 {/if}
-                {#if messageError && messageErrorType == "103"}
+                {#if messageError && messageErrorType == "ERR_NO_MORE_TOKEN"}
                 
                 <!-- TODO: 如果token或对话次数额度超限 显示这个标签，隐藏同级标签和消息工具栏 -->
                 <div class="flex">
@@ -252,7 +266,7 @@
                   </div>
                 </div>
                 {/if}
-                {#if messageError && messageErrorType == "102"}
+                {#if messageError && messageErrorType == "ERR_VIP_ONLY"}
                 
                 <!-- TODO: 如果使用中的计划到期 显示这个标签，隐藏同级标签和消息工具栏 -->
                 <div class="flex">
@@ -263,7 +277,9 @@
                 </div>
                 {/if}
             </div>
-            
+          
+            {#if !messageError}
+
             <!-- 消息工具栏 -->
             <div class="toolbelt flex gap-2 empty:hidden 
               {!get(isStreaming) && index === $current_chat.length - 1 ? 'opacity-100 visible' : 'opacity-0 invisible'}
@@ -275,7 +291,7 @@
                   <button
                     class="btn-custom"
                     data-tooltip={$t("app.copy")}
-                    on:click={() => copyText(message.content, index)}
+                    on:click={() => copyText(content, index)}
                   >
                     <img
                       alt={$t("app.copy")}
@@ -344,7 +360,7 @@
                   {/if}
                 </div>
               </div>
-
+              {/if}
             <div class="pr-2 lg:pr-0"></div>
           </div>
 
@@ -355,7 +371,7 @@
      
     </div>
   </article>
-{:else if message.message.role === "user"}
+{:else if role === "user"}
   <article class="w-full focus-visible:outline-offset-[-4px]">
     <h5 class="sr-only">{$t("app.youSaid", { default: "You Said:" })}</h5>
     <div
@@ -374,11 +390,11 @@
                     <div class="grid">
                       <textarea
                         class="col-start-1 col-end-2 row-start-1 row-end-2 resize-none overflow-y-auto p-0 m-0 w-full border-0 bg-transparent focus:outline-none"
-                        >{message.message.content}</textarea
+                        >{content}</textarea
                       ><span
                         class="invisible col-start-1 col-end-2 row-start-1 row-end-2 whitespace-pre-wrap p-0"
                       >
-                        {message.message.content}
+                        {content}
                       </span>
                     </div>
                   </div>
@@ -413,7 +429,7 @@
                     >
                       <!-- 消息内容 -->
                       <div class="whitespace-pre-wrap">
-                        {message.message.content}
+                        {content}
                       </div>
 
                       <!-- 消息编辑按钮 -->

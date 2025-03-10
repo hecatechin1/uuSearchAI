@@ -1,6 +1,6 @@
 import { userID, userEmail, userLevel, userTokens, userPlanEndtime,userPlanMode,userSubMode,getEmailCodeId, userAvatar, userType } from '../stores/userStores';
 import { isLogin,isGuest } from "../stores/globalParamentStores";
-import { getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login, updateData,getUserData, guestSignup,logout,getMaxthonUserInfo,loginMxUser } from "../services/usersServices";
+import {sendForgetEmailCode, getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login, updateData,getUserData, guestSignup,logout,getMaxthonUserInfo,loginMxUser } from "../services/usersServices";
 import {hash256,getCookieValue} from "../utils/generalUtils";
 import {sendKey,lineBreakKey,language} from "../stores/settingsStores";
 import {get} from "svelte/store";
@@ -15,8 +15,8 @@ export async function userLoginForMaxthon(){
         if(mxProfileData!=1){
             let logindata = await loginMxUser(mxtoken);
             if(logindata.code==0){
-                userEmail.set(mxProfileData.email);
-                userAvatar.set(mxProfileData.avatar);
+                userEmail.set(mxProfileData.account);
+                userAvatar.set(mxProfileData.avatar_url == "" ? "" : mxProfileData.avatar_url);
                 userType.set('maxthon');
                 return;
             }
@@ -103,9 +103,9 @@ export async function setUserPassword(email:string,password:string){
     return 0;
 }
 
-export async function resetUserPassword(email:string,password:string){
+export async function resetUserPassword(email:string,password:string,verifyCode:string){
     password = await hash256(password);
-    let data = await resetPassword(email,password);
+    let data = await resetPassword(email,password,verifyCode);
     if (data == 1) {
         return 1;
     }
@@ -179,6 +179,13 @@ export async function guest_signup(){
     return 0;
 }
 
-export async function sendForgetEmailCode(email:string){
-    
+export async function sendForgetCode(email:string){
+    let data = await sendForgetEmailCode(email);
+    if (data == 1) {
+        return 1;
+    }
+    if (data.code!= 0) {
+        return data.code;
+    }
+    return 0;
 }

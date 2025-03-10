@@ -22,7 +22,7 @@ onMount(async () => {
         </div>
     {:else if isReady}
         <div class="flex h-screen relative">
-            <ChatMain isFramed />
+            <ChatMain isFramed={true} />
         </div>
     {/if}
 </main>

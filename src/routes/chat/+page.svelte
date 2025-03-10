@@ -16,10 +16,8 @@
     isLogin,
   } from "../../stores/globalParamentStores";
   import { current_chat_id, dataLoaded } from "../../stores/chatStores.js";
-  import { get } from "svelte/store";
 
   // 状态管理
-  let selectedChatId = "1";
   let isReady = false;
   let showSelector = false;
   let selectorTop: number;
@@ -43,7 +41,6 @@
         showErrorMessage(res);
         return;
       }
-
       let chatid = Number(localStorage.getItem("current_chat_id") || 0);
       current_chat_id.set(chatid);
       if (chatid == 0) {
@@ -51,7 +48,6 @@
       }
     });
     dataLoaded.set(true);
-
     isReady = true;
     // isLogin.set(true);
   });
@@ -92,7 +88,6 @@
     <div class="flex-1 relative">
       <Topbar on:show-selector={showModelSelector} />
       <ChatMain
-        {selectedChatId}
         on:show-user-menu={() => (showUserContexMenu = true)}
         on:show-selector={showModelSelector}
         on:showLoginBox={() => (showLogin = true)}

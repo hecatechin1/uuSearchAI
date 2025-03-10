@@ -1,6 +1,7 @@
 import { SSE } from 'sse.js';
 import { get, writable } from 'svelte/store';
-import { messages, userRequestedStreamClosure, isStreaming, streamContext } from "../stores/stores";
+import { messages, userRequestedStreamClosure, streamContext } from "../stores/stores";
+import { isStreaming } from '../stores/globalParamentStores';
 import { setMessagesHistory } from "../manages/messageManages";
 import { countTicks } from '../utils/generalUtils';
 import { t } from "svelte-i18n";
@@ -55,7 +56,6 @@ export async function sendMessage(msg: any, mid: number) {
     userRequestedStreamClosure.set(false);
     let hasError = false;
     let currentMessages = get(messages);
-    // console.log(currentMessages);
     let tickCounter = 0;
     let ticks = false;
     currentMessages = [...currentMessages];
@@ -68,8 +68,6 @@ export async function sendMessage(msg: any, mid: number) {
         }]);
     } else {
         currentMessages[mid].content = "█";
-
-        // currentMessages[mid].content = streamText;
 
         setMessagesHistory(currentMessages);
     }

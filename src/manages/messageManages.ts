@@ -40,6 +40,7 @@ export function sendRetryMessage(msg: any, mid: number) {
     sendMessage(msg, mid);
 }
 
+
 export function clearChat() {
     messages.set([]);
 }

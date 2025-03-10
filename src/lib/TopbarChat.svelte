@@ -10,9 +10,10 @@
     models,
   } from "../stores/chatStores";
   import { changeChatModel,createNewChat } from "../manages/chatManages";
-  import userAvatar from "../assets/login/avatar-default.svg";
+  import avatar from "../assets/login/avatar-default.svg";
   import { getElementPostionDiff } from "../utils/generalUtils.js";
   import { showSidebar, isLogin } from "../stores/globalParamentStores";
+  import { userAvatar, userType} from "../stores/userStores";
 
   // export let showSidebar = false;
 
@@ -150,7 +151,7 @@
               height="32"
               class="rounded-sm"
               referrerpolicy="no-referrer"
-              src={userAvatar}
+              src={$userAvatar || avatar }
             />
           </div>
         </div></button

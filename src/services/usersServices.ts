@@ -218,20 +218,11 @@ export async function logout() {
   }
 }
 //重置密码
-export async function resetPassword(email: string, password: string) {
+export async function resetPassword(email: string, password: string,verifyCode:string) {
   try {
-    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/update`,{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
-      },
-      credentials: 'include',
-      body:JSON.stringify({
-        info:{
-        "password":password,
-        "email":email
-        }
-      })
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/resetPass?email=${email}&new_pass=${password}&code=${verifyCode}`,{
+      method:"GET",
+      credentials: 'include'
     });
     if (res.ok) {
       const data = await res.json();
@@ -299,4 +290,3 @@ export async function sendForgetEmailCode(email:string){
     return 1;
   }
 }
-

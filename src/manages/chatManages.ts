@@ -127,9 +127,10 @@ export async function getMessage(msg: string, ai: string, model: string) {
         let data = e.data;
         console.log(data);
         let msg_err = checkMessageError(data);
+        console.log(msg_err);
         if (msg_err) {
             current_chat.update(v => {
-                v[v.length - 1].error_code = msg_err.code;
+                v[v.length - 1].error_code = msg_err.msg;
                 return v
             });
             closeStream();
@@ -198,7 +199,8 @@ function checkMessageError(msg: string) {
     if (msg.substring(0, 5) == "[ERR]") {
         let msg_info = JSON.parse(msg.substring(5, msg.length));
         return {
-            code: msg_info.code
+            code: msg_info.code,
+            msg: msg_info.msg
         }
     }
     return false;

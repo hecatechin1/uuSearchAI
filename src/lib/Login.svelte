@@ -27,6 +27,7 @@
     setUserPassword,
     resetUserPassword,
     userLogin,
+    sendForgetCode,
   } from "../manages/userinfoManages";
   import { writable, get } from "svelte/store";
   import {userEmail} from "../stores/userStores";
@@ -55,6 +56,10 @@
   let error = "";
   let successMessage = "";
   let forgotPassword = false; //是否忘记密码
+  let forgetPasswordCode = '';//忘记密码的邮箱验证码，跟注册时的验证码时两个接口
+  let f_password = '';
+  let f_confirmPassword = '';
+  let f_verifyCode = '';
 
   loginPageName.subscribe((value) => {
     password = "";
@@ -213,18 +218,54 @@
     if(get(isGuest)){
             localStorage.setItem("current_chat_id", '0');
             isGuest.set(false);
-        }
+    }
     showSuccessMessage($t("login.loginSuccess"));
     loginSuccess();
   }
   //忘记密码的邮箱验证码是单独的接口
   async function handleSendForgetPasswordVscode() {
-    
+    sendedVcode = true;
+    timeLeft = 60;
+    let timer = setInterval(() => {
+      if (timeLeft > 0) {
+        timeLeft--;
+      } else {
+        sendedVcode = false;
+        clearInterval(timer);
+      }
+    }, 1000);
+
+    let data = await sendForgetCode(email);
+    isWaitting = false;
+    if (data != 0) {
+      showErrorMessage(getErrorMessage(data.toString()));
+      return;
+    }
+    showSuccessMessage($t("login.verificationCodeSentSuccess"));
   }
 
-  async function forgetPassword(){
-
+  async function forgetPasswordSubmit(){
+    let data = await resetUserPassword(email, f_password,f_verifyCode);
+    if (data != 0) {
+      showErrorMessage(getErrorMessage(data.toString()));
+      return;
+    }
+    isWaitting = true;
+    let res = await userLogin(email, f_password);
+    isWaitting = false;
+    if (res != 0) {
+      showErrorMessage(getErrorMessage(res.toString()));
+      return;
+    }
+    showSuccessMessage(
+      forgotPassword
+        ? $t("login.resetPasswordSuccess")
+        : $t("login.loginSuccess"),
+    );
+    forgotPassword = false;
+    loginSuccess();
   }
+
   // 处理Google登录
   function handleGoogleLogin() {
     // 使用Google登录
@@ -558,7 +599,7 @@
                 <!-- 发送验证码按钮，有倒计时，加载完成后先自动发送一次 -->
                 <button
                   disabled={sendedVcode}
-                  on:click={handleSendVcode}
+                  on:click={handleSendForgetPasswordVscode}
                   type="button"
                   class="text-themegreen hover:underline py-2 mb-5"
                 >
@@ -579,7 +620,7 @@
                     />
                   </span>
                   <input
-                    bind:value={verifyCode}
+                    bind:value={f_verifyCode}
                     type="text"
                     class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
                     placeholder={$t("login.verificationCodePlaceholder")}
@@ -598,12 +639,13 @@
                       class="w-4 h-4 text-gray-400 opacity-20"
                     />
                   </span>
+
                   <!-- 密码输入框 -->
                   {#if showPassword}
                     <input
                       type="text"
                       class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
-                      bind:value={password}
+                      bind:value={f_password}
                       required
                       autofocus
                       placeholder={$t("login.resetPasswordPlaceholder")}
@@ -612,7 +654,7 @@
                     <input
                       type="password"
                       class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
-                      bind:value={password}
+                      bind:value={f_password}
                       required
                       autofocus
                       placeholder={$t("login.resetPasswordPlaceholder")}
@@ -620,7 +662,6 @@
                   {/if}
 
                   <!-- 右侧显示/隐藏密码图标 -->
-
                   <button
                     on:click={() => {
                       showPassword = !showPassword;
@@ -660,7 +701,7 @@
                     <input
                       type="text"
                       class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
-                      bind:value={confirmPassword}
+                      bind:value={f_confirmPassword}
                       required
                       autofocus
                       placeholder={$t("login.confirmPasswordPlaceholder")}
@@ -669,7 +710,7 @@
                     <input
                       type="password"
                       class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
-                      bind:value={confirmPassword}
+                      bind:value={f_confirmPassword}
                       required
                       autofocus
                       placeholder={$t("login.confirmPasswordPlaceholder")}
@@ -704,7 +745,7 @@
 
                 <button
                   disabled={isWaitting}
-                  on:click={handleSetPassword}
+                  on:click={forgetPasswordSubmit}
                   type="submit"
                   class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
                 >

@@ -25,6 +25,7 @@
   function showModelSelector() {
     let position = getElementPostionDiff(showModelSelectorbtn);
     dispatch("show-selector", {
+      originElement: showModelSelectorbtn,
       position: position,
       callback: selectedCallback,
     });

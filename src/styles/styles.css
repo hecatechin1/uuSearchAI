@@ -161,7 +161,7 @@ padding-bottom: 0.5rem;
   top:90%;
 }
 
-..btn-custom-down::after{
+.btn-custom-down::after{
   top:128%;
 }
 

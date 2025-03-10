@@ -96,13 +96,17 @@
   };
 
   function showModelSelector() {
+    isHovered = !isHovered;
     let position = getElementPostionDiff(showModelSelectorbtn);
     dispatch("show-selector", {
       position: position,
+      originElement: showModelSelectorbtn,
+      closeCallback:()=>{isHovered = false},
       callback: selectedCallback,
     });
   }
   async function selectedCallback(ai: string, model: string) {
+    isHovered = false;
     let msg = get(current_chat)[index - 1].message.content;
     await getMessage(msg, ai, model);
   }
@@ -129,15 +133,17 @@
   };
 
   function deleteMessage(index: number) {
+    isHovered = !isHovered;
     let d = getElementPostionDiff(deleteMessageBtn);
     menuLeft = d.left;
     menuRight = d.right;
     menuTop = d.top;
     menuBottom = d.bottom;
-    isShowDeleteMenu = true;
+    isShowDeleteMenu = !isShowDeleteMenu;
   }
 
   function hideMenu() {
+    isHovered = false;
     isShowDeleteMenu = false;
   }
   async function deleteThisMessage() {
@@ -215,9 +221,7 @@
         </div>
         <div
           class="group/conversation-turn relative flex w-full min-w-0 flex-col agent-turn"
-          role="article"
-          on:focus={() => (isHovered = true)}
-          on:blur={() => (isHovered = false)}
+
         >
           <div class="flex-col gap-1 md:gap-3">
             <div class="flex max-w-full flex-col flex-grow">
@@ -328,8 +332,11 @@
               <!-- 消息工具栏 -->
               <div
                 class="toolbelt flex gap-2 empty:hidden
-              {!get(isStreaming) && index === $current_chat.length - 1 ? 'opacity-100 visible' : 'opacity-0 invisible'}
-              {index !== $current_chat.length - 1 && 'group-hover/conversation-turn:opacity-100 group-hover/conversation-turn:visible'}
+              {(!get(isStreaming) && index === $current_chat.length - 1 ) || isHovered ? 'opacity-100 visible' : 'opacity-0 invisible'}
+              
+              group-hover/conversation-turn:opacity-100
+              group-hover/conversation-turn:visible
+
               transition-opacity duration-300 ease-in-out"
               >
                 <div
@@ -354,12 +361,12 @@
                   >
                     <img class="" alt={$t("app.retry")} src={RetryIcon} />
                   </button>
-
+                  <!-- class="{isHovered ? "" : " btn-switch"} btn-custom" -->
                   <button
                     bind:this={showModelSelectorbtn}
                     on:click={showModelSelector}
-                    class="btn-custom btn-switch"
-                    data-tooltip={$t("settings.switchMode")}
+                    class="btn-switch btn-custom"
+                    data-tooltip={isHovered ? null : $t("settings.switchMode")}
                   >
                     <img
                       class="h-4 w-4"
@@ -383,7 +390,7 @@
                   <button
                     bind:this={deleteMessageBtn}
                     class="moreButton btn-custom"
-                    data-tooltip={$t("app.delete")}
+                    data-tooltip={isHovered ? null : $t("app.delete")}
                     on:click={() => deleteMessage(index)}
                   >
                     <img
@@ -394,7 +401,7 @@
                   </button>
 
                   {#if isShowDeleteMenu}
-                    <div use:clickOutside={hideMenu} style="z-index : 50">
+                    <div use:clickOutside={{callback:hideMenu,originElement:deleteMessageBtn}} style="z-index : 50">
                       <DeleteMessageContexMenu
                         left={menuLeft}
                         top={menuTop}

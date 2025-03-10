@@ -14,6 +14,7 @@
     showErrorMessage,
     isNewchat,
     isLogin,
+
   } from "../../stores/globalParamentStores";
   import { current_chat_id, dataLoaded } from "../../stores/chatStores.js";
 
@@ -25,6 +26,8 @@
   let selectorBottom: number;
   let selectorRight: number;
   let callback: Function; // 选择模型的回调函数
+  let originElement: HTMLElement;
+  let closeCallback: Function;
   let showLogin = false;
   let isResetPassword = false;
   let showUserContexMenu = false;
@@ -32,8 +35,6 @@
   function changeChat(event: CustomEvent) {}
 
   onMount(async () => {
-    // await initializeI18n();
-    // await waitLocale();
     isLogin.subscribe( async (v) => {
       if(!v) {isNewchat.set(true); return;}
       let res = await getChatListData();
@@ -53,16 +54,21 @@
   });
 
   function showModelSelector(event: CustomEvent) {
+    if(event.detail.originElement)    originElement = event.detail.originElement;// 点击的元素
+    if(event.detail.closeCallback)    closeCallback = event.detail.closeCallback;// 关闭的回调函数
     selectorTop = event.detail.position.top;
     selectorLeft = event.detail.position.left;
     selectorBottom = event.detail.position.bottom;
     selectorRight = event.detail.position.right;
     callback = event.detail.callback;
     showSelector = !showSelector;
+
+
   }
 
   function hideSelector() {
-    showSelector = false;
+    if(closeCallback)    closeCallback();
+    showSelector=false;
   }
 
   function aiModelSelected(event: CustomEvent) {
@@ -95,7 +101,7 @@
     </div>
     <!-- AI选择器需要JS计算位置，主要是左上角坐标。元件宽度260px，高度310px，注意边缘计算 -->
     {#if showSelector}
-      <div use:clickOutside={hideSelector}>
+      <div use:clickOutside={{callback:hideSelector,originElement:originElement}}>
         <AiModelSelector
           on:aiModelSelected={aiModelSelected}
           top={selectorTop}

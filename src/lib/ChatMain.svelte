@@ -31,9 +31,9 @@
     isLogin,
   } from "../stores/globalParamentStores";
   import { guest_signup } from "../manages/userinfoManages";
-    import { messages } from "../stores/stores";
-    import { sendRegularMessage } from "../manages/messageManages";
-  export let isFramed = false;
+  //   import { messages } from "../stores/stores";
+  //   import { sendRegularMessage } from "../manages/messageManages";
+  // export let isFramed = false;
 
   let dispatch = createEventDispatcher();
   let isLoading = true;
@@ -55,20 +55,11 @@
   let userInput = "";
   let isSendHovered = false;
 
-
-  // 清除当前聊天中所有message
-  const clearMessages = () => {
-    messages.set([]);
-  };
-
-  // 打开设置弹窗
-  const openSettings = () => {};
-
-  // 打开反馈
-  const feedback = () => {};
-
   onMount(async () => {
-    isMobile =/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      );
 
     current_chat_id.subscribe(async (value) => {
       if (value != 0) {
@@ -151,7 +142,7 @@
   }
 
   function getRandomPrompts() {
-    const prompts = ($t('promptRefer') as unknown as string[]) || []; // Add double assertion
+    const prompts = ($t("promptRefer") as unknown as string[]) || []; // Add double assertion
     return prompts
       .slice()
       .sort(() => Math.random() - 0.5)
@@ -161,16 +152,6 @@
   async function processMessage() {
     let msg = input;
     input = "";
-    if(isFramed){
-      await sendMessage_framed(msg);
-    }else{
-      await sendMessage(msg);
-    }
-    textAreaElement.style.height = "1.6rem"; // Reset the height after sending
-    textAreaElement.style.lineHeight = "1.2rem";
-  }
-
-  async function sendMessage(msg:string){
     //判断是否登录，如果没有登录则先注册未非登录用户
     if (!get(isLogin)) {
       let data = await guest_signup();
@@ -179,14 +160,11 @@
         return;
       }
     }
-    await getMessage(msg, get(current_chat_ai), get(current_chat_model));
+    getMessage(msg, get(current_chat_ai), get(current_chat_model));
+    textAreaElement.style.height = "1.6rem"; // Reset the height after sending
+    textAreaElement.style.lineHeight = "1.2rem";
   }
-  //framed页面发送消息使用不同接口
-  async function sendMessage_framed(msg:string){
 
-    await sendRegularMessage(msg);
-
-  };
 
   function showModelSelector(event: CustomEvent) {
     dispatch("show-selector", event.detail);
@@ -226,37 +204,22 @@
               on:scroll={handleScroll}
             >
               <div class="flex flex-col text-sm pb-[82px]">
-                {#if !isFramed}
-                  <TopbarChat
+                <TopbarChat
                   on:show-selector={showModelSelector}
                   on:showLoginBox={showLoginBox}
                   on:show-user-menu={showUserMenu}
-                  />
-                {/if}
-                {#if ($current_chat.length > 0) || ( $messages.length > 0)}
+                />
 
-                  {#if $current_chat.length >0}
-                    {#each $current_chat as message, i}
-                      <ChatMessage
-                        on:show-selector={tryOtherModel}
-                        {message}
-                        index={i}
-                        isFramed={isFramed}
-                      />
-                    {/each}
-                  {/if}
-
-                  {#if $messages.length >0}
-                    {#each $messages as message, i}
+                {#if $current_chat.length > 0}
+                  {#each $current_chat as message, i}
                     <ChatMessage
+                      on:show-selector={tryOtherModel}
                       {message}
                       index={i}
-                      isFramed={isFramed}
                     />
-                    {/each}
-                  {/if}
+                  {/each}
+
                   <div class="tailblock h-10 w-full"></div>
-                  
                 {:else}
                   <div
                     class="flex flex-col justify-center items-center pt-20 m-auto px-3 md:px-4 w-full md:px-5 lg:px-4 xl:px-5 gap-6 max-w-3xl"
@@ -270,7 +233,7 @@
                     </h1>
                     <!-- 新聊天的输入框 -->
                     <div
-                      class="inputbox-container w-full max-md:max-w-[96%] px-1 flex flex-col justify-center items-center bg-gray-100 transition-all border-2 rounded-md 
+                      class="inputbox-container w-full max-md:max-w-[96%] px-1 flex flex-col justify-center items-center bg-gray-100 transition-all border-2 rounded-md
                       {isNewInputFocused
                         ? 'border-themegreen'
                         : 'border-transparent'}"
@@ -327,19 +290,21 @@
                       </div>
                     </div>
 
-                    {#if $t('promptRefer')?.length > 0}
-                    <div class="max-md:hidden flex flex-wrap justify-center gap-2 w-full max-w-3xl mx-auto">
-                      {#each getRandomPrompts() as prompt}
-                        <button
-                          on:click={() => input = prompt}
-                          class="text-left p-2 rounded-md bg-white hover:bg-gray-50 border transition-colors truncate"
-                          style="min-width: 200px;"
-                        >
-                          {prompt}
-                        </button>
-                      {/each}
-                    </div>
-                  {/if}
+                    {#if $t("promptRefer")?.length > 0}
+                      <div
+                        class="max-md:hidden flex flex-wrap justify-center gap-2 w-full max-w-3xl mx-auto"
+                      >
+                        {#each getRandomPrompts() as prompt}
+                          <button
+                            on:click={() => (input = prompt)}
+                            class="text-left p-2 rounded-md bg-white hover:bg-gray-50 border transition-colors truncate"
+                            style="min-width: 200px;"
+                          >
+                            {prompt}
+                          </button>
+                        {/each}
+                      </div>
+                    {/if}
                   </div>
                 {/if}
               </div>
@@ -349,150 +314,78 @@
       </div>
 
       <!-- 聊天输入框 -->
-      {#if ($current_chat.length>0) || ($messages.length>0)}
-
-      <div
-        class="md:pt-0 md:border-transparent md:dark:border-transparent w-full mb-2"
-      >
+      {#if $current_chat.length > 0}
         <div
-          class="m-auto text-base px-3 md:px-4 w-full md:px-5 lg:px-4 xl:px-5"
+          class="md:pt-0 md:border-transparent md:dark:border-transparent w-full mb-2"
         >
           <div
-            class="mx-auto flex flex-1 gap-2 text-base md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] flex-col items-center"
+            class="m-auto text-base px-3 md:px-4 w-full md:px-5 lg:px-4 xl:px-5"
           >
-            {#if isFramed}
-              <div class="inputbox-tools w-full px-2 flex mt-1">
-                <!-- 清除当前聊天中所有message，仅在framed页面中显示 -->
-                <button
-                  on:click={clearMessages}
-                  class="py-1 px-2 border rounded-lg text-gray-700 hover:bg-gray-100 flex items-center mr-2"
-                >
-                  <img
-                    class="delete-icon w-4 h-4 text-blue-500 mr-1"
-                    alt={$t("app.delete")}
-                    src={DeleteIcon}
-                  />
-                  <span
-                    >{$t("topbar.clearConversation", { default: "Clear" })}</span
-                  >
-                </button>
-
-                <button
-                  on:click={feedback}
-                  class="py-1 px-2 border rounded-lg text-gray-700 hover:bg-gray-100 flex items-center mr-2"
-                >
-                  <svg
-                    class="w-5 h-5 text-blue-500 mr-1"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v2a1 1 0 102 0V6zm0 4a1 1 0 10-2 0v4a1 1 0 102 0v-4z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                  <span>{$t("app.feedback")}</span>
-                </button>
-                <button
-                  on:click={openSettings}
-                  class="py-1 px-2 border rounded-lg text-gray-700 hover:bg-gray-100 flex items-center"
-                >
-                  <svg
-                    class="w-4 h-4 text-blue-500 mr-1"
-                    fill="currentColor"
-                    viewBox="0 0 14 14"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <!-- 设置图标 -->
-                    <path
-                      id="路径_3870"
-                      data-name="路径 3870"
-                      d="M77.5,705.5H70.938a2,2,0,0,0-3.875,0H64.5a.5.5,0,0,0,0,1h2.563a2,2,0,0,0,3.875,0H77.5a.5.5,0,0,0,0-1ZM69,707.016A1.016,1.016,0,1,1,70.016,706,1.016,1.016,0,0,1,69,707.016Z"
-                      transform="translate(-64 -694)"
-                      fill="#4a928c"
-                    />
-                    <path
-                      id="路径_3871"
-                      data-name="路径 3871"
-                      d="M77.5,385.5H74.938a2,2,0,0,0-3.875,0H64.5a.5.5,0,1,0,0,1h6.563a2,2,0,0,0,3.875,0H77.5a.5.5,0,0,0,0-1ZM73,387.016A1.016,1.016,0,1,1,74.016,386,1.016,1.016,0,0,1,73,387.016Z"
-                      transform="translate(-64 -379)"
-                      fill="#4a928c"
-                    />
-                    <path
-                      id="路径_3872"
-                      data-name="路径 3872"
-                      d="M64.5,66.5h2.563a2,2,0,0,0,3.875,0H77.5a.5.5,0,0,0,0-1H70.938a2,2,0,0,0-3.875,0H64.5a.5.5,0,0,0,0,1ZM69,64.984A1.016,1.016,0,1,1,67.984,66,1.016,1.016,0,0,1,69,64.984Z"
-                      transform="translate(-64 -64)"
-                      fill="#4a928c"
-                    />
-                  </svg>
-                  <span>{$t("topbar.setting", { default: "Settings" })}</span>
-                </button>
-              </div>
-            {/if}
             <div
-              class="inputbox-container w-full px-3 flex justify-center items-center bg-gray-100 transition-all {isFocused
-                ? 'border-2 border-themegreen'
-                : 'border-2 border-transparent'}"
+              class="mx-auto flex flex-1 gap-2 text-base md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] flex-col items-center"
             >
+
               <div
-                class="inputbox w-full flex items-end mt-auto mx-auto py-[0.5rem] relative"
+                class="inputbox-container w-full px-3 flex justify-center items-center bg-gray-100 transition-all {isFocused
+                  ? 'border-2 border-themegreen'
+                  : 'border-2 border-transparent'}"
               >
-                <textarea
-                  bind:this={textAreaElement}
-                  class="bg-transparent min-h-[2.5rem] flex-1 mr-2 border-0 resize-none border-none focus:outline-none"
-                  placeholder={$t("app.textareaPlaceholder")}
-                  autofocus
-                  rows="1"
-                  bind:value={input}
-                  on:input={handleInput}
-                  style="overflow-y: auto; overflow:visible !important; line-height: 1.2rem; min-height: 1.6rem;"
-                  on:keydown={textAreaKeysListener}
-                  on:focus={() => (isFocused = true)}
-                  on:blur={() => (isFocused = false)}
-                ></textarea>
-                <button
-                  class="cursor-pointer text:themegreen hover:themegreenhover transition-colors"
-                  on:click={() => {
-                    if ($isStreaming) {
-                      closeStream();
-                    } else {
-                      processMessage();
-                    }
-                  }}
-                  on:mouseover={() => (isSendHovered = true)}
-                  on:mouseleave={() => (isSendHovered = false)}
-                  on:focus={() => (isSendHovered = true)}
-                  on:blur={() => (isSendHovered = false)}
-                  disabled={!$isStreaming && !input.trim().length}
+                <div
+                  class="inputbox w-full flex items-end mt-auto mx-auto py-[0.5rem] relative"
                 >
-                  {#if $isStreaming}
-                    <img
-                      src={WaitIcon}
-                      alt="wait"
-                      class="min-w-[32px] w-[32px]"
-                    />
-                  {:else if input.trim().length === 0}
-                    <img
-                      src={SendDisabledIcon}
-                      alt="send"
-                      class="min-w-[32px] w-[32px]"
-                    />
-                  {:else}
-                    <img
-                      src={isSendHovered ? SendHoverIcon : SendIcon}
-                      alt="send"
-                      class="min-w-[32px] w-[32px]"
-                    />
-                  {/if}
-                </button>
+                  <textarea
+                    bind:this={textAreaElement}
+                    class="bg-transparent min-h-[2.5rem] flex-1 mr-2 border-0 resize-none border-none focus:outline-none"
+                    placeholder={$t("app.textareaPlaceholder")}
+                    autofocus
+                    rows="1"
+                    bind:value={input}
+                    on:input={handleInput}
+                    style="overflow-y: auto; overflow:visible !important; line-height: 1.2rem; min-height: 1.6rem;"
+                    on:keydown={textAreaKeysListener}
+                    on:focus={() => (isFocused = true)}
+                    on:blur={() => (isFocused = false)}
+                  ></textarea>
+                  <button
+                    class="cursor-pointer text:themegreen hover:themegreenhover transition-colors"
+                    on:click={() => {
+                      if ($isStreaming) {
+                        closeStream();
+                      } else {
+                        processMessage();
+                      }
+                    }}
+                    on:mouseover={() => (isSendHovered = true)}
+                    on:mouseleave={() => (isSendHovered = false)}
+                    on:focus={() => (isSendHovered = true)}
+                    on:blur={() => (isSendHovered = false)}
+                    disabled={!$isStreaming && !input.trim().length}
+                  >
+                    {#if $isStreaming}
+                      <img
+                        src={WaitIcon}
+                        alt="wait"
+                        class="min-w-[32px] w-[32px]"
+                      />
+                    {:else if input.trim().length === 0}
+                      <img
+                        src={SendDisabledIcon}
+                        alt="send"
+                        class="min-w-[32px] w-[32px]"
+                      />
+                    {:else}
+                      <img
+                        src={isSendHovered ? SendHoverIcon : SendIcon}
+                        alt="send"
+                        class="min-w-[32px] w-[32px]"
+                      />
+                    {/if}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       {/if}
     </div>
   </div>

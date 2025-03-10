@@ -1,7 +1,6 @@
 import { SSE } from 'sse.js';
 import { get, writable } from 'svelte/store';
-import { messages, userRequestedStreamClosure, streamContext } from "../stores/stores";
-import { isStreaming } from '../stores/globalParamentStores';
+import { messages, userRequestedStreamClosure, streamContext,isStreaming } from "../stores/stores";
 import { setMessagesHistory } from "../manages/messageManages";
 import { countTicks } from '../utils/generalUtils';
 import { t } from "svelte-i18n";

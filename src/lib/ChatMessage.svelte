@@ -1,9 +1,14 @@
 <script lang="ts">
-  export let message:any;
-  export let index:number;
+  export let message: any;
+  export let index: number;
   import { t } from "svelte-i18n"; // 导入本地化方法
   import SvelteMarkdown from "svelte-markdown"; //导入svelte-markdown
-  import { isStreaming, showErrorMessage, showSuccess, showSuccessMessage } from "../stores/globalParamentStores";
+  import {
+    isStreaming,
+    showErrorMessage,
+    showSuccess,
+    showSuccessMessage,
+  } from "../stores/globalParamentStores";
   //导入渲染器
   import CodeRenderer from "../renderers/Code.svelte";
   import LinkRenderer from "../renderers/LinkRenderer.svelte";
@@ -32,18 +37,24 @@
     copyTextToClipboard,
     formatMessageForMarkdown,
     clickOutside,
-    getElementPostionDiff
+    getElementPostionDiff,
   } from "../utils/generalUtils";
   import { get } from "svelte/store";
   import { deleteMessageData, getMessage } from "../manages/chatManages";
-  import { current_chat, current_chat_ai, current_chat_id, current_chat_model,getAiName,getModelName } from "../stores/chatStores";
-  import { onMount,createEventDispatcher,afterUpdate } from "svelte";
+  import {
+    current_chat,
+    current_chat_ai,
+    current_chat_id,
+    current_chat_model,
+    getAiName,
+    getModelName,
+  } from "../stores/chatStores";
+  import { onMount, createEventDispatcher, afterUpdate } from "svelte";
   import DeleteMessageContexMenu from "./DeleteMessageContexMenu.svelte";
-    import { sendRetryMessage } from "../manages/messageManages";
-  export let isFramed = false;
+  import { sendRetryMessage } from "../manages/messageManages";
 
   let dispatch = createEventDispatcher();
-  let showModelSelectorbtn:HTMLElement;
+  let showModelSelectorbtn: HTMLElement;
   let isShowUserFirstQuery = true; //是否显示用户的第一个问题
   // let isStreaming = false;//是否在进行流式传输
   let isEditting = false; //是否正在编辑
@@ -54,24 +65,27 @@
   let retrybtn;
 
   let isShowDeleteMenu = false;
-  let menuLeft:number;
-  let menuTop:number;
-  let menuRight:number;
-  let menuBottom:number;
-  let deleteMessageBtn:HTMLElement;
-  $:messageError = message.error_code != 0 && !isFramed;
-  $:messageErrorType = message.error_code;
-  $:content = isFramed ? message.content : message.message.content;
-  $:role = isFramed ? message.role : message.message.role;
-  let ast_ai = isFramed ?'': getAiName(message.message.role=='user'? message.ai : get(current_chat)[index-1].ai);
-  let ast_model =isFramed?"": getModelName(message.message.role=='user'? message.model : get(current_chat)[index-1].model);
+  let menuLeft: number;
+  let menuTop: number;
+  let menuRight: number;
+  let menuBottom: number;
+  let deleteMessageBtn: HTMLElement;
+  $: messageError = message.error_code != 0;
+  $: messageErrorType = message.error_code;
+  let ast_ai = getAiName(
+    message.message.role == "user"
+      ? message.ai
+      : get(current_chat)[index - 1].ai,
+  );
+  let ast_model = getModelName(
+    message.message.role == "user"
+      ? message.model
+      : get(current_chat)[index - 1].model,
+  );
 
   let showMenu = false;
-  const autoExpand = () => {
-    //自动展开
-  };
   const copyText = (content: string, index: number) => {
-    console.log(content,index);
+    console.log(content, index);
     //复制文本
     copyTextToClipboard(content.replaceAll("\\n", "\n"));
     let copyelm = document.getElementsByClassName("copyAnime" + index)[0];
@@ -81,14 +95,16 @@
     }, 500);
   };
 
-
-  function showModelSelector(){
+  function showModelSelector() {
     let position = getElementPostionDiff(showModelSelectorbtn);
-    dispatch("show-selector", { position:position,callback:selectedCallback});
+    dispatch("show-selector", {
+      position: position,
+      callback: selectedCallback,
+    });
   }
-  async function selectedCallback(ai:string,model:string){
-    let msg = get(current_chat)[index-1].message.content;
-    await getMessage(msg,ai,model);
+  async function selectedCallback(ai: string, model: string) {
+    let msg = get(current_chat)[index - 1].message.content;
+    await getMessage(msg, ai, model);
   }
 
   const renderers = {
@@ -121,34 +137,30 @@
     isShowDeleteMenu = true;
   }
 
-  function hideMenu(){
+  function hideMenu() {
     isShowDeleteMenu = false;
   }
-  async function deleteThisMessage(){
+  async function deleteThisMessage() {
     hideMenu();
     let d = await deleteMessageData(index);
-    if(d!=0){
+    if (d != 0) {
       showErrorMessage(d);
-    }else{
-      showSuccessMessage('删除成功');
+    } else {
+      showSuccessMessage("删除成功");
     }
   }
 
-  async function deleteToEnd(){
+  async function deleteToEnd() {
     hideMenu();
-    let d = await deleteMessageData(index,true);
-    if(d!=0){
+    let d = await deleteMessageData(index, true);
+    if (d != 0) {
       showErrorMessage(d);
-    }else{
-      showSuccessMessage('删除成功');
+    } else {
+      showSuccessMessage("删除成功");
     }
   }
 
   async function retry(index: number) {
-    if (isFramed){
-      sendRetryMessage(content,index);
-      return;
-    }
     let user_message = get(current_chat)[index - 1];
     await getMessage(
       user_message.message.content,
@@ -158,20 +170,15 @@
   }
   function cancelEdit() {}
   function submitEdit(index: number) {}
-
   function startEditMessage(index: number) {}
 
-  onMount(() => {
-    
-  });
+  onMount(() => {});
   afterUpdate(() => {
-
-    if(isFramed) return;
     showMenu = $current_chat.length - 1 === index ? !$isStreaming : false;
   });
 </script>
 
-{#if role === "assistant"}
+{#if message.message.role === "assistant"}
   <article
     class="w-full scroll-mb-[var(--thread-trailing-height,150px)] text-token-text-primary focus-visible:outline-2 focus-visible:outline-offset-[-4px]"
     dir="auto"
@@ -208,90 +215,130 @@
         </div>
         <div
           class="group/conversation-turn relative flex w-full min-w-0 flex-col agent-turn"
-          on:mouseover={() => isHovered = true}
-          on:mouseout={() => isHovered = false}
+          role="article"
+          on:focus={() => (isHovered = true)}
+          on:blur={() => (isHovered = false)}
         >
           <div class="flex-col gap-1 md:gap-3">
             <div class="flex max-w-full flex-col flex-grow">
               {#if !messageError}
-
-              <div
-                data-message-author-role="assistant"
-                data-message-id={message.mid}
-                dir="auto"
-                class="min-h-8 text-message flex w-full flex-col items-end gap-2 whitespace-normal break-words text-start [.text-message+&amp;]:mt-5"
-                data-message-model-slug={message.model}
-              >
                 <div
-                  class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px] message-display"
+                  data-message-author-role="assistant"
+                  data-message-id={message.mid}
+                  dir="auto"
+                  class="min-h-8 text-message flex w-full flex-col items-end gap-2 whitespace-normal break-words text-start [.text-message+&amp;]:mt-5"
+                  data-message-model-slug={message.model}
                 >
-                  <SvelteMarkdown
-                    {renderers}
-                    source={formatMessageForMarkdown(
-                      content.toString(),
-                    )}
-                  />
-                  
+                  <div
+                    class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px] message-display"
+                  >
+                    <SvelteMarkdown
+                      {renderers}
+                      source={formatMessageForMarkdown(
+                        message.message.content.toString(),
+                      )}
+                    />
+                  </div>
                 </div>
-              </div>
               {/if}
               {#if messageError && messageErrorType == "ERR_API_TIMEOUT"}
-              
-               <!-- TODO: 如果服务端发生错误500, 链接不上服务器 显示这个标签，隐藏同级标签和消息工具栏 -->
+                <!-- TODO: 如果服务端发生错误500, 链接不上服务器 显示这个标签，隐藏同级标签和消息工具栏 -->
                 <div class="flex">
-                  <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full">
-                    <img src={errorIcon} alt="Error" class="w-6 h-6 mr-1 inline-flex" />
+                  <div
+                    class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full"
+                  >
+                    <img
+                      src={errorIcon}
+                      alt="Error"
+                      class="w-6 h-6 mr-1 inline-flex"
+                    />
                     <span>服务端错误，点击重试</span>
                   </div>
                 </div>
-                {/if}
-
-                {#if messageError && messageErrorType == "ERR_NO_MORE_DEVICE"}
-                
+              {/if}
+              {#if messageError && messageErrorType == "ERR_NO_MORE_DEVICE"}
                 <!-- TODO: 如果服务端发生错误类型，设备超出限制 显示这个标签，隐藏同级标签和消息工具栏 -->
                 <div class="flex">
-                  <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full">
-                    <img src={errorIcon} alt="Error" class="w-6 h-6 mr-1 inline-flex" />
-                    <span>设备数超出限制。您当前的可同时使用设备数为(deviceLimit)台。如需增加可用设备数请<a href="./pricing" target="_blank" class="font-bold underline text-red-700 px-2">升级计划</a>。请注意，不同的浏览器会被记为多台设备。</span>
+                  <div
+                    class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full"
+                  >
+                    <img
+                      src={errorIcon}
+                      alt="Error"
+                      class="w-6 h-6 mr-1 inline-flex"
+                    />
+                    <span
+                      >设备数超出限制。您当前的可同时使用设备数为(deviceLimit)台。如需增加可用设备数请<a
+                        href="./pricing"
+                        target="_blank"
+                        class="font-bold underline text-red-700 px-2"
+                        >升级计划</a
+                      >。请注意，不同的浏览器会被记为多台设备。</span
+                    >
                   </div>
                 </div>
-                {/if}
-                {#if messageError && messageErrorType == "ERR_NO_MORE_TOKEN"}
-                
+              {/if}
+              {#if messageError && messageErrorType == "ERR_NO_MORE_TOKEN"}
                 <!-- TODO: 如果token或对话次数额度超限 显示这个标签，隐藏同级标签和消息工具栏 -->
                 <div class="flex">
-                  <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full">
-                    <img src={errorIcon} alt="Error" class="w-6 h-6 mr-1 inline-flex" />
-                    <span>当前模型对话限额已用尽，请更换其他模型或<a href="./pricing" target="_blank" class="font-bold underline text-red-700 px-2">升级计划</a>。</span>
+                  <div
+                    class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full"
+                  >
+                    <img
+                      src={errorIcon}
+                      alt="Error"
+                      class="w-6 h-6 mr-1 inline-flex"
+                    />
+                    <span
+                      >当前模型对话限额已用尽，请更换其他模型或<a
+                        href="./pricing"
+                        target="_blank"
+                        class="font-bold underline text-red-700 px-2"
+                        >升级计划</a
+                      >。</span
+                    >
                   </div>
                 </div>
-                {/if}
-                {#if messageError && messageErrorType == "ERR_VIP_ONLY"}
-                
+              {/if}
+              {#if messageError && messageErrorType == "ERR_VIP_ONLY"}
                 <!-- TODO: 如果使用中的计划到期 显示这个标签，隐藏同级标签和消息工具栏 -->
                 <div class="flex">
-                  <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full">
-                    <img src={errorIcon} alt="Error" class="w-6 h-6 mr-1 inline-flex" />
-                    <span>您的订阅已经到期，请<a href="./pricing" target="_blank" class="font-bold underline text-red-700 px-2">升级计划</a>继续使用。</span>
+                  <div
+                    class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full"
+                  >
+                    <img
+                      src={errorIcon}
+                      alt="Error"
+                      class="w-6 h-6 mr-1 inline-flex"
+                    />
+                    <span
+                      >您的订阅已经到期，请<a
+                        href="./pricing"
+                        target="_blank"
+                        class="font-bold underline text-red-700 px-2"
+                        >升级计划</a
+                      >继续使用。</span
+                    >
                   </div>
                 </div>
-                {/if}
+              {/if}
             </div>
-          
-            {#if !messageError}
 
-            <!-- 消息工具栏 -->
-            <div class="toolbelt flex gap-2 empty:hidden 
+            {#if !messageError}
+              <!-- 消息工具栏 -->
+              <div
+                class="toolbelt flex gap-2 empty:hidden
               {!get(isStreaming) && index === $current_chat.length - 1 ? 'opacity-100 visible' : 'opacity-0 invisible'}
               {index !== $current_chat.length - 1 && 'group-hover/conversation-turn:opacity-100 group-hover/conversation-turn:visible'}
-              transition-opacity duration-300 ease-in-out">
+              transition-opacity duration-300 ease-in-out"
+              >
                 <div
                   class="relative flex justify-start rounded-xl items-center ml-[-0.6rem]"
                 >
                   <button
                     class="btn-custom"
                     data-tooltip={$t("app.copy")}
-                    on:click={() => copyText(content, index)}
+                    on:click={() => copyText(message.message.content, index)}
                   >
                     <img
                       alt={$t("app.copy")}
@@ -308,18 +355,20 @@
                     <img class="" alt={$t("app.retry")} src={RetryIcon} />
                   </button>
 
-                  {#if !isFramed}
                   <button
-                  bind:this={showModelSelectorbtn}
-                  on:click={showModelSelector}
-
+                    bind:this={showModelSelectorbtn}
+                    on:click={showModelSelector}
                     class="btn-custom btn-switch"
                     data-tooltip={$t("settings.switchMode")}
                   >
                     <img
                       class="h-4 w-4"
                       alt={$t("settings.switchMode")}
-                      src={ast_ai == 'GPT'? gptIcon : ast_ai == 'Claude'? ClaudeIcon : GeminiIcon}
+                      src={ast_ai == "GPT"
+                        ? gptIcon
+                        : ast_ai == "Claude"
+                          ? ClaudeIcon
+                          : GeminiIcon}
                     />
                     <span class="btn-text">{ast_ai} {ast_model}</span>
                     <span class="h-2 w-2">
@@ -330,10 +379,9 @@
                       />
                     </span>
                   </button>
-                  {/if}
 
                   <button
-                  bind:this={deleteMessageBtn}
+                    bind:this={deleteMessageBtn}
                     class="moreButton btn-custom"
                     data-tooltip={$t("app.delete")}
                     on:click={() => deleteMessage(index)}
@@ -343,35 +391,30 @@
                       alt={$t("app.delete")}
                       src={MoreIcon}
                     />
-
                   </button>
 
-                  {#if isShowDeleteMenu }
-                  <div use:clickOutside={hideMenu} style="z-index : 50">
-                    <DeleteMessageContexMenu
-                      left={menuLeft}
-                      top={menuTop}
-                      right={menuRight}
-                      bottom={menuBottom}
-                      on:deleteThisMessage={deleteThisMessage}
-                      on:deleteToTheEnd={deleteToEnd}
-                    />
-                  </div>
+                  {#if isShowDeleteMenu}
+                    <div use:clickOutside={hideMenu} style="z-index : 50">
+                      <DeleteMessageContexMenu
+                        left={menuLeft}
+                        top={menuTop}
+                        right={menuRight}
+                        bottom={menuBottom}
+                        on:deleteThisMessage={deleteThisMessage}
+                        on:deleteToTheEnd={deleteToEnd}
+                      />
+                    </div>
                   {/if}
                 </div>
               </div>
-              {/if}
+            {/if}
             <div class="pr-2 lg:pr-0"></div>
           </div>
-
-         
         </div>
       </div>
-
-     
     </div>
   </article>
-{:else if role === "user"}
+{:else if message.message.role === "user"}
   <article class="w-full focus-visible:outline-offset-[-4px]">
     <h5 class="sr-only">{$t("app.youSaid", { default: "You Said:" })}</h5>
     <div
@@ -390,11 +433,11 @@
                     <div class="grid">
                       <textarea
                         class="col-start-1 col-end-2 row-start-1 row-end-2 resize-none overflow-y-auto p-0 m-0 w-full border-0 bg-transparent focus:outline-none"
-                        >{content}</textarea
+                        >{message.message.content}</textarea
                       ><span
                         class="invisible col-start-1 col-end-2 row-start-1 row-end-2 whitespace-pre-wrap p-0"
                       >
-                        {content}
+                        {message.message.content}
                       </span>
                     </div>
                   </div>
@@ -429,27 +472,26 @@
                     >
                       <!-- 消息内容 -->
                       <div class="whitespace-pre-wrap">
-                        {content}
+                        {message.message.content}
                       </div>
 
                       <!-- 消息编辑按钮 -->
                       {#if isEdittingEnabeld}
-                      <div
-                        class="absolute bottom-0 right-full top-0 -mr-3.5 hidden pr-5 pt-1 [.group\/conversation-turn:hover_&]:block"
-                      >
-                        <button
-                          data-tooltip={$t("app.edit")}
-                          class="btn-custom btn-edit flex items-center justify-center text-token-text-secondary transition"
-                          on:click={() => startEditMessage(index)}
+                        <div
+                          class="absolute bottom-0 right-full top-0 -mr-3.5 hidden pr-5 pt-1 [.group\/conversation-turn:hover_&]:block"
                         >
-                          <img
-                            class="edit-icon"
-                            alt={$t("app.edit", { default: "Edit" })}
-                            src={EditIcon}
-                          />
-                        </button>
-
-                      </div>
+                          <button
+                            data-tooltip={$t("app.edit")}
+                            class="btn-custom btn-edit flex items-center justify-center text-token-text-secondary transition"
+                            on:click={() => startEditMessage(index)}
+                          >
+                            <img
+                              class="edit-icon"
+                              alt={$t("app.edit", { default: "Edit" })}
+                              src={EditIcon}
+                            />
+                          </button>
+                        </div>
                       {/if}
                     </div>
                   </div>

@@ -181,7 +181,7 @@
     }
     await getMessage(msg, get(current_chat_ai), get(current_chat_model));
   }
-
+  //framed页面发送消息使用不同接口
   async function sendMessage_framed(msg:string){
 
     await sendRegularMessage(msg);

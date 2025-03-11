@@ -11,6 +11,7 @@ export function closeStream() {
         sse_source.close();
         sse_source = null;
     }
+
     isStreaming.set(false);
 }
 
@@ -125,9 +126,7 @@ export async function getMessage(msg: string, ai: string, model: string) {
 
         sse_source.resetTimeout();
         let data = e.data;
-        console.log(data);
         let msg_err = checkMessageError(data);
-        console.log(msg_err);
         if (msg_err) {
             current_chat.update(v => {
                 v[v.length - 1].error_code = msg_err.msg;
@@ -139,7 +138,7 @@ export async function getMessage(msg: string, ai: string, model: string) {
 
         let msg_info = checkMessageEnd(data);
         if (msg_info) {
-            console.log(msg_info);
+
             //TODO:根据返回的消息，判断是否有错误，例如token不足，设备数量超限然后提示用户
             current_chat.update(v => {
                 //因为用户发送msg的msgid只能在sse结束后获取，所以在此处修改用户消息的msgid
@@ -172,6 +171,11 @@ export async function getMessage(msg: string, ai: string, model: string) {
         }
     });
     sse_source.addEventListener("error", (e: any) => {
+        current_chat.update(v => {
+            v[v.length - 1].message.content = v[v.length - 1].message.content.replace(/█+$/, ''); 
+            v[v.length - 1].error_code = 'ERR_UNKNOW_NETWORKERROR';
+            return v
+        });
         closeStream();
     });
 }

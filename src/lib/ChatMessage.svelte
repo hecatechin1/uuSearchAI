@@ -244,8 +244,8 @@
                     />
                   </div>
                 </div>
-              {/if}
-              {#if messageError}
+
+              {:else if messageError}
                 {#if messageErrorType == "ERR_API_TIMEOUT"}
                   <!-- TODO: 如果服务端发生错误500, 链接不上服务器 显示这个标签，隐藏同级标签和消息工具栏 -->
                   <div class="flex">
@@ -294,6 +294,7 @@
                         alt="Error"
                         class="w-6 h-6 mr-1 inline-flex"
                       />
+                      
                       <span
                         >当前模型对话限额已用尽，请更换其他模型或<a
                           href="./pricing"

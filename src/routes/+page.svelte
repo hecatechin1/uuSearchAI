@@ -1,6 +1,12 @@
 <script lang="ts">
   import { t } from "svelte-i18n"; // 一定要记得 import，并在模板中使用 {$t('home.xxx')}
-
+  import { onMount } from "svelte";
+  import "../app.css";
+  import { getCookieValue } from "../utils/generalUtils";
+  import {
+    getUserInfo,
+    userLoginForMaxthon,
+  } from "../manages/userinfoManages";
   // 图片导入
   import uugptIcon from "../assets/aianswer-avtar.svg";
   import feature1 from "../assets/home/feature-1.svg";
@@ -15,6 +21,16 @@
   import claudeIcon from "../assets/claude.svg";
   import {isLogin} from '../stores/globalParamentStores'
   import userAvatar from '../assets/login/avatar-default.svg'
+  onMount(async () => {
+    // userID.set("1733973830");
+    if (getCookieValue("MXTOKEN") != null) {
+      await userLoginForMaxthon();
+    }
+    let res =  getUserInfo();
+    res.then((res)=>{
+      
+    })
+  });
 
 </script>
 

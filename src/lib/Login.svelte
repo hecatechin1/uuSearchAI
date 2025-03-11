@@ -71,12 +71,6 @@
   });
 
   onMount(async () => {
-    // console.log(isPage);
-    // if(isResetPassword){
-    //   changeStatus(status_resetPassword);
-    // }
-    // email = "m18636399676@163.com";
-
     if(isResetPassword){
       email = get(userEmail)
       forgotPassword = true;
@@ -175,11 +169,11 @@
     }
     isWaitting = true;
     let res;
-    if (forgotPassword) {
-      res = await resetUserPassword(email, password);
-    } else {
+    // if (forgotPassword) {
+    //   res = await resetUserPassword(email, password);
+    // } else {
       res = await setUserPassword(email, password);
-    }
+    // }
     // let res = await setUserPassword(email,password);
     isWaitting = false;
 
@@ -543,9 +537,10 @@
             <div class="mt-10">
               <form>
                 <p class="mb-2">
-                  {$t('login.enterVerificationCode', { email: email || 'Email' })}
+                  {$t('login.enterVerificationCode', { values:{ email:email} })}
                 </p>
-
+                <!-- 普通文本插值 {values:{翻译json里的字段名:实际的值}} -->
+                 <!-- html插值，先在翻译json文件里写HTML，然后使用{@html $t('login.enterVerficationCode', { values:{ email:email} })} -->
                 <!-- 发送验证码按钮，有倒计时，加载完成后先自动发送一次 -->
                 <button
                   disabled={sendedVcode}
@@ -554,7 +549,7 @@
                   class="text-themegreen hover:underline py-2 mb-5"
                 >
                 {sendedVcode
-                  ? $t('login.resendVerificationCode', { seconds: timeLeft })
+                  ? $t('login.resendVerificationCode',{ values:{ timeLeft: timeLeft } } )
                   : $t("login.sendVerificationCode")}
                 </button>
 

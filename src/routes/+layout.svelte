@@ -1,3 +1,20 @@
+<script>
+import { onMount } from "svelte";
+import { waitLocale } from "svelte-i18n";
+import "../i18n.js";
 
-  <slot />
+import { initializeI18n } from "../i18n";
+
+let isReady = false;
+onMount(async () => {
+await initializeI18n();
+await waitLocale();
+isReady=true;
+});
+</script>
+
+{#if isReady}
+<slot />
+{/if}
+
 

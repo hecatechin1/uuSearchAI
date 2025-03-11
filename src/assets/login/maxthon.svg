@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.067" y1="0.25" x2="0.933" y2="0.75" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#2a48ba"/>
+      <stop offset="1" stop-color="#35e4c5"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <path id="路径_212" data-name="路径 212" d="M5.19,2.157h137.2l25.832,23.8v89.225H125.5V40.472H46.384v74.714H5.19V2.157ZM106.627,115.186H65.261V63.711h41.366Z" transform="translate(-5.19 -2.157)" clip-rule="evenodd"/>
+    </clipPath>
+  </defs>
+  <g id="logo_mx" transform="translate(257 -634.001)">
+    <g id="logo" transform="translate(-257 634.001)">
+      <path id="交叉_12" data-name="交叉 12" d="M45.176,256A45.176,45.176,0,0,1,0,210.824V45.176A45.178,45.178,0,0,1,45.176,0H210.824A45.176,45.176,0,0,1,256,45.176V210.824A45.174,45.174,0,0,1,210.824,256Z" fill="url(#linear-gradient)"/>
+      <path id="路径_211" data-name="路径 211" d="M5.19,2.157H142.6l25.872,23.8v89.225H125.687V40.472H46.447v74.714H5.19V2.157ZM106.783,115.186H65.353V63.711h41.429Z" transform="translate(41.438 69.6)" fill="#fff" fill-rule="evenodd"/>
+      <g id="组_187" data-name="组 187" transform="translate(46.754 71.756)" clip-path="url(#clip-path)">
+        <g id="_1802908015824" transform="translate(93.315 38.253)">
+          <path id="_1" d="M7.182,3.063l64.68-.09L7.6,11.859Z" transform="translate(-7.182 -2.973)" fill="gray" fill-rule="evenodd"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

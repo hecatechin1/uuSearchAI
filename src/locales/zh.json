@@ -6,6 +6,7 @@
     "VIP_ONLY": "VIP 专属",
     "NO_MORE_TOKEN": "没有更多 Token",
     "NO_MORE_DEVICE": "没有更多设备",
+    "UNKNOWN_MODEL":"未知模型",
     "500": "服务器内部错误"
   },
   "home":{

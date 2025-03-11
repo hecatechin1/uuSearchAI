@@ -13,6 +13,7 @@
   import eyeOpenIcon from "../assets/login/eyeopen.svg";
   import forgotIcon from "../assets/login/forgot.svg";
   import googleIcon from "../assets/login/google.svg";
+  import maxthonIcon from "../assets/login/maxthon.svg";
   import passwordIcon from "../assets/login/password.svg";
   import resetpasswordIcon from "../assets/login/resetpassword.svg";
   import verifyIcon from "../assets/login/verify.svg";
@@ -271,6 +272,11 @@
     // 使用Google登录
   }
 
+  // 处理Maxthon登录
+  function handleMaxthonLogin() {
+    
+  }
+
   function handleForgotPassword() {
     forgotPassword = true;
     changeStatus(status_forgetPassword);
@@ -371,12 +377,12 @@
                   ></span>{/if}
               </button>
             </form>
-<!-- 
+
             <div class="flex items-center my-6">
               <hr class="flex-grow border-gray-300" />
               <span class="px-4 text-gray-500 text-sm">{$t("login.or")}</span>
               <hr class="flex-grow border-gray-300" />
-            </div> -->
+            </div>
 
             <!-- Google 登录 -->
             <!-- <div class="text-center">
@@ -388,6 +394,16 @@
                 {$t("login.loginWithGoogle")}
               </button>
             </div> -->
+
+            <div class="text-center">
+              <button
+                on:click={handleMaxthonLogin}
+                class="w-full bg-white border border-gray-300 text-gray-700 font-semibold py-3 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center"
+              >
+                <img src={maxthonIcon} alt="Google" class="w-5 h-5 mr-2" />
+                {$t("login.loginWithMaxthon",{default:"Continue with Maxthon"})}
+              </button>
+            </div>
 
 
             

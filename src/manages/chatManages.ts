@@ -173,7 +173,7 @@ export async function getMessage(msg: string, ai: string, model: string) {
     });
     sse_source.addEventListener("error", (e: any) => {
         current_chat.update(v => {
-            v[v.length - 1].message.content = v[v.length - 1].message.content.replace(/█+$/, ''); 
+            v[v.length - 1].message.content = v[v.length - 1].message.content.replace(/●​+$/, ''); 
             v[v.length - 1].error_code = 'ERR_UNKNOW_NETWORKERROR';
             return v
         });

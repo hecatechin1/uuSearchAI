@@ -124,10 +124,10 @@
   async function pay(plan: string) {
     let data = await getPaymentAddress(plan, isAnnual);
     if (data != 0) {
-      showErrorMessage("支付链接获取失败");
+      showErrorMessage($t("pricing.paymentLinkError",{default: "Payment link error"}));
     }
     window.location.href = data;
-    showSuccessMessage("正在支付");
+    showSuccessMessage($t("pricing.paymentProcessing",{default: "Payment processing..."}));
   }
   function basicbtnAct() {
     if (currentUserPlan === "basic") {
@@ -270,12 +270,12 @@
                       {$t("pricing.yearly")}
                     </p>
                     <p>
-                      USD ${pricing.pro.annualSubsequent} /{$t(
+                      USD ${pricing.pro.annualSubsequent} {$t(
                         "pricing.perMonth",
                       )}
                     </p>
                     <p class="text-gray-400">
-                      总计 ${pricing.pro.annualTotal} USD
+                      {$t("pricing.priceTotal")} ${pricing.pro.annualTotal} USD
                     </p>
                   </div>
                 {/if}

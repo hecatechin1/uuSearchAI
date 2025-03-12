@@ -55,6 +55,7 @@
   let renameIndex = -1;
   let renameValue = "";
   let showSearchBox = false;
+  let showMenuButton: any = null;
   onMount(async () => {
     dataLoaded.subscribe((v) => {
       if (v) {
@@ -146,10 +147,12 @@
     menuLeft = rect.left;
     menu_index = index;
     showSidebarMenu = true;
+    showMenuButton = event.currentTarget;
   }
   function hideMenu() {
     showSidebarMenu = false;
     showMenuIndex = -1;
+    showMenuButton = null;
   }
   function showRenameBox(event: CustomEvent) {
     hideMenu();
@@ -417,7 +420,7 @@
                         <!-- 重命名div 编辑时显示，失去焦点保存 -->
                         {#if isShowRenameBox && renameIndex == chatIndex}
                           <div
-                            use:clickOutside={rename}
+                            use:clickOutside={{callback:rename,originElement:null}}
                             class="absolute bottom-0 left-[7px] right-2 top-[6px] items-center rounded-lg"
                           >
                             <input
@@ -493,7 +496,7 @@
       </nav>
     </div>
     {#if showSidebarMenu}
-      <div use:clickOutside={hideMenu}>
+      <div use:clickOutside={{callback:hideMenu,originElement:showMenuButton}}>
         <SideBarContexMenu
           left={menuLeft}
           top={menuTop}

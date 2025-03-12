@@ -22,7 +22,7 @@ export async function copyTextToClipboard(text: string): Promise<boolean> {
 export function clickOutside(node:any, callbackEvent:any) {
 console.log(callbackEvent);
   function handleClick(event:any) {
-    if (!node.contains(event.target) && !callbackEvent.originElement.contains(event.target)) {
+    if (!node.contains(event.target) && !callbackEvent.originElement?.contains(event.target)) {
       callbackEvent.callback?.();
     }
   }

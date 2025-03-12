@@ -262,7 +262,8 @@ export async function renameChat(cid: number, name: string) {
     let oldName = get(chat_list)[index].name;
 
     chat_list.update(v => {
-        v[index].name = "Renaming";
+        // v[index].name = "Renaming";
+        v[index].name = get(t)('app.renaming');
         return v;
     });
     let data = await updateChatInfo(cid, name);

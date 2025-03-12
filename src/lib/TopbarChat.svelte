@@ -2,12 +2,11 @@
   import { t } from "svelte-i18n";
   import { onMount, createEventDispatcher } from "svelte";
   import {
-    chat_list,
+
     current_chat_ainame,
-    current_chat_id,
+
     current_chat_modelname,
-    defaultaimodel,
-    models,
+
   } from "../stores/chatStores";
   import { changeChatModel,createNewChat } from "../manages/chatManages";
   import avatar from "../assets/login/avatar-default.svg";

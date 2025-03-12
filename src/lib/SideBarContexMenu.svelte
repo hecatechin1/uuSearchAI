@@ -1,11 +1,11 @@
 <script>
     import { fade } from 'svelte/transition';
-    import { onMount ,createEventDispatcher} from "svelte";
+    import { createEventDispatcher} from "svelte";
     import { t } from 'svelte-i18n';
     import editIcon from '../assets/edit.svg'
     import deleteIcon from '../assets/delete.svg'
     import {showSuccessMessage,showErrorMessage} from "../stores/globalParamentStores"
-    import { renameChat,deleteChatData} from '../manages/chatManages';
+    import { deleteChatData} from '../manages/chatManages';
     export let left = 0;
     export let top = 0;
     export let index = 0;

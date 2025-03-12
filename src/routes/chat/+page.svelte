@@ -17,7 +17,6 @@
     isGuest,
   } from "../../stores/globalParamentStores";
   import { current_chat_id, dataLoaded,chat_list,current_chat } from "../../stores/chatStores.js";
-  import { userID } from "../../stores/userStores.js";
   import { get } from "svelte/store";
 
   // 状态管理

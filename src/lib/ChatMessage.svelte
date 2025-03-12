@@ -6,7 +6,6 @@
   import {
     isStreaming,
     showErrorMessage,
-    showSuccess,
     showSuccessMessage,
   } from "../stores/globalParamentStores";
   //导入渲染器
@@ -25,7 +24,6 @@
   import RetryIcon from "../assets/retry.svg";
   import RobotIcon from "../assets/aianswer-avtar.svg";
   import EditIcon from "../assets/edit.svg";
-  import DeleteIcon from "../assets/delete.svg";
   import MoreIcon from "../assets/more.svg";
   import gptIcon from "../assets/gpt.svg";
   import ClaudeIcon from "../assets/claude.svg";

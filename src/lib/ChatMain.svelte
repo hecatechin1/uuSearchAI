@@ -4,38 +4,28 @@
   import ChatMessage from "./ChatMessage.svelte";
   import { t } from "svelte-i18n"; // 导入本地化方法
   import { get, writable } from "svelte/store";
-  import DeleteIcon from "../assets/delete.svg";
   import SendDisabledIcon from "../assets/sendmessage-default.svg";
   import SendHoverIcon from "../assets/sendmessage-hover.svg";
   import SendIcon from "../assets/sendmessage-active.svg";
   import WaitIcon from "../assets/stop.svg";
-  import { getErrorMessage } from "../utils/generalUtils";
   import { sendKey, language, lineBreakKey } from "../stores/settingsStores";
   import {
     current_chat,
     current_chat_ai,
-    current_chat_id,
     current_chat_model,
-    getAiName,
-    getModelName,
   } from "../stores/chatStores";
   import {
-    getMessagesListData,
     getMessage,
     closeStream,
   } from "../manages/chatManages";
   import {
     showErrorMessage,
-    isNewchat,
     isStreaming,
     isLogin,
     isGuest,
     isLoading_messagesList
   } from "../stores/globalParamentStores";
   import { guest_signup } from "../manages/userinfoManages";
-  //   import { messages } from "../stores/stores";
-  //   import { sendRegularMessage } from "../manages/messageManages";
-  // export let isFramed = false;
 
   let dispatch = createEventDispatcher();
   let isLoading = false;

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
-  import { onDestroy, onMount, createEventDispatcher } from "svelte";
+  import {createEventDispatcher } from "svelte";
   import GPTIcon from "../assets/gpt.svg";
   import ClaudeIcon from "../assets/claude.svg";
   import GeminiIcon from "../assets/gemini.svg";

@@ -4,7 +4,6 @@
   import browserSignature from "browser-signature";
   import "../../app.css";
   import "../../i18n.js";
-  import { initializeI18n } from "../../i18n";
   import {
     showError,
     showSuccess,
@@ -15,7 +14,6 @@
     getUserInfo,
     userLoginForMaxthon,
   } from "../../manages/userinfoManages";
-  import { userID } from "../../stores/userStores";
   import { fly } from "svelte/transition";
   import { getCookieValue } from "../../utils/generalUtils";
 

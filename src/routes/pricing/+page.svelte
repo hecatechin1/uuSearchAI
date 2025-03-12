@@ -1,8 +1,5 @@
 <script lang="ts">
   import { t } from "svelte-i18n"; // 导入本地化方法
-  import freeIcon from "../../assets/pricing/free-icon.svg";
-  import basicIcon from "../../assets/pricing/basic-icon.svg";
-  import proIcon from "../../assets/pricing/pro-icon.svg";
   import saleIcon from "../../assets/pricing/sale.svg";
   import saleRedIcon from "../../assets/pricing/sale_red.svg";
   import { goto } from "$app/navigation";

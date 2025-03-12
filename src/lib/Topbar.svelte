@@ -97,7 +97,7 @@
         on:click={() => {
           createNewChat(true);
         }}
-        aria-label="新聊天"
+        aria-label={$t("app.newChat")}
         class="h-10 rounded-lg px-2 text-themegreen disabled:opacity-50 enabled:hover:bg-gray-200"
         ><svg
           width="24"

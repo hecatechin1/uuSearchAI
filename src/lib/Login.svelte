@@ -84,12 +84,12 @@
   async function handleEmailSubmit() {
     // 格式验证
     if (!validateEmail(email)) {
-      showErrorMessage($t("login.emailFormatError"));
+      showErrorMessage($t("login.emailFormatError",{default:"Email format Error"}));
       return;
     }
     //勾选同意协议
     if (!isAgree) {
-      showErrorMessage($t("login.agreeTermsError"));
+      showErrorMessage($t("login.agreeTermsError",{default:"You must agree the Terms to continue"}));
       return;
     }
     isWaitting = true;
@@ -124,17 +124,17 @@
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }
-    showSuccessMessage($t("login.verificationCodeSentSuccess"));
+    showSuccessMessage($t("login.verificationCodeSentSuccess",{default:"Sended"}));
   }
   //验证邮箱验证码
   async function handleCheckVcode() {
     let regex = /^\d{6}$/;
     if (!verifyCode) {
-      showErrorMessage($t("login.enterVerificationCodeError"));
+      showErrorMessage($t("login.enterVerificationCodeError",{default:"Wrong verification code"}));
       return;
     }
     if (!regex.test(verifyCode)) {
-      showErrorMessage($t("login.invalidVerificationCodeError"));
+      showErrorMessage($t("login.invalidVerificationCodeError",{default:"invalid verification code"}));
       return;
     }
     isWaitting = true;
@@ -144,27 +144,27 @@
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }
-    showSuccessMessage($t("login.verifySuccess"));
+    showSuccessMessage($t("login.verifySuccess",{default:"Verify success"}));
     changeStatus(status_resetPassword);
   }
   //设置密码
   async function handleSetPassword() {
     if (!password || !confirmPassword) {
-      showErrorMessage($t("login.enterPasswordError"));
+      showErrorMessage($t("login.enterPasswordError",{default:"You must enter a password"}));
       return;
     }
     if (password != confirmPassword) {
-      showErrorMessage($t("login.passwordRepeatError"));
+      showErrorMessage($t("login.passwordRepeatError",{default:"Passwords do not match"}));
       return;
     }
     const regex_chat = /^[a-zA-Z0-9@#$%^&*!]+$/;
     const regex_length = /^.{6,24}$/;
     if (!regex_chat.test(password)) {
-      showErrorMessage($t("login.invalidPasswordCharacterError"));
+      showErrorMessage($t("login.invalidPasswordCharacterError",{default:"Invalid password character"}));
       return;
     }
     if (!regex_length.test(password)) {
-      showErrorMessage($t("login.passwordLengthError"));
+      showErrorMessage($t("login.passwordLengthError",{default:"Password length must be between 6 and 24 characters"}));
       return;
     }
     isWaitting = true;
@@ -190,8 +190,8 @@
 
     showSuccessMessage(
       forgotPassword
-        ? $t("login.resetPasswordSuccess")
-        : $t("login.loginSuccess"),
+        ? $t("login.resetPasswordSuccess",{default:"Reset Success"})
+        : $t("login.loginSuccess",{default:"Login Success"}),
     );
     forgotPassword = false;
     loginSuccess();
@@ -199,7 +199,7 @@
   //登录
   async function handleLogin() {
     if (!password) {
-      showErrorMessage($t("login.passwordPlaceholder"));
+      showErrorMessage($t("login.passwordPlaceholder",{default:"Password"}));
       return;
     }
 
@@ -214,7 +214,7 @@
             localStorage.setItem("current_chat_id", '0');
             isGuest.set(false);
     }
-    showSuccessMessage($t("login.loginSuccess"));
+    showSuccessMessage($t("login.loginSuccess",{default:"Loged in"}));
     loginSuccess();
   }
   //忘记密码的邮箱验证码是单独的接口
@@ -236,7 +236,7 @@
       showErrorMessage(getErrorMessage(data.toString()));
       return;
     }
-    showSuccessMessage($t("login.verificationCodeSentSuccess"));
+    showSuccessMessage($t("login.verificationCodeSentSuccess",{default:"Sended"}));
   }
 
   async function forgetPasswordSubmit(){
@@ -254,8 +254,8 @@
     }
     showSuccessMessage(
       forgotPassword
-        ? $t("login.resetPasswordSuccess")
-        : $t("login.loginSuccess"),
+        ? $t("login.resetPasswordSuccess",{default:"Reset Success"})
+        : $t("login.loginSuccess",{default:"Loged in"}),
     );
     forgotPassword = false;
     loginSuccess();
@@ -330,11 +330,11 @@
               <span>uuGPT</span>
             </h1>
             <form on:submit={handleEmailSubmit}>
-              <label for="email" class="sr-only">{$t("login.email")}</label>
+              <label for="email" class="sr-only">{$t("login.email",{default:"Email"})}</label>
               <div class="relative w-full">
                 <img
                   src={accountIcon}
-                  alt={$t("login.email")}
+                  alt={$t("login.email",{default:"Email"})}
                   class="absolute left-3 top-3 w-6 h-6 opacity-20"
                 />
                 <input
@@ -342,17 +342,17 @@
                   class="w-full pl-12 p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
                   bind:value={email}
                   required
-                  placeholder={$t("login.emailPlaceholder")}
+                  placeholder={$t("login.emailPlaceholder",{default:"Email"})}
                 />
               </div>
               <div class="flex items-center mb-4 w-full">
                 <input type="checkbox" bind:checked={isAgree} class="mr-2" />
                 <label for="terms" class="text-sm flex-1"
-                  >{$t("login.agreeTerms")}
+                  >{$t("login.agreeTerms",{default:"I agree with the"})}
                   <a
                     class="hover:text-blue-700 hover:underline"
                     href="https://www.maxthon.com/zh/docs/eula/"
-                    >{$t("login.serviceTermsLink")}</a
+                    >{$t("login.serviceTermsLink",{default:"EULA"})}</a
                   ></label
                 >
               </div>
@@ -364,7 +364,7 @@
                 class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
               >
                 <span class="text-white font-semibold"
-                  >{$t("login.nextStep")}</span
+                  >{$t("login.nextStep",{default:"Next"})}</span
                 >
                 <!-- 加载过程禁用按钮并显示loading动画 -->
                 {#if isWaitting}<span class="message-loader w-6 h-6 ml-3"
@@ -374,7 +374,7 @@
 
             <div class="flex items-center my-6">
               <hr class="flex-grow border-gray-300" />
-              <span class="px-4 text-gray-500 text-sm">{$t("login.or")}</span>
+              <span class="px-4 text-gray-500 text-sm">{$t("login.or",{default:"or"})}</span>
               <hr class="flex-grow border-gray-300" />
             </div>
 
@@ -398,9 +398,6 @@
                 {$t("login.loginWithMaxthon",{default:"Continue with Maxthon"})}
               </button>
             </div>
-
-
-            
           </div>
         {/if}
 
@@ -413,9 +410,9 @@
                 on:click={back}
                 class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded"
               >
-                <img src={backIcon} alt={$t("login.back")} class="w-8 h-8" />
+                <img src={backIcon} alt={$t("login.back",{default:"back"})} class="w-8 h-8" />
               </button>
-              <span class="text-lg font-semibold">{$t("login.loginTitle")}</span
+              <span class="text-lg font-semibold">{$t("login.loginTitle",{default:"Login"})}</span
               >
             </div>
 
@@ -452,7 +449,7 @@
                       bind:value={password}
                       required
                       autofocus
-                      placeholder={$t("login.passwordPlaceholder")}
+                      placeholder={$t("login.passwordPlaceholder",{default:"Password"})}
                     />
                   {:else}
                     <input
@@ -461,7 +458,7 @@
                       bind:value={password}
                       required
                       autofocus
-                      placeholder={$t("login.passwordPlaceholder")}
+                      placeholder={$t("login.passwordPlaceholder",{default:"Password"})}
                     />
                   {/if}
 
@@ -498,7 +495,7 @@
                   class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
                 >
                   <span class="text-white font-semibold"
-                    >{$t("login.login")}</span
+                    >{$t("login.login",{default:"Login"})}</span
                   >
                   <!-- 加载过程禁用按钮并显示loading动画 -->
                   {#if isWaitting}<span class="message-loader w-6 h-6 ml-3"
@@ -511,7 +508,7 @@
                   on:click={handleForgotPassword}
                   class="text-sm text-themegreen hover:underline py-2 px-5"
                 >
-                  <span>{$t("login.forgotPassword")}</span>
+                  <span>{$t("login.forgotPassword",{default:"Forgot Password"})}</span>
                 </button>
               </div>
             </div>
@@ -568,7 +565,7 @@
                     bind:value={verifyCode}
                     type="text"
                     class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
-                    placeholder={$t("login.verificationCodePlaceholder")}
+                    placeholder={$t("login.verificationCodePlaceholder",{default:"Verification Code"})}
                     required
                     autofocus
                   />
@@ -598,13 +595,13 @@
                 <img src={backIcon} alt={$t("login.back")} class="w-8 h-8" />
               </button>
               <span class="text-lg font-semibold">
-                {$t("login.resetPasswordTitle")}
+                {$t("login.resetPasswordTitle",{default:"Reset Password"})}
               </span>
             </div>
             <div class="mt-10">
               <form>
                 <p class="mb-2">
-                  请输入发送至 {email ? email : "Email"} 的6位验证码，有效期5分钟
+                  {$t('login.enterVerificationCode', { values:{ email:email} })}
                 </p>
 
                 <!-- 发送验证码按钮，有倒计时，加载完成后先自动发送一次 -->
@@ -615,7 +612,7 @@
                   class="text-themegreen hover:underline py-2 mb-5"
                 >
                   {sendedVcode
-                    ? `${timeLeft}s后重新发送`
+                    ? $t('login.resendVerificationCode',{ values:{ timeLeft: timeLeft } } )
                     : $t("login.sendVerificationCode")}
                 </button>
 
@@ -659,7 +656,7 @@
                       bind:value={f_password}
                       required
                       autofocus
-                      placeholder={$t("login.resetPasswordPlaceholder")}
+                      placeholder={$t("login.resetPasswordPlaceholder",{default:"Reset Password"})}
                     />
                   {:else}
                     <input
@@ -668,7 +665,7 @@
                       bind:value={f_password}
                       required
                       autofocus
-                      placeholder={$t("login.resetPasswordPlaceholder")}
+                      placeholder={$t("login.resetPasswordPlaceholder",{default:"Reset Password"})}
                     />
                   {/if}
 
@@ -715,7 +712,7 @@
                       bind:value={f_confirmPassword}
                       required
                       autofocus
-                      placeholder={$t("login.confirmPasswordPlaceholder")}
+                      placeholder={$t("login.confirmPasswordPlaceholder",{default:"Enter Password again"})}
                     />
                   {:else}
                     <input
@@ -724,7 +721,7 @@
                       bind:value={f_confirmPassword}
                       required
                       autofocus
-                      placeholder={$t("login.confirmPasswordPlaceholder")}
+                      placeholder={$t("login.confirmPasswordPlaceholder",{default:"Enter Password again"})}
                     />
                   {/if}
 
@@ -761,7 +758,7 @@
                   class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
                 >
                   <span class="text-white font-semibold"
-                    >{$t("login.confirmAndLogin")}</span
+                    >{$t("login.confirmAndLogin",{default:"Enter Password again"})}</span
                   >
                   <!-- 加载过程禁用按钮并显示loading动画 -->
 

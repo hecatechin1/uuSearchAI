@@ -28,12 +28,12 @@ export function sendRetryMessage(msg: any, mid: number) {
         if (currentMessageHistory[mid].role == 'user') {
             currentMessageHistory.splice(mid, 0, {
                 role: 'assistant',
-                content: "█",
+                content: "●",
                 isLiked: false,
                 isDisliked: false
             })
         } else {
-            currentMessageHistory[mid].content = "█";
+            currentMessageHistory[mid].content = "●";
         }
     }
     setMessagesHistory(currentMessageHistory);

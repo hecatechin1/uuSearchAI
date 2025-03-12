@@ -38,13 +38,13 @@
   let showSidebarMenu = false;
   let isReady = false;
   let daysdiff: any = {
-    "0": $t("app.date.today"),
-    "1": $t("app.date.yesterday"), 
-    "3": $t("app.date.threeDaysAgo"),
-    "7": $t("app.date.oneWeekAgo"),
-    "30": $t("app.date.oneMonthAgo"),
-    "180": $t("app.date.halfYearAgo"),
-    "365": $t("app.date.oneYearAgo"),
+    "0": $t("app.date.today",{default:"Today"}),
+    "1": $t("app.date.yesterday",{default:"Yesterday"}), 
+    "3": $t("app.date.threeDaysAgo",{default:"Three Days Ago"}),
+    "7": $t("app.date.oneWeekAgo",{default:"One Week Ago"}),
+    "30": $t("app.date.oneMonthAgo",{default:"One Month Ago"}),
+    "180": $t("app.date.halfYearAgo",{default:"Half Year Ago"}),
+    "365": $t("app.date.oneYearAgo",{default:"One Year Ago"}),
   };
   let dataGroup: any = {};
   let dataGroupsKeys: any[] = [];

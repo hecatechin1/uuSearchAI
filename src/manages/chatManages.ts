@@ -3,6 +3,7 @@ import { chat_list, current_chat, current_chat_id, current_message, current_chat
 import { userID, language } from "../stores/userStores"
 import { isNewchat, isStreaming, showSidebar } from "../stores/globalParamentStores"
 import { get } from 'svelte/store';
+import { t } from "svelte-i18n"; 
 
 let sse_source: any = null;
 
@@ -165,7 +166,7 @@ export async function getMessage(msg: string, ai: string, model: string) {
         } else {
             current_message.update(v => { return v + data });
             current_chat.update(v => {
-                v[v.length - 1].message.content = get(current_message) + "█";
+                v[v.length - 1].message.content = get(current_message) + "●";
                 return v;
             });
         }
@@ -261,7 +262,7 @@ export async function renameChat(cid: number, name: string) {
     let oldName = get(chat_list)[index].name;
 
     chat_list.update(v => {
-        v[index].name = '正在修改。。。';
+        v[index].name = "Renaming";
         return v;
     });
     let data = await updateChatInfo(cid, name);

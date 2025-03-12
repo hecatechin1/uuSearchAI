@@ -64,6 +64,8 @@
   let editingMessageContent: string; //正在编辑的消息内容;
   let retrybtn;
 
+  let deviceLimit = 2 //可用设备数，从用户data里读取，todo
+
   let isShowDeleteMenu = false;
   let menuLeft: number;
   let menuTop: number;
@@ -152,7 +154,7 @@
     if (d != 0) {
       showErrorMessage(d);
     } else {
-      showSuccessMessage("删除成功");
+      showSuccessMessage($t("app.deleteSuccess",{default: "Deleted"}));
     }
   }
 
@@ -162,7 +164,7 @@
     if (d != 0) {
       showErrorMessage(d);
     } else {
-      showSuccessMessage("删除成功");
+      showSuccessMessage($t("app.deleteSuccess",{default: "Deleted"}));
     }
   }
 
@@ -247,7 +249,6 @@
 
               {:else if messageError}
                 {#if messageErrorType == "ERR_API_TIMEOUT"}
-                  <!-- TODO: 如果服务端发生错误500, 链接不上服务器 显示这个标签，隐藏同级标签和消息工具栏 -->
                   <div class="flex">
                     <div
                       class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full"
@@ -257,12 +258,11 @@
                         alt="Error"
                         class="w-6 h-6 mr-1 inline-flex"
                       />
-                      <span>服务端错误，点击重试</span>
+                      <span>{$t("ERR.API_TIMEOUT",{default:"API request timeoutAPI request timeout, try again later"})}</span>
                     </div>
                   </div>
                 
                 {:else if messageErrorType == "ERR_NO_MORE_DEVICE"}
-                  <!-- TODO: 如果服务端发生错误类型，设备超出限制 显示这个标签，隐藏同级标签和消息工具栏 -->
                   <div class="flex">
                     <div
                       class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full"
@@ -273,18 +273,12 @@
                         class="w-6 h-6 mr-1 inline-flex"
                       />
                       <span
-                        >设备数超出限制。您当前的可同时使用设备数为(deviceLimit)台。如需增加可用设备数请<a
-                          href="./pricing"
-                          target="_blank"
-                          class="font-bold underline text-red-700 px-2"
-                          >升级计划</a
-                        >。请注意，不同的浏览器会被记为多台设备。</span
+                        >{@html $t('ERR.NO_MORE_DEVICE', { values:{ deviceLimit:deviceLimit} })}</span
                       >
                     </div>
                   </div>
                 
                 {:else if messageErrorType == "ERR_NO_MORE_TOKEN"}
-                  <!-- TODO: 如果token或对话次数额度超限 显示这个标签，隐藏同级标签和消息工具栏 -->
                   <div class="flex">
                     <div
                       class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full"
@@ -295,19 +289,13 @@
                         class="w-6 h-6 mr-1 inline-flex"
                       />
                       
-                      <span
-                        >当前模型对话限额已用尽，请更换其他模型或<a
-                          href="./pricing"
-                          target="_blank"
-                          class="font-bold underline text-red-700 px-2"
-                          >升级计划</a
-                        >。</span
+                      <span>
+                        {@html $t('ERR.NO_MORE_TOKEN', { values:{ deviceLimit:deviceLimit} })}</span
                       >
                     </div>
                   </div>
                 
                 {:else if messageErrorType == "ERR_VIP_ONLY"}
-                  <!-- TODO: 如果使用中的计划到期 显示这个标签，隐藏同级标签和消息工具栏 -->
                   <div class="flex">
                     <div
                       class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full"
@@ -318,12 +306,7 @@
                         class="w-6 h-6 mr-1 inline-flex"
                       />
                       <span
-                        >您的订阅已经到期，请<a
-                          href="./pricing"
-                          target="_blank"
-                          class="font-bold underline text-red-700 px-2"
-                          >升级计划</a
-                        >继续使用。</span
+                        >{@html $t('ERR.VIP_ONLY', { values:{ deviceLimit:deviceLimit} })}</span
                       >
                     </div>
                   </div>
@@ -338,8 +321,8 @@
                       alt="Error"
                       class="w-6 h-6 mr-1 inline-flex"
                     />
-                    <span
-                      >发生了错误 {messageErrorType} 请重试！</span
+                    <span>
+                      {$t('ERR.UNKNOWN', { values:{ messageErrorType:messageErrorType} })}</span
                     >
                   </div>
                 </div>

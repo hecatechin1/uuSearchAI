@@ -156,7 +156,7 @@
     if (!get(isLogin)) {
       let data = await guest_signup();
       if (data != 0) {
-        showErrorMessage("连接不上服务器");
+        showErrorMessage($t("ERR.CONNECTION_FAILED",{default:"Failed to connect to server, try again later"}));
         return;
       }
     }

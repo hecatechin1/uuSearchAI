@@ -1,13 +1,15 @@
 { 
   "ERR":{
-    "NO_MORE_CALLS": "没有更多调用次数了",
-    "API_TIMEOUT": "API 请求超时",
-    "NO_UID": "没有 UID",
-    "VIP_ONLY": "VIP 专属",
-    "NO_MORE_TOKEN": "没有更多 Token",
-    "NO_MORE_DEVICE": "没有更多设备",
+    "NO_MORE_CALLS": "当前模型对话限额已用尽，请更换其他模型或<a href=\"./pricing\" target=\"_blank\" class=\"font-bold underline text-red-700 px-2\">升级计划",
+    "API_TIMEOUT": "接口服务请求超时，请稍后再试",
+    "NO_UID": "没有查找到用户，可能是服务器接口问题，请退出后重试。如问题依然存在，请联系管理员",
+    "VIP_ONLY": "当前模型需要使用更高级的计划，请更换其他模型或<a href=\"./pricing\" target=\"_blank\" class=\"font-bold underline text-red-700 px-2\">升级计划",
+    "NO_MORE_TOKEN": "当前模型对话限额已用尽，请更换其他模型或<a href=\"./pricing\" target=\"_blank\" class=\"font-bold underline text-red-700 px-2\">升级计划",
+    "NO_MORE_DEVICE": "设备数超出限制。您当前的可同时使用设备数为 {deviceLimit} 台。如需增加可用设备数请<a href=\"./pricing\" target=\"_blank\" class=\"font-bold underline text-red-700 px-2\">升级计划</a>。请注意，不同的浏览器会被记为多台设备。",
     "UNKNOWN_MODEL":"未知模型",
-    "500": "服务器内部错误"
+    "UNKNOW_NETWORKERROR": "服务器内部错误",
+    "UNKNOWN": "发生了错误 {messageErrorType} 请重试！",
+    "CONNECTION_FAILED":"连接不到服务器，请稍后再试。"
   },
   "home":{
     "nav": {
@@ -85,7 +87,7 @@
       "faq": "常见问题",
       "terms": "服务条款",
       "privacy": "隐私政策",
-      "seoText": "多模型智能对话, GPT, Gemini, Claude, 21种语言支持, 云端存储, 加密安全, 灵活付费, 中国大陆直连, AI 辅助写作, 创意生成, 编程辅助, AIGC",
+      "seoText": "多模型智能对话, GPT, Gemini, Claude, DeepSeek 21种语言支持, 云端存储, 加密安全, 灵活付费, 中国大陆直连, AI 辅助写作, 创意生成, 编程辅助, AIGC",
       "logo": "UUGPT",
       "copyright":
         "© 2025 UUGPT. All rights reserved."
@@ -109,12 +111,13 @@
     "passwordError": "请输入密码",
     "invalidPasswordCharacterError": "包含非法字符,只能出现字母和数字",
     "passwordLengthError": "长度必须在6-24位之间",
-    "agreeTerms": "我同意 uuGPT 服务条款",
+    "agreeTerms": "我同意 uuGPT ",
     "serviceTermsLink": "服务条款",
     "agreeTermsError": "请先同意协议",
     "nextStep": "下一步",
     "or": "或",
     "loginWithGoogle": "使用 Google 登录",
+    "loginWithMaxthon": "使用傲游登录",
     "remember": "记住我",
     "loginTitle": "填写密码",
     "login": "登录",
@@ -190,6 +193,8 @@
       "copy": "复制",
       "retry": "重试",
       "delete": "删除",
+      "deleteSuccess":"删除成功",
+      "deleteFailure":"删除失败",
       "edit": "编辑",
       "like": "有帮助",
       "dislike": "错误",
@@ -247,11 +252,18 @@
       "renameSuccess": "修改成功",
       "renameFailure": "修改失败",
       "gotouugpt":"✨ 需要永久保存聊天记录或体验更强大的AI模型？",
-      "gotouugptlink": "点击前往 UUGPT"
+      "gotouugptlink": "点击前往 uuGPT",
+      "renaming": "正在修改……"
     },
     "code": {
       "copy": "复制代码",
       "copied": "已复制"
+    },
+    "window":{
+      "notice":"提示",
+      "confirm":"确认",
+      "cancel":"取消",
+      "close":"关闭"
     },
     "aisystem":"请用中文回答。您的回答必须以 Markdown 格式提供。当且仅当回答内容复杂或需要参考资料时，在末尾包含 1-3 个与内容直接相关的权威参考链接，链接必须真实存在且与主题强相关。简单明确的回答无需引用链接。",
     "pricing": {

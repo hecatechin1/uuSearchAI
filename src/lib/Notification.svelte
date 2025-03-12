@@ -13,9 +13,9 @@
     let isVisible = true;
   
     // 确认和取消按钮文案
-    export let title = "提示";
-    export let confirmText = "确认";
-    export let cancelText = "取消";
+    export let title = $t("window.notice");
+    export let confirmText = $t("window.confirm");
+    export let cancelText = $t("window.cancel");
   
     // 关闭弹窗
     function closeModal() {

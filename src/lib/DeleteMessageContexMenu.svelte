@@ -35,13 +35,13 @@
     <div class="flex items-center justify-center text-token-text-secondary h-5 w-5 flex-shrink-0">
         <img src={deleteIcon} alt="Rename chat"/>
     </div>
-    <span  class="whitespace-normal break-words hyphens-auto flex-1" style="word-break: break-word;">{$t("app.deleteThisMessage")}</span>
+    <span  class="whitespace-normal break-words hyphens-auto flex-1" style="word-break: break-word;">{$t("app.deleteThisMessage",{default:"Delete this message"})}</span>
   </div>
 
   <div on:click={deleteToEnd} class="flex items-center text-sm cursor-pointer disabled:opacity-50 group relative hover:bg-[#f5f5f5] rounded-md my-0 px-2 mx-2 gap-2.5 py-2 pr-3">
     <div class="flex items-center justify-center text-token-text-secondary h-5 w-5 flex-shrink-0">
         <img src={deleteAllIcon} alt="Delete chat" class="ml-[-2px]"/>
     </div>
-    <span  class="whitespace-normal break-words hyphens-auto flex-1" style="word-break: break-word;">{$t("app.deleteToTheEnd")}</span>
+    <span  class="whitespace-normal break-words hyphens-auto flex-1" style="word-break: break-word;">{$t("app.deleteToTheEnd",{default:"Delete to the End"})}</span>
   </div>
 </div>

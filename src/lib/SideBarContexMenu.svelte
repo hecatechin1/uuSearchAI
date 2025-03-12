@@ -13,9 +13,9 @@
     async function deleteChat(){
       let d = await deleteChatData(index);
       if(d==0){
-        showSuccessMessage('删除成功');
+        showSuccessMessage($t("app.deleteSuccess",{default:"Success"}));
       }else{
-        showErrorMessage('删除失败');
+        showErrorMessage($t("app.deleteFailure",{default:"Failed"}));
       }
       dispatch('closeContextMenu');
     }

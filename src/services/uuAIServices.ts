@@ -3,7 +3,7 @@ import { get, writable } from 'svelte/store';
 import { messages, userRequestedStreamClosure, streamContext,isStreaming } from "../stores/stores";
 import { setMessagesHistory } from "../manages/messageManages";
 import { countTicks } from '../utils/generalUtils';
-import { t } from "svelte-i18n";
+import { t, init } from "svelte-i18n";
 
 let currentmid: any = null;
 let globalSource: EventSource | null = null;

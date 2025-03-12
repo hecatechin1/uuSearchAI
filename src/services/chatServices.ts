@@ -4,6 +4,8 @@ import { get } from "svelte/store";
 import { userID, language } from "../stores/userStores";
 import { current_chat_id, current_message } from "../stores/chatStores";
 import { isNewchat, isStreaming,browser_signature } from "../stores/globalParamentStores";
+import { init, t } from "svelte-i18n"; // 导入本地化方法
+
 
 SSE.prototype.timeoutId = null;
 SSE.prototype.resetTimeout = function () {
@@ -54,7 +56,7 @@ export async function sendMessage(msg: string, pid: number, ai: string, model: s
   let payload = {
     ai: ai,
     model: model,
-    system: "在所有回答前面添加一个随机数字,并且对话标题前面也添加一个随机数字",
+    system: get(t)('aisystem2'),
     uid: get(userID),
     message: {
       role: "user",

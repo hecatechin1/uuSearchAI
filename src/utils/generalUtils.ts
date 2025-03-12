@@ -1,4 +1,7 @@
 import {sha256} from 'js-sha256'
+import { init, t } from "svelte-i18n"; // 导入本地化方法
+import { get } from 'svelte/store';
+
 
 // Utility function for formatting messages for Markdown rendering
 export function formatMessageForMarkdown(content: string): string {
@@ -93,10 +96,10 @@ export function getErrorMessage(code: string) {
 }
 
 const ErrorMessage = {
-  "1": "网络错误",
-  "1000": "邮箱验证失败，请检查邮箱或者重新发送验证码",
-  "101": " no uid",//暂时不用翻译
-  "100": "未注册"
+  "1": get(t)('ERR.CONNECTION_FAILED', {default: 'Connection failed, please check your network or try again later'}),
+  "1000": get(t)('ERR.INVALID_EMAIL', {default: 'Invalid Email, please check your email or verify again'}),
+  "101": get(t)('ERR.NO_UID', {default: 'User not found. This may be due to a server interface issue. Please log out and try again. If the problem persists, contact the administrator.'}),
+  "100": get(t)('ERR.UNKNOWN', {default: 'Unknown error, please try again later'}),
 }
 
 // 密码加密函数

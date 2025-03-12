@@ -1,5 +1,7 @@
 import { } from "../stores/userStores";
 import {createTimeOutFetch,getCookieValue} from "../utils/generalUtils";
+import { init, t } from "svelte-i18n"; // 导入本地化方法
+import { get } from 'svelte/store';
 
 //登录，注册
 export async function fetchData() {
@@ -8,7 +10,7 @@ export async function fetchData() {
   if (response.ok) {
     await response.json(); // 解析 JSON 数据
   } else {
-    console.error('请求失败');
+    console.error(get(t)("ERR.CONNECTION_FAILED")); // 打印错误信息
   }
 }
 

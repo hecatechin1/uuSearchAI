@@ -8,8 +8,9 @@
     "NO_MORE_DEVICE": "设备数超出限制。您当前的可同时使用设备数为 {deviceLimit} 台。如需增加可用设备数请<a href=\"./pricing\" target=\"_blank\" class=\"font-bold underline text-red-700 px-2\">升级计划</a>。请注意，不同的浏览器会被记为多台设备。",
     "UNKNOWN_MODEL":"未知模型",
     "UNKNOW_NETWORKERROR": "服务器内部错误",
-    "UNKNOWN": "发生了错误 {messageErrorType} 请重试！",
-    "CONNECTION_FAILED":"连接不到服务器，请稍后再试。"
+    "CONNECTION_FAILED":"连接不到服务器，请稍后再试。",
+    "INVALID_EMAIL":"无效的邮箱地址，请检查您的邮箱并重新验证",
+    "UNKNOWN": "发生了错误 {messageErrorType} 请重试！"
   },
   "home":{
     "nav": {
@@ -89,8 +90,7 @@
       "privacy": "隐私政策",
       "seoText": "多模型智能对话, GPT, Gemini, Claude, DeepSeek 21种语言支持, 云端存储, 加密安全, 灵活付费, 中国大陆直连, AI 辅助写作, 创意生成, 编程辅助, AIGC",
       "logo": "UUGPT",
-      "copyright":
-        "© 2025 UUGPT. All rights reserved."
+      "copyright": "© 2025 UUGPT. All rights reserved."
     }
   },
   "login": {
@@ -284,7 +284,7 @@
           "保护隐私，可不登录匿名使用",
           "云端保存消息记录",
           "2台登录设备(不同浏览器会被记录为不同设备)",
-          "每天有限制次数的基础模型问答 (GPT-4o mini, Claude 3 Haiku)"
+          "每月有限制次数的基础模型问答 (GPT-4o mini, gemini 2.0 flash lite, DeepSeek V3)"
       ],
 
       "basicPlanName": "基础套餐",
@@ -292,8 +292,8 @@
       "basicPlanFeatures": [
           "覆盖基础模型的所有功能",
           "5台登录设备(不同浏览器会被记录为不同设备)",
-          "每月5000次基础模型访问 (GPT-4o mini, Claude 3 Haiku)",
-          "更多高级模型可用 (o1-preview, Claude 3.5, Gemini 1.5 Pro)",
+          "每月4百万token",
+          "更多模型可用 (gemini 2.0 flash, DeepSeek R1)",
           "即将解锁文件上传功能，语音输入"
       ],
       "basicAnnualSaveText": "省 48%",
@@ -303,7 +303,9 @@
       "proPlanFeatures": [
           "覆盖免费和基础计划所有功能",
           "10台登录设备(不同浏览器会被记录为不同设备)",
-          "无限次基础模型访问 (GPT-4o mini, Claude 3 Haiku)",
+          "解锁全部模型",
+          "每月额外4百万token高级模型访问(GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku,claude 3.7 sonnet等)",
+          "每月4万token先进模型试用机会(GPT o1, claude 3 opus)",
           "高峰期优先访问权利",
           "即将解锁更多功能的特权"
       ],

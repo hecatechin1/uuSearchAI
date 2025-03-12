@@ -37,11 +37,22 @@ export async function getUserInfo() {
         userSubMode.set(data.info.pay.mode);
     }
     getUpdateUserData_Settings();
-    isLogin.set(true);
+    isLogin.update(v=>{
+        if(get(userType)!=='maxthon' && get(userEmail) == null){
+            isGuest.set(true);
+            return false;
+        }else{
+            isGuest.set(false);
+            return true;
+        }
+
+    });
+    // isLogin.set(true);
 }
 
 export async function userLogout(){
     document.cookie = 'uugpt_ut=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=.uugpt.com; path=/;';
+
     // let data = await logout();
     // if (data == 1) {
     //     return 1;

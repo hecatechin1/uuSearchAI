@@ -24,6 +24,7 @@
 
   function logout(){
     userLogout();
+    localStorage.removeItem("current_chat_id");
     window.location.reload();
   }
   function feedback(){

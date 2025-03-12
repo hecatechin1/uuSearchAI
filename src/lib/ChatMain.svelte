@@ -29,6 +29,8 @@
     isNewchat,
     isStreaming,
     isLogin,
+    isGuest,
+    isLoading_messagesList
   } from "../stores/globalParamentStores";
   import { guest_signup } from "../manages/userinfoManages";
   //   import { messages } from "../stores/stores";
@@ -36,7 +38,7 @@
   // export let isFramed = false;
 
   let dispatch = createEventDispatcher();
-  let isLoading = true;
+  let isLoading = false;
   let input: string = "";
   let textAreaElement: HTMLTextAreaElement; // 定义文本框元素的引用
   let isMobile = false;
@@ -60,23 +62,6 @@
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent,
       );
-
-    current_chat_id.subscribe(async (value) => {
-      if (value != 0) {
-        if (get(isNewchat)) {
-          return;
-        }
-        isLoading = true;
-        let data: any = await getMessagesListData();
-        if (data != 0) {
-          showErrorMessage(data);
-          return;
-        }
-      } else {
-        current_chat.set([]);
-      }
-      isLoading = false;
-    });
   });
 
   afterUpdate(() => {
@@ -100,7 +85,6 @@
       parseInt(computed.getPropertyValue("border-top-width"), 10) +
       event.target.scrollHeight +
       parseInt(computed.getPropertyValue("border-bottom-width"), 10);
-    console.log(height);
     const newHeight = Math.min(height, textMaxHeight);
     event.target.style.height = `${newHeight}px`; // 设置计算后的高度
 
@@ -153,7 +137,7 @@
     let msg = input;
     input = "";
     //判断是否登录，如果没有登录则先注册未非登录用户
-    if (!get(isLogin)) {
+    if (!get(isLogin) && !get(isGuest)) {
       let data = await guest_signup();
       if (data != 0) {
         showErrorMessage($t("ERR.CONNECTION_FAILED",{default:"Failed to connect to server, try again later"}));
@@ -181,7 +165,7 @@
   }
 </script>
 
-{#if isLoading}
+{#if $isLoading_messagesList}
   <div class="main-chat-skeleton">
     <div class="message skeleton mb-5 message-flex-end"></div>
     <div class="message skeleton"></div>

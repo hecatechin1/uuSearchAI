@@ -9,14 +9,16 @@
   import { onMount } from "svelte";
   import "../../i18n.js";
   import { clickOutside } from "../../utils/generalUtils.js";
-  import { getChatListData } from "../../manages/chatManages";
+  import { getChatListData ,getMessagesListData,} from "../../manages/chatManages";
   import {
     showErrorMessage,
     isNewchat,
     isLogin,
-
+    isGuest,
   } from "../../stores/globalParamentStores";
-  import { current_chat_id, dataLoaded } from "../../stores/chatStores.js";
+  import { current_chat_id, dataLoaded,chat_list,current_chat } from "../../stores/chatStores.js";
+  import { userID } from "../../stores/userStores.js";
+  import { get } from "svelte/store";
 
   // 状态管理
   let isReady = false;
@@ -35,40 +37,72 @@
   function changeChat(event: CustomEvent) {}
 
   onMount(async () => {
-    isLogin.subscribe( async (v) => {
-      if(!v) {isNewchat.set(true); return;}
-      let res = await getChatListData();
-      if (res != 0) {
-        showErrorMessage(res);
-        return;
-      }
-      let chatid = Number(localStorage.getItem("current_chat_id") || 0);
-      current_chat_id.set(chatid);
-      if (chatid == 0) {
-        isNewchat.set(true);
+    isLogin.subscribe(async (v) => {
+      if (!v || !isReady) {return;}
+      await initData();
+    });
+    isGuest.subscribe(async (v) => {
+      if (!v || !isReady) return;
+      await initData();
+    });
+    await initData();
+    current_chat_id.subscribe(async (value) => {
+      localStorage.setItem("current_chat_id", value.toString());
+      if (value != 0) {
+        if(get(isNewchat)) return;// 因为是在发送消息getMessage里更新状态，所以新对话不用更新消息列表，并且isNewchat会延迟一会更新为false
+        let data: any = await getMessagesListData();
+        if (data != 0) {
+          showErrorMessage(data);
+          return;
+        }
+      } else {
+        current_chat.set([]);
       }
     });
+
+    isNewchat.subscribe(async (v) => {
+      if (!v && isReady) {
+        
+        await getChatListData();//当前对话从新对话变为非新对话时，需要更新聊天列表
+      }
+    });
+
+
+
+
     dataLoaded.set(true);
     isReady = true;
-    // isLogin.set(true);
   });
 
+  async function initData() {
+    console.log("initData");
+    let res = await getChatListData();
+    if (res != 0) {
+      showErrorMessage(res);
+      return;
+    }
+    let chatid = Number(localStorage.getItem("current_chat_id") || 0);
+    let index = get(chat_list).findIndex((c) => c.cid == chatid);
+    current_chat_id.set(index<0?0:chatid);
+    if (chatid == 0) {
+      isNewchat.set(true);
+    }
+  }
+
   function showModelSelector(event: CustomEvent) {
-    if(event.detail.originElement)    originElement = event.detail.originElement;// 点击的元素
-    if(event.detail.closeCallback)    closeCallback = event.detail.closeCallback;// 关闭的回调函数
+    if (event.detail.originElement) originElement = event.detail.originElement; // 点击的元素
+    if (event.detail.closeCallback) closeCallback = event.detail.closeCallback; // 关闭的回调函数
     selectorTop = event.detail.position.top;
     selectorLeft = event.detail.position.left;
     selectorBottom = event.detail.position.bottom;
     selectorRight = event.detail.position.right;
     callback = event.detail.callback;
     showSelector = !showSelector;
-
-
   }
 
   function hideSelector() {
-    if(closeCallback)    closeCallback();
-    showSelector=false;
+    if (closeCallback) closeCallback();
+    showSelector = false;
   }
 
   function aiModelSelected(event: CustomEvent) {
@@ -101,7 +135,12 @@
     </div>
     <!-- AI选择器需要JS计算位置，主要是左上角坐标。元件宽度260px，高度310px，注意边缘计算 -->
     {#if showSelector}
-      <div use:clickOutside={{callback:hideSelector,originElement:originElement}}>
+      <div
+        use:clickOutside={{
+          callback: hideSelector,
+          originElement: originElement,
+        }}
+      >
         <AiModelSelector
           on:aiModelSelected={aiModelSelected}
           top={selectorTop}

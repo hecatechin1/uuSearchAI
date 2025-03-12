@@ -18,8 +18,9 @@
     showSidebar,
     showSidebarMd,
     isLogin,
+    isLoading_chatList,
   } from "../stores/globalParamentStores";
-  import {userType,userAvatar} from "../stores/userStores";
+  import { userType, userAvatar } from "../stores/userStores";
   import SideBarContexMenu from "$lib/SideBarContexMenu.svelte";
   import SearchChat from "$lib/SearchChat.svelte";
   import { clickOutside } from "../utils/generalUtils";
@@ -38,13 +39,13 @@
   let showSidebarMenu = false;
   let isReady = false;
   let daysdiff: any = {
-    "0": $t("app.date.today",{default:"Today"}),
-    "1": $t("app.date.yesterday",{default:"Yesterday"}), 
-    "3": $t("app.date.threeDaysAgo",{default:"Three Days Ago"}),
-    "7": $t("app.date.oneWeekAgo",{default:"One Week Ago"}),
-    "30": $t("app.date.oneMonthAgo",{default:"One Month Ago"}),
-    "180": $t("app.date.halfYearAgo",{default:"Half Year Ago"}),
-    "365": $t("app.date.oneYearAgo",{default:"One Year Ago"}),
+    "0": $t("app.date.today", { default: "Today" }),
+    "1": $t("app.date.yesterday", { default: "Yesterday" }),
+    "3": $t("app.date.threeDaysAgo", { default: "Three Days Ago" }),
+    "7": $t("app.date.oneWeekAgo", { default: "One Week Ago" }),
+    "30": $t("app.date.oneMonthAgo", { default: "One Month Ago" }),
+    "180": $t("app.date.halfYearAgo", { default: "Half Year Ago" }),
+    "365": $t("app.date.oneYearAgo", { default: "One Year Ago" }),
   };
   let dataGroup: any = {};
   let dataGroupsKeys: any[] = [];
@@ -62,19 +63,12 @@
         isReady = true;
       }
     });
+
     current_chat_id.subscribe((v) => {
-      // console.log("current_chat_id", v);
-      localStorage.setItem("current_chat_id", v.toString());
       let index = get(chat_list).findIndex((c) => c.cid == v);
       activeIndex = index;
     });
-    isNewchat.subscribe(async (v) => {
-      if (!v && isReady) {
-        isReady = false;
-        let res = await getChatListData();
-        isReady = true;
-      }
-    });
+
     chat_list.subscribe((v) => {
       initlist();
     });
@@ -110,8 +104,8 @@
     }
     return keys[keys.length - 1];
   }
-  function showLoginBox(){
-    dispatch('showLoginBox');
+  function showLoginBox() {
+    dispatch("showLoginBox");
   }
   function selectChat(index: number) {
     closeStream();
@@ -119,11 +113,10 @@
     let cc = get(chat_list)[index];
     isNewchat.set(false);
     current_chat_id.set(cc.cid);
-
     dispatch("selectChat", { selected: cc.cid });
   }
-  function showUserMenu(){
-    dispatch('show-user-menu');
+  function showUserMenu() {
+    dispatch("show-user-menu");
   }
   //TODO：暂时没有分页功能，之后有了再用
   function handleScroll(event: any) {
@@ -140,7 +133,7 @@
     createNewChat();
   }
 
-  function showMenu(event, index) {
+  function showMenu(event: any, index: any) {
     showMenuIndex = index;
     const rect = event.currentTarget.getBoundingClientRect();
     menuTop = rect.top + rect.height;
@@ -190,13 +183,25 @@
   }
 
   function searchBox_selectChat(event: CustomEvent) {
-    // console.log(event.detail);
+
     closeSearchBox();
     selectChat(event.detail);
   }
 </script>
 
-{#if isReady}
+{#if $isLoading_chatList}
+  <aside
+    class="sidebar-skeleton z-[21] flex shrink-0 overflow-x-hidden max-md:!w-0 w-64 flex-col h-full bg-grey-700 w-[260px]"
+  >
+    <div class="header skeleton"></div>
+    <div class="chat-item skeleton"></div>
+    <div class="chat-item skeleton"></div>
+    <div class="chat-item skeleton"></div>
+    <div class="chat-item skeleton"></div>
+    <!-- 分布加载转圈loading -->
+    <!-- <div class="message-loader"></div> -->
+  </aside>
+{:else}
   <aside
     class="z-[21] w-[260px] flex-shrink-0 overflow-x-hidden max-md:!fixed max-md:left-0 max-md:top-0 max-md:!z-50 max-md:border-r flex-col h-full bg-gray-100 {hiddenClass} {mdHiddenClass}"
   >
@@ -305,9 +310,20 @@
                 data-testid="clear-search-button"
                 type="button"
               >
-              <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1" fill="currentColor">
-                <path id="svg_1" d="m12.55289,1.06482l0.6064,0.00199c5.27267,0.29028 9.48364,4.50125 9.77591,9.82859l0,0.55172a10.24412,10.24412 0 0 1 -1.09947,4.64241a10.38131,10.38131 0 0 1 -13.25324,4.95058l-0.29425,-0.12824l-5.91485,1.97228a0.99409,0.99409 0 0 1 -1.28636,-1.15215l0.02982,-0.10537l1.97029,-5.91584l-0.12724,-0.29326a10.2481,10.2481 0 0 1 -0.78533,-3.59861l-0.00497,-0.37179a10.38131,10.38131 0 0 1 5.73691,-9.28184a10.24909,10.24909 0 0 1 4.64639,-1.10046zm0.55172,1.98818l-0.5547,0a8.26687,8.26687 0 0 0 -3.75071,0.88971a8.39511,8.39511 0 0 0 -4.64142,7.50739c-0.00298,1.30226 0.30121,2.58464 0.88772,3.74673a0.99409,0.99409 0 0 1 0.05567,0.76247l-1.47126,4.40979l4.41079,-1.47026a0.99409,0.99409 0 0 1 0.64119,0.00497l0.12128,0.0507c1.16209,0.58651 2.44547,0.89071 3.74872,0.88772a8.39611,8.39611 0 0 0 7.50739,-4.64539c0.58651,-1.1611 0.89071,-2.44547 0.88772,-3.74673l0.00199,-0.50003c-0.2356,-4.26068 -3.63838,-7.66346 -7.84339,-7.89707l-0.00099,0zm-0.60739,3.97637a0.99409,0.99409 0 0 1 0.99409,0.99409l0,2.48523l2.48523,0a0.99409,0.99409 0 0 1 0,1.98818l-2.48523,0l0,2.48523a0.99409,0.99409 0 0 1 -1.98818,0l0,-2.48523l-2.48523,0a0.99409,0.99409 0 0 1 0,-1.98818l2.48523,0l0,-2.48523a0.99409,0.99409 0 0 1 0.99409,-0.99409z" fill="currentColor"/>
-              </svg>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  version="1.1"
+                  fill="currentColor"
+                >
+                  <path
+                    id="svg_1"
+                    d="m12.55289,1.06482l0.6064,0.00199c5.27267,0.29028 9.48364,4.50125 9.77591,9.82859l0,0.55172a10.24412,10.24412 0 0 1 -1.09947,4.64241a10.38131,10.38131 0 0 1 -13.25324,4.95058l-0.29425,-0.12824l-5.91485,1.97228a0.99409,0.99409 0 0 1 -1.28636,-1.15215l0.02982,-0.10537l1.97029,-5.91584l-0.12724,-0.29326a10.2481,10.2481 0 0 1 -0.78533,-3.59861l-0.00497,-0.37179a10.38131,10.38131 0 0 1 5.73691,-9.28184a10.24909,10.24909 0 0 1 4.64639,-1.10046zm0.55172,1.98818l-0.5547,0a8.26687,8.26687 0 0 0 -3.75071,0.88971a8.39511,8.39511 0 0 0 -4.64142,7.50739c-0.00298,1.30226 0.30121,2.58464 0.88772,3.74673a0.99409,0.99409 0 0 1 0.05567,0.76247l-1.47126,4.40979l4.41079,-1.47026a0.99409,0.99409 0 0 1 0.64119,0.00497l0.12128,0.0507c1.16209,0.58651 2.44547,0.89071 3.74872,0.88772a8.39611,8.39611 0 0 0 7.50739,-4.64539c0.58651,-1.1611 0.89071,-2.44547 0.88772,-3.74673l0.00199,-0.50003c-0.2356,-4.26068 -3.63838,-7.66346 -7.84339,-7.89707l-0.00099,0zm-0.60739,3.97637a0.99409,0.99409 0 0 1 0.99409,0.99409l0,2.48523l2.48523,0a0.99409,0.99409 0 0 1 0,1.98818l-2.48523,0l0,2.48523a0.99409,0.99409 0 0 1 -1.98818,0l0,-2.48523l-2.48523,0a0.99409,0.99409 0 0 1 0,-1.98818l2.48523,0l0,-2.48523a0.99409,0.99409 0 0 1 0.99409,-0.99409z"
+                    fill="currentColor"
+                  />
+                </svg>
               </button>
             </span>
           </div>
@@ -318,9 +334,7 @@
           on:scroll={handleScroll}
           class="flex-col flex-1 transition-opacity duration-500 relative -mr-2 pr-2 overflow-y-auto"
         >
-          <div
-            class="flex flex-col gap-2 text-sm false mt-2 pb-2"
-          >
+          <div class="flex flex-col gap-2 text-sm false mt-2 pb-2">
             <!--日期循环开始 新聊天-->
             {#if $isNewchat}
               <div class="relative mt-2 first:mt-0 last:mb-3">
@@ -420,7 +434,10 @@
                         <!-- 重命名div 编辑时显示，失去焦点保存 -->
                         {#if isShowRenameBox && renameIndex == chatIndex}
                           <div
-                            use:clickOutside={{callback:rename,originElement:null}}
+                            use:clickOutside={{
+                              callback: rename,
+                              originElement: null,
+                            }}
                             class="absolute bottom-0 left-[7px] right-2 top-[6px] items-center rounded-lg"
                           >
                             <input
@@ -449,46 +466,49 @@
             <div class="max-w-[100%] grow">
               <div class="group relative" data-headlessui-state="">
                 {#if $isLogin}
-                <button
-                on:click={showUserMenu}
-                class="flex w-full max-w-[100%] items-center gap-2 rounded-lg text-sm group-ui-open:bg-token-sidebar-surface-secondary p-2 hover:bg-token-sidebar-surface-secondary"
-                data-testid="accounts-profile-button"
-                id="headlessui-menu-button-:rsr:"
-                type="button"
-                aria-haspopup="menu"
-                aria-expanded="false"
-                data-headlessui-state=""
-                ><div
-                  class="flex-shrink-0"
-                  style="view-transition-name: var(--vt-profile-avatar-sidebar);"
-                >
-                  <div
-                    class="flex items-center justify-center overflow-hidden rounded-full"
-                  >
-                    <div class="relative flex">
-                      <img
-                        alt="User"
-                        width="32"
-                        height="32"
-                        class="rounded-sm"
-                        referrerpolicy="no-referrer"
-                        src={$userAvatar || avatarIcon}
-                      />
+                  <button
+                    on:click={showUserMenu}
+                    class="flex w-full max-w-[100%] items-center gap-2 rounded-lg text-sm group-ui-open:bg-token-sidebar-surface-secondary p-2 hover:bg-token-sidebar-surface-secondary"
+                    data-testid="accounts-profile-button"
+                    id="headlessui-menu-button-:rsr:"
+                    type="button"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    data-headlessui-state=""
+                    ><div
+                      class="flex-shrink-0"
+                      style="view-transition-name: var(--vt-profile-avatar-sidebar);"
+                    >
+                      <div
+                        class="flex items-center justify-center overflow-hidden rounded-full"
+                      >
+                        <div class="relative flex">
+                          <img
+                            alt="User"
+                            width="32"
+                            height="32"
+                            class="rounded-sm"
+                            referrerpolicy="no-referrer"
+                            src={$userAvatar || avatarIcon}
+                          />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div
-                  class="relative -top-px grow -space-y-px truncate text-start text-token-text-primary"
-                >
-                  <div dir="auto">{$userEmail}</div>
-                </div>
-              </button>
+                    <div
+                      class="relative -top-px grow -space-y-px truncate text-start text-token-text-primary"
+                    >
+                      <div dir="auto">{$userEmail}</div>
+                    </div>
+                  </button>
                 {:else}
-                <div class="flex items-center">
-                  <button on:click={showLoginBox} class="submit-edit rounded-lg px-3 py-1 text-white bg-themegreen hover:bg-themegreenhover hover:text-white h-5}">{$t("login.login")}</button>
-                </div>
+                  <div class="flex items-center">
+                    <button
+                      on:click={showLoginBox}
+                      class="submit-edit rounded-lg px-3 py-1 text-white bg-themegreen hover:bg-themegreenhover hover:text-white h-5}"
+                      >{$t("login.login")}</button
+                    >
+                  </div>
                 {/if}
-
               </div>
             </div>
           </div>
@@ -496,7 +516,9 @@
       </nav>
     </div>
     {#if showSidebarMenu}
-      <div use:clickOutside={{callback:hideMenu,originElement:showMenuButton}}>
+      <div
+        use:clickOutside={{ callback: hideMenu, originElement: showMenuButton }}
+      >
         <SideBarContexMenu
           left={menuLeft}
           top={menuTop}
@@ -517,31 +539,20 @@
       </div>
     {/if}
   </aside>
-{:else}
-  <aside
-    class="sidebar-skeleton z-[21] flex shrink-0 overflow-x-hidden max-md:!w-0 w-64 flex-col h-full bg-grey-700 w-[260px]"
-  >
-    <div class="header skeleton"></div>
-    <div class="chat-item skeleton"></div>
-    <div class="chat-item skeleton"></div>
-    <div class="chat-item skeleton"></div>
-    <div class="chat-item skeleton"></div>
-    <!-- 分布加载转圈loading -->
-    <!-- <div class="message-loader"></div> -->
-  </aside>
 {/if}
 
 <style>
   @import "../styles/skeleton.css";
 
-
-    /* 移动端动画 */
-    .max-md\:fixed {
-    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+  /* 移动端动画 */
+  .max-md\:fixed {
+    transition:
+      transform 0.2s ease-out,
+      opacity 0.2s ease-out;
     transform: translateX(-100%);
     opacity: 0;
   }
-  
+
   .sidebar-visible.max-md\:fixed {
     transform: translateX(0);
     opacity: 1;

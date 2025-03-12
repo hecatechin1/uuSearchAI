@@ -1,7 +1,7 @@
 import { getChatList, getMessagesList, sendMessage, deleteChat, updateChatInfo, deleteMessage } from "../services/chatServices";
 import { chat_list, current_chat, current_chat_id, current_message, current_chat_ai, current_chat_model, getIndexByCid, defaultaimodel, } from "../stores/chatStores";
 import { userID, language } from "../stores/userStores"
-import { isNewchat, isStreaming, showSidebar } from "../stores/globalParamentStores"
+import { isNewchat, isStreaming, showSidebar,isLoading_chatList, isLoading_messagesList } from "../stores/globalParamentStores"
 import { get } from 'svelte/store';
 import { t } from "svelte-i18n"; 
 
@@ -17,6 +17,7 @@ export function closeStream() {
 }
 
 export async function getChatListData() {
+    isLoading_chatList.set(true);
     let data = await getChatList();
     //判断每个conversation距离今天差几天，然后分组显示
     const now = new Date();
@@ -44,10 +45,12 @@ export async function getChatListData() {
         });
     }
     chat_list.set(clist);
+    isLoading_chatList.set(false);
     return 0;
 }
 
 export async function getMessagesListData() {
+    isLoading_messagesList.set(true);
     let cid = get(current_chat_id);
     let data = await getMessagesList(cid);
     if (data == 1) {
@@ -78,6 +81,7 @@ export async function getMessagesListData() {
     if (cid = get(current_chat_id)) {
         current_chat.set(mlist);
     }
+    isLoading_messagesList.set(false);
     return 0;
 }
 

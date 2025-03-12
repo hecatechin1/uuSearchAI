@@ -92,32 +92,20 @@ export function createTimeOutFetch(timeout = 60 * 1000) {
 }
 
 export function getErrorMessage(code: string) {
+  const ErrorMessage = {
+    "1": get(t)('ERR.CONNECTION_FAILED', {default: 'Connection failed, please check your network or try again later'}),
+    "1000": get(t)('ERR.INVALID_EMAIL', {default: 'Invalid Email, please check your email or verify again'}),
+    "101": get(t)('ERR.NO_UID', {default: 'User not found. This may be due to a server interface issue. Please log out and try again. If the problem persists, contact the administrator.'}),
+    "100": get(t)('ERR.UNKNOWN', {default: 'Unknown error, please try again later'}),
+  }
   return ErrorMessage[code];
 }
 
-const ErrorMessage = {
-  "1": get(t)('ERR.CONNECTION_FAILED', {default: 'Connection failed, please check your network or try again later'}),
-  "1000": get(t)('ERR.INVALID_EMAIL', {default: 'Invalid Email, please check your email or verify again'}),
-  "101": get(t)('ERR.NO_UID', {default: 'User not found. This may be due to a server interface issue. Please log out and try again. If the problem persists, contact the administrator.'}),
-  "100": get(t)('ERR.UNKNOWN', {default: 'Unknown error, please try again later'}),
-}
+
 
 // 密码加密函数
 export async function hash256(str: string) {
   return sha256(str).toString();
-  // 将输入字符串转为 ArrayBuffer
-  const encoder = new TextEncoder();
-  const data = encoder.encode(str);
-  console.log(window)
-  // 使用 SubtleCrypto API 计算 SHA-256 哈希值
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-
-  // 将 ArrayBuffer 转换为十六进制字符串
-  const hashArray = Array.from(new Uint8Array(hashBuffer)); // 将 buffer 转为字节数组
-  const hashHex = hashArray
-    .map((byte) => byte.toString(16).padStart(2, "0"))
-    .join(""); // 转为十六进制字符串
-  return hashHex;
 }
 
 export function getCookieValue(name:string) {

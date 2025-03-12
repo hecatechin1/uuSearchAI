@@ -71,8 +71,8 @@ export async function sendMessage(msg: string, pid: number, ai: string, model: s
   let sse_source = new SSE("https://api.uugpt.com/ai/stream2", {
     headers: {
       "Content-Type": "application/json",
-    },
-    method: "POST",
+  },
+  method: "POST",
     payload: JSON.stringify(payload),
   });
   return sse_source;

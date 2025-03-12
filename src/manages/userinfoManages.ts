@@ -30,7 +30,6 @@ export async function getUserInfo() {
         return;
     }
     userID.set(data.info.uid);
-    console.log(get(userType),get(userEmail));
     if(get(userType) != 'maxthon') userEmail.set(data.info.email);
     if(data.info.pay){
         userPlanEndtime.set(data.info.pay.endTime);

@@ -38,6 +38,7 @@
     formatMessageForMarkdown,
     clickOutside,
     getElementPostionDiff,
+    
   } from "../utils/generalUtils";
   import { get } from "svelte/store";
   import { deleteMessageData, getMessage } from "../manages/chatManages";
@@ -52,6 +53,7 @@
   import { onMount, createEventDispatcher, afterUpdate } from "svelte";
   import DeleteMessageContexMenu from "./DeleteMessageContexMenu.svelte";
   import { sendRetryMessage } from "../manages/messageManages";
+  import {getMaxDeviceByPlan} from "../stores/userStores";
 
   let dispatch = createEventDispatcher();
   let showModelSelectorbtn: HTMLElement;
@@ -64,8 +66,10 @@
   let editingMessageContent: string; //正在编辑的消息内容;
   let retrybtn;
 
-  let deviceLimit = 2 //可用设备数，从用户data里读取，todo
+  let deviceLimit = getMaxDeviceByPlan(); //可用设备数，从用户data里读取，todo
+  console.log(deviceLimit);
 
+  let isShowSelector = false; //是否显示模型选择器
   let isShowDeleteMenu = false;
   let menuLeft: number;
   let menuTop: number;

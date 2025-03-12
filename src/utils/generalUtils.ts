@@ -117,8 +117,6 @@ export async function hash256(str: string) {
   return hashHex;
 }
 
-
-
 export function getCookieValue(name:string) {
   const cookies = document.cookie.split(';');
   for (let i = 0; i < cookies.length; i++) {
@@ -129,3 +127,4 @@ export function getCookieValue(name:string) {
   }
   return null;
 }
+

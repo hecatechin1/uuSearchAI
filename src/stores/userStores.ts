@@ -40,3 +40,18 @@ emailCodeID.subscribe((value)=>{
 });
 //语言
 export const language = writable('');
+
+
+//根据会员类型获取最大设备数量
+export function getMaxDeviceByPlan(){
+    let plan = get(userPlanMode);
+    if(/free/i.test(plan)){
+      return 2; 
+    }
+    if(/basic/i.test(plan)){
+      return 5; 
+    }
+    if(/pro/i.test(plan)){
+      return 10; 
+    }
+  }

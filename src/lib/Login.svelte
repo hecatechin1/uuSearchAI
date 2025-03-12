@@ -61,7 +61,7 @@
   let f_password = '';
   let f_confirmPassword = '';
   let f_verifyCode = '';
-
+  let isMxUser = false;
   loginPageName.subscribe((value) => {
     password = "";
     confirmPassword = "";
@@ -71,6 +71,7 @@
   });
 
   onMount(async () => {
+
     if(isResetPassword){
       email = get(userEmail)
       forgotPassword = true;
@@ -268,7 +269,11 @@
 
   // 处理Maxthon登录
   function handleMaxthonLogin() {
-    
+    let currentUrl = encodeURI(window.location.href+'?mxcallback=mxcallback');
+    console.log(currentUrl)
+    let targetUrl = `https://my.maxthon.com/auth/login?redirect=${currentUrl}`
+    console.log(targetUrl)
+    location.href = targetUrl;
   }
 
   function handleForgotPassword() {

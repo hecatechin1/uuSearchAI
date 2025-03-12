@@ -39,15 +39,17 @@
   });
 
   onMount(async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    let urlParameter = urlParams.get("mxcallback");
     const signature = browserSignature();
     browser_signature.set(signature);
     // userID.set("1733973830");
-    if (getCookieValue("MXTOKEN") != null) {
+    if (getCookieValue("MXTOKEN") != null || urlParameter != null) {
       await userLoginForMaxthon();
     }
     await getUserInfo();
-    await initializeI18n();
-    await waitLocale();
+    // await initializeI18n();
+    // await waitLocale();
     loading = false; // 设置为已加载
   });
 </script>

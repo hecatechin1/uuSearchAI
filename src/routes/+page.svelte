@@ -23,7 +23,10 @@
   import userAvatar from '../assets/login/avatar-default.svg'
   onMount(async () => {
     // userID.set("1733973830");
-    if (getCookieValue("MXTOKEN") != null) {
+    const urlParams = new URLSearchParams(window.location.search);
+    let urlParameter = urlParams.get("mxcallback");
+
+    if (getCookieValue("MXTOKEN") != null || urlParameter!=null) {
       await userLoginForMaxthon();
     }
     let res =  getUserInfo();

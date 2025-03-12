@@ -200,15 +200,19 @@
       {/if}
 
       <!-- 定价卡片 (Pro -> Basic -> Free) -->
-      <div
+      <!-- <div
         class="grid md:grid-cols-3 auto-cols-auto gap-4 justify-center transition-all duration-300 ease-in-out"
-      >
+      > -->
+      <div class="flex flex-wrap justify-center gap-4 max-w-6xl mx-auto transition-all duration-300 ease-in-out">
         {#if showCard_pro}
           <!-- pro(Pro)方案放在最前 -->
-          <div
+          <!-- <div
             class="relative flex flex-col rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 transform
                outline outline-0 outline-themegreen overflow-hidden"
-          >
+          > -->
+          <div class="relative flex flex-col rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow 
+            duration-300 transform outline outline-0 outline-themegreen overflow-hidden 
+            w-full md:w-[calc(33.33%-0.666rem)] min-w-[200px] max-w-[400px]">
             <!-- 推荐角标 -->
             {#if currentUserPlan != "pro"}
               <div
@@ -307,10 +311,13 @@
 
         {#if showCard_Basic}
           <!-- Basic 方案 -->
-          <div
+          <!-- <div
             class="relative flex flex-col rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 transform
                outline outline-2 outline-gray-50 overflow-hidden"
-          >
+          > -->
+          <div class="relative flex flex-col rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow 
+            duration-300 transform outline outline-0 outline-themegreen overflow-hidden 
+            w-full md:w-[calc(33.33%-0.666rem)] min-w-[200px] max-w-[400px]">
             <!-- 方案名称 -->
             <div class="px-5 pt-10 pb-6 border-b border-gray-200">
               <h3 class="text-2xl font-semibold text-gray-800">
@@ -353,7 +360,7 @@
                     <p>USD ${pricing.basic.monthlySubsequent}</p>
                     <p class="text-gray-400">
                       {$t("pricing.yearlyPay")} ${pricing.basic
-                        .annualSubsequent} / {$t("pricing.perMonth")}
+                        .annualSubsequent} {$t("pricing.perMonth")}
                     </p>
                   </div>
                 {:else}
@@ -368,7 +375,7 @@
                       )}
                     </p>
                     <p class="text-gray-400">
-                      总计 ${pricing.basic.annualTotal} USD
+                      {$t("pricing.priceTotal")} ${pricing.basic.annualTotal} USD
                     </p>
                   </div>
                 {/if}
@@ -399,10 +406,13 @@
 
         {#if showCard_free}
           <!-- Free 方案（放在最后） -->
-          <div
+          <!-- <div
             class="relative flex flex-col rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 transform
              outline outline-2 outline-gray-50 overflow-hidden"
-          >
+          > -->
+          <div class="relative flex flex-col rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow 
+            duration-300 transform outline outline-0 outline-themegreen overflow-hidden 
+            w-full md:w-[calc(33.33%-0.666rem)] min-w-[200px] max-w-[400px]">
             <!-- 方案名称 -->
             <div class="px-5 pt-10 pb-6 border-b border-gray-200">
               <h3 class="text-2xl font-semibold text-gray-800">

@@ -243,7 +243,7 @@
                     <SvelteMarkdown
                       {renderers}
                       source={formatMessageForMarkdown(
-                        content.toString(),
+                        message.message.content.toString(),
                       )}
                     />
                   </div>

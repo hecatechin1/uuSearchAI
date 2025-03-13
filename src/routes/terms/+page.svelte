@@ -5,12 +5,12 @@
     import {
         formatMessageForMarkdown,   
     } from "../../utils/generalUtils"; 
-    import HtmlRenderer from '../../renderers/Html.svelte';
-    import LinkRenderer from "../../renderers/LinkRenderer.svelte";
-    import EmRenderer from "../../renderers/Em.svelte";
-    import ListRenderer from "../../renderers/ListRenderer.svelte";
-    import ListItemRenderer from "../../renderers/ListItem.svelte";
-    import ParagraphRenderer from "../../renderers/Paragraph.svelte";
+    // import HtmlRenderer from '../../renderers/Html.svelte';
+    // import LinkRenderer from "../../renderers/LinkRenderer.svelte";
+    // import EmRenderer from "../../renderers/Em.svelte";
+    // import ListRenderer from "../../renderers/ListRenderer.svelte";
+    // import ListItemRenderer from "../../renderers/ListItem.svelte";
+    // import ParagraphRenderer from "../../renderers/Paragraph.svelte";
   
     let contactEmail = "contact@uugpt.com";
     let writtenDate = "2025-03-14";

@@ -10,6 +10,7 @@ export async function getPaymentAddress(plan:string,isYearly:boolean){
     let can_url = "URL_ADDRESS";
     
     let data = await createPayment(plan,suc_url,can_url,get(language));
+    console.log(data);
     if (data == 1) {
         return 1;
     }

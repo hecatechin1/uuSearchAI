@@ -73,6 +73,15 @@ export const models = [
             { model: "gemini-1.5-pro", name: "1.5 pro", price: "" },
         ],
     },
+    {
+        ai: "deepseek",
+        aiName: "Deepseek",
+        models: [
+            { model: "deepseek-chat", name: "V3", price: "" },
+            { model: "deepseek-coder", name: "coder", price: "" },
+            { model: "deepseek-reasoner", name: "R1", price: "" },
+        ],
+    },
 ];
 
 export const current_chat_ai = writable(models[0].ai);

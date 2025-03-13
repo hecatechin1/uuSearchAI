@@ -122,6 +122,7 @@
     let data = await getPaymentAddress(plan, isAnnual);
     if (data != 0) {
       showErrorMessage($t("pricing.paymentLinkError",{default: "Payment link error"}));
+      return;
     }
     window.location.href = data;
     showSuccessMessage($t("pricing.paymentProcessing",{default: "Payment processing..."}));

@@ -2,6 +2,7 @@
     import SvelteMarkdown from 'svelte-markdown';
     import { onMount } from 'svelte';
     import { page } from '$app/stores';
+    import { lang } from '../../stores/globalParamentStores'
     import {
         formatMessageForMarkdown,   
     } from "../../utils/generalUtils"; 
@@ -12,7 +13,7 @@
     // import ListItemRenderer from "../../renderers/ListItem.svelte";
     // import ParagraphRenderer from "../../renderers/Paragraph.svelte";
   
-    let contactEmail = "contact@uugpt.com";
+    let contactEmail = "contact"+"@"+"example.com";
     let writtenDate = "2025-03-14";
     let updateDate = "2025-03-14";
     

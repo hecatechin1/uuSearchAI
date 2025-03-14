@@ -184,8 +184,8 @@
     }
 
     res = await userLogin(email, password);
-    if (res != 0) {
-      showErrorMessage(getErrorMessage(res.toString()));
+    if (res.code != 0) {
+      showErrorMessage(getErrorMessage(res.msg.toString()));
       return;
     }
 
@@ -207,8 +207,8 @@
     isWaitting = true;
     let res = await userLogin(email, password);
     isWaitting = false;
-    if (res != 0) {
-      showErrorMessage(getErrorMessage(res.toString()));
+    if (res.code != 0) {
+      showErrorMessage(getErrorMessage(res.msg.toString()));
       return;
     }
     if(get(isGuest)){
@@ -249,8 +249,8 @@
     isWaitting = true;
     let res = await userLogin(email, f_password);
     isWaitting = false;
-    if (res != 0) {
-      showErrorMessage(getErrorMessage(res.toString()));
+    if (res.code != 0) {
+      showErrorMessage(getErrorMessage(res.msg.toString()));
       return;
     }
     showSuccessMessage(

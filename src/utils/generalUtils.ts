@@ -97,6 +97,11 @@ export function getErrorMessage(code: string) {
     "1000": get(t)('ERR.INVALID_EMAIL', {default: 'Invalid Email, please check your email or verify again'}),
     "101": get(t)('ERR.NO_UID', {default: 'User not found. This may be due to a server interface issue. Please log out and try again. If the problem persists, contact the administrator.'}),
     "100": get(t)('ERR.UNKNOWN', {default: 'Unknown error, please try again later'}),
+    "ERR_PASSWORD_ERROR":get(t)('ERR.PASSWORD_ERROR', {default: 'Wrong password. Please check your password and try again.'}),
+  }
+  let errmsg = ErrorMessage[code];
+  if(!errmsg){
+    return errmsg = ErrorMessage[100];
   }
   return ErrorMessage[code];
 }

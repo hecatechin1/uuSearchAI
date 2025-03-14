@@ -123,16 +123,16 @@ export async function userLogin(email:string,password:string){
     password = await hash256(password);
     let data = await login(email,password);
     if (data == 1) {
-        return 1;
+        return {code:1,msg:1};
     }
     if (data.code!= 0) {
-        return data.code;
+        return {code:data.code,msg:data.msg};
     }
     // userID.set(data.uid);
     // userEmail.set(data.email);
     // isLogin.set(true);
     getUserInfo();//重新请求用户数据，更新用户信息
-    return 0;
+    return {code:data.code,msg:data.msg};
 }
 
 export async function UpdateUserData_Settings(send:string,linebreak:string,lang:string){

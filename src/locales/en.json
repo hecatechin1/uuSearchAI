@@ -10,7 +10,8 @@
     "UNKNOW_NETWORKERROR": "Internal server error",
     "CONNECTION_FAILED": "Failed to connect to the server. Please try again later.",
     "INVALID_EMAIL": "Invalid email address. Please check your email and try again.",
-    "UNKNOWN": "An error occurred: {messageErrorType}. Please try again!"
+    "UNKNOWN": "An error occurred: {messageErrorType}. Please try again!",
+    "PASSWORD_ERROR":"Wrong password. Please check your password and try again."
   },
   "home": {
     "nav": {

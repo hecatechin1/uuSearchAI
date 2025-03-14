@@ -25,9 +25,13 @@ export async function userLoginForMaxthon(){
 }
 
 export async function getUserInfo() {
+    let uugpt_ut = getCookieValue('uugpt_ut');
+    if(uugpt_ut==null){
+       return 1; 
+    }
     let data = await getInfo();
     if (data.code != 0) {
-        return;
+        return 1;
     }
     userID.set(data.info.uid);
     if(get(userType) != 'maxthon') userEmail.set(data.info.email);
@@ -47,20 +51,10 @@ export async function getUserInfo() {
         }
 
     });
-    // isLogin.set(true);
 }
 
 export async function userLogout(){
     document.cookie = 'uugpt_ut=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=.uugpt.com; path=/;';
-
-    // let data = await logout();
-    // if (data == 1) {
-    //     return 1;
-    // }
-    // if (data.code != 0) {
-    //     return 1;
-    // }
-    // isLogin.set(false);
     return 0;
 
 }

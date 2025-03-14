@@ -119,3 +119,23 @@ export function getCookieValue(name:string) {
   return null;
 }
 
+
+export function addQueryParam(urlStr: string, key: string, value: string) {
+  // 使用正则解析 URL 各部分
+  const match = urlStr.match(
+    /^(.*?:\/\/)?([^\/?#]*)([^?#]*)(\?[^#]*)?(#.*)?$/,
+  );
+  if (!match) return urlStr;
+
+  // 解构匹配结果
+  const [_, protocol = "", host, path, search, hash = ""] = match;
+
+  // 处理查询参数
+  const params = new URLSearchParams(search ? search.slice(1) : "");
+  params.set(key, value); // 替换或添加参数
+
+  // 生成新 URL
+  const newSearch = params.toString();
+  return `${protocol}${host}${path}${newSearch ? "?" + newSearch : ""}${hash}`;
+}
+

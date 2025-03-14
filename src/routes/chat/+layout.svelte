@@ -14,27 +14,27 @@
     getUserInfo,
     userLoginForMaxthon,
   } from "../../manages/userinfoManages";
-  import { fly } from "svelte/transition";
+  // import { fly } from "svelte/transition";
   import { getCookieValue } from "../../utils/generalUtils";
 
   let loading = true;
 
-  showError.subscribe((value) => {
-    if (value) {
-      setTimeout(() => {
-        showError.set(false);
-        message.set("");
-      }, 5000);
-    }
-  });
-  showSuccess.subscribe((value) => {
-    if (value) {
-      setTimeout(() => {
-        showSuccess.set(false);
-        message.set("");
-      }, 5000);
-    }
-  });
+  // showError.subscribe((value) => {
+  //   if (value) {
+  //     setTimeout(() => {
+  //       showError.set(false);
+  //       message.set("");
+  //     }, 5000);
+  //   }
+  // });
+  // showSuccess.subscribe((value) => {
+  //   if (value) {
+  //     setTimeout(() => {
+  //       showSuccess.set(false);
+  //       message.set("");
+  //     }, 5000);
+  //   }
+  // });
 
   onMount(async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -50,7 +50,7 @@
   });
 </script>
 
-{#if $showError}
+<!-- {#if $showError}
   <div
     transition:fly={{ y: 20, duration: 500 }}
     class="z-50 fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-md transition"
@@ -70,7 +70,7 @@
   >
     <span class="block sm:inline">{$message}</span>
   </div>
-{/if}
+{/if} -->
 
 <!-- 改成默认类型吧，比如showDefault，我先用一下error试试，另外，通知显示的时长太短，加长一点，3s吧 -->
 <!-- {#if $showError}

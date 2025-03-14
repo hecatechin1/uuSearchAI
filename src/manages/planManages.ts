@@ -21,5 +21,5 @@ export async function getPaymentAddress(plan:string,callbackUrl:string){
 }
 
 export async function getPlanManageAddress(){
-    return 'https://api.uugpt.com/manage-subscription';
+    return 'https://api.uugpt.com/pay/manage-subscription';
 }

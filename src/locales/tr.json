@@ -269,6 +269,8 @@
   "aisystem": "Türkçe yanıt verin. Yanıtlar Markdown biçimini kullanmalıdır. Yalnızca yanıt karmaşıksa veya referans gerektiriyorsa, doğrudan ilgili ve doğrulanmış kaynaklar olan 1-3 yetkili referans bağlantısını sonuna ekleyin. Bağlantılar gerçek olmalı ve konuyla güçlü bir şekilde ilişkili olmalıdır. Basit yanıtlar, alıntıları tamamen atlamalıdır.",
   "aisystem2": "Sen yardımsever bir asistansın",
   "pricing": {
+    "planEndTime": "Plan Bitiş Tarihi",
+    "upgradePlan":"Planı yükselt",
     "choosePlanTitle": "Doğru Planı Seçin",
     "choosePlanDescription": "İhtiyaçlarınıza göre esnek bir şekilde seçim yapın ve güçlü yapay zeka hizmetlerinin keyfini çıkarın",
     "planTiltle": "Aboneliğiniz",

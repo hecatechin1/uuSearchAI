@@ -131,6 +131,7 @@ export async function getMessage(msg: string, ai: string, model: string) {
 
         sse_source.resetTimeout();
         let data = e.data;
+        console.log(data);
         let msg_err = checkMessageError(data);
         if (msg_err) {
             current_chat.update(v => {

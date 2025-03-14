@@ -8,7 +8,10 @@
     import { sendKey, lineBreakKey } from "../stores/settingsStores";
     import { language } from "../stores/userStores";
     import { UpdateUserData_Settings } from "../manages/userinfoManages";
-    import { userEmail, userPlanMode, userAvatar} from "../stores/userStores";
+    import { userEmail, userPlanMode, userAvatar,userPlanEndtime} from "../stores/userStores";
+    import DefaultAvatar from "../assets/login/avatar-default.svg";
+    import VipBasicIcon from "../assets/pricing/basic-icon.svg";
+    import VipProIcon from "../assets/pricing/pro-icon.svg";
 
     const keys = ["Enter", "Shift+Enter", "Ctrl+Enter"];
     let sendk ;
@@ -90,17 +93,36 @@
             <div class="setting-items">
                 <div class="setting-item-group">
                     <div class="setting-item">
-                        <span class="setting-lable">{$userEmail}</span>
+                        <div class="flex items-center space-x-3">
+                            <img 
+                                src={$userAvatar || DefaultAvatar} 
+                                class="w-8 h-8 rounded-full object-cover"
+                                alt="User Avatar"
+                            />
+                            <span class="setting-lable">{$userEmail}</span>
+                        </div>
                         <span class="text-gray-600">
+                            <a href="/pricing" target="_blank" class="hover:text-blue-600 hover:underline">
                             {#if $userPlanMode?.toLowerCase().includes('basic')}
-                                Basic
+                                    <img src={VipBasicIcon} class="w-5 h-5 mr-2 mb-1 inline" alt="" />{$t("pricing.basicPlanName")}
                             {:else if $userPlanMode?.toLowerCase().includes('pro')}
-                                Pro
+                            <img src={VipProIcon} class="w-5 h-5 mr-2 mb-1 inline" alt="" />{$t("pricing.proPlanName")} 
                             {:else}
-                                Free
+                                {$t("pricing.freePlanName")}
                             {/if}
+                            </a>
                         </span>
                     </div>
+                    {#if $userPlanMode?.toLowerCase().includes('basic') || $userPlanMode?.toLowerCase().includes('pro')}
+                        <div class="setting-item">
+                            <span class="setting-lable">{$t("pricing.planEndTime",{default:"Expiration Date"})}</span>
+                            <span class="text-gray-600">{new Date($userPlanEndtime * 1000).toLocaleDateString($locale, {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            })}</span>
+                        </div>
+                    {/if}
                 </div>
                 <div class="setting-item-group">
                     <div class="setting-item">

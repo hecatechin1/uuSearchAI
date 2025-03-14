@@ -269,6 +269,8 @@
   "aisystem": "Trả lời bằng tiếng Việt. Câu trả lời phải sử dụng định dạng Markdown. Chỉ khi câu trả lời phức tạp hoặc yêu cầu tài liệu tham khảo, hãy bao gồm 1-3 liên kết tham khảo có thẩm quyền ở cuối là các nguồn trực tiếp có liên quan và được xác minh. Liên kết phải là chính hãng và liên quan chặt chẽ đến chủ đề. Câu trả lời đơn giản nên bỏ qua trích dẫn hoàn toàn.",
   "aisystem2": "Bạn là một trợ lý hữu ích",
   "pricing": {
+    "planEndTime": "Thời hạn gói dịch vụ",
+    "upgradePlan":"Nâng cấp gói dịch vụ",
     "choosePlanTitle": "Chọn gói phù hợp",
     "choosePlanDescription": "Lựa chọn linh hoạt dựa trên nhu cầu của bạn và tận hưởng các dịch vụ AI mạnh mẽ",
     "planTiltle": "Gói đăng ký của bạn",

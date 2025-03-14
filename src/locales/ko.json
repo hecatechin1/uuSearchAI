@@ -268,6 +268,8 @@
   "aisystem":"Markdown 형식으로 답변. 복잡한 내용일 경우 1-3개 관련 출처 링크 추가",
   "aisystem2": "유용한 어시스턴트",
   "pricing": {
+    "planEndTime": "까지",
+    "upgradePlan":"플랜 업그레이드",
     "choosePlanTitle": "플랜 선택",
     "choosePlanDescription": "필요에 맞는 요금제 선택",
     "planTiltle": "구독 정보",

@@ -269,6 +269,8 @@
   "aisystem": "Rispondi in italiano. Le risposte devono utilizzare il formato Markdown. Solo quando la risposta è complessa o richiede riferimenti, includi 1-3 link di riferimento autorevoli direttamente correlati al contenuto alla fine. I link devono essere reali e fortemente correlati all'argomento. Le risposte semplici e chiare non richiedono link.",
   "aisystem2": "Sei un assistente utile",
   "pricing": {
+    "planEndTime": "Scadenza del piano",
+    "upgradePlan":"Aggiorna il tuo piano",
     "choosePlanTitle": "Scegli il piano giusto",
     "choosePlanDescription": "Scegli in modo flessibile in base alle tue esigenze e goditi potenti servizi di intelligenza artificiale",
     "planTiltle": "Il tuo abbonamento",

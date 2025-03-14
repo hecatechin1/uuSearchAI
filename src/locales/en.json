@@ -269,6 +269,8 @@
     "aisystem":"Respond in English. Answers must use Markdown format. Only when the answer is complex or requires references, include 1-3 authoritative reference links at the end that are directly relevant and verified sources. Links must be genuine and strongly related to the topic. Simple answers should omit citations entirely.",
     "aisystem2": "You are a helpful assistant",
     "pricing": {
+      "planEndTime": "Expire Time",
+      "upgradePlan":"Upgrade Now",
       "choosePlanTitle": "Choose the Right Plan",
       "choosePlanDescription": "Choose flexibly based on your needs and enjoy powerful AI services",
       "planTiltle": "Your Subscription",

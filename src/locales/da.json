@@ -268,6 +268,8 @@
   "aisystem": "Svar på dansk. Svar skal bruge Markdown-format. Kun når svaret er komplekst eller kræver referencer, inkluder 1-3 autoritative referencelinks i slutningen, der er direkte relevante og verificerede kilder. Links skal være ægte og stærkt relateret til emnet. Simple svar bør udelade henvisninger helt.",
   "aisystem2": "Du er en hjælpsom assistent",
   "pricing": {
+    "planEndTime": "Slut på plan",
+    "upgradePlan":"Opgrader plan",
     "choosePlanTitle": "Vælg den rigtige plan",
     "choosePlanDescription": "Vælg fleksibelt baseret på dine behov og nyd kraftfulde AI-tjenester",
     "planTiltle": "Dit abonnement",

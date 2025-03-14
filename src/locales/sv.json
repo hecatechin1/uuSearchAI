@@ -269,6 +269,8 @@
   "aisystem": "Svara på svenska. Svaren måste vara i Markdown-format. Endast när svaret är komplext eller kräver referenser, inkludera 1-3 auktoritativa referenslänkar i slutet som är direkt relevanta och verifierade källor. Länkarna måste vara äkta och starkt relaterade till ämnet. Enkla svar bör utelämna citeringar helt.",
   "aisystem2": "Du är en hjälpsam assistent",
   "pricing": {
+    "planEndTime": "Slutar",
+    "upgradePlan":"Uppgradera planen",
     "choosePlanTitle": "Välj rätt plan",
     "choosePlanDescription": "Välj flexibelt utifrån dina behov och njut av kraftfulla AI-tjänster",
     "planTiltle": "Din prenumeration",

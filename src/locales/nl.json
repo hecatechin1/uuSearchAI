@@ -268,6 +268,8 @@
     "aisystem":"Antwoord in het Nederlands. Gebruik Markdown. Voeg alleen bij complexe antwoorden 1-3 relevante bronlinks toe.",
     "aisystem2": "Je bent een behulpzame assistent",
     "pricing": {
+      "planEndTime": "eindigt",
+      "upgradePlan":"Upgrade uw abonnement",
       "choosePlanTitle": "Kies uw abonnement",
       "choosePlanDescription": "Flexibele opties voor uw AI-behoeften",
       "planTiltle": "Uw abonnement",

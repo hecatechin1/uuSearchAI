@@ -269,6 +269,8 @@
   "aisystem": "Responda em português. As respostas devem usar o formato Markdown. Somente quando a resposta for complexa ou exigir referências, inclua 1-3 links de referência confiáveis no final que sejam diretamente relevantes e fontes verificadas. Os links devem ser genuínos e fortemente relacionados ao tópico. Respostas simples devem omitir citações completamente.",
   "aisystem2": "Você é um assistente útil",
   "pricing": {
+    "planEndTime": "Fim do Plano",
+    "upgradePlan":"Atualizar Plano",
     "choosePlanTitle": "Escolha o Plano Certo",
     "choosePlanDescription": "Escolha de forma flexível com base em suas necessidades e desfrute de serviços de IA poderosos",
     "planTiltle": "Sua Assinatura",

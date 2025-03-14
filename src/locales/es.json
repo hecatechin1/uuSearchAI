@@ -269,6 +269,8 @@
   "aisystem": "Responda en español. Las respuestas deben usar el formato Markdown. Solo cuando la respuesta sea compleja o requiera referencias, incluya 1-3 enlaces de referencia autorizados al final que sean directamente relevantes y fuentes verificadas. Los enlaces deben ser genuinos y estar estrechamente relacionados con el tema. Las respuestas simples deben omitir las citas por completo.",
   "aisystem2": "Eres un asistente útil",
   "pricing": {
+    "planEndTime": "Fecha de expiración",
+    "upgradePlan":"Actualizar ahora",
     "choosePlanTitle": "Elija el plan adecuado",
     "choosePlanDescription": "Elija de forma flexible según sus necesidades y disfrute de potentes servicios de IA",
     "planTiltle": "Su suscripción",

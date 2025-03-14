@@ -28,6 +28,7 @@
   import gptIcon from "../assets/gpt.svg";
   import ClaudeIcon from "../assets/claude.svg";
   import GeminiIcon from "../assets/gemini.svg";
+  import DeepseekIcon from "../assets/deepseek.svg";
   import toggleIcon from "../assets/toggle.svg";
   import errorIcon from "../assets/pricing/failure.svg";
   //导入通用方法

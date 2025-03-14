@@ -269,6 +269,8 @@
   "aisystem": "Antworten Sie auf Deutsch. Antworten müssen im Markdown-Format erfolgen. Fügen Sie nur dann 1-3 maßgebliche Referenzlinks am Ende hinzu, die direkt relevant und verifizierte Quellen sind, wenn die Antwort komplex ist oder Referenzen erfordert. Links müssen echt und eng mit dem Thema verbunden sein. Einfache Antworten sollten Zitate ganz weglassen.",
   "aisystem2": "Sie sind ein hilfreicher Assistent",
   "pricing": {
+    "planEndTime": "Abonnement endet am",
+    "upgradePlan":"Abonnement aktualisieren",
     "choosePlanTitle": "Wählen Sie den passenden Plan",
     "choosePlanDescription": "Wählen Sie flexibel nach Ihren Bedürfnissen und genießen Sie leistungsstarke KI-Dienste",
     "planTiltle": "Ihr Abonnement",

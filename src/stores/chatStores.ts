@@ -42,13 +42,13 @@ export const models = [
         ai: "openai",
         aiName: "GPT",
         models: [
-            { model: "gpt-4o-mini", name: "4o-mini", price: "免费" },
-            { model: "gpt-4o", name: "4o", price: "推荐" },
+            { model: "gpt-4o-mini", name: "4o-mini", price: "Free" },
+            { model: "gpt-4o", name: "4o", price: "" },
             { model: "gpt-4", name: "4", price: "" },
             { model: "gpt-3.5-turbo", name: "3.5-turbo", price: "" },
-            { model: "o1", name: "o1", price: "限量" },
+            { model: "o1", name: "o1", price: "" },
             { model: "o1-mini", name: "o1-mini", price: "" },
-            { model: "o3-mini", name: "o3-mini", price: "推荐" }
+            { model: "o3-mini", name: "o3-mini", price: "" }
         ],
     },
     {
@@ -60,7 +60,7 @@ export const models = [
             { model: "claude-3-5-haiku-latest", name: "3.5 haiku", price: "" },
             { model: "claude-3-5-sonnet-latest", name: "3.5 sonnet", price: "" },
             { model: "claude-3-7-sonnet-latest", name: "3.7 sonnet", price: "" },
-            { model: "claude-3-opus-latest", name: "3 opus", price: "限量" }
+            { model: "claude-3-opus-latest", name: "3 opus", price: "" }
         ],
     },
     {
@@ -78,7 +78,6 @@ export const models = [
         aiName: "Deepseek",
         models: [
             { model: "deepseek-chat", name: "V3", price: "" },
-            { model: "deepseek-coder", name: "coder", price: "" },
             { model: "deepseek-reasoner", name: "R1", price: "" },
         ],
     },

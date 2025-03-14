@@ -4,6 +4,7 @@
   import GPTIcon from "../assets/gpt.svg";
   import ClaudeIcon from "../assets/claude.svg";
   import GeminiIcon from "../assets/gemini.svg";
+  import DeepseekIcon from "../assets/deepseek.svg";
   import { models } from "../stores/chatStores";
   export let top = 0;
   export let left = 0;
@@ -16,6 +17,7 @@
     openai: GPTIcon,
     anthropic: ClaudeIcon,
     google: GeminiIcon,
+    deepseek: DeepseekIcon,
   };
   let openSubMenu: string = "";
 

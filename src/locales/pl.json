@@ -269,6 +269,8 @@
   "aisystem": "Odpowiedz po polsku. Odpowiedzi muszą być w formacie Markdown. Tylko wtedy, gdy odpowiedź jest złożona lub wymaga odniesień, dołącz na końcu 1-3 autorytatywne linki referencyjne, które są bezpośrednio istotne i zweryfikowane. Linki muszą być autentyczne i silnie związane z tematem. Proste odpowiedzi powinny całkowicie pomijać cytaty.",
   "aisystem2": "Jesteś pomocnym asystentem",
   "pricing": {
+    "planEndTime": "do",
+    "upgradePlan":"Ulepsz teraz",
     "choosePlanTitle": "Wybierz odpowiedni plan",
     "choosePlanDescription": "Wybieraj elastycznie w oparciu o swoje potrzeby i ciesz się potężnymi usługami AI",
     "planTiltle": "Twoja subskrypcja",

@@ -269,6 +269,8 @@
   "aisystem": "Vastaa suomeksi. Vastausten on käytettävä Markdown-muotoa. Vain kun vastaus on monimutkainen tai vaatii viitteitä, sisällytä loppuun 1–3 arvovaltaista viitelinkkiä, jotka ovat suoraan relevantteja ja vahvistettuja lähteitä. Linkkien on oltava aitoja ja liittyä vahvasti aiheeseen. Yksinkertaisista vastauksista tulee jättää viittaukset kokonaan pois.",
   "aisystem2": "Olet avulias avustaja",
   "pricing": {
+    "planEndTime": "tilaus päättyy",
+    "upgradePlan":"Päivitä tilauksesi",
     "choosePlanTitle": "Valitse sopiva tilaus",
     "choosePlanDescription": "Valitse joustavasti tarpeidesi mukaan ja nauti tehokkaista tekoälypalveluista",
     "planTiltle": "Tilauksesi",

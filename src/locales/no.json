@@ -269,6 +269,8 @@
   "aisystem": "Svar på norsk. Svar må bruke Markdown-format. Kun når svaret er komplekst eller krever referanser, inkluder 1-3 autoritative referanselenker på slutten som er direkte relevante og verifiserte kilder. Lenker må være ekte og sterkt relatert til emnet. Enkle svar bør utelate henvisninger helt.",
   "aisystem2": "Du er en hjelpsom assistent",
   "pricing": {
+    "planEndTime": "Slutt på",
+    "upgradePlan":"Oppgrader plan",
     "choosePlanTitle": "Velg riktig plan",
     "choosePlanDescription": "Velg fleksibelt basert på dine behov og nyt kraftige AI-tjenester",
     "planTiltle": "Ditt abonnement",

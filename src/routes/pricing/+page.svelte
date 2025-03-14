@@ -190,14 +190,8 @@
 </script>
 
 {#if isLoaded}
-  {#if checkingPayment}
-    <h1>支付结果检查中，请耐心等待……</h1>
-    <Notification
-      content={noti_content}
-      show_confirm={show_confirm}
-      on:confirm={noti_confirm}
-    />
-  {:else}
+
+
     <div class="min-h-screen bg-gray-50 py-12">
       <div class="max-w-6xl mx-auto px-4">
         <!-- 页面主标题与副标题 -->
@@ -598,7 +592,15 @@
         </div>
       </div>
     </div>
-  {/if}
+
+
 {:else}
   <div>Loading……</div>
+{/if}
+{#if checkingPayment}
+<Notification
+  content={noti_content}
+  show_confirm={show_confirm}
+  on:confirm={noti_confirm}
+/>
 {/if}

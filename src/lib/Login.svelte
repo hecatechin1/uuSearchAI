@@ -311,7 +311,7 @@
 <div  class={isPage? "" : "login-viewbox"}>
   <div class="flex items-center justify-center min-h-screen">
     <div
-      class="bg-white p-6 md:p-10 rounded-lg shadow-md w-full h-screen md:w-auto md:min-w-[32rem] md:max-h-[32rem] relative"
+      class="bg-white p-6 md:p-10 rounded-lg shadow-md w-full h-screen max-w-[100vw] md:w-[32rem] md:max-w-[32rem] md:min-w-[32rem] md:max-h-[32rem] relative"
     >
       <div>
         <!-- 关闭按钮 -->
@@ -356,9 +356,15 @@
                   >{$t("login.agreeTerms",{default:"I agree with the"})}
                   <a
                     class="hover:text-blue-700 hover:underline"
-                    href="https://www.maxthon.com/zh/docs/eula/"
+                    href="./terms"
+                    target="_blank"
                     >{$t("login.serviceTermsLink",{default:"EULA"})}</a
-                  ></label
+                  > & <a
+                  class="hover:text-blue-700 hover:underline"
+                  href="./privacy"
+                  target="_blank"
+                  >{$t("home.footer.privacy",{default:"Privacy Policy"})}</a
+                ></label
                 >
               </div>
               <div class="w-full h-10"></div>
@@ -603,7 +609,7 @@
                 {$t("login.resetPasswordTitle",{default:"Reset Password"})}
               </span>
             </div>
-            <div class="mt-10">
+            <div class="mt-4">
               <form>
                 <p class="mb-2">
                   {$t('login.enterVerificationCode', { values:{ email:email} })}
@@ -614,7 +620,7 @@
                   disabled={sendedVcode}
                   on:click={handleSendForgetPasswordVscode}
                   type="button"
-                  class="text-themegreen hover:underline py-2 mb-5"
+                  class="text-themegreen hover:underline py-2 mb-2"
                 >
                   {sendedVcode
                     ? $t('login.resendVerificationCode',{ values:{ timeLeft: timeLeft } } )
@@ -673,7 +679,6 @@
                       placeholder={$t("login.resetPasswordPlaceholder",{default:"Reset Password"})}
                     />
                   {/if}
-
                   <!-- 右侧显示/隐藏密码图标 -->
                   <button
                     on:click={() => {
@@ -755,7 +760,7 @@
                     {/if}
                   </button>
                 </div>
-
+                <div class="w-full h-6"></div>
                 <button
                   disabled={isWaitting}
                   on:click={forgetPasswordSubmit}

@@ -29,7 +29,7 @@
     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
   >
     <div
-      class="bg-white p-6 md:p-10 rounded-lg shadow-md w-full h-screen md:w-auto md:min-w-[32rem] md:max-h-[32rem] relative"
+      class="bg-white p-6 md:p-6 rounded-lg shadow-md w-[80vw] md:w-auto md:min-w-[32rem] md:max-h-[32rem] relative"
     >
       <div class="flex justify-between items-center">
         <h2 class="text-xl font-bold">{title}</h2>

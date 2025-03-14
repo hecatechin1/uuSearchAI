@@ -8,6 +8,7 @@
     import { sendKey, lineBreakKey } from "../stores/settingsStores";
     import { language } from "../stores/userStores";
     import { UpdateUserData_Settings } from "../manages/userinfoManages";
+    import { userEmail, userPlanMode, userAvatar} from "../stores/userStores";
 
     const keys = ["Enter", "Shift+Enter", "Ctrl+Enter"];
     let sendk ;
@@ -70,20 +71,37 @@
 <div class="fixed z-50 inset-0 animate-fade-in">
     <div class="flex items-center justify-center min-h-screen">
         <div
-            class="w-full sm:w-auto bg-primary text-gray-900 rounded-lg shadow-xl py-8 relative max-h-[90vh] border"
+            class="w-full sm:w-auto bg-primary text-gray-900 rounded-xl shadow-2xl py-8 relative max-h-[90vh] outline outline-[0.5px] outline-gray-300
+            max-w-[100vw] md:w-[40rem] md:max-w-[40rem] md:min-w-[40rem] 
+            max-sm:w-screen max-sm:h-screen max-sm:max-h-none rounded-none max-sm:shadow-none max-sm:outline-none max-sm:rounded-none"
         >
             <button
-                class="absolute top-0 right-0 mt-2 mr-2 text-gray-500 hover:text-gray-600"
+                class="absolute top-2 right-2 mt-2 mr-2 text-gray-500 hover:text-gray-600 rounded-md hover:bg-gray-100 transition-colors duration-200 p-1
+                    max-sm:top-0 max-sm:right-0 max-sm:mt-1 max-sm:mr-1 max-sm:p-2"
                 on:click={handleSaveAndClose}
             >
                 <img class="icon-white w-6" alt="Close" src={CloseIcon} />
             </button>
-            <h2 class="text-xl font-bold mb-4 px-4 sm:px-8 mt-3">
+            <h2 class="text-xl font-bold mb-4 px-4 sm:px-8 mt-3 mb-3">
                 {$t("settings.title")}
             </h2>
             <!-- Language Selection -->
 
             <div class="setting-items">
+                <div class="setting-item-group">
+                    <div class="setting-item">
+                        <span class="setting-lable">{$userEmail}</span>
+                        <span class="text-gray-600">
+                            {#if $userPlanMode?.toLowerCase().includes('basic')}
+                                Basic
+                            {:else if $userPlanMode?.toLowerCase().includes('pro')}
+                                Pro
+                            {:else}
+                                Free
+                            {/if}
+                        </span>
+                    </div>
+                </div>
                 <div class="setting-item-group">
                     <div class="setting-item">
                         <span class="setting-lable"
@@ -211,19 +229,24 @@
                         <span class="setting-lable"
                             >{$t("settings.currentV")}</span
                         >
-                        <span class="text-gray-600">Version 1.0.0</span>
+                        <span class="text-gray-600">Version 1.1.0</span>
                     </div>
                     <div class="setting-item">
                         <span class="setting-lable"
                             >{$t("settings.termsText")}</span
                         >
+                        <span>
                         <a
+                            class="hover:text-blue-700 hover:underline"
+                            href="./terms"
                             target="_blank"
-                            href={$t("settings.termsLink")}
-                            class="text-gray-600 hover:underline break-all"
-                        >
-                            {$t("settings.termsLink")}
-                        </a>
+                            >{$t("login.serviceTermsLink",{default:"EULA"})}</a
+                        > & <a
+                        class="hover:text-blue-700 hover:underline"
+                        href="./privacy"
+                        target="_blank"
+                        >{$t("home.footer.privacy",{default:"Privacy Policy"})}</a
+                        ></span>
                     </div>
                     <div class="setting-item">
                         <span class="setting-lable"
@@ -302,6 +325,15 @@
 
     .setting-item select {
         @apply bg-secondary rounded-lg p-1 min-w-[6rem] border border-themegreyborder;
+        background-image: url("../assets/toggle.svg"); 
+        background-repeat: no-repeat;
+        background-position: right 0.5rem center; 
+        background-size: 10px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        padding-right: 2.5rem;
+        padding-left: 0.5rem;
     }
 
     .setting-lable {

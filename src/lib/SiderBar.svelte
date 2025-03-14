@@ -390,7 +390,7 @@
                         >
                           <span class="flex items-center gap-2 p-2">
                             <div
-                              class="relative grow overflow-hidden whitespace-nowrap"
+                              class="relative grow overflow-hidden whitespace-nowrap min-w-0 text-ellipsis max-w-[196px]"
                             >
                               {$chat_list[chatIndex].name}
                               <div
@@ -504,7 +504,7 @@
                   <div class="flex items-center">
                     <button
                       on:click={showLoginBox}
-                      class="submit-edit rounded-lg px-3 py-1 text-white bg-themegreen hover:bg-themegreenhover hover:text-white h-5}"
+                      class="submit-edit rounded-lg px-3 py-1 text-white bg-themegreen hover:bg-themegreenhover hover:text-white h-5"
                       >{$t("login.login")}</button
                     >
                   </div>

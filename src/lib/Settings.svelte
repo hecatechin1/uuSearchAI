@@ -50,15 +50,18 @@
 <div class="fixed z-50 inset-0 animate-fade-in">
   <div class="flex items-center justify-center min-h-screen">
     <div
-      class="w-full sm:w-auto bg-primary text-gray-900 rounded-lg shadow-xl py-8 relative max-h-[90vh] border"
+      class="w-full sm:w-auto bg-primary text-gray-900 rounded-xl shadow-2xl py-8 relative max-h-[90vh] outline outline-[0.5px] outline-gray-300
+                max-w-[100vw] md:w-[40rem] md:max-w-[40rem] md:min-w-[40rem] 
+                max-sm:w-screen max-sm:h-screen max-sm:max-h-none rounded-none max-sm:shadow-none max-sm:outline-none max-sm:rounded-none"
     >
       <button
-        class="absolute top-0 right-0 mt-2 mr-2 text-gray-500 hover:text-gray-600"
+        class="absolute top-2 right-2 mt-2 mr-2 text-gray-500 hover:text-gray-600 rounded-md hover:bg-gray-100 transition-colors duration-200 p-1
+                    max-sm:top-0 max-sm:right-0 max-sm:mt-1 max-sm:mr-1 max-sm:p-2"
         on:click={handleSaveAndClose}
       >
         <img class="icon-white w-6" alt="Close" src={CloseIcon} />
       </button>
-      <h2 class="text-xl font-bold mb-4 px-4 sm:px-8 mt-3">
+      <h2 class="text-xl font-bold mb-4 px-4 sm:px-8 mt-3 mb-3">
         {$t("settings.title")}
       </h2>
       <!-- Language Selection -->

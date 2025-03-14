@@ -419,7 +419,7 @@
                         {$t("pricing.yearly")}
                       </p>
                       <p>
-                        USD ${pricing.basic.annualSubsequent} /{$t(
+                        USD ${pricing.basic.annualSubsequent}{$t(
                           "pricing.perMonth",
                         )}
                       </p>

@@ -137,9 +137,6 @@ export async function getMessage(msg: string, ai: string, model: string) {
         }
     }
 
-    const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-    await sleep(10000);
-
     sse_source = await sendMessage(msg, pid, ai, model);
     sse_source.addEventListener("message", (e: any) => {
 

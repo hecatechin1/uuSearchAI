@@ -107,6 +107,7 @@
   let input: string = "";
   let textAreaElement: any;
   let editTextArea: any;
+  let ALLOWED_ORIGIN = "https://www.maxask.com"
 
   let pdfOutput = "";
 
@@ -144,10 +145,10 @@
     setupMutationObserver();
 
     window.addEventListener("message", (event) => {
-      // console.log(event.data);
-      if (event.source !== window.parent) {
-        return;
-      }
+      if (event.origin !== ALLOWED_ORIGIN || typeof(event.data)!== "string") {
+      console.warn('Ignored message from untrusted origin:', event.origin);
+      return;
+    }
       input = event.data;
       processMessage();
     });

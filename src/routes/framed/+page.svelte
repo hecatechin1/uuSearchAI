@@ -285,6 +285,7 @@
   }
 
   function processMessage() {
+    console.log('processMessage',input);
     sendRegularMessage(input);
     input = "";
     textAreaElement.style.height = "1.5rem"; // Reset the height after sending

@@ -66,7 +66,6 @@
   let retrybtn;
 
   let deviceLimit = getMaxDeviceByPlan(); //可用设备数，从用户data里读取，todo
-  console.log(deviceLimit);
 
   let isShowSelector = false; //是否显示模型选择器
   let isShowDeleteMenu = false;

@@ -26,6 +26,7 @@
     isLoading_messagesList
   } from "../stores/globalParamentStores";
   import { guest_signup } from "../manages/userinfoManages";
+    import { ssrModuleExportsKey } from "vite/runtime";
 
   let dispatch = createEventDispatcher();
   let isLoading = false;
@@ -55,6 +56,7 @@
   });
 
   afterUpdate(() => {
+    console.log(get(current_chat).length)
     if (shouldScroll && container) {
       container.scrollTop = container.scrollHeight;
     }
@@ -126,14 +128,8 @@
   async function processMessage() {
     let msg = input;
     input = "";
-    //判断是否登录，如果没有登录则先注册未非登录用户
-    if (!get(isLogin) && !get(isGuest)) {
-      let data = await guest_signup();
-      if (data != 0) {
-        showErrorMessage($t("ERR.CONNECTION_FAILED",{default:"Failed to connect to server, try again later"}));
-        return;
-      }
-    }
+
+
     getMessage(msg, get(current_chat_ai), get(current_chat_model));
     textAreaElement.style.height = "1.6rem"; // Reset the height after sending
     textAreaElement.style.lineHeight = "1.2rem";

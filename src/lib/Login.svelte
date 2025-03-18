@@ -61,7 +61,7 @@
   let f_password = '';
   let f_confirmPassword = '';
   let f_verifyCode = '';
-  let isMxUser = false;
+  let isMaxthon = false;//判断是否是maxthon浏览器
   loginPageName.subscribe((value) => {
     password = "";
     confirmPassword = "";
@@ -72,6 +72,7 @@
 
   onMount(async () => {
 
+    if (typeof(maxthon) === 'undefined') {	isMaxthon = false;  } else {	isMaxthon = true; }
     if(isResetPassword){
       email = get(userEmail)
       forgotPassword = true;
@@ -382,7 +383,7 @@
                   ></span>{/if}
               </button>
             </form>
-
+            {#if isMaxthon}
             <div class="flex items-center my-6">
               <hr class="flex-grow border-gray-300" />
               <span class="px-4 text-gray-500 text-sm">{$t("login.or",{default:"or"})}</span>
@@ -399,7 +400,7 @@
                 {$t("login.loginWithGoogle")}
               </button>
             </div> -->
-
+            
             <div class="text-center">
               <button
                 on:click={handleMaxthonLogin}
@@ -409,6 +410,8 @@
                 {$t("login.loginWithMaxthon",{default:"Continue with Maxthon"})}
               </button>
             </div>
+            {/if}
+
           </div>
         {/if}
 

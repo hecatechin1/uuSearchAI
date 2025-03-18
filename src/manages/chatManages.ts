@@ -1,9 +1,10 @@
 import { getChatList, getMessagesList, sendMessage, deleteChat, updateChatInfo, deleteMessage } from "../services/chatServices";
 import { chat_list, current_chat, current_chat_id, current_message, current_chat_ai, current_chat_model, getIndexByCid, defaultaimodel, } from "../stores/chatStores";
 import { userID, language } from "../stores/userStores"
-import { isNewchat, isStreaming, showSidebar,isLoading_chatList, isLoading_messagesList } from "../stores/globalParamentStores"
+import { isNewchat, isStreaming, showSidebar, isLoading_chatList, isLoading_messagesList, isLogin, isGuest, showErrorMessage } from "../stores/globalParamentStores"
+import { guest_signup } from '../manages/userinfoManages'
 import { get } from 'svelte/store';
-import { t } from "svelte-i18n"; 
+import { t } from "svelte-i18n";
 
 let sse_source: any = null;
 
@@ -21,7 +22,7 @@ export async function getChatListData() {
     let data = await getChatList();
     //判断每个conversation距离今天差几天，然后分组显示
     const now = new Date();
-    const today:any = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const today: any = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     if (data == 1) {
         return 1;
     }
@@ -33,7 +34,7 @@ export async function getChatListData() {
     for (let i = r_clist.length - 1; i >= 0; i--) {
         let c = r_clist[i];
         let d = new Date(c.tm);
-        let date:any = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        let date: any = new Date(d.getFullYear(), d.getMonth(), d.getDate());
         const dayDiff = Math.floor((today - date) / (1000 * 60 * 60 * 24));
         clist.push({
             cid: c.cid,
@@ -126,6 +127,19 @@ export async function getMessage(msg: string, ai: string, model: string) {
         });
         return value;
     });
+    //判断是否登录，如果没有登录则先注册未非登录用户
+    if (!get(isLogin) && !get(isGuest)) {
+        let data = await guest_signup();
+        if (data != 0) {
+            isStreaming.set(false);
+            showErrorMessage(get(t)("ERR.CONNECTION_FAILED", { default: "Failed to connect to server, try again later" }));
+            return;
+        }
+    }
+
+    const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+    await sleep(10000);
+
     sse_source = await sendMessage(msg, pid, ai, model);
     sse_source.addEventListener("message", (e: any) => {
 
@@ -178,7 +192,7 @@ export async function getMessage(msg: string, ai: string, model: string) {
     });
     sse_source.addEventListener("error", (e: any) => {
         current_chat.update(v => {
-            v[v.length - 1].message.content = v[v.length - 1].message.content.replace(/●​+$/, ''); 
+            v[v.length - 1].message.content = v[v.length - 1].message.content.replace(/●​+$/, '');
             v[v.length - 1].error_code = 'ERR_UNKNOW_NETWORKERROR';
             return v
         });
@@ -253,7 +267,7 @@ export async function changeChatModel(ai: string, model: string) {
     if (data.code != 0) {
         return data.code;
     }
-    let index:any = getIndexByCid(get(current_chat_id));
+    let index: any = getIndexByCid(get(current_chat_id));
     chat_list.update(v => {
         v[index].ai = ai;
         v[index].model = model;
@@ -263,7 +277,7 @@ export async function changeChatModel(ai: string, model: string) {
 }
 
 export async function renameChat(cid: number, name: string) {
-    let index:any = getIndexByCid(cid);
+    let index: any = getIndexByCid(cid);
     let oldName = get(chat_list)[index].name;
 
     chat_list.update(v => {

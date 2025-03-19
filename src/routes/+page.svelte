@@ -502,12 +502,12 @@
         >
           {$t('home.footer.changelog')}
         </a>
-        <a
+        <!-- <a
           href="/faq"
           class="text-sm text-white/70 hover:text-white transition-colors"
         >
           {$t('home.footer.faq')}
-        </a>
+        </a> -->
         <a
           href="/terms"
           class="text-sm text-white/70 hover:text-white transition-colors"

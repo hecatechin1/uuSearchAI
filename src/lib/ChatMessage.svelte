@@ -29,6 +29,7 @@
   import ClaudeIcon from "../assets/claude.svg";
   import GeminiIcon from "../assets/gemini.svg";
   import DeepseekIcon from "../assets/deepseek.svg";
+  import QwenIcon from "../assets/qwen.svg";
   import toggleIcon from "../assets/toggle.svg";
   import errorIcon from "../assets/pricing/failure.svg";
   //导入通用方法
@@ -379,7 +380,11 @@
                         ? gptIcon
                         : ast_ai == "Claude"
                           ? ClaudeIcon
-                          : GeminiIcon}
+                          : ast_ai == "Deepseek"  
+                            ? DeepseekIcon
+                            : ast_ai == "Qwen"
+                              ? QwenIcon
+                              : GeminiIcon}
                     />
                     <span class="btn-text">{ast_ai} {ast_model}</span>
                     <span class="h-2 w-2">

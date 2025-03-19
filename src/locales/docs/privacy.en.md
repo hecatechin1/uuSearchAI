@@ -118,4 +118,4 @@ It is recommended that you review this Privacy Policy periodically to be informe
 
 If you have any questions about this Privacy Policy, you can contact us at:
 
-Email: {contactEmail}
+{contactEmail}

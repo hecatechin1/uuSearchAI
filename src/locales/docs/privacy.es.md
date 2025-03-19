@@ -118,4 +118,4 @@ Le recomendamos que revise periódicamente esta Política de Privacidad para est
 
 Si tiene alguna pregunta acerca de esta Política de Privacidad, puede contactarnos en:
 
-Correo electrónico: {contactEmail}
+{contactEmail}

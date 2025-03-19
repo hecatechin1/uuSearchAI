@@ -42,10 +42,8 @@ export const models = [
         ai: "openai",
         aiName: "GPT",
         models: [
-            { model: "gpt-4o-mini", name: "4o-mini", price: "Free" },
+            { model: "gpt-4o-mini", name: "4o-mini", price: "Bacic" },
             { model: "gpt-4o", name: "4o", price: "" },
-            { model: "gpt-4", name: "4", price: "" },
-            { model: "gpt-3.5-turbo", name: "3.5-turbo", price: "" },
             { model: "o1", name: "o1", price: "" },
             { model: "o1-mini", name: "o1-mini", price: "" },
             { model: "o3-mini", name: "o3-mini", price: "" }
@@ -55,32 +53,36 @@ export const models = [
         ai: "anthropic",
         aiName: "Claude",
         models: [
-            { model: "claude-3-haiku-20240307", name: "3 haiku", price: "" },
-            { model: "claude-3-sonnet-20240229", name: "3 sonnet", price: "" },
-            { model: "claude-3-5-haiku-latest", name: "3.5 haiku", price: "" },
-            { model: "claude-3-5-sonnet-latest", name: "3.5 sonnet", price: "" },
-            { model: "claude-3-7-sonnet-latest", name: "3.7 sonnet", price: "" },
-            { model: "claude-3-opus-latest", name: "3 opus", price: "" }
+            { model: "claude-3.5-haiku", name: "3.5 haiku", price: "" },
+            { model: "claude-3.5-sonnet", name: "3.5 sonnet", price: "" },
+            { model: "claude-3.7-sonnet", name: "3.7 sonnet", price: "" },
         ],
     },
     {
         ai: "google",
         aiName: "Gemini",
         models: [
-            { model: "gemini-2.0-flash", name: "2.0 flash", price: "" },
-            { model: "gemini-2.0-flash-lite", name: "2.0 flash lite", price: "" },
-            { model: "gemini-1.5-flash", name: "1.5 flash", price: "" },
-            { model: "gemini-1.5-pro", name: "1.5 pro", price: "" },
+            { model: "gemini-2.0-flash-lite-001", name: "2.0 flash lite", price: "Bacic" },
+            { model: "gemini-flash-1.5", name: "1.5 flash", price: "Bacic" },
+            { model: "gemini-2.0-flash-001", name: "2.0 flash", price: "Bacic" },
+            { model: "gemini-pro-1.5", name: "1.5 pro", price: "" },
         ],
     },
     {
         ai: "deepseek",
         aiName: "Deepseek",
         models: [
-            { model: "deepseek-chat", name: "V3", price: "" },
-            { model: "deepseek-reasoner", name: "R1", price: "" },
+            { model: "deepseek-chat:free", name: "V3", price: "Bacic" },
+            { model: "deepseek-r1:free", name: "R1", price: "Bacic" },
         ],
     },
+    {
+        ai: "qwen",
+        aiName: "Qwen",
+        models: [
+            { model: "qwen-plus", name: "Plus", price: "" }
+        ]
+    }
 ];
 
 export const current_chat_ai = writable(models[0].ai);

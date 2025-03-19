@@ -7,7 +7,7 @@ import {createPayment} from "../services/planServices"
 import {addQueryParam} from "../utils/generalUtils"
 
 export async function getPaymentAddress(plan:string,callbackUrl:string){
-    plan = plan + "_test";
+    // plan = plan + "_test";
     let suc_url = addQueryParam(callbackUrl,'payback','0');
     let can_url = addQueryParam(callbackUrl,'payback','1');
     let data = await createPayment(plan,suc_url,can_url,get(language));

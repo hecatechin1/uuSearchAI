@@ -5,6 +5,7 @@
   import ClaudeIcon from "../assets/claude.svg";
   import GeminiIcon from "../assets/gemini.svg";
   import DeepseekIcon from "../assets/deepseek.svg";
+  import QwenIcon from "../assets/qwen.svg";
   import { models } from "../stores/chatStores";
   export let top = 0;
   export let left = 0;
@@ -18,6 +19,7 @@
     anthropic: ClaudeIcon,
     google: GeminiIcon,
     deepseek: DeepseekIcon,
+    qwen: QwenIcon,
   };
   let openSubMenu: string = "";
 

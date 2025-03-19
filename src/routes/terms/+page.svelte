@@ -5,7 +5,7 @@
   // import { get } from "svelte/store";
 
 
-  let contactEmail = "contact@example.com";
+  let contactEmail = "https://forms.gle/KJ58Ggm3Reytv3Cm8";
   contactEmail = contactEmail.replace(
     /(\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b)/g,
     '`$1`'
@@ -28,7 +28,7 @@
         .replace(/{updateDate}/g, updateDate);
     } catch (e) {
       console.error("Failed to load markdown:", e);
-      content = `# Error\n加载失败：${e.message}`; // 显示具体错误信息
+      content = `# Error\nFail to Load the page：${e.message}`; // 显示具体错误信息
     } finally {
       loading = false;
     }

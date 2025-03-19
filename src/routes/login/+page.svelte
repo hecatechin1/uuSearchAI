@@ -1,5 +1,7 @@
 <script>
   import Login from "$lib/Login.svelte";
+  import {TestbaseURL} from "../../stores/globalParamentStores"
+  import { get } from 'svelte/store';
   let closeCard = false;
   function closeLoginCard() {
     closeCard = !closeCard;
@@ -7,7 +9,7 @@
 
 function loginSuccess(){
   closeLoginCard();
-  document.location.href = '/chat';
+  document.location.href =get(TestbaseURL)+ '/chat';
 }
 </script>
 

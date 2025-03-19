@@ -298,7 +298,7 @@
                     </div>
                   </div>
                 
-                {:else if messageErrorType == "ERR_VIP_ONLY"}
+                {:else if messageErrorType == "ERR_VIP_ONLY" && messageErrorType == "ERR_NO_ACCESS"}
                   <div class="flex">
                     <div
                       class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full"
@@ -370,7 +370,7 @@
                   <button
                     bind:this={showModelSelectorbtn}
                     on:click={showModelSelector}
-                    class="btn-switch btn-custom"
+                    class="btn-switch btn-custom {isHovered ?"btn-custom-hover-hide":""}"
                     data-tooltip={isHovered ? null : $t("settings.switchMode")}
                   >
                     <img
@@ -398,7 +398,8 @@
 
                   <button
                     bind:this={deleteMessageBtn}
-                    class="moreButton btn-custom"
+ 
+                    class = "moreButton btn-custom {isHovered ?"btn-custom-hover-hide":""}"
                     data-tooltip={isHovered ? null : $t("app.delete")}
                     on:click={() => deleteMessage(index)}
                   >

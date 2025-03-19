@@ -7,6 +7,7 @@
     getUserInfo,
     userLoginForMaxthon,
   } from "../manages/userinfoManages";
+  import {TestbaseURL } from "../stores/globalParamentStores";
   // 图片导入
   import uugptIcon from "../assets/aianswer-avtar.svg";
   import feature1 from "../assets/home/feature-1.svg";
@@ -51,16 +52,16 @@
 
       <!-- 菜单 (桌面端) -->
       <nav class="hidden md:flex space-x-6 text-secondary">
-        <a href="/chat" class="hover:text-primary transition-colors">
+        <a href={$TestbaseURL+"/chat"} class="hover:text-primary transition-colors">
           {$t('home.nav.chat')}
         </a>
-        <a href="#features" class="hover:text-primary transition-colors">
+        <a href={$TestbaseURL+"#features"} class="hover:text-primary transition-colors">
           {$t('home.nav.features')}
         </a>
-        <a href="/pricing" class="hover:text-primary transition-colors">
+        <a href={$TestbaseURL+"/pricing"} class="hover:text-primary transition-colors">
           {$t('home.nav.pricing')}
         </a>
-        <a href="#reviews" class="hover:textprimary transition-colors">
+        <a href={$TestbaseURL+"#reviews"} class="hover:textprimary transition-colors">
           {$t('home.nav.reviews')}
         </a>
       </nav>
@@ -119,7 +120,7 @@
       <!-- 安装 / 使用 按钮 + AI Logos -->
       <div class="flex flex-col items-center gap-8 mb-16 mt-10">
         <a
-          href="/chat"
+          href={$TestbaseURL+"/chat"}
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center bg-white/10 backdrop-blur-md rounded-full p-2 pr-6 hover:bg-white/15 transition-all duration-300 border border-white/20 shadow-lg shadow-black/10"
@@ -470,7 +471,7 @@
         {$t('home.cta.subtitle')}
       </p>
       <a
-        href="/chat"
+        href={$TestbaseURL+"/chat"}
         class="inline-block px-8 py-3 bg-gray-900 text-white text-lg rounded hover:bg-gray-800 transition-colors shadow-md font-semibold"
       >
         {$t('home.cta.buttonText')}

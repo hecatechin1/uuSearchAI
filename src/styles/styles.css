@@ -156,6 +156,10 @@ padding-bottom: 0.5rem;
   z-index: 1000;
   transition: opacity 0.2s ease-in-out;
 }
+.btn-custom-hover-hide::before{
+  background:#0000;
+  border-color: #0000;
+}
 
 .btn-custom-down::before{
   top:90%;

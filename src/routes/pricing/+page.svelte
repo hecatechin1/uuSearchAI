@@ -12,7 +12,7 @@
     showSuccessMessage,
   } from "../../stores/globalParamentStores";
   import { userPlanMode } from "../../stores/userStores";
-  import { isLogin } from "../../stores/globalParamentStores";
+  import { isLogin,TestbaseURL } from "../../stores/globalParamentStores";
   import { onMount } from "svelte";
   import { get } from "svelte/store";
   import {
@@ -124,7 +124,7 @@
     window.open(data, "_blank");
   }
   async function pay(plan: string) {
-    if(!get(isLogin)){goto('/login');return;}
+    if(!get(isLogin)){goto(get(TestbaseURL)+'/login');return;}
     let data = await getPaymentAddress(plan, window.location.href);
     if (data.code != 0) {
       showErrorMessage(
@@ -154,7 +154,7 @@
     }
   }
   function back2Chat() {
-    goto("/chat");
+    goto(get(TestbaseURL)+"/chat");
   }
 
   function paymentResultCheck(payback: string) {

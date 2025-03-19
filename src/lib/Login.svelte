@@ -533,6 +533,8 @@
         {#if $loginPageName === status_vcode}
           <div class="animate-fade">
             <!-- 登录框左上角标题栏 -->
+             {#if !isResetPassword}
+
             <div class="flex items-center mb-6">
               <button
                 on:click={back}
@@ -544,7 +546,7 @@
                 >{$t("login.enterVerificationTitle")}</span
               >
             </div>
-
+            {/if}
             <div class="mt-10">
               <form>
                 <p class="mb-2">

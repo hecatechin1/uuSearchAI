@@ -70,21 +70,35 @@
     shouldScroll = position > height - threshold;
   }
 
-  function autoExpand(event: any) {
-    event.target.style.height = "inherit"; // 重置高度
-    const computed = window.getComputedStyle(event.target);
-    const height =
-      parseInt(computed.getPropertyValue("border-top-width"), 10) +
-      event.target.scrollHeight +
-      parseInt(computed.getPropertyValue("border-bottom-width"), 10);
-    const newHeight = Math.min(height, textMaxHeight);
-    event.target.style.height = `${newHeight}px`; // 设置计算后的高度
+  function autoExpand(event: Event) {
+    const textarea = event.target as HTMLTextAreaElement;
+    
+    // 1. 保存当前状态
+    const isCursorAtEnd = textarea.selectionEnd === textarea.value.length;
+    const originalScrollTop = textarea.scrollTop;
+    const originalSelectionStart = textarea.selectionStart;
+    const originalSelectionEnd = textarea.selectionEnd;
 
-    // 手动调整滚动位置，确保新内容可见
-    if (newHeight >= textMaxHeight) {
-      event.target.scrollTop = event.target.scrollHeight;
+    // 2. 计算新高度
+    textarea.style.height = "auto";
+    const computed = window.getComputedStyle(textarea);
+    const height = 
+        parseInt(computed.borderTopWidth) +
+        textarea.scrollHeight +
+        parseInt(computed.borderBottomWidth);
+    const newHeight = Math.min(height, textMaxHeight);
+    textarea.style.height = `${newHeight}px`;
+
+    // 3. 恢复滚动位置和光标
+    textarea.scrollTop = originalScrollTop;
+    textarea.selectionStart = originalSelectionStart;
+    textarea.selectionEnd = originalSelectionEnd;
+
+    // 4. 仅当光标在末尾且需要滚动时跳转到底部
+    if (newHeight >= textMaxHeight && isCursorAtEnd) {
+        textarea.scrollTop = textarea.scrollHeight;
     }
-  }
+}
 
   function handleInput(event: any) {
     autoExpand(event); // 扩展 textarea 的高度

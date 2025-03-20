@@ -13,11 +13,9 @@ export function setMessagesHistory(msg: any): Promise<void> {
 }
 
 export function sendRegularMessage(msg: any) {
-    console.log('sendRegularMessage',msg);
 
     let currentMessageHistory = get(messages);
     currentMessageHistory = [...currentMessageHistory, { role: "user", content: msg, isDisliked: false, isLiked: false }];
-    console.log('sendRegularMessage',currentMessageHistory);
     
     setMessagesHistory(currentMessageHistory);
     sendMessage(msg, -1);

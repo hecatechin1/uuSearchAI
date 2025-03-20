@@ -10,7 +10,6 @@ let globalSource: EventSource | null = null;
 
 let timeoutId: NodeJS.Timeout | null = null; // 用于超时检测
 export const closeStream = async () => {
-    console.log(currentmid);
     globalSource?.close();
     let cm = get(messages);
     if (currentmid < 0) {

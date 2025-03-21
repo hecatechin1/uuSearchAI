@@ -303,8 +303,8 @@
       "Comprend toutes les fonctionnalités des plans gratuit et de base",
       "10 appareils de connexion (différents navigateurs sont comptés comme des appareils différents)",
       "Déverrouiller tous les modèles",
-      "4 millions de jetons supplémentaires par mois pour les modèles avancés (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, Claude 3.7 sonnet, etc.)",
-      "40 000 jetons par mois pour un accès d'essai aux modèles de pointe (GPT o1, Claude 3 opus)",
+      "4 millions de jetons supplémentaires par mois pour les modèles avancés (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, etc.)",
+      "40 000 jetons par mois pour un accès d'essai aux modèles de pointe (GPT o1, Claude 3.7 sonnet)",
       "Accès prioritaire pendant les heures de pointe",
       "Bientôt disponible : accès exclusif à plus de fonctionnalités"
     ],
@@ -351,7 +351,10 @@
     "then": "ensuite",
     "save20": "Économisez 20 %",
     "allInOne": "Solution tout-en-un",
-    "priceNote": "Un seul abonnement pour GPT-4, Claude et Gemini Pro"
+    "priceNote": "Un seul abonnement pour GPT-4, Claude et Gemini Pro",
+    "trialPeriod": "Essai gratuit de 14 jours",
+    "afterTrial": "Facturation annuelle après la période d'essai",
+    "trialDescription": "Annulez à tout moment pendant l'essai sans frais"
   },
   "promptRefer": [
     "📝 À quoi dois-je faire attention lorsque j'écris une lettre de motivation formelle ?",

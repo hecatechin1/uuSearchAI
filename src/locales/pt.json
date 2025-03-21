@@ -303,8 +303,8 @@
       "Inclui todos os recursos dos Planos Gratuito e Básico",
       "10 dispositivos de login (navegadores diferentes são contados como dispositivos diferentes)",
       "Desbloqueie todos os modelos",
-      "4 milhões de tokens adicionais por mês para modelos avançados (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, Claude 3.7 sonnet, etc.)",
-      "40.000 tokens por mês para acesso experimental a modelos de ponta (GPT o1, Claude 3 opus)",
+      "4 milhões de tokens adicionais por mês para modelos avançados (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, etc.)",
+      "40.000 tokens por mês para acesso experimental a modelos de ponta (GPT o1, Claude 3.7 sonnet)",
       "Acesso prioritário durante os horários de pico",
       "Em breve: acesso exclusivo a mais recursos"
     ],
@@ -351,7 +351,10 @@
     "then": "depois",
     "save20": "Economize 20%",
     "allInOne": "Solução Tudo-em-Um",
-    "priceNote": "Uma assinatura para GPT-4, Claude e Gemini Pro"
+    "priceNote": "Uma assinatura para GPT-4, Claude e Gemini Pro",
+    "trialPeriod": "Teste gratuito de 14 dias",
+    "afterTrial": "Cobrança anual após período de teste",
+    "trialDescription": "Cancele a qualquer momento durante o teste sem custos"
   },
   "promptRefer": [
     "📝 No que devo prestar atenção ao escrever uma carta de apresentação formal?",

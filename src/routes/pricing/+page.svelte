@@ -22,7 +22,7 @@
   import Notification from "$lib/Notification.svelte";
   import { getCookieValue } from "../../utils/generalUtils";
   // 是否按年订阅
-  let isAnnual = true;
+  let isAnnual = false;
 
   // 当前用户的方案，可能是  'free' | 'basic' | 'pro'
   let currentUserPlan: string = "free";
@@ -91,6 +91,7 @@
 
   // pricing数据
   // 将 feature 的翻译键储存在 features 数组中，后面用 #each 渲染
+  let annualTrailTime = "14";
   const pricing = {
     free: {
       features: $t("pricing.freePlanFeatures"),
@@ -109,7 +110,22 @@
       annualSaveText: $t("pricing.proAnnualSaveText"),
       features: $t("pricing.proPlanFeatures"),
     },
+    basicyearly:{
+      trialPeriod: $t("pricing.trialPeriod",{default:"14-day free trial"}),
+      afterTrial: $t("pricing.afterTrial",{default:"After trial"}),
+      annualSubsequent: 4.08, // 年付折算月价
+      annualTotal: 49,
+      trialDescription: $t("pricing.trialDescription",{default:"Cancel anytime during trial with no charges"})
+    },
+    proyearly:{
+      annualSubsequent: 8.25,
+      annualTotal: 99,
+      trialPeriod: $t("pricing.trialPeriod",{default:"14-day free trial"}),
+      afterTrial: $t("pricing.afterTrial",{default:"Annual billing after trial period"}),
+      trialDescription:$t("pricing.trialDescription",{default:"Cancel anytime during trial with no charges"})
+    }
   };
+
 
   // FAQ 数组
   const faqs = [
@@ -242,18 +258,10 @@
         {/if}
 
         <!-- 定价卡片 (Pro -> Basic -> Free) -->
-        <!-- <div
-        class="grid md:grid-cols-3 auto-cols-auto gap-4 justify-center transition-all duration-300 ease-in-out"
-      > -->
         <div
           class="flex flex-wrap justify-center gap-4 max-w-6xl mx-auto transition-all duration-300 ease-in-out"
         >
           {#if showCard_pro}
-            <!-- pro(Pro)方案放在最前 -->
-            <!-- <div
-            class="relative flex flex-col rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 transform
-               outline outline-0 outline-themegreen overflow-hidden"
-          > -->
             <div
               class="relative flex flex-col rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow
             duration-300 transform outline outline-0 outline-themegreen overflow-hidden
@@ -280,7 +288,7 @@
                     /></span
                   >
                 </h3>
-                <p class="mt-3 text-gray-600">
+                <p class="mt-3 text-gray-600 min-h-[3rem]">
                   {$t("pricing.proPlanDesc")}
                 </p>
               </div>
@@ -289,48 +297,66 @@
                 <!-- 价格区块 -->
 
                 <!-- 月付：首月$1 + 之后$9.9 -->
-                <div class="flex items-end gap-4 font-bold pb-3">
-                  <div class="flex flex-col">
-                    <h5 class="text-themegreen text-lg ml-1">
+                {#if !isAnnual}
+                  <div class="flex flex-col items-start font-bold pb-3">
+                    <h5 class="text-themegreen text-lg ml-1 mb-2">
                       {$t("pricing.firstMonth")}
                     </h5>
-                    <h3
-                      class="text-6xl text-themegreen inline-flex items-center gap-1"
-                    >
-                      $1
-                    </h3>
+                    <div class="flex  gap-4 ">
+                      <div class="flex flex-col">
+                        <h3
+                          class="text-6xl text-themegreen inline-flex items-center gap-1"
+                        >
+                          $1
+                        </h3>
+                      </div>
+                      <div class="flex flex-col text-sm text-gray-700 mt-1">
+                        <p class="">
+                          {$t("pricing.after")}
+                          {$t("pricing.monthly")}
+                        </p>
+                        <p>USD ${pricing.pro.monthlySubsequent}</p>
+                        <p class="text-gray-400">
+                          {$t("pricing.yearlyPay")} ${pricing.pro
+                            .annualSubsequent}
+                          {$t("pricing.perMonth")}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-
-                  {#if !isAnnual}
-                    <div class="flex flex-col text-sm text-gray-700 mt-1">
-                      <p class="">
-                        {$t("pricing.after")}
-                        {$t("pricing.monthly")}
-                      </p>
-                      <p>USD ${pricing.pro.monthlySubsequent}</p>
-                      <p class="text-gray-400">
-                        {$t("pricing.yearlyPay")} ${pricing.pro
-                          .annualSubsequent} /
-                        {$t("pricing.perMonth")}
-                      </p>
-                    </div>
                   {:else}
-                    <div class="flex flex-col text-sm text-gray-700 mt-1">
-                      <p class="">
-                        {$t("pricing.after")}
-                        {$t("pricing.yearly")}
-                      </p>
-                      <p>
-                        USD ${pricing.pro.annualSubsequent}
-                        {$t("pricing.perMonth")}
-                      </p>
-                      <p class="text-gray-400">
-                        {$t("pricing.priceTotal")} ${pricing.pro.annualTotal} USD
-                      </p>
-                    </div>
-                  {/if}
-                </div>
+                  <div class="flex flex-col items-start font-bold pb-3">
+                    <h5 class="text-themegreen text-lg ml-1 mb-2">
+                      {pricing.proyearly.trialPeriod}
+                    </h5>
+                    <div class="flex gap-4">
 
+                      <div class="flex flex-col">
+                        
+                        <h3
+                          class="text-6xl text-themegreen inline-flex items-center gap-1"
+                        >
+                          ${pricing.proyearly.annualTotal}
+                        </h3>
+                      </div>
+                      <div class="flex flex-col text-sm text-gray-700 mt-1">
+                        <p class="">
+                          {pricing.proyearly.afterTrial}
+                        </p>
+                        <!-- <p>USD ${pricing.proyearly.annualTotal}</p> -->
+                        
+                        <p class="text-gray-400 text-xs font-normal">
+                          {pricing.proyearly.trialDescription}
+                        </p>
+                        <p class="text-gray-400 text-xs font-normal">
+                          (USD ${pricing.pro.annualSubsequent}
+                          {$t("pricing.perMonth")})
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  {/if}
+              
                 <!-- 按钮 -->
                 <button
                   on:click={probtnAct}
@@ -347,12 +373,13 @@
                 <ul class="mt-10 space-y-3 font-medium mb-3">
                   {#each pricing.pro.features as featureKey}
                     <li class="flex items-center text-gray-700 ml-1">
-                      {$t(featureKey)}
+                      {featureKey}
                     </li>
                   {/each}
                 </ul>
-              </div>
+                </div>
             </div>
+            
           {/if}
 
           {#if showCard_Basic}
@@ -378,7 +405,7 @@
                     /></span
                   >
                 </h3>
-                <p class="mt-3 text-gray-600">
+                <p class="mt-3 text-gray-600 min-h-[3rem]">
                   {$t("pricing.basicPlanDesc")}
                 </p>
               </div>
@@ -387,19 +414,20 @@
                 <!-- 价格区块 -->
 
                 <!-- 月付：首月$1 + 之后$9.9 -->
-                <div class="flex items-end gap-4 font-bold pb-3">
-                  <div class="flex flex-col">
-                    <h5 class="text-themegreen text-lg ml-1">
-                      {$t("pricing.firstMonth")}
-                    </h5>
-                    <h3
-                      class="text-6xl text-themegreen inline-flex items-center gap-1"
-                    >
-                      $1
-                    </h3>
-                  </div>
-
-                  {#if !isAnnual}
+                {#if !isAnnual}
+                <div class="flex flex-col items-start font-bold pb-3">
+                  <h5 class="text-themegreen text-lg ml-1 mb-2">
+                    {$t("pricing.firstMonth")}
+                  </h5>
+                  <div class="flex gap-4">
+                    <div class="flex flex-col">
+                      
+                      <h3
+                        class="text-6xl text-themegreen inline-flex items-center gap-1"
+                      >
+                        $1
+                      </h3>
+                    </div>
                     <div class="flex flex-col text-sm text-gray-700 mt-1">
                       <p class="">
                         {$t("pricing.after")}
@@ -412,24 +440,38 @@
                         {$t("pricing.perMonth")}
                       </p>
                     </div>
-                  {:else}
-                    <div class="flex flex-col text-sm text-gray-700 mt-1">
-                      <p class="">
-                        {$t("pricing.after")}
-                        {$t("pricing.yearly")}
-                      </p>
-                      <p>
-                        USD ${pricing.basic.annualSubsequent}{$t(
-                          "pricing.perMonth",
-                        )}
-                      </p>
-                      <p class="text-gray-400">
-                        {$t("pricing.priceTotal")} ${pricing.basic.annualTotal} USD
-                      </p>
-                    </div>
-                  {/if}
+                  </div>
                 </div>
-
+                  {:else}
+                  <div class="flex flex-col items-start font-bold pb-3">
+                    <h5 class="text-themegreen text-lg ml-1 mb-2">
+                      {pricing.basicyearly.trialPeriod}
+                    </h5>
+                    <div class="flex gap-4">
+                      <div class="flex flex-col">
+                        <h3
+                          class="text-6xl text-themegreen inline-flex items-center gap-1"
+                        >
+                          ${pricing.basic.annualTotal}
+                        </h3>
+                      </div>
+                      <div class="flex flex-col text-sm text-gray-700 mt-1">
+                        <p class="">
+                          {pricing.basicyearly.afterTrial}
+                        </p>
+                        <p class="text-gray-400 text-xs font-normal">
+                          {pricing.basicyearly.trialDescription}
+                        </p>
+                        <p class="text-gray-400 text-xs font-normal ">
+                          (USD ${pricing.basic.annualSubsequent}{$t(
+                            "pricing.perMonth",
+                          )})
+                        </p>
+                      </div>
+                    </div>
+                  
+                </div>
+                {/if}
                 <!-- 按钮 -->
                 <button
                   on:click={basicbtnAct}
@@ -444,8 +486,8 @@
                 <!-- 功能说明（示例仅用2条，你可以添加更多） -->
                 <ul class="mt-10 space-y-3 font-medium mb-3">
                   {#each pricing.basic.features as featureKey}
-                    <li class="flex items-center text-gray-700 ml-1">
-                      {$t(featureKey)}
+                    <li class="flex items-center text-gray-700 ml-1 ">
+                      {featureKey}
                     </li>
                   {/each}
                 </ul>
@@ -469,7 +511,7 @@
                 <h3 class="text-2xl font-semibold text-gray-800">
                   <span>{$t("pricing.freePlanName")}</span>
                 </h3>
-                <p class="mt-3 text-gray-600">
+                <p class="mt-3 text-gray-600 min-h-[3rem]">
                   {$t("pricing.freePlanDesc")}
                 </p>
               </div>
@@ -479,7 +521,7 @@
 
                 <div class="flex items-end gap-4 font-bold pb-3">
                   <div class="flex flex-col">
-                    <h5 class="text-themegreen text-lg ml-1">
+                    <h5 class="text-themegreen text-lg ml-1  mb-2">
                       {$t("pricing.current")}
                     </h5>
                     <h3
@@ -501,7 +543,7 @@
                 <ul class="mt-10 space-y-3 font-medium mb-3">
                   {#each pricing.free.features as featureKey}
                     <li class="flex items-center text-gray-700 ml-1">
-                      {$t(featureKey)}
+                      {featureKey}
                     </li>
                   {/each}
                 </ul>

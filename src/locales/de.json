@@ -303,8 +303,8 @@
       "Enthält alle Funktionen der kostenlosen und Basispläne",
       "10 Anmeldegeräte (verschiedene Browser werden als verschiedene Geräte gezählt)",
       "Alle Modelle freischalten",
-      "Zusätzliche 4 Millionen Token pro Monat für erweiterte Modelle (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, Claude 3.7 sonnet usw.)",
-      "40.000 Token pro Monat für den Testzugriff auf hochmoderne Modelle (GPT o1, Claude 3 opus)",
+      "Zusätzliche 4 Millionen Token pro Monat für erweiterte Modelle (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku usw.)",
+      "40.000 Token pro Monat für den Testzugriff auf hochmoderne Modelle (GPT o1, , Claude 3.7 sonnet)",
       "Vorrangiger Zugriff während der Stoßzeiten",
       "Demnächst: exklusiver Zugriff auf weitere Funktionen"
     ],
@@ -351,7 +351,10 @@
     "then": "dann",
     "save20": "20 % sparen",
     "allInOne": "All-in-One-Lösung",
-    "priceNote": "Ein Abonnement für GPT-4, Claude und Gemini Pro"
+    "priceNote": "Ein Abonnement für GPT-4, Claude und Gemini Pro",
+    "trialPeriod": "14-tägige kostenlose Testphase",
+    "afterTrial": "Jährliche Abrechnung nach Testphase",
+    "trialDescription": "Jederzeit während des Tests kostenlos kündbar"
   },
   "promptRefer": [
     "📝 Was sollte ich beim Verfassen eines formellen Anschreibens beachten?",

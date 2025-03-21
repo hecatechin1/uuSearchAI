@@ -340,7 +340,10 @@
       "save20": "Bespaar 20%",
       "allInOne": "Alles-in-één",
       "priceNote": "Eén abonnement voor GPT-4, Claude en Gemini Pro",
-      "mostPopular": "Populairste"
+      "mostPopular": "Populairste",
+      "trialPeriod": "14 dagen gratis proefperiode",
+      "afterTrial": "Jaarlijkse facturering na proefperiode",
+      "trialDescription": "Altijd opzegbaar tijdens proefperiode zonder kosten"
   },
   "promptRefer": [
     "📝 Waar moet ik op letten bij een formele sollicitatiebrief?",

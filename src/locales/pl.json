@@ -303,8 +303,8 @@
       "Zawiera wszystkie funkcje planów darmowego i podstawowego",
       "10 urządzeń logowania (różne przeglądarki są liczone jako różne urządzenia)",
       "Odblokuj wszystkie modele",
-      "Dodatkowe 4 miliony tokenów miesięcznie dla zaawansowanych modeli (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, Claude 3.7 sonnet itp.)",
-      "40 000 tokenów miesięcznie na próbny dostęp do najnowocześniejszych modeli (GPT o1, Claude 3 opus)",
+      "Dodatkowe 4 miliony tokenów miesięcznie dla zaawansowanych modeli (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku itp.)",
+      "40 000 tokenów miesięcznie na próbny dostęp do najnowocześniejszych modeli (GPT o1, Claude 3.7 sonnet)",
       "Priorytetowy dostęp w godzinach szczytu",
       "Wkrótce: wyłączny dostęp do większej liczby funkcji"
     ],
@@ -351,7 +351,10 @@
     "then": "następnie",
     "save20": "Oszczędź 20%",
     "allInOne": "Rozwiązanie All-in-one",
-    "priceNote": "Jedna subskrypcja dla GPT-4, Claude i Gemini Pro"
+    "priceNote": "Jedna subskrypcja dla GPT-4, Claude i Gemini Pro",
+    "trialPeriod": "14-dniowy darmowy okres próbny",
+    "afterTrial": "Rozliczenie roczne po okresie próbnym",
+    "trialDescription": "Anuluj w dowolnym momencie w okresie próbnym bez opłat"
   },
   "promptRefer": [
     "📝 Na co powinienem zwrócić uwagę pisząc formalny list motywacyjny?",

@@ -303,8 +303,8 @@
       "Sisältää kaikki ilmaisen ja perustilauksen ominaisuudet",
       "10 kirjautumislaitetta (eri selaimet lasketaan eri laitteiksi)",
       "Avaa kaikki mallit",
-      "Lisäksi 4 miljoonaa tokenia kuukaudessa edistyneille malleille (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, Claude 3.7 sonnet jne.)",
-      "40 000 tokenia kuukaudessa huippumallien kokeilukäyttöön (GPT o1, Claude 3 opus)",
+      "Lisäksi 4 miljoonaa tokenia kuukaudessa edistyneille malleille (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku jne.)",
+      "40 000 tokenia kuukaudessa huippumallien kokeilukäyttöön (GPT o1, Claude 3.7 sonnet)",
       "Ensisijainen käyttöoikeus ruuhka-aikoina",
       "Tulossa pian: yksinoikeudella lisää ominaisuuksia"
     ],
@@ -351,7 +351,10 @@
     "then": "sitten",
     "save20": "Säästä 20 %",
     "allInOne": "Kaikki yhdessä -ratkaisu",
-    "priceNote": "Yksi tilaus GPT-4:lle, Claudelle ja Gemini Prolle"
+    "priceNote": "Yksi tilaus GPT-4:lle, Claudelle ja Gemini Prolle",
+    "trialPeriod": "14 päivän ilmainen kokeilu",
+    "afterTrial": "Vuosimaksu kokeilujakson jälkeen",
+    "trialDescription": "Peruuta milloin tahansa kokeilun aikana ilman maksuja"
   },
   "promptRefer": [
     "📝 Mitä minun tulisi ottaa huomioon kirjoittaessani muodollista saatekirjettä?",

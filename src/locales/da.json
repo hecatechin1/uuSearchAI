@@ -302,8 +302,8 @@
       "Inkluderer alle funktioner fra gratis og basisplaner",
       "10 login-enheder (forskellige browsere tælles som forskellige enheder)",
       "Lås op for alle modeller",
-      "Yderligere 4 millioner tokens om måneden til avancerede modeller (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, Claude 3.7 sonnet osv.)",
-      "40.000 tokens om måneden til prøveadgang til banebrydende modeller (GPT o1, Claude 3 opus)",
+      "Yderligere 4 millioner tokens om måneden til avancerede modeller (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku osv.)",
+      "40.000 tokens om måneden til prøveadgang til banebrydende modeller (GPT o1, , Claude 3.7 sonnet)",
       "Prioriteret adgang i spidsbelastningsperioder",
       "Kommer snart: eksklusiv adgang til flere funktioner"
     ],
@@ -350,7 +350,10 @@
     "then": "derefter",
     "save20": "Spar 20%",
     "allInOne": "Alt-i-en-løsning",
-    "priceNote": "Et abonnement på GPT-4, Claude og Gemini Pro"
+    "priceNote": "Et abonnement på GPT-4, Claude og Gemini Pro",
+    "trialPeriod": "14-dages gratis prøveperiode",
+    "afterTrial": "Årlig fakturering efter prøveperiode",
+    "trialDescription": "Annuller når som helst under prøveperioden uden omkostninger"
   },
   "promptRefer": [
     "📝 Hvad skal jeg være opmærksom på, når jeg skriver et formelt følgebrev?",

@@ -13,5 +13,4 @@ export default defineConfig({
 	// 	cert: fs.readFileSync('./ssl/_wildcard.uugpt.com.pem'),  // 证书文件路径
 	//    }
 	//  },
-
 });

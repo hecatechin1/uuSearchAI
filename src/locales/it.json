@@ -303,8 +303,8 @@
       "Include tutte le funzionalità dei piani gratuiti e di base",
       "10 dispositivi di accesso (browser diversi vengono conteggiati come dispositivi diversi)",
       "Sblocca tutti i modelli",
-      "Ulteriori 4 milioni di token al mese per modelli avanzati (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, Claude 3.7 sonnet, ecc.)",
-      "40.000 token al mese per l'accesso di prova a modelli all'avanguardia (GPT o1, Claude 3 opus)",
+      "Ulteriori 4 milioni di token al mese per modelli avanzati (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, ecc.)",
+      "40.000 token al mese per l'accesso di prova a modelli all'avanguardia (GPT o1, Claude 3.7 sonnet)",
       "Accesso prioritario durante le ore di punta",
       "Prossimamente: accesso esclusivo a più funzionalità"
     ],
@@ -351,8 +351,10 @@
     "then": "poi",
     "save20": "Risparmia il 20%",
     "allInOne": "Soluzione all-in-one",
-    "priceNote": "Un unico abbonamento per GPT-4, Claude e Gemini Pro"
-
+    "priceNote": "Un unico abbonamento per GPT-4, Claude e Gemini Pro",
+    "trialPeriod": "Prova gratuita di 14 giorni",
+    "afterTrial": "Fatturazione annuale dopo il periodo di prova",
+    "trialDescription": "Annulla in qualsiasi momento durante la prova senza costi"
   },
   "promptRefer": [
     "📝 A cosa dovrei prestare attenzione quando scrivo una lettera di presentazione formale?",

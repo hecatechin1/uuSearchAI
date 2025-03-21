@@ -307,8 +307,8 @@
           "覆盖免费和基础计划所有功能",
           "10台登录设备(不同浏览器会被记录为不同设备)",
           "解锁全部模型",
-          "每月额外4百万token高级模型访问(GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku,claude 3.7 sonnet等)",
-          "每月4万token先进模型试用机会(GPT o1, claude 3 opus)",
+          "每月额外4百万token高级模型访问(GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku等)",
+          "每月4万token先进模型试用机会(GPT o1,claude 3.7 sonnet)",
           "高峰期优先访问权利",
           "即将解锁更多功能的特权"
       ],
@@ -361,7 +361,10 @@
       "then": "之后",
       "save20": "节省20%",
       "allInOne": "一体化解决方案", 
-      "priceNote": "一次订阅即可使用 GPT-4、Claude 和 Gemini Pro"
+      "priceNote": "一次订阅即可使用 GPT-4、Claude 和 Gemini Pro",
+      "trialPeriod": "14天免费试用",
+      "afterTrial": "试用期结束后每年扣款",
+      "trialDescription": "试用期可随时取消，不产生任何费用"
   },
   "promptRefer": [
     "📝 写一封正式的求职信应该注意什么？",

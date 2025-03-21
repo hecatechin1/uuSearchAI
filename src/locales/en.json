@@ -303,8 +303,8 @@
         "Includes all features of Free and Basic Plans",
         "10 login devices (different browsers are counted as different devices)",
         "Unlock all models",
-        "Additional 4 million tokens per month for advanced models (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, Claude 3.7 sonnet, etc.)",
-        "40,000 tokens per month for trial access to cutting-edge models (GPT o1, Claude 3 opus)",
+        "Additional 4 million tokens per month for advanced models (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, etc.)",
+        "40,000 tokens per month for trial access to cutting-edge models (GPT o1, Claude 3.7 sonnet, etc.)",
         "Priority access during peak hours",
         "Coming soon: exclusive access to more features"
       ],
@@ -351,7 +351,10 @@
       "then": "then",
       "save20": "Save 20%",
       "allInOne": "All-in-one Solution",
-      "priceNote": "One subscription for GPT-4, Claude, and Gemini Pro"
+      "priceNote": "One subscription for GPT-4, Claude, and Gemini Pro",
+      "trialPeriod": "14-day free trial",
+      "afterTrial": "Annual billing after trial period",
+      "trialDescription": "Cancel anytime during trial with no charges"
     },
     "promptRefer": [
       "📝 What should I pay attention to when writing a formal cover letter?",

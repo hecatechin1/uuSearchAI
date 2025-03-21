@@ -303,8 +303,8 @@
       "Bao gồm tất cả các tính năng của Gói Miễn phí và Cơ bản",
       "10 thiết bị đăng nhập (các trình duyệt khác nhau được tính là các thiết bị khác nhau)",
       "Mở khóa tất cả các mô hình",
-      "Thêm 4 triệu token mỗi tháng cho các mô hình nâng cao (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, Claude 3.7 sonnet, v.v.)",
-      "40.000 token mỗi tháng để dùng thử các mô hình tiên tiến (GPT o1, Claude 3 opus)",
+      "Thêm 4 triệu token mỗi tháng cho các mô hình nâng cao (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, v.v.)",
+      "40.000 token mỗi tháng để dùng thử các mô hình tiên tiến (GPT o1, Claude 3.7 sonnet)",
       "Quyền truy cập ưu tiên trong giờ cao điểm",
       "Sắp ra mắt: quyền truy cập độc quyền vào nhiều tính năng hơn"
     ],
@@ -351,7 +351,10 @@
     "then": "sau đó",
     "save20": "Tiết kiệm 20%",
     "allInOne": "Giải pháp tất cả trong một",
-    "priceNote": "Một đăng ký cho GPT-4, Claude, và Gemini Pro"
+    "priceNote": "Một đăng ký cho GPT-4, Claude, và Gemini Pro",
+    "trialPeriod": "Dùng thử miễn phí 14 ngày",
+    "afterTrial": "Thanh toán hàng năm sau thời gian dùng thử",
+    "trialDescription": "Hủy bất kỳ lúc nào trong thời gian dùng thử không mất phí"
   },
   "promptRefer": [
     "📝 Những điều cần chú ý khi viết thư xin việc trang trọng?",

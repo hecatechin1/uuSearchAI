@@ -344,7 +344,10 @@
     "then": "이후",
     "save20": "20% 절약",
     "allInOne": "통합 솔루션",
-    "priceNote": "GPT-4/Claude/Gemini Pro 통합 구독"
+    "priceNote": "GPT-4/Claude/Gemini Pro 통합 구독",
+    "trialPeriod": "14일 무료 체험",
+    "afterTrial": "체험 기간 종료 후 연간 결제",
+    "trialDescription": "체험 기간 중 언제든지 무료로 취소 가능"
   },
   "promptRefer": [
     "📝 공식 커버레터 작성 시 주의사항?",

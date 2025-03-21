@@ -4,6 +4,7 @@ import { init, getLocaleFromNavigator, register, locale } from 'svelte-i18n';
 import {language} from "./stores/userStores";
 
 // 注册多语言文件
+// 支持语言列表 'en', 'zh', 'ar', 'da', 'de', 'es', 'fi', 'fr', 'hi', 'it', 'ja', 'ko', 'nl', 'no', 'pl', 'pt', 'ru', 'sv', 'th', 'tr', 'vi'
 register('en', () => import('./locales/en.json'));
 register('zh', () => import('./locales/zh.json'));
 register('ar', () => import('./locales/ar.json'));

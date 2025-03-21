@@ -303,8 +303,8 @@
       "Inkluderar alla funktioner från gratis- och basplanerna",
       "10 inloggningsenheter (olika webbläsare räknas som olika enheter)",
       "Lås upp alla modeller",
-      "Ytterligare 4 miljoner tokens per månad för avancerade modeller (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, Claude 3.7 sonnet, etc.)",
-      "40 000 tokens per månad för provåtkomst till banbrytande modeller (GPT o1, Claude 3 opus)",
+      "Ytterligare 4 miljoner tokens per månad för avancerade modeller (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, etc.)",
+      "40 000 tokens per månad för provåtkomst till banbrytande modeller (GPT o1, Claude 3.7 sonnet)",
       "Prioriterad åtkomst under rusningstid",
       "Kommer snart: exklusiv tillgång till fler funktioner"
     ],
@@ -351,7 +351,10 @@
     "then": "sedan",
     "save20": "Spara 20%",
     "allInOne": "Allt-i-ett-lösning",
-    "priceNote": "En prenumeration för GPT-4, Claude och Gemini Pro"
+    "priceNote": "En prenumeration för GPT-4, Claude och Gemini Pro",
+    "trialPeriod": "14-dagars gratis provperiod",
+    "afterTrial": "Årsfakturering efter provperiod",
+    "trialDescription": "Avbryt när som helst under provperioden utan kostnad"
   },
   "promptRefer": [
     "📝 Vad ska jag vara uppmärksam på när jag skriver ett formellt följebrev?",

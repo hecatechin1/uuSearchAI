@@ -303,8 +303,8 @@
       "Ücretsiz ve Temel Planların tüm özelliklerini içerir",
       "10 giriş cihazı (farklı tarayıcılar farklı cihazlar olarak sayılır)",
       "Tüm modellerin kilidini aç",
-      "Gelişmiş modeller için ayda ek 4 milyon jeton (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, Claude 3.7 sonnet, vb.)",
-      "En son modellere deneme erişimi için ayda 40.000 jeton (GPT o1, Claude 3 opus)",
+      "Gelişmiş modeller için ayda ek 4 milyon jeton (GPT o3-mini, Gemini 1.5 pro, Claude 3.5 haiku, vb.)",
+      "En son modellere deneme erişimi için ayda 40.000 jeton (GPT o1, Claude 3.7 sonnet)",
       "Yoğun saatlerde öncelikli erişim",
       "Çok yakında: daha fazla özelliğe özel erişim"
     ],
@@ -351,7 +351,10 @@
     "then": "sonra",
     "save20": "%20 Tasarruf Edin",
     "allInOne": "Hepsi Bir Arada Çözüm",
-    "priceNote": "GPT-4, Claude ve Gemini Pro için tek abonelik"
+    "priceNote": "GPT-4, Claude ve Gemini Pro için tek abonelik",
+    "trialPeriod": "14 günlük ücretsiz deneme",
+    "afterTrial": "Deneme süresi sonrası yıllık faturalandırma",
+    "trialDescription": "Deneme süresinde ücretsiz olarak istediğiniz zaman iptal edin"
   },
   "promptRefer": [
     "📝 Resmi bir iş başvuru mektubu yazarken nelere dikkat etmeliyim?",

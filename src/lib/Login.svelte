@@ -29,6 +29,7 @@
     resetUserPassword,
     userLogin,
     sendForgetCode,
+    changeUserPassword
   } from "../manages/userinfoManages";
   import { writable, get } from "svelte/store";
   import {userEmail} from "../stores/userStores";
@@ -174,8 +175,8 @@
     let res;
     // if (forgotPassword) {
     //   res = await resetUserPassword(email, password);
-    // } else {
-      res = await setUserPassword(email, password,verifyCode);
+    // } else {changeUserPassword
+      res = await changeUserPassword(email, password,verifyCode);
     // }
     // let res = await setUserPassword(email,password);
     isWaitting = false;

@@ -175,6 +175,30 @@ export async function guestSignup() {
   }
 }
  
+//1.没有忘记密码的情况下，重置密码 2.未登录用户在先使用后注册的情况下，设置邮箱密码
+export async function changePassword(email:string,password:string) {
+  try {
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/update`,{
+      method:"POST",
+     credentials: 'include',
+     body:JSON.stringify({
+      "info": {
+        "password": password,
+        "email": email
+    }
+     })
+
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    } else {
+      return 1;
+    }
+  } catch (error) {
+    return 1;
+  }
+}
 
 //登录
 export async function login(email: string, password: string) {
@@ -219,7 +243,7 @@ export async function logout() {
     return 1;
   }
 }
-//重置密码
+//忘记密码——重置密码
 export async function resetPassword(email: string, password: string,verifyCode:string) {
   try {
     let res = await createTimeOutFetch()(`https://api.uugpt.com/user/resetPass?email=${email}&new_pass=${password}&code=${verifyCode}`,{
@@ -275,7 +299,7 @@ export async function getUserData(){
     return 1;
   }
 }
-
+//忘记密码——发送验证码
 export async function sendForgetEmailCode(email:string){
   try{
     let res = await createTimeOutFetch()(`https://api.uugpt.com/user/sendCode?email=${email}`,{

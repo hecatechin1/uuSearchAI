@@ -1,6 +1,6 @@
 import { userID, userEmail, userLevel, userTokens, userPlanEndtime,userPlanMode,userSubMode,getEmailCodeId, userAvatar, userType } from '../stores/userStores';
 import { isLogin,isGuest } from "../stores/globalParamentStores";
-import {sendForgetEmailCode, getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login, updateData,getUserData, guestSignup,logout,getMaxthonUserInfo,loginMxUser } from "../services/usersServices";
+import {sendForgetEmailCode,changePassword, getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login, updateData,getUserData, guestSignup,logout,getMaxthonUserInfo,loginMxUser } from "../services/usersServices";
 import {hash256,getCookieValue} from "../utils/generalUtils";
 import {sendKey,lineBreakKey,language} from "../stores/settingsStores";
 import {get} from "svelte/store";
@@ -93,7 +93,7 @@ export async function setUserPassword(email:string,password:string,verifyCode:st
     password = await hash256(password);
     let data;
     if(get(userID)!==''){
-        data = await resetPassword(email,password,getEmailCodeId());
+        data = await resetPassword(email,password,verifyCode);
     }else{
         data = await setPassword(email,password);
     }
@@ -106,10 +106,23 @@ export async function setUserPassword(email:string,password:string,verifyCode:st
     }
     return 0;
 }
-
+//忘记密码——重置密码
 export async function resetUserPassword(email:string,password:string,verifyCode:string){
     password = await hash256(password);
     let data = await resetPassword(email,password,verifyCode);
+    if (data == 1) {
+        return 1;
+    }
+    if (data.code!= 0) {
+        return data.code;
+    }
+    return 0;
+}
+
+//已登录用户——更改密码
+export async function changeUserPassword(email:string,password:string){
+    password = await hash256(password);
+    let data = await changePassword(email,password);
     if (data == 1) {
         return 1;
     }

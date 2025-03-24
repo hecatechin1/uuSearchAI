@@ -56,6 +56,7 @@
   let timeLeft = 0; //验证码倒计时
   let error = "";
   let successMessage = "";
+  //忘记密码 f_ 
   let forgotPassword = false; //是否忘记密码
   let forgetPasswordCode = '';//忘记密码的邮箱验证码，跟注册时的验证码时两个接口
   let f_password = '';
@@ -174,7 +175,7 @@
     // if (forgotPassword) {
     //   res = await resetUserPassword(email, password);
     // } else {
-      res = await setUserPassword(email, password);
+      res = await setUserPassword(email, password,verifyCode);
     // }
     // let res = await setUserPassword(email,password);
     isWaitting = false;

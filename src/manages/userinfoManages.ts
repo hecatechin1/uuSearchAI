@@ -89,11 +89,11 @@ export async function checkverifycode(code: string){
     return 0;
 }
 
-export async function setUserPassword(email:string,password:string){
+export async function setUserPassword(email:string,password:string,verifyCode:string){
     password = await hash256(password);
     let data;
     if(get(userID)!==''){
-        data = await resetPassword(email,password);
+        data = await resetPassword(email,password,verifyCode);
     }else{
         data = await setPassword(email,password);
     }

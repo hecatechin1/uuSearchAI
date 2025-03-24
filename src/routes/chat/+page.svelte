@@ -74,7 +74,6 @@
   });
 
   async function initData() {
-    console.log("initData");
     let res = await getChatListData();
     if (res != 0) {
       showErrorMessage(res);

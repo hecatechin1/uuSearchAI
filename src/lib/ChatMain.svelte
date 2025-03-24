@@ -56,7 +56,6 @@
   });
 
   afterUpdate(() => {
-    console.log(get(current_chat).length)
     if (shouldScroll && container) {
       container.scrollTop = container.scrollHeight;
     }

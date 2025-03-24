@@ -79,7 +79,6 @@ export async function checkEmail(email: string) {
     let response = await createTimeOutFetch()(`https://api.uugpt.com/user/exist?email=${email}`);
     if (response.ok) {
       const data = await response.json();
-      console.log(data); // 打印数据
       return data;
     } else {
       return 1;
@@ -180,13 +179,16 @@ export async function changePassword(email: string, password: string) {
   try {
     let res = await createTimeOutFetch()(`https://api.uugpt.com/user/update`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       credentials: 'include',
-      body: JSON.stringify({
-        info: {
-          password: password,
-          email: email
+      body: `{
+        "info": {
+          "password": "${password}",
+          "email": "${email}"
         }
-      })
+      }`
 
     });
     if (res.ok) {

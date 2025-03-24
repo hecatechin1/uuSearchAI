@@ -446,7 +446,7 @@
                         )}
                       />
                       {#if $isStreaming === false}
-                      <a href="/chat" target="_blank" role="button" >
+                      <a href="https://www.uugpt.com/chat" target="_blank" role="button" >
                         <div
 
                           class="inline-block bg-[#f8f8f8] border border-[#f2f2f2] rounded-lg mb-2 p-2.5 pr-4 hover:bg-gray-100 hover:border-gray-200 ease-in-out"

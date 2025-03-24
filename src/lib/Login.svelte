@@ -176,7 +176,7 @@
     // if (forgotPassword) {
     //   res = await resetUserPassword(email, password);
     // } else {changeUserPassword
-      res = await changeUserPassword(email, password,verifyCode);
+      res = await changeUserPassword(email, password);
     // }
     // let res = await setUserPassword(email,password);
     isWaitting = false;

@@ -93,7 +93,7 @@ export async function setUserPassword(email:string,password:string,verifyCode:st
     password = await hash256(password);
     let data;
     if(get(userID)!==''){
-        data = await resetPassword(email,password,verifyCode);
+        data = await resetPassword(email,password,getEmailCodeId());
     }else{
         data = await setPassword(email,password);
     }

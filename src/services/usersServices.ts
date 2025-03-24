@@ -1,5 +1,5 @@
 import { } from "../stores/userStores";
-import {createTimeOutFetch,getCookieValue} from "../utils/generalUtils";
+import { createTimeOutFetch, getCookieValue } from "../utils/generalUtils";
 import { init, t } from "svelte-i18n"; // 导入本地化方法
 import { get } from 'svelte/store';
 
@@ -17,9 +17,9 @@ export async function fetchData() {
 //获取用户信息
 export async function getInfo() {
   try {
-    let response = await createTimeOutFetch()(`https://api.uugpt.com/user/info`,{
-      method:"GET",
-     credentials: 'include'
+    let response = await createTimeOutFetch()(`https://api.uugpt.com/user/info`, {
+      method: "GET",
+      credentials: 'include'
     });
     if (response.ok) {
       const data = await response.json();
@@ -33,15 +33,15 @@ export async function getInfo() {
   }
 }
 
-export async function getMaxthonUserInfo(maxthonToken:string){
+export async function getMaxthonUserInfo(maxthonToken: string) {
   try {
-    let response = await createTimeOutFetch()(`https://api.maxthon.com/web/profile`,{
-      method:"GET",
-     credentials: 'include',
-     headers:{
-      "mxtoken":maxthonToken, 
-     }
-    //  mxtoken:maxthonToken,
+    let response = await createTimeOutFetch()(`https://api.maxthon.com/web/profile`, {
+      method: "GET",
+      credentials: 'include',
+      headers: {
+        "mxtoken": maxthonToken,
+      }
+      //  mxtoken:maxthonToken,
     });
     if (response.ok) {
       const data = await response.json();
@@ -55,11 +55,11 @@ export async function getMaxthonUserInfo(maxthonToken:string){
   }
 }
 
-export async function loginMxUser(mxtoken:string) {
+export async function loginMxUser(mxtoken: string) {
   try {
-    let response = await createTimeOutFetch()(`https://api.uugpt.com/user/login_partner?partner=mx&mxtoken=${mxtoken}`,{
-      method:"GET",
-     credentials: 'include'
+    let response = await createTimeOutFetch()(`https://api.uugpt.com/user/login_partner?partner=mx&mxtoken=${mxtoken}`, {
+      method: "GET",
+      credentials: 'include'
     });
     if (response.ok) {
       const data = await response.json();
@@ -84,7 +84,7 @@ export async function checkEmail(email: string) {
     } else {
       return 1;
     }
-  } catch (e:any) {
+  } catch (e: any) {
     // console.log("发送错误",e.name);
     return 1;
   }
@@ -94,14 +94,14 @@ export async function checkEmail(email: string) {
 //发送邮箱验证码
 export async function sendEmailCode(email: string, code_id: string) {
   try {
-    let res = await createTimeOutFetch()("https://api.maxthon.com/web/sendcode",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
+    let res = await createTimeOutFetch()("https://api.maxthon.com/web/sendcode", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      body:JSON.stringify({
-        email:email,
-        code_id:code_id,
+      body: JSON.stringify({
+        email: email,
+        code_id: code_id,
       })
     });
     if (res.ok) {
@@ -120,17 +120,17 @@ export async function sendEmailCode(email: string, code_id: string) {
 //验证邮箱验证码
 export async function verifycode(code: string, code_id: string) {
   try {
-    let res = await createTimeOutFetch()("https://api.maxthon.com/web/verifycode",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
+    let res = await createTimeOutFetch()("https://api.maxthon.com/web/verifycode", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      body:JSON.stringify({
-        code:code,
-        code_id:code_id,
+      body: JSON.stringify({
+        code: code,
+        code_id: code_id,
       })
     });
-    
+
     if (res.ok) {
       const data = await res.json();
       return data;
@@ -160,9 +160,9 @@ export async function setPassword(email: string, password: string) {
 
 export async function guestSignup() {
   try {
-    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/signup`,{
-      method:"GET",
-     credentials: 'include'
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/signup`, {
+      method: "GET",
+      credentials: 'include'
     });
     if (res.ok) {
       const data = await res.json();
@@ -174,19 +174,19 @@ export async function guestSignup() {
     return 1;
   }
 }
- 
+
 //1.没有忘记密码的情况下，重置密码 2.未登录用户在先使用后注册的情况下，设置邮箱密码
-export async function changePassword(email:string,password:string) {
+export async function changePassword(email: string, password: string) {
   try {
-    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/update`,{
-      method:"POST",
-     credentials: 'include',
-     body:JSON.stringify({
-      "info": {
-        "password": password,
-        "email": email
-    }
-     })
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/update`, {
+      method: "POST",
+      credentials: 'include',
+      body: JSON.stringify({
+        info: {
+          password: password,
+          email: email
+        }
+      })
 
     });
     if (res.ok) {
@@ -203,9 +203,9 @@ export async function changePassword(email:string,password:string) {
 //登录
 export async function login(email: string, password: string) {
   try {
-    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/login?email=${email}&password=${password}`,{
-      method:"GET",
-     credentials: 'include'
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/login?email=${email}&password=${password}`, {
+      method: "GET",
+      credentials: 'include'
     });
     if (res.ok) {
       const data = await res.json();
@@ -229,9 +229,9 @@ export async function login(email: string, password: string) {
 //退出登录
 export async function logout() {
   try {
-    let res = await createTimeOutFetch()(``,{
-      method:"GET",
-     credentials: 'include'
+    let res = await createTimeOutFetch()(``, {
+      method: "GET",
+      credentials: 'include'
     });
     if (res.ok) {
       const data = await res.json();
@@ -244,10 +244,10 @@ export async function logout() {
   }
 }
 //忘记密码——重置密码
-export async function resetPassword(email: string, password: string,verifyCode:string) {
+export async function resetPassword(email: string, password: string, verifyCode: string) {
   try {
-    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/resetPass?email=${email}&new_pass=${password}&code=${verifyCode}`,{
-      method:"GET",
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/resetPass?email=${email}&new_pass=${password}&code=${verifyCode}`, {
+      method: "GET",
       credentials: 'include'
     });
     if (res.ok) {
@@ -262,15 +262,15 @@ export async function resetPassword(email: string, password: string,verifyCode:s
 }
 
 //更改玩家数据（设置按键，语言等）
-export async function updateData(data:any){
-  try{
-    let res = await createTimeOutFetch()(`https://api.uugpt.com/userdata/set`,{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
+export async function updateData(data: any) {
+  try {
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/userdata/set`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
       credentials: 'include',
-      body:JSON.stringify(data)
+      body: JSON.stringify(data)
     });
     if (res.ok) {
       const data = await res.json();
@@ -278,15 +278,15 @@ export async function updateData(data:any){
     } else {
       return 1;
     }
-  }catch(error){
+  } catch (error) {
     return 1;
   }
 }
 
-export async function getUserData(){
+export async function getUserData() {
   try {
-    let res = await createTimeOutFetch()(`https://api.uugpt.com/userdata`,{
-      method:"GET",
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/userdata`, {
+      method: "GET",
       credentials: 'include',
     });
     if (res.ok) {
@@ -300,10 +300,10 @@ export async function getUserData(){
   }
 }
 //忘记密码——发送验证码
-export async function sendForgetEmailCode(email:string){
-  try{
-    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/sendCode?email=${email}`,{
-      method:"GET",
+export async function sendForgetEmailCode(email: string) {
+  try {
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/user/sendCode?email=${email}`, {
+      method: "GET",
       credentials: 'include',
     });
     if (res.ok) {
@@ -312,7 +312,7 @@ export async function sendForgetEmailCode(email:string){
     } else {
       return 1;
     }
-  }catch(error){
+  } catch (error) {
     return 1;
   }
 }

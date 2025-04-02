@@ -14,7 +14,7 @@ function loginSuccess(){
 }
 
 onMount(async () => {
-  if(isLogin){
+  if(get(isLogin)){
     loginSuccess();
   }
 })

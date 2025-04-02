@@ -272,11 +272,19 @@
 
   // 处理Maxthon登录
   function handleMaxthonLogin() {
-    let currentUrl = encodeURI(window.location.href+'?mxcallback=mxcallback');
-    console.log(currentUrl)
-    let targetUrl = `https://my.maxthon.com/auth/login?redirect=${currentUrl}`
+    // let currentUrl = encodeURI(window.location.href+'?mxcallback=mxcallback');
+      // 获取当前 URL 参数
+  const params = new URLSearchParams(window.location.search);
+  // 设置参数
+  params.set('mxcallback', 'mxcallback');
+  
+  // 构建新 URL
+  const newUrl = encodeURI(`${window.location.host}${window.location.pathname}?${params.toString()}${window.location.hash}`);
+
+    let targetUrl = `https://my.maxthon.com/auth/login?redirect=${newUrl}`
+console.log(newUrl)
     console.log(targetUrl)
-    location.href = targetUrl;
+    // location.href = targetUrl;
   }
 
   function handleForgotPassword() {

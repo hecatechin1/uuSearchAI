@@ -3,6 +3,15 @@
   import {TestbaseURL,isLogin} from "../../stores/globalParamentStores"
   import { get } from 'svelte/store';
   import { onMount } from "svelte";
+  import browserSignature from "browser-signature";
+  import {
+    browser_signature,
+  } from "../../stores/globalParamentStores";
+  import { getCookieValue } from "../../utils/generalUtils";
+  import {
+    getUserInfo,
+    userLoginForMaxthon,
+  } from "../../manages/userinfoManages";
   let closeCard = false;
   function closeLoginCard() {
     closeCard = !closeCard;
@@ -14,6 +23,14 @@ function loginSuccess(){
 }
 
 onMount(async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+    let urlParameter = urlParams.get("mxcallback");
+    const signature = browserSignature();
+    browser_signature.set(signature);
+    if (getCookieValue("MXTOKEN") != null || urlParameter != null) {
+      await userLoginForMaxthon();
+    }
+  await getUserInfo();
   if(get(isLogin)){
     loginSuccess();
   }

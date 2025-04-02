@@ -29,11 +29,11 @@
     resetUserPassword,
     userLogin,
     sendForgetCode,
-    changeUserPassword
+    changeUserPassword,
   } from "../manages/userinfoManages";
   import { writable, get } from "svelte/store";
-  import {userEmail} from "../stores/userStores";
-  import {isGuest} from "../stores/globalParamentStores";
+  import { userEmail } from "../stores/userStores";
+  import { isGuest } from "../stores/globalParamentStores";
   export let isPage; //通过父组件判断是否显示关闭按钮
   export let isResetPassword;
   // export let isResetPassword = false;//通过父组件判断是否是重置密码窗口
@@ -57,13 +57,13 @@
   let timeLeft = 0; //验证码倒计时
   let error = "";
   let successMessage = "";
-  //忘记密码 f_ 
+  //忘记密码 f_
   let forgotPassword = false; //是否忘记密码
-  let forgetPasswordCode = '';//忘记密码的邮箱验证码，跟注册时的验证码时两个接口
-  let f_password = '';
-  let f_confirmPassword = '';
-  let f_verifyCode = '';
-  let isMaxthon = false;//判断是否是maxthon浏览器
+  let forgetPasswordCode = ""; //忘记密码的邮箱验证码，跟注册时的验证码时两个接口
+  let f_password = "";
+  let f_confirmPassword = "";
+  let f_verifyCode = "";
+  let isMaxthon = false; //判断是否是maxthon浏览器
   loginPageName.subscribe((value) => {
     password = "";
     confirmPassword = "";
@@ -73,27 +73,35 @@
   });
 
   onMount(async () => {
-
-    if (typeof(maxthon) === 'undefined') {	isMaxthon = false;  } else {	isMaxthon = true; }
-    if(isResetPassword){
-      email = get(userEmail)
+    if (typeof maxthon === "undefined") {
+      isMaxthon = false;
+    } else {
+      isMaxthon = true;
+    }
+    if (isResetPassword) {
+      email = get(userEmail);
       forgotPassword = true;
       changeStatus(status_vcode);
-    }else{
+    } else {
       changeStatus(status_email);
     }
-    
   });
   //验证邮箱
   async function handleEmailSubmit() {
     // 格式验证
     if (!validateEmail(email)) {
-      showErrorMessage($t("login.emailFormatError",{default:"Email format Error"}));
+      showErrorMessage(
+        $t("login.emailFormatError", { default: "Email format Error" }),
+      );
       return;
     }
     //勾选同意协议
     if (!isAgree) {
-      showErrorMessage($t("login.agreeTermsError",{default:"You must agree the Terms to continue"}));
+      showErrorMessage(
+        $t("login.agreeTermsError", {
+          default: "You must agree the Terms to continue",
+        }),
+      );
       return;
     }
     isWaitting = true;
@@ -128,17 +136,27 @@
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }
-    showSuccessMessage($t("login.verificationCodeSentSuccess",{default:"Sended"}));
+    showSuccessMessage(
+      $t("login.verificationCodeSentSuccess", { default: "Sended" }),
+    );
   }
   //验证邮箱验证码
   async function handleCheckVcode() {
     let regex = /^\d{6}$/;
     if (!verifyCode) {
-      showErrorMessage($t("login.enterVerificationCodeError",{default:"Wrong verification code"}));
+      showErrorMessage(
+        $t("login.enterVerificationCodeError", {
+          default: "Wrong verification code",
+        }),
+      );
       return;
     }
     if (!regex.test(verifyCode)) {
-      showErrorMessage($t("login.invalidVerificationCodeError",{default:"invalid verification code"}));
+      showErrorMessage(
+        $t("login.invalidVerificationCodeError", {
+          default: "invalid verification code",
+        }),
+      );
       return;
     }
     isWaitting = true;
@@ -148,27 +166,43 @@
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }
-    showSuccessMessage($t("login.verifySuccess",{default:"Verify success"}));
+    showSuccessMessage(
+      $t("login.verifySuccess", { default: "Verify success" }),
+    );
     changeStatus(status_resetPassword);
   }
   //设置密码
   async function handleSetPassword() {
     if (!password || !confirmPassword) {
-      showErrorMessage($t("login.enterPasswordError",{default:"You must enter a password"}));
+      showErrorMessage(
+        $t("login.enterPasswordError", {
+          default: "You must enter a password",
+        }),
+      );
       return;
     }
     if (password != confirmPassword) {
-      showErrorMessage($t("login.passwordRepeatError",{default:"Passwords do not match"}));
+      showErrorMessage(
+        $t("login.passwordRepeatError", { default: "Passwords do not match" }),
+      );
       return;
     }
     const regex_chat = /^[a-zA-Z0-9@#$%^&*!]+$/;
     const regex_length = /^.{6,24}$/;
     if (!regex_chat.test(password)) {
-      showErrorMessage($t("login.invalidPasswordCharacterError",{default:"Invalid password character"}));
+      showErrorMessage(
+        $t("login.invalidPasswordCharacterError", {
+          default: "Invalid password character",
+        }),
+      );
       return;
     }
     if (!regex_length.test(password)) {
-      showErrorMessage($t("login.passwordLengthError",{default:"Password length must be between 6 and 24 characters"}));
+      showErrorMessage(
+        $t("login.passwordLengthError", {
+          default: "Password length must be between 6 and 24 characters",
+        }),
+      );
       return;
     }
     isWaitting = true;
@@ -176,7 +210,7 @@
     // if (forgotPassword) {
     //   res = await resetUserPassword(email, password);
     // } else {changeUserPassword
-      res = await changeUserPassword(email, password);
+    res = await changeUserPassword(email, password);
     // }
     // let res = await setUserPassword(email,password);
     isWaitting = false;
@@ -194,8 +228,8 @@
 
     showSuccessMessage(
       forgotPassword
-        ? $t("login.resetPasswordSuccess",{default:"Reset Success"})
-        : $t("login.loginSuccess",{default:"Login Success"}),
+        ? $t("login.resetPasswordSuccess", { default: "Reset Success" })
+        : $t("login.loginSuccess", { default: "Login Success" }),
     );
     forgotPassword = false;
     loginSuccess();
@@ -203,7 +237,9 @@
   //登录
   async function handleLogin() {
     if (!password) {
-      showErrorMessage($t("login.passwordPlaceholder",{default:"Password"}));
+      showErrorMessage(
+        $t("login.passwordPlaceholder", { default: "Password" }),
+      );
       return;
     }
 
@@ -214,11 +250,11 @@
       showErrorMessage(getErrorMessage(res.msg.toString()));
       return;
     }
-    if(get(isGuest)){
-            localStorage.setItem("current_chat_id", '0');
-            isGuest.set(false);
+    if (get(isGuest)) {
+      localStorage.setItem("current_chat_id", "0");
+      isGuest.set(false);
     }
-    showSuccessMessage($t("login.loginSuccess",{default:"Loged in"}));
+    showSuccessMessage($t("login.loginSuccess", { default: "Loged in" }));
     loginSuccess();
   }
   //忘记密码的邮箱验证码是单独的接口
@@ -240,11 +276,13 @@
       showErrorMessage(getErrorMessage(data.toString()));
       return;
     }
-    showSuccessMessage($t("login.verificationCodeSentSuccess",{default:"Sended"}));
+    showSuccessMessage(
+      $t("login.verificationCodeSentSuccess", { default: "Sended" }),
+    );
   }
 
-  async function forgetPasswordSubmit(){
-    let data = await resetUserPassword(email, f_password,f_verifyCode);
+  async function forgetPasswordSubmit() {
+    let data = await resetUserPassword(email, f_password, f_verifyCode);
     if (data != 0) {
       showErrorMessage(getErrorMessage(data.toString()));
       return;
@@ -258,8 +296,8 @@
     }
     showSuccessMessage(
       forgotPassword
-        ? $t("login.resetPasswordSuccess",{default:"Reset Success"})
-        : $t("login.loginSuccess",{default:"Loged in"}),
+        ? $t("login.resetPasswordSuccess", { default: "Reset Success" })
+        : $t("login.loginSuccess", { default: "Loged in" }),
     );
     forgotPassword = false;
     loginSuccess();
@@ -272,19 +310,11 @@
 
   // 处理Maxthon登录
   function handleMaxthonLogin() {
-    // let currentUrl = encodeURI(window.location.href+'?mxcallback=mxcallback');
-      // 获取当前 URL 参数
-  const params = new URLSearchParams(window.location.search);
-  // 设置参数
-  params.set('mxcallback', 'mxcallback');
-  
-  // 构建新 URL
-  const newUrl = encodeURI(`${window.location.host}${window.location.pathname}?${params.toString()}${window.location.hash}`);
-
-    let targetUrl = `https://my.maxthon.com/auth/login?redirect=${newUrl}`
-console.log(newUrl)
-    console.log(targetUrl)
-    // location.href = targetUrl;
+    const params = new URLSearchParams(window.location.search);
+    params.set("mxcallback", "mxcallback");
+    const newUrl = encodeURI(`https://${window.location.hostname}${window.location.pathname}?${params.toString()}${window.location.hash}`,);
+    let targetUrl = `https://my.maxthon.com/auth/login?redirect=${newUrl}`;
+    location.href = targetUrl;
   }
 
   function handleForgotPassword() {
@@ -315,11 +345,9 @@ console.log(newUrl)
     console.log(currentStatus);
     loginPageName.set(currentStatus[currentStatus.length - 1]);
   }
-
-  
 </script>
 
-<div  class={isPage? "" : "login-viewbox"}>
+<div class={isPage ? "" : "login-viewbox"}>
   <div class="flex items-center justify-center min-h-screen">
     <div
       class="bg-white p-6 md:p-10 rounded-lg shadow-md w-full h-screen max-w-[100vw] md:w-[32rem] md:max-w-[32rem] md:min-w-[32rem] md:max-h-[32rem] relative"
@@ -346,11 +374,13 @@ console.log(newUrl)
               <span>uuGPT</span>
             </h1>
             <form on:submit={handleEmailSubmit}>
-              <label for="email" class="sr-only">{$t("login.email",{default:"Email"})}</label>
+              <label for="email" class="sr-only"
+                >{$t("login.email", { default: "Email" })}</label
+              >
               <div class="relative w-full">
                 <img
                   src={accountIcon}
-                  alt={$t("login.email",{default:"Email"})}
+                  alt={$t("login.email", { default: "Email" })}
                   class="absolute left-3 top-3 w-6 h-6 opacity-20"
                 />
                 <input
@@ -358,24 +388,30 @@ console.log(newUrl)
                   class="w-full pl-12 p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
                   bind:value={email}
                   required
-                  placeholder={$t("login.emailPlaceholder",{default:"Email"})}
+                  placeholder={$t("login.emailPlaceholder", {
+                    default: "Email",
+                  })}
                 />
               </div>
               <div class="flex items-center mb-4 w-full">
                 <input type="checkbox" bind:checked={isAgree} class="mr-2" />
                 <label for="terms" class="text-sm flex-1"
-                  >{$t("login.agreeTerms",{default:"I agree with the"})}
+                  >{$t("login.agreeTerms", { default: "I agree with the" })}
                   <a
                     class="hover:text-blue-700 hover:underline"
                     href="./terms"
                     target="_blank"
-                    >{$t("login.serviceTermsLink",{default:"EULA"})}</a
-                  > & <a
-                  class="hover:text-blue-700 hover:underline"
-                  href="./privacy"
-                  target="_blank"
-                  >{$t("home.footer.privacy",{default:"Privacy Policy"})}</a
-                ></label
+                    >{$t("login.serviceTermsLink", { default: "EULA" })}</a
+                  >
+                  &
+                  <a
+                    class="hover:text-blue-700 hover:underline"
+                    href="./privacy"
+                    target="_blank"
+                    >{$t("home.footer.privacy", {
+                      default: "Privacy Policy",
+                    })}</a
+                  ></label
                 >
               </div>
               <div class="w-full h-10"></div>
@@ -386,7 +422,7 @@ console.log(newUrl)
                 class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
               >
                 <span class="text-white font-semibold"
-                  >{$t("login.nextStep",{default:"Next"})}</span
+                  >{$t("login.nextStep", { default: "Next" })}</span
                 >
                 <!-- 加载过程禁用按钮并显示loading动画 -->
                 {#if isWaitting}<span class="message-loader w-6 h-6 ml-3"
@@ -394,14 +430,16 @@ console.log(newUrl)
               </button>
             </form>
             {#if isMaxthon}
-            <div class="flex items-center my-6">
-              <hr class="flex-grow border-gray-300" />
-              <span class="px-4 text-gray-500 text-sm">{$t("login.or",{default:"or"})}</span>
-              <hr class="flex-grow border-gray-300" />
-            </div>
+              <div class="flex items-center my-6">
+                <hr class="flex-grow border-gray-300" />
+                <span class="px-4 text-gray-500 text-sm"
+                  >{$t("login.or", { default: "or" })}</span
+                >
+                <hr class="flex-grow border-gray-300" />
+              </div>
 
-            <!-- Google 登录 -->
-            <!-- <div class="text-center">
+              <!-- Google 登录 -->
+              <!-- <div class="text-center">
               <button
                 on:click={handleGoogleLogin}
                 class="w-full bg-white border border-gray-300 text-gray-700 font-semibold py-3 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center"
@@ -410,18 +448,19 @@ console.log(newUrl)
                 {$t("login.loginWithGoogle")}
               </button>
             </div> -->
-            
-            <div class="text-center">
-              <button
-                on:click={handleMaxthonLogin}
-                class="w-full bg-white border border-gray-300 text-gray-700 font-semibold py-3 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center"
-              >
-                <img src={maxthonIcon} alt="Google" class="w-5 h-5 mr-2" />
-                {$t("login.loginWithMaxthon",{default:"Continue with Maxthon"})}
-              </button>
-            </div>
-            {/if}
 
+              <div class="text-center">
+                <button
+                  on:click={handleMaxthonLogin}
+                  class="w-full bg-white border border-gray-300 text-gray-700 font-semibold py-3 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center"
+                >
+                  <img src={maxthonIcon} alt="Google" class="w-5 h-5 mr-2" />
+                  {$t("login.loginWithMaxthon", {
+                    default: "Continue with Maxthon",
+                  })}
+                </button>
+              </div>
+            {/if}
           </div>
         {/if}
 
@@ -434,9 +473,14 @@ console.log(newUrl)
                 on:click={back}
                 class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded"
               >
-                <img src={backIcon} alt={$t("login.back",{default:"back"})} class="w-8 h-8" />
+                <img
+                  src={backIcon}
+                  alt={$t("login.back", { default: "back" })}
+                  class="w-8 h-8"
+                />
               </button>
-              <span class="text-lg font-semibold">{$t("login.loginTitle",{default:"Login"})}</span
+              <span class="text-lg font-semibold"
+                >{$t("login.loginTitle", { default: "Login" })}</span
               >
             </div>
 
@@ -473,7 +517,9 @@ console.log(newUrl)
                       bind:value={password}
                       required
                       autofocus
-                      placeholder={$t("login.passwordPlaceholder",{default:"Password"})}
+                      placeholder={$t("login.passwordPlaceholder", {
+                        default: "Password",
+                      })}
                     />
                   {:else}
                     <input
@@ -482,7 +528,9 @@ console.log(newUrl)
                       bind:value={password}
                       required
                       autofocus
-                      placeholder={$t("login.passwordPlaceholder",{default:"Password"})}
+                      placeholder={$t("login.passwordPlaceholder", {
+                        default: "Password",
+                      })}
                     />
                   {/if}
 
@@ -519,7 +567,7 @@ console.log(newUrl)
                   class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
                 >
                   <span class="text-white font-semibold"
-                    >{$t("login.login",{default:"Login"})}</span
+                    >{$t("login.login", { default: "Login" })}</span
                   >
                   <!-- 加载过程禁用按钮并显示loading动画 -->
                   {#if isWaitting}<span class="message-loader w-6 h-6 ml-3"
@@ -532,7 +580,11 @@ console.log(newUrl)
                   on:click={handleForgotPassword}
                   class="text-sm text-themegreen hover:underline py-2 px-5"
                 >
-                  <span>{$t("login.forgotPassword",{default:"Forgot Password"})}</span>
+                  <span
+                    >{$t("login.forgotPassword", {
+                      default: "Forgot Password",
+                    })}</span
+                  >
                 </button>
               </div>
             </div>
@@ -543,27 +595,28 @@ console.log(newUrl)
         {#if $loginPageName === status_vcode}
           <div class="animate-fade">
             <!-- 登录框左上角标题栏 -->
-             {#if !isResetPassword}
-
-            <div class="flex items-center mb-6">
-              <button
-                on:click={back}
-                class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded"
-              >
-                <img src={backIcon} alt={$t("login.back")} class="w-8 h-8" />
-              </button>
-              <span class="text-lg font-semibold"
-                >{$t("login.enterVerificationTitle")}</span
-              >
-            </div>
+            {#if !isResetPassword}
+              <div class="flex items-center mb-6">
+                <button
+                  on:click={back}
+                  class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded"
+                >
+                  <img src={backIcon} alt={$t("login.back")} class="w-8 h-8" />
+                </button>
+                <span class="text-lg font-semibold"
+                  >{$t("login.enterVerificationTitle")}</span
+                >
+              </div>
             {/if}
             <div class="mt-10">
               <form>
                 <p class="mb-2">
-                  {$t('login.enterVerificationCode', { values:{ email:email} })}
+                  {$t("login.enterVerificationCode", {
+                    values: { email: email },
+                  })}
                 </p>
                 <!-- 普通文本插值 {values:{翻译json里的字段名:实际的值}} -->
-                 <!-- html插值，先在翻译json文件里写HTML，然后使用{@html $t('login.enterVerficationCode', { values:{ email:email} })} -->
+                <!-- html插值，先在翻译json文件里写HTML，然后使用{@html $t('login.enterVerficationCode', { values:{ email:email} })} -->
                 <!-- 发送验证码按钮，有倒计时，加载完成后先自动发送一次 -->
                 <button
                   disabled={sendedVcode}
@@ -571,9 +624,11 @@ console.log(newUrl)
                   type="button"
                   class="text-themegreen hover:underline py-2 mb-5"
                 >
-                {sendedVcode
-                  ? $t('login.resendVerificationCode',{ values:{ timeLeft: timeLeft } } )
-                  : $t("login.sendVerificationCode")}
+                  {sendedVcode
+                    ? $t("login.resendVerificationCode", {
+                        values: { timeLeft: timeLeft },
+                      })
+                    : $t("login.sendVerificationCode")}
                 </button>
 
                 <div class="relative w-full mb-4">
@@ -591,7 +646,9 @@ console.log(newUrl)
                     bind:value={verifyCode}
                     type="text"
                     class="w-full pl-10 pr-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-themegreen focus:border-transparent placeholder-gray-400"
-                    placeholder={$t("login.verificationCodePlaceholder",{default:"Verification Code"})}
+                    placeholder={$t("login.verificationCodePlaceholder", {
+                      default: "Verification Code",
+                    })}
                     required
                     autofocus
                   />
@@ -617,17 +674,20 @@ console.log(newUrl)
             <div class="flex items-center mb-6">
               <button
                 on:click={back}
-                class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded">
+                class="mr-2 text-gray-700 text-xl cursor-pointer transition-colors duration-300 hover:bg-gray-200 focus:outline-none rounded"
+              >
                 <img src={backIcon} alt={$t("login.back")} class="w-8 h-8" />
               </button>
               <span class="text-lg font-semibold">
-                {$t("login.resetPasswordTitle",{default:"Reset Password"})}
+                {$t("login.resetPasswordTitle", { default: "Reset Password" })}
               </span>
             </div>
             <div class="mt-4">
               <form>
                 <p class="mb-2">
-                  {$t('login.enterVerificationCode', { values:{ email:email} })}
+                  {$t("login.enterVerificationCode", {
+                    values: { email: email },
+                  })}
                 </p>
 
                 <!-- 发送验证码按钮，有倒计时，加载完成后先自动发送一次 -->
@@ -638,7 +698,9 @@ console.log(newUrl)
                   class="text-themegreen hover:underline py-2 mb-2"
                 >
                   {sendedVcode
-                    ? $t('login.resendVerificationCode',{ values:{ timeLeft: timeLeft } } )
+                    ? $t("login.resendVerificationCode", {
+                        values: { timeLeft: timeLeft },
+                      })
                     : $t("login.sendVerificationCode")}
                 </button>
 
@@ -682,7 +744,9 @@ console.log(newUrl)
                       bind:value={f_password}
                       required
                       autofocus
-                      placeholder={$t("login.resetPasswordPlaceholder",{default:"Reset Password"})}
+                      placeholder={$t("login.resetPasswordPlaceholder", {
+                        default: "Reset Password",
+                      })}
                     />
                   {:else}
                     <input
@@ -691,7 +755,9 @@ console.log(newUrl)
                       bind:value={f_password}
                       required
                       autofocus
-                      placeholder={$t("login.resetPasswordPlaceholder",{default:"Reset Password"})}
+                      placeholder={$t("login.resetPasswordPlaceholder", {
+                        default: "Reset Password",
+                      })}
                     />
                   {/if}
                   <!-- 右侧显示/隐藏密码图标 -->
@@ -737,7 +803,9 @@ console.log(newUrl)
                       bind:value={f_confirmPassword}
                       required
                       autofocus
-                      placeholder={$t("login.confirmPasswordPlaceholder",{default:"Enter Password again"})}
+                      placeholder={$t("login.confirmPasswordPlaceholder", {
+                        default: "Enter Password again",
+                      })}
                     />
                   {:else}
                     <input
@@ -746,7 +814,9 @@ console.log(newUrl)
                       bind:value={f_confirmPassword}
                       required
                       autofocus
-                      placeholder={$t("login.confirmPasswordPlaceholder",{default:"Enter Password again"})}
+                      placeholder={$t("login.confirmPasswordPlaceholder", {
+                        default: "Enter Password again",
+                      })}
                     />
                   {/if}
 
@@ -783,7 +853,9 @@ console.log(newUrl)
                   class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
                 >
                   <span class="text-white font-semibold"
-                    >{$t("login.confirmAndLogin",{default:"Enter Password again"})}</span
+                    >{$t("login.confirmAndLogin", {
+                      default: "Enter Password again",
+                    })}</span
                   >
                   <!-- 加载过程禁用按钮并显示loading动画 -->
 
@@ -967,14 +1039,14 @@ console.log(newUrl)
 
 <style>
   @import "../styles/skeleton.css";
-  .login-viewbox{
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-    z-index:1000;
-    background-color:rgba(0,0,0,.6);
+  .login-viewbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.6);
     height: 100vh;
     width: 100vw;
   }

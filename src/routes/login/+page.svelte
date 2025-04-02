@@ -1,7 +1,8 @@
 <script>
   import Login from "$lib/Login.svelte";
-  import {TestbaseURL} from "../../stores/globalParamentStores"
+  import {TestbaseURL,isLogin} from "../../stores/globalParamentStores"
   import { get } from 'svelte/store';
+  import { onMount } from "svelte";
   let closeCard = false;
   function closeLoginCard() {
     closeCard = !closeCard;
@@ -11,6 +12,12 @@ function loginSuccess(){
   closeLoginCard();
   document.location.href =get(TestbaseURL)+ '/chat';
 }
+
+onMount(async () => {
+  if(isLogin){
+    loginSuccess();
+  }
+})
 </script>
 
 

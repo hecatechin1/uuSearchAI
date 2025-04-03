@@ -65,7 +65,7 @@
   let f_verifyCode = "";
   let isMaxthon = false; //判断是否是maxthon浏览器
   let isLoginLoading = true; //Maxthon和Google登录loading状态，用于控制按钮的禁用和loading状态
-  let loginType = 'uugpt';
+  let loginType = 'uugpt'; //登录类型，uugpt或者maxthon或者google，用于控制登录按钮的样式和禁用状态，默认是uugpt
 
   loginPageName.subscribe((value) => {
     password = "";

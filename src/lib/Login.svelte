@@ -351,6 +351,7 @@
   <div class="flex items-center justify-center min-h-screen">
     <div
       class="bg-white p-6 md:p-10 rounded-lg shadow-md w-full h-screen max-w-[100vw] md:w-[32rem] md:max-w-[32rem] md:min-w-[32rem] md:max-h-[32rem] relative"
+      class:min-h-[35rem]={isMaxthon}
     >
       <div>
         <!-- 关闭按钮 -->
@@ -414,7 +415,11 @@
                   ></label
                 >
               </div>
-              <div class="w-full h-10"></div>
+              {#if !isMaxthon}
+                <div class="w-full h-10"></div>
+              {:else if isMaxthon}
+                <div class="w-full h-4"></div>
+              {/if}
               <button
                 disabled={isWaitting}
                 on:click={handleEmailSubmit}
@@ -429,7 +434,7 @@
                   ></span>{/if}
               </button>
             </form>
-            {#if isMaxthon}
+            
               <div class="flex items-center my-6">
                 <hr class="flex-grow border-gray-300" />
                 <span class="px-4 text-gray-500 text-sm"
@@ -439,16 +444,16 @@
               </div>
 
               <!-- Google 登录 -->
-              <!-- <div class="text-center">
+              <div class="text-center">
               <button
                 on:click={handleGoogleLogin}
-                class="w-full bg-white border border-gray-300 text-gray-700 font-semibold py-3 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center"
+                class="mb-4 w-full bg-white border border-gray-300 text-gray-700 font-semibold py-3 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center"
               >
                 <img src={googleIcon} alt="Google" class="w-5 h-5 mr-2" />
                 {$t("login.loginWithGoogle")}
               </button>
-            </div> -->
-
+            </div>
+            {#if isMaxthon}
               <div class="text-center">
                 <button
                   on:click={handleMaxthonLogin}

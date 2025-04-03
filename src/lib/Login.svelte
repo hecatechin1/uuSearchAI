@@ -64,6 +64,9 @@
   let f_confirmPassword = "";
   let f_verifyCode = "";
   let isMaxthon = false; //判断是否是maxthon浏览器
+  let isLoginLoading = true; //Maxthon和Google登录loading状态，用于控制按钮的禁用和loading状态
+  let loginType = 'uugpt';
+
   loginPageName.subscribe((value) => {
     password = "";
     confirmPassword = "";
@@ -421,7 +424,7 @@
                 <div class="w-full h-4"></div>
               {/if}
               <button
-                disabled={isWaitting}
+                disabled={isWaitting || isLoginLoading}
                 on:click={handleEmailSubmit}
                 type="submit"
                 class="w-full bg-themegreen py-3 rounded-md hover:bg-themegreenhover focus:outline-none focus:ring-2 focus:ring-themegreen disabled:opacity-50 flex items-center justify-center"
@@ -451,6 +454,7 @@
               >
                 <img src={googleIcon} alt="Google" class="w-5 h-5 mr-2" />
                 {$t("login.loginWithGoogle")}
+                {#if isLoginLoading && loginType === 'google'}<span class="message-loader w-6 h-6 ml-3" />{/if}
               </button>
             </div>
             {#if isMaxthon}
@@ -463,6 +467,7 @@
                   {$t("login.loginWithMaxthon", {
                     default: "Continue with Maxthon",
                   })}
+                  {#if isLoginLoading && loginType === 'maxthon'}<span class="message-loader w-6 h-6 ml-3" />{/if}
                 </button>
               </div>
             {/if}

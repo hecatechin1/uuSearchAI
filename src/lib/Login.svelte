@@ -68,8 +68,9 @@
 
   let isLoginLoading = false; //Maxthon和Google登录loading状态，用于控制按钮的禁用和loading状态
   let loginType = "uugpt"; //登录类型，uugpt或者maxthon或者google，用于控制登录按钮的样式和禁用状态，默认是uugpt
-  let canFedCM = false;
+  let canFedCM = true;   //因为浏览器有第三方登录限制，如果用户在fed登录时取消，浏览器自动阻止站点使用fed第三方登录，所以需要保存状态，以便重新使用gis登录
   let showGisButton = false; //是否显示GIS按钮，用于控制登录按钮的样式和禁用状态，默认是false
+  let canGoogleLogin = false; //是否可以使用Google登录，默认是false
 
   loginPageName.subscribe((value) => {
     password = "";
@@ -92,37 +93,24 @@
     } else {
       changeStatus(status_email);
     }
-    // if (isFedCMCapable()) {
-    setTimeout(() => {
-      
-    }, 6000)
-    console.log(isFedCMCapable())
-    if (true) {
-      canFedCM = true;
-      // 显示 FedCM 按钮
-      // document.getElementById("fedcm-login").style.display = "inline-block";
-      // document.getElementById("fedcm-login").onclick = tryFedCMLogin;
+    if (browser) {
+      window._showErrorMessage = showErrorMessage;
+      window._showSuccessMessage = showSuccessMessage;
+    }
 
+  });
+
+  function googleloaded(){
+    console.error('------');
+    canGoogleLogin = true;
+    if (isFedCMCapable()) {
+      canFedCM = true;
     } else {
       canFedCM = false;
       showGisButton = true;
-      // 回退到 GIS 按钮
-      // document.getElementById("gis-login-button").style.display = "block";
-      // if (browser) {
-      //   // 动态创建 script 标签
-      //   const script = document.createElement("script");
-      //   script.src = "/js/googleLogin.js";
-      //   script.async = true;
-      //   document.body.appendChild(script);
-
-      //   const script_gsi = document.createElement("script");
-      //   script_gsi.src = "https://accounts.google.com/gsi/client";
-      //   script_gsi.async = true;
-      //   // 插入到 body 中
-      //   document.body.appendChild(script_gsi);
-      // }
     }
-  });
+  }
+
   function isFedCMCapable() {
     try {
       const ua = navigator.userAgent;
@@ -152,7 +140,8 @@
           providers: [
             {
               configURL: "https://accounts.google.com/gsi/fedcm.json",
-              clientId: '111015791863-mvevc0jau39k9mrocfisr6cn9nr39pqj.apps.googleusercontent.com',
+              clientId:
+                "111015791863-mvevc0jau39k9mrocfisr6cn9nr39pqj.apps.googleusercontent.com",
             },
           ],
         },
@@ -161,14 +150,26 @@
 
       if (credential) {
         // FedCM 成功登录
-        console.log("FedCM 登录成功:", credential);
-        console.log(handleCredentialResponse)
+        // console.log("FedCM 登录成功:", credential);
+        showSuccessMessage(
+          $t("login.loginSuccess", { default: "Login success" }),
+        );
         handleCredentialResponse({ credential: credential.token });
       } else {
-        console.log("用户取消 FedCM 登录");
+        // console.log("用户取消 FedCM 登录");
+
+        isLoginLoading = false;
+        canFedCM = false;
+        showGisButton = true;
+        loginType = "uugpt";
       }
     } catch (err) {
-      console.error("FedCM 登录失败:", err);
+      // console.error("FedCM 登录失败:", err);
+      isLoginLoading = false;
+      canFedCM = false;
+      showGisButton = true;
+      loginType = "uugpt";
+      showErrorMessage($t("login.loginError", { default: "Login error" }));
     }
   }
 
@@ -194,7 +195,6 @@
     let res = await checkUserEmail(email);
     isWaitting = false;
     if (res === 1) {
-      console.log(res);
       showErrorMessage(getErrorMessage(res.toString()));
       return;
     }
@@ -396,31 +396,17 @@
     loginType = "google";
     tryFedCMLogin();
   }
-  // function handleCredentialResponse(response:any){
-  //   // 示例：发送到你后端验证
-  //   fetch("https://api.uugpt.com/user/verify-google-token", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       credentials: "include",
-  //       body: JSON.stringify({ token: response.credential })
-  //   })
-  //       .then(res => res.json())
-  //       .then(data => {
-  //           console.log('sss');
-  //           window.location.href = '/chat';
-  //       });
-  // }
   // 处理Maxthon登录
   function handleMaxthonLogin() {
     isLoginLoading = true;
-    loginType = "google";
+    loginType = "maxthon";
     const params = new URLSearchParams(window.location.search);
     params.set("mxcallback", "mxcallback");
     const newUrl = encodeURI(
       `https://${window.location.hostname}${window.location.pathname}?${params.toString()}${window.location.hash}`,
     );
     let targetUrl = `https://my.maxthon.com/auth/login?redirect=${newUrl}`;
-    
+
     location.href = targetUrl;
   }
 
@@ -449,13 +435,14 @@
   //返回
   function back() {
     currentStatus.pop();
-    console.log(currentStatus);
+    // console.log(currentStatus);
     loginPageName.set(currentStatus[currentStatus.length - 1]);
   }
 </script>
+
 <svelte:head>
-  <script src="/js/google-Login.js" async defer></script>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="/js/google-Login.js"></script>
+  <script src="https://accounts.google.com/gsi/client" on:load={()=>{googleloaded()}}></script>
 </svelte:head>
 <div class={isPage ? "" : "login-viewbox"}>
   <div class="flex items-center justify-center min-h-screen">
@@ -572,39 +559,41 @@
             <div class="text-center">
               {#if canFedCM}
                 <button
-                id="fedcm-login"
+                  id="fedcm-login"
                   on:click={handleGoogleLogin}
                   class="mb-2 w-full bg-white border border-gray-300 text-gray-700 text-sm py-2 font-medium rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center"
                 >
-                  <img src={googleIcon} alt="Google" class="w-5 h-5 mr-2"/>
+                  <img src={googleIcon} alt="Google" class="w-5 h-5 mr-2" />
                   {$t("login.loginWithGoogle")}
                   {#if isLoginLoading && loginType === "google"}
-                  <span class="message-loader w-6 h-6 ml-3"/>
+                    <span class="message-loader w-6 h-6 ml-3" />
                   {/if}
                 </button>
               {/if}
-                <!-- GIS fallback 登录按钮容器 -->
-                <div id="gis-login-button" style="display:block; {showGisButton? "display:block" : "display:none"}">
-                  <div
-                    id="g_id_onload"
-                    data-client_id="111015791863-mvevc0jau39k9mrocfisr6cn9nr39pqj.apps.googleusercontent.com"
-                    data-callback="handleCredentialResponse"
-                    data-auto_prompt="false"
-                  >
-                  </div>
+              <!-- GIS fallback 登录按钮容器 -->
+              <div
+                id="gis-login-button"
+                style="display:block; {showGisButton
+                  ? 'display:block'
+                  : 'display:none'}"
+              >
+                <div
+                  id="g_id_onload"
+                  data-client_id="111015791863-mvevc0jau39k9mrocfisr6cn9nr39pqj.apps.googleusercontent.com"
+                  data-callback="handleCredentialResponse"
+                  data-auto_prompt="false"
+                ></div>
 
-                  <div
+                <div
                   class="g_id_signin"
-                    data-type="standard"
-                    data-size="large"
-                    data-theme="outline"
-                    data-text="signin_with"
-                    data-shape="rectangular"
-                  ></div>
-                </div>
-
+                  data-type="standard"
+                  data-size="large"
+                  data-theme="outline"
+                  data-text="signin_with"
+                  data-shape="rectangular"
+                ></div>
+              </div>
             </div>
-
           </div>
         {/if}
 
@@ -1194,5 +1183,4 @@
     height: 100vh;
     width: 100vw;
   }
-
 </style>

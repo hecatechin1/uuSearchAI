@@ -2,9 +2,6 @@
 
 
 function handleCredentialResponse(response) {
-    console.log("接收到 Google ID Token:", response.credential);
-
-    // 示例：发送到你后端验证
     fetch("https://api.uugpt.com/user/verify-google-token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -13,6 +10,8 @@ function handleCredentialResponse(response) {
     })
         .then(res => res.json())
         .then(data => {
-            // window.location.href = '/chat';
-        });
+            window._showSuccessMessage('Login successfully')
+            window.location.href = '/chat';
+        })
+        .catch(err=>{window._showErrorMessage('Login Error')});
 }

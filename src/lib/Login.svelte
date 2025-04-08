@@ -512,9 +512,9 @@
                   ></label
                 >
               </div>
-              {#if !isMaxthon}
+              {#if !isMaxthon && !canGoogleLogin}
                 <div class="w-full h-10"></div>
-              {:else if isMaxthon}
+              {:else if isMaxthon || canGoogleLogin}
                 <div class="w-full h-4"></div>
               {/if}
               <button
@@ -532,6 +532,7 @@
               </button>
             </form>
 
+            {#if !isMaxthon && !canGoogleLogin}           
             <div class="flex items-center my-6">
               <hr class="flex-grow border-gray-300" />
               <span class="px-4 text-gray-500 text-sm"
@@ -539,6 +540,8 @@
               >
               <hr class="flex-grow border-gray-300" />
             </div>
+            {/if}
+
             {#if isMaxthon}
               <div class="text-center">
                 <button

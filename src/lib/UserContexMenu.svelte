@@ -36,7 +36,7 @@
   }
 </script>
 
-<div on:click={closeCard} class="fixed top-0 left-0 w-screen h-screen" style="z-index: 1000;">
+<div on:click={closeCard} role="button" tabindex="0"  on:keydown={e => e.key === 'Enter' && closeCard()} class="fixed top-0 left-0 w-screen h-screen" style="z-index: 1000;">
 
 <div
     class="absolute z-50 py-2 min-w-[180px] max-w-[280px] bg-white border border-gray-300 rounded-lg mt-2 shadow-lg z-10 max-h-[300px] overflow-y-auto dropdown-menu
@@ -52,8 +52,8 @@
     <span class="whitespace-nowrap">{$userEmail}</span>
   </div>
 
-  {#if $userType != 'maxthon'}
-  <div on:click={resetpassword} class="flex items-center text-sm cursor-pointer disabled:opacity-50 group relative hover:bg-[#f5f5f5] rounded-md my-0 px-2 mx-2 gap-2.5 py-2 pr-3">
+  {#if $userType != 'maxthon' && $userType!='google'}
+  <div on:click={resetpassword} role="button" tabindex="0"  on:keydown={e => e.key === 'Enter' && resetpassword()} class="flex items-center text-sm cursor-pointer disabled:opacity-50 group relative hover:bg-[#f5f5f5] rounded-md my-0 px-2 mx-2 gap-2.5 py-2 pr-3">
     <div class="flex items-center justify-center text-themegreen h-5 w-5">
         <img class="h-5 w-5" src={passwordIcon} alt="uuGPt account"/>
     </div>

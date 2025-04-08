@@ -13,7 +13,6 @@ function handleCredentialResponse(response) {
     })
         .then(res => res.json())
         .then(data => {
-            console.log('sss');
-            window.location.href = '/chat';
+            // window.location.href = '/chat';
         });
 }

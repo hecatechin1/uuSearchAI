@@ -18,7 +18,7 @@ export const userSubMode = writable('free');
 export const userAvatar = writable('');
 //用户昵称
 export const userNickname = writable('');
-//用户类型，普通用户，遨游用户
+//用户类型，普通用户，遨游用户，google用户
 export const userType = writable('');
 
 

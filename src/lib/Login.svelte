@@ -69,6 +69,7 @@
   let isLoginLoading = false; //Maxthon和Google登录loading状态，用于控制按钮的禁用和loading状态
   let loginType = "uugpt"; //登录类型，uugpt或者maxthon或者google，用于控制登录按钮的样式和禁用状态，默认是uugpt
   let canFedCM = false;
+  let showGisButton = false; //是否显示GIS按钮，用于控制登录按钮的样式和禁用状态，默认是false
 
   loginPageName.subscribe((value) => {
     password = "";
@@ -95,15 +96,16 @@
     setTimeout(() => {
       
     }, 6000)
-
-    if (false) {
+    console.log(isFedCMCapable())
+    if (true) {
       canFedCM = true;
       // 显示 FedCM 按钮
       // document.getElementById("fedcm-login").style.display = "inline-block";
       // document.getElementById("fedcm-login").onclick = tryFedCMLogin;
-      // tryFedCMLogin();
+
     } else {
       canFedCM = false;
+      showGisButton = true;
       // 回退到 GIS 按钮
       // document.getElementById("gis-login-button").style.display = "block";
       // if (browser) {
@@ -160,6 +162,7 @@
       if (credential) {
         // FedCM 成功登录
         console.log("FedCM 登录成功:", credential);
+        console.log(handleCredentialResponse)
         handleCredentialResponse({ credential: credential.token });
       } else {
         console.log("用户取消 FedCM 登录");
@@ -391,8 +394,22 @@
     // 使用Google登录
     isLoginLoading = true;
     loginType = "google";
+    tryFedCMLogin();
   }
-  function handleCredentialResponse(){}
+  // function handleCredentialResponse(response:any){
+  //   // 示例：发送到你后端验证
+  //   fetch("https://api.uugpt.com/user/verify-google-token", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       credentials: "include",
+  //       body: JSON.stringify({ token: response.credential })
+  //   })
+  //       .then(res => res.json())
+  //       .then(data => {
+  //           console.log('sss');
+  //           window.location.href = '/chat';
+  //       });
+  // }
   // 处理Maxthon登录
   function handleMaxthonLogin() {
     isLoginLoading = true;
@@ -437,7 +454,7 @@
   }
 </script>
 <svelte:head>
-  <script src="/js/googleLogin.js" async defer></script>
+  <script src="/js/google-Login.js" async defer></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </svelte:head>
 <div class={isPage ? "" : "login-viewbox"}>
@@ -540,24 +557,26 @@
             <div class="text-center">
               {#if canFedCM}
                 <button
+                id="fedcm-login"
                   on:click={handleGoogleLogin}
                   class="mb-4 w-full bg-white border border-gray-300 text-gray-700 font-semibold py-3 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center"
                 >
-                  <img src={googleIcon} alt="Google" class="w-5 h-5 mr-2" />
+                  <img src={googleIcon} alt="Google" class="w-5 h-5 mr-2"/>
                   {$t("login.loginWithGoogle")}
-                  {#if isLoginLoading && loginType === "google"}<span
-                      class="message-loader w-6 h-6 ml-3"
-                    />{/if}
+                  {#if isLoginLoading && loginType === "google"}
+                  <span class="message-loader w-6 h-6 ml-3"/>
+                  {/if}
                 </button>
-                {/if}
+              {/if}
                 <!-- GIS fallback 登录按钮容器 -->
-                <div id="gis-login-button" style="display:block;">
+                <div id="gis-login-button" style="display:block; {showGisButton? "display:block" : "display:none"}">
                   <div
                     id="g_id_onload"
                     data-client_id="111015791863-mvevc0jau39k9mrocfisr6cn9nr39pqj.apps.googleusercontent.com"
                     data-callback="handleCredentialResponse"
                     data-auto_prompt="false"
-                  ></div>
+                  >
+                  </div>
 
                   <div
                   class="g_id_signin"

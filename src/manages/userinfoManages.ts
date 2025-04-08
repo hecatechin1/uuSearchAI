@@ -33,6 +33,7 @@ export async function getUserInfo() {
     if (data.code != 0) {
         return 1;
     }
+    if(data.info.partner == 'google') userType.set('google');
     userID.set(data.info.uid);
     if(get(userType) != 'maxthon') userEmail.set(data.info.email);
     if(data.info.pay){

@@ -101,7 +101,6 @@
   });
 
   function googleloaded(){
-    console.error('------');
     canGoogleLogin = true;
     if (isFedCMCapable()) {
       canFedCM = true;
@@ -558,7 +557,9 @@
                 </button>
               </div>
             {/if}
+
             <!-- Google 登录 -->
+             {#if canGoogleLogin}
             <div class="text-center">
               {#if canFedCM}
                 <button
@@ -597,6 +598,8 @@
                 ></div>
               </div>
             </div>
+            {/if}
+
           </div>
         {/if}
 

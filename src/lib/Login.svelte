@@ -552,14 +552,29 @@
               >
               <hr class="flex-grow border-gray-300" />
             </div>
-
+            {#if isMaxthon}
+              <div class="text-center">
+                <button
+                  on:click={handleMaxthonLogin}
+                  class="mb-3 w-full bg-white border border-gray-300 text-gray-700 text-sm py-2 font-medium rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center"
+                >
+                  <img src={maxthonIcon} alt="Google" class="w-5 h-5 mr-2" />
+                  {$t("login.loginWithMaxthon", {
+                    default: "Continue with Maxthon",
+                  })}
+                  {#if isLoginLoading && loginType === "maxthon"}<span
+                      class="message-loader w-6 h-6 ml-3"
+                    />{/if}
+                </button>
+              </div>
+            {/if}
             <!-- Google 登录 -->
             <div class="text-center">
               {#if canFedCM}
                 <button
                 id="fedcm-login"
                   on:click={handleGoogleLogin}
-                  class="mb-4 w-full bg-white border border-gray-300 text-gray-700 font-semibold py-3 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center"
+                  class="mb-2 w-full bg-white border border-gray-300 text-gray-700 text-sm py-2 font-medium rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center"
                 >
                   <img src={googleIcon} alt="Google" class="w-5 h-5 mr-2"/>
                   {$t("login.loginWithGoogle")}
@@ -589,22 +604,7 @@
                 </div>
 
             </div>
-            {#if isMaxthon}
-              <div class="text-center">
-                <button
-                  on:click={handleMaxthonLogin}
-                  class="w-full bg-white border border-gray-300 text-gray-700 font-semibold py-3 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center"
-                >
-                  <img src={maxthonIcon} alt="Google" class="w-5 h-5 mr-2" />
-                  {$t("login.loginWithMaxthon", {
-                    default: "Continue with Maxthon",
-                  })}
-                  {#if isLoginLoading && loginType === "maxthon"}<span
-                      class="message-loader w-6 h-6 ml-3"
-                    />{/if}
-                </button>
-              </div>
-            {/if}
+
           </div>
         {/if}
 
@@ -1194,4 +1194,5 @@
     height: 100vh;
     width: 100vw;
   }
+
 </style>

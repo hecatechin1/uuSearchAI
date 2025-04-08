@@ -532,7 +532,7 @@
               </button>
             </form>
 
-            {#if !isMaxthon && !canGoogleLogin}           
+            {#if isMaxthon || canGoogleLogin}           
             <div class="flex items-center my-6">
               <hr class="flex-grow border-gray-300" />
               <span class="px-4 text-gray-500 text-sm"

@@ -38,7 +38,7 @@ export async function getUserInfo() {
     if(get(userType) != 'maxthon') userEmail.set(data.info.email);
     if(data.info.pay){
         userPlanEndtime.set(data.info.pay.endTime);
-        userPlanMode.set(data.info.pay.product);
+        if(Date.now() < data.info.pay.endTime * 1000)userPlanMode.set(data.info.pay.product);
         userSubMode.set(data.info.pay.mode);
     }
     getUpdateUserData_Settings();

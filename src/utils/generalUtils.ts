@@ -84,6 +84,7 @@ export function createTimeOutFetch(timeout = 60 * 1000) {
     let controller = new AbortController();
     options = options || {};
     options.signal = controller.signal;
+    options.credentials='include',
     setTimeout(() => {
       controller.abort();
     }, timeout);

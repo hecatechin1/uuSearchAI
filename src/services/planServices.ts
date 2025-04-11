@@ -7,6 +7,7 @@ export async function createPayment(plan:string,suc_url:string,can_url:string,la
     try {
         let res = await createTimeOutFetch()(`https://api.uugpt.com/user/pay/createPayment`,{
           method:"POST",
+          credentials: 'include',
           headers:{
             "Content-Type":"application/json",
           },

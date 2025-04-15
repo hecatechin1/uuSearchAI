@@ -1,4 +1,5 @@
 <script lang="ts">
+  import {t } from "svelte-i18n";
   import SiderBar from "$lib/SiderBar.svelte";
   import ChatMain from "$lib/ChatMain.svelte";
   import Topbar from "$lib/Topbar.svelte";
@@ -33,13 +34,14 @@
   let isResetPassword = false;
   let showUserContexMenu = false;
   let showSettings = false;
+  let isInstallPromptVisable = false;//是否显示安装提示
   function changeChat(event: CustomEvent) {}
 
   onMount(async () => {
 
     isLogin.subscribe(async (v) => {
       if (!v || !isReady) {return;}
-      window.self_promp.prompt();
+
       await initData();
     });
     isGuest.subscribe(async (v) => {
@@ -68,8 +70,13 @@
       }
     });
 
-
-
+    let show_pwa_install = localStorage.getItem("showPWAinstall") || "true";
+    console.log(show_pwa_install);
+    if(typeof window !== "undefined" && window.self_promp){
+      isInstallPromptVisable = show_pwa_install=="true";
+    }else{
+      isInstallPromptVisable = false;
+    }
 
     dataLoaded.set(true);
     isReady = true;
@@ -113,6 +120,19 @@
   function resetPassword() {
     isResetPassword = true;
     showLogin = true;
+  }
+  function pwainstall(){
+    window.self_promp.prompt();
+    window.self_promp.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === "accepted") {
+        localStorage.setItem("showPWAinstall", 'false');
+        isInstallPromptVisable = false; 
+      }
+    })
+  }
+  function close_pwainstall(){
+    isInstallPromptVisable = false;
+    localStorage.setItem("showPWAinstall", "false");
   }
 </script>
 
@@ -199,7 +219,7 @@
   </div>
 {/if}
 
-<!-- {#if isInstallPromptVisable} -->
+{#if isInstallPromptVisable}
 <div
     class="fixed bottom-5 left-5 bg-gray-600 rounded-lg shadow-lg p-3 pr-5 max-w-xs z-50 flex items-center gap-2 sm:max-w-sm animate-in fly-in-from-bottom transition-all duration-300 ease-in-out"
   >
@@ -209,16 +229,17 @@
       class="w-6 h-6"
     />
     <!-- 提示文案 -->
-    <p class="text-sm text-white flex-1">将uugpt添加到主屏幕，快速访问更便捷！</p>
+    <p class="text-sm text-white flex-1">{$t("app.installPrompt")}</p>
     <!-- 安装按钮（文字） -->
     <button
+    on:click={pwainstall}
       class="bg-themegreen text-white px-3 py-1 rounded text-sm hover:bg-themegreenhover transition cursor-pointer hover:scale-105"
     >
-      添加
+    {$t("app.installAdd")}
     </button>
     <!-- 关闭图标 -->
     <button
-   
+    on:click={(close_pwainstall)}
     class="absolute -top-2 -right-2 bg-gray-400 rounded-full p-1 text-white hover:bg-gray-500 transition cursor-pointer"
     aria-label="关闭提示"
   >
@@ -237,8 +258,8 @@
       />
     </svg>
   </button>
-  </div>
-<!-- {/if} -->
+</div>
+{/if}
 
 <style>
   @import "../../styles/skeleton.css";

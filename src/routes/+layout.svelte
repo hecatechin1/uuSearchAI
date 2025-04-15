@@ -37,7 +37,6 @@
   <script>
     // 在 DOM 加载时立即监听
     window.addEventListener('beforeinstallprompt', (e) => {
-      console.log('全局 beforeinstallprompt 触发');
       e.preventDefault();
       window.self_promp = e;
     });

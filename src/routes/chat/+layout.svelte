@@ -90,7 +90,7 @@
       <div class="chat-item skeleton"></div>
       <div class="chat-item skeleton"></div>
       <div class="chat-item skeleton"></div>
-      <div class="message-loader"></div>
+      <!-- <div class="message-loader"></div> -->
     </aside>
 
     <!-- Main Chat Skeleton -->

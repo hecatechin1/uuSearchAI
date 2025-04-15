@@ -17,7 +17,8 @@ export async function fetchData() {
 //获取用户信息
 export async function getInfo() {
   try {
-    let response = await createTimeOutFetch()(`https://api.uugpt.com/user/info`, {
+    let date = Date.now(); // 生成随机数
+    let response = await createTimeOutFetch()(`https://api.uugpt.com/user/info?date=${date}`, {
       method: "GET",
       credentials: 'include'
     });

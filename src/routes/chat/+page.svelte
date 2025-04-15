@@ -112,8 +112,30 @@
     isResetPassword = true;
     showLogin = true;
   }
-</script>
 
+    
+  function triggerInstall() {
+      console.log('-----',window.self_deferredPrompt);
+      if (window.self_deferredPrompt) {
+        window.self_deferredPrompt.prompt();
+        window.self_deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('用户接受了安装提示');
+          } else {
+            console.log('用户取消了安装提示');
+          }
+          window.self_deferredPrompt = null;
+          // showInstallButton = false;
+        });
+      }
+    }
+
+</script>
+<svelte:head> 
+  <script src="./js/test.js"></script>
+</svelte:head>
+
+<button on:click={triggerInstall}><h1>anzhuang</h1></button>
 {#if isReady}
   <div class="relative flex h-full overflow-hidden">
     <!-- 侧边栏 -->

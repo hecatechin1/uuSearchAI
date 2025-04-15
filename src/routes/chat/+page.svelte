@@ -199,6 +199,47 @@
   </div>
 {/if}
 
+<!-- {#if isInstallPromptVisable} -->
+<div
+    class="fixed bottom-5 left-5 bg-gray-600 rounded-lg shadow-lg p-3 pr-5 max-w-xs z-50 flex items-center gap-2 sm:max-w-sm animate-in fly-in-from-bottom transition-all duration-300 ease-in-out"
+  >
+    <img
+      src="/favicon.png"
+      alt="App Icon"
+      class="w-6 h-6"
+    />
+    <!-- 提示文案 -->
+    <p class="text-sm text-white flex-1">将uugpt添加到主屏幕，快速访问更便捷！</p>
+    <!-- 安装按钮（文字） -->
+    <button
+      class="bg-themegreen text-white px-3 py-1 rounded text-sm hover:bg-themegreenhover transition cursor-pointer hover:scale-105"
+    >
+      添加
+    </button>
+    <!-- 关闭图标 -->
+    <button
+   
+    class="absolute -top-2 -right-2 bg-gray-400 rounded-full p-1 text-white hover:bg-gray-500 transition cursor-pointer"
+    aria-label="关闭提示"
+  >
+    <svg
+      class="w-4 h-4"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M6 18L18 6M6 6l12 12"
+      />
+    </svg>
+  </button>
+  </div>
+<!-- {/if} -->
+
 <style>
   @import "../../styles/skeleton.css";
   :global(html, body) {

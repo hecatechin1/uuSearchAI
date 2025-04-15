@@ -254,7 +254,9 @@
     "renameFailure": "Rinomina fallita",
     "gotouugpt": "✨ Hai bisogno di salvare in modo permanente la cronologia chat o di accedere a modelli IA più avanzati?",
     "gotouugptlink": "Fai clic per visitare uuGPT",
-    "renaming": "Rinomina in corso..."
+    "renaming": "Rinomina in corso...",
+    "installPrompt": "Aggiungi uuGPT alla schermata principale per un accesso rapido!",
+    "installAdd": "Aggiungi"
   },
   "code": {
     "copy": "Copia codice",

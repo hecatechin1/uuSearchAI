@@ -254,7 +254,9 @@
     "renameFailure": "Échec du renommage",
     "gotouugpt": "✨ Besoin de sauvegarder définitivement l'historique du chat ou d'accéder à des modèles d'IA plus avancés?",
     "gotouugptlink": "Cliquez pour visiter uuGPT",
-    "renaming": "Renommage..."
+    "renaming": "Renommage...",
+    "installPrompt": "Ajoutez uuGPT à votre écran d'accueil pour un accès rapide !",
+    "installAdd": "Ajouter"
   },
   "code": {
     "copy": "Copier le code",

@@ -254,7 +254,9 @@
     "renameFailure": "Error al renombrar",
     "gotouugpt": "✨ ¿Necesita guardar permanentemente el historial de chat o acceder a modelos de IA más avanzados?",
     "gotouugptlink": "Haga clic para visitar uuGPT",
-    "renaming": "Renombrando..."
+    "renaming": "Renombrando...",
+    "installPrompt": "¡Añade uuGPT a tu pantalla de inicio para acceso rápido!",
+    "installAdd": "Añadir"
   },
   "code": {
     "copy": "Copiar código",

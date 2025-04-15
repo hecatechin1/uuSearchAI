@@ -254,7 +254,9 @@
     "renameFailure": "Đổi tên không thành công",
     "gotouugpt": "✨ Cần lưu vĩnh viễn lịch sử trò chuyện hoặc truy cập các mô hình AI nâng cao hơn?",
     "gotouugptlink": "Nhấp để truy cập uuGPT",
-    "renaming": "Đang đổi tên..."
+    "renaming": "Đang đổi tên...",
+    "installPrompt": "Thêm uuGPT vào màn hình chủ để truy cập nhanh!",
+    "installAdd": "Thêm"
   },
   "code": {
     "copy": "Sao chép mã",

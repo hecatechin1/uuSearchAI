@@ -254,7 +254,9 @@
     "renameFailure": "Navneendring mislyktes",
     "gotouugpt": "✨ Trenger du å lagre chatloggen permanent eller få tilgang til mer avanserte AI-modeller?",
     "gotouugptlink": "Klikk for å besøke uuGPT",
-    "renaming": "Gir nytt navn..."
+    "renaming": "Gir nytt navn...",
+    "installPrompt": "Legg til uuGPT på hjemmeskjermen for rask tilgang!",
+    "installAdd": "Legg til"
   },
   "code": {
     "copy": "Kopier kode",

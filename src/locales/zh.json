@@ -254,7 +254,9 @@
       "renameFailure": "修改失败",
       "gotouugpt":"✨ 需要永久保存聊天记录或体验更强大的AI模型？",
       "gotouugptlink": "点击前往 uuGPT",
-      "renaming": "正在修改……"
+      "renaming": "正在修改……",
+      "installPrompt": "将uuGPT添加到主屏幕，快速访问更便捷！",
+      "installAdd": "添加"
     },
     "code": {
       "copy": "复制代码",

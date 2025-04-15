@@ -253,7 +253,9 @@
     "renameFailure": "변경 실패",
     "gotouugpt":"✨ 채팅 기록 저장/고급 모델 사용을 원하시나요?",
     "gotouugptlink": "UUGPT 바로가기",
-    "renaming": "변경 중..."
+    "renaming": "변경 중...",
+    "installPrompt": "uuGPT를 홈 화면에 추가하여 빠르게 접근하세요!",
+    "installAdd": "추가"
   },
   "code": {
     "copy": "코드 복사",

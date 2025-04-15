@@ -254,7 +254,9 @@
     "renameFailure": "Uudelleennimeäminen epäonnistui",
     "gotouugpt": "✨ Tarvitsetko pysyvää keskusteluhistorian tallennusta tai pääsyä edistyneempiin tekoälymalleihin?",
     "gotouugptlink": "Siirry uuGPT:hen napsauttamalla",
-    "renaming": "Uudelleennimetään..."
+    "renaming": "Uudelleennimetään...",
+    "installPrompt": "Lisää uuGPT kotivalikkoon nopeaan käyttöön!",
+    "installAdd": "Lisää"
   },
   "code": {
     "copy": "Kopioi koodi",

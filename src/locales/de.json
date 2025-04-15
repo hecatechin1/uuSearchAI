@@ -254,7 +254,9 @@
     "renameFailure": "Umbenennung fehlgeschlagen",
     "gotouugpt": "✨ Müssen Sie den Chatverlauf dauerhaft speichern oder auf erweiterte KI-Modelle zugreifen?",
     "gotouugptlink": "Klicken Sie hier, um zu uuGPT zu gelangen",
-    "renaming": "Umbenennen..."
+    "renaming": "Umbenennen...",
+    "installPrompt": "Fügen Sie uuGPT zum Home-Bildschirm für schnellen Zugriff hinzu!",
+    "installAdd": "Hinzufügen"
   },
   "code": {
     "copy": "Code kopieren",

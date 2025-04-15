@@ -253,7 +253,9 @@
     "renameFailure": "Omdøbning mislykkedes",
     "gotouugpt": "✨ Brug for permanent at gemme chathistorik eller få adgang til mere avancerede AI-modeller?",
     "gotouugptlink": "Klik for at besøge uuGPT",
-    "renaming": "Omdøber..."
+    "renaming": "Omdøber...",
+    "installPrompt": "Tilføj uuGPT til hjemmeskærmen for hurtig adgang!",
+    "installAdd": "Tilføj"
   },
   "code": {
     "copy": "Kopier kode",

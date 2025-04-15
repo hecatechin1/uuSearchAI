@@ -254,7 +254,9 @@
     "renameFailure": "Yeniden adlandırma başarısız",
     "gotouugpt": "✨ Sohbet geçmişini kalıcı olarak kaydetmeniz veya daha gelişmiş yapay zeka modellerine erişmeniz mi gerekiyor?",
     "gotouugptlink": "uuGPT'yi ziyaret etmek için tıklayın",
-    "renaming": "Yeniden adlandırılıyor..."
+    "renaming": "Yeniden adlandırılıyor...",
+    "installPrompt": "Hızlı erişim için uuGPT'yi ana ekranınıza ekleyin!",
+    "installAdd": "Ekle"
   },
   "code": {
     "copy": "Kodu Kopyala",

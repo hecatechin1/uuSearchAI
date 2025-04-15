@@ -253,7 +253,9 @@
       "renameFailure": "Mislukt",
       "gotouugpt":"✨ Chatgeschiedenis bewaren of geavanceerdere modellen gebruiken?",
       "gotouugptlink": "Ga naar uuGPT",
-      "renaming": "Bezig..."
+      "renaming": "Bezig...",
+      "installPrompt": "Voeg uuGPT toe aan je startscherm voor snelle toegang!",
+      "installAdd": "Toevoegen"
     },
     "code": {
       "copy": "Kopieer code",

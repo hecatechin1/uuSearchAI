@@ -254,7 +254,9 @@
     "renameFailure": "Falha ao renomear",
     "gotouugpt": "✨ Precisa salvar permanentemente o histórico de bate-papo ou acessar modelos de IA mais avançados?",
     "gotouugptlink": "Clique para visitar uuGPT",
-    "renaming": "Renomeando..."
+    "renaming": "Renomeando...",
+    "installPrompt": "Adicione uuGPT à tela inicial para acesso rápido!",
+    "installAdd": "Adicionar"
   },
   "code": {
     "copy": "Copiar Código",

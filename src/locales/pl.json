@@ -254,7 +254,9 @@
     "renameFailure": "Zmiana nazwy nie powiodła się",
     "gotouugpt": "✨ Potrzebujesz trwale zapisać historię czatów lub uzyskać dostęp do bardziej zaawansowanych modeli AI?",
     "gotouugptlink": "Kliknij, aby odwiedzić uuGPT",
-    "renaming": "Zmienianie nazwy..."
+    "renaming": "Zmienianie nazwy...",
+    "installPrompt": "Dodaj uuGPT do ekranu głównego dla szybkiego dostępu!",
+    "installAdd": "Dodaj"
   },
   "code": {
     "copy": "Kopiuj kod",

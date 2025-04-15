@@ -254,7 +254,9 @@
     "renameFailure": "名前の変更に失敗しました",
     "gotouugpt": "✨ チャット履歴を永続的に保存したり、より高度な AI モデルにアクセスしたりする必要がありますか？",
     "gotouugptlink": "クリックして uuGPT にアクセス",
-    "renaming": "名前を変更中..."
+    "renaming": "名前を変更中...",
+    "installPrompt": "uuGPTをホーム画面に追加して簡単アクセス！",
+    "installAdd": "追加"
   },
   "code": {
     "copy": "コードをコピー",

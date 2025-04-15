@@ -254,7 +254,9 @@
     "renameFailure": "Namnändringen misslyckades",
     "gotouugpt": "✨ Behöver du spara chatthistorik permanent eller få tillgång till mer avancerade AI-modeller?",
     "gotouugptlink": "Klicka för att besöka uuGPT",
-    "renaming": "Byter namn..."
+    "renaming": "Byter namn...",
+    "installPrompt": "Lägg till uuGPT på hemskärmen för snabb åtkomst!",
+    "installAdd": "Lägg till"
   },
   "code": {
     "copy": "Kopiera kod",

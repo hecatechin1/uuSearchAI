@@ -325,34 +325,22 @@
                     </div>
                   </div>
                   {:else}
-                  <div class="flex flex-col items-start font-bold pb-3">
-                    <h5 class="text-themegreen text-lg ml-1 mb-2">
+                  <div class="flex flex-col items-start font-bold pb-2">
+                    <!-- Highlighted 14-day free trial -->
+                    <h3 class="text-4xl font-extrabold text-themegreen mb-2">
                       {pricing.proyearly.trialPeriod}
-                    </h5>
-                    <div class="flex gap-4">
-
-                      <div class="flex flex-col">
-                        
-                        <h3
-                          class="text-6xl text-themegreen inline-flex items-center gap-1"
-                        >
-                          ${pricing.proyearly.annualTotal}
-                        </h3>
-                      </div>
-                      <div class="flex flex-col text-sm text-gray-700 mt-1">
-                        <p class="">
-                          {pricing.proyearly.afterTrial}
-                        </p>
-                        <!-- <p>USD ${pricing.proyearly.annualTotal}</p> -->
-                        
-                        <p class="text-gray-400 text-xs font-normal">
-                          {pricing.proyearly.trialDescription}
-                        </p>
-                        <p class="text-gray-400 text-xs font-normal">
-                          (USD ${pricing.pro.annualSubsequent}
-                          {$t("pricing.perMonth")})
-                        </p>
-                      </div>
+                    </h3>
+                    <!-- Annual total and description in smaller text -->
+                    <div class="flex flex-col text-sm text-gray-700">
+                      <p class="text-gray-600">
+                        {$t("pricing.then")} ${pricing.proyearly.annualTotal}{$t("pricing.perYear")}
+                      </p>
+                      <p class="text-gray-400 text-xs font-normal mt-1">
+                        {pricing.proyearly.trialDescription}
+                      </p>
+                      <p class="text-gray-400 text-xs font-normal">
+                        (USD ${pricing.pro.annualSubsequent} {$t("pricing.perMonth")})
+                      </p>
                     </div>
                   </div>
                   {/if}
@@ -443,34 +431,24 @@
                   </div>
                 </div>
                   {:else}
-                  <div class="flex flex-col items-start font-bold pb-3">
-                    <h5 class="text-themegreen text-lg ml-1 mb-2">
+                  <div class="flex flex-col items-start font-bold pb-2">
+                    <!-- Highlighted 14-day free trial -->
+                    <h3 class="text-4xl font-extrabold text-themegreen mb-2">
                       {pricing.basicyearly.trialPeriod}
-                    </h5>
-                    <div class="flex gap-4">
-                      <div class="flex flex-col">
-                        <h3
-                          class="text-6xl text-themegreen inline-flex items-center gap-1"
-                        >
-                          ${pricing.basic.annualTotal}
-                        </h3>
-                      </div>
-                      <div class="flex flex-col text-sm text-gray-700 mt-1">
-                        <p class="">
-                          {pricing.basicyearly.afterTrial}
-                        </p>
-                        <p class="text-gray-400 text-xs font-normal">
-                          {pricing.basicyearly.trialDescription}
-                        </p>
-                        <p class="text-gray-400 text-xs font-normal ">
-                          (USD ${pricing.basic.annualSubsequent}{$t(
-                            "pricing.perMonth",
-                          )})
-                        </p>
-                      </div>
+                    </h3>
+                    <!-- Annual total and description in smaller text -->
+                    <div class="flex flex-col text-sm text-gray-700">
+                      <p class="text-gray-600">
+                        {$t("pricing.then")} ${pricing.basic.annualTotal}{$t("pricing.perYear")}
+                      </p>
+                      <p class="text-gray-400 text-xs font-normal mt-1">
+                        {pricing.basicyearly.trialDescription}
+                      </p>
+                      <p class="text-gray-400 text-xs font-normal">
+                        (USD ${pricing.basic.annualSubsequent} {$t("pricing.perMonth")})
+                      </p>
                     </div>
-                  
-                </div>
+                  </div>
                 {/if}
                 <!-- 按钮 -->
                 <button

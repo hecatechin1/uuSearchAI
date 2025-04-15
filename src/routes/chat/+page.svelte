@@ -71,7 +71,6 @@
     });
 
     let show_pwa_install = localStorage.getItem("showPWAinstall") || "true";
-    console.log(show_pwa_install);
     if(typeof window !== "undefined" && window.self_promp){
       isInstallPromptVisable = show_pwa_install=="true";
     }else{

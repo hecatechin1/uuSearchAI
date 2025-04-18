@@ -135,6 +135,15 @@
   }
 </script>
 
+<svelte:head>
+  <title>{$t('app.title')}</title>
+  <meta name="description" content={$t('app.description')} />
+  <meta name="keywords" content={$t('app.keywords')} />
+  <meta property="og:title" content={$t('app.title')} />
+  <meta property="og:description" content={$t('app.description')} />
+  <meta property="og:type" content="website" />
+</svelte:head>
+
 {#if isReady}
   <div class="relative flex h-full overflow-hidden">
     <!-- 侧边栏 -->

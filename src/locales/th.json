@@ -185,7 +185,9 @@
     "clearConversation": "ล้าง"
   },
   "app": {
-    "title": "uuGPT",
+    "title": "uuGPT - ผู้ช่วยแชท AI แบบหลายโมเดล | รวม GPT/Claude/DeepSeek/Gemini/Qwen",
+    "description": "uuGPT แพลตฟอร์มแชทอัจฉริยะที่รวมโมเดล AI ชั้นนำ พร้อมล็อกอินด้วย Google ในคลิกเดียว ใช้งาน GPT-4 mini ฟรี สมัคร Pro เพื่อปลดล็อก GPT-3.5/Claude 3.7 และโมเดลขั้นสูงสำหรับการเขียน โปรแกรมมิ่ง แปลภาษา และอื่นๆ",
+    "keywords": "แชท AI,ChatGPT,GPT แชท,Claude AI,DeepSeek,Gemini,ล็อกอิน Google,ล็อกอิน Maxthon,เขียน AI ฟรี,AI หลายโมเดล,ผู้ช่วยอัจฉริยะ,บริการสมัครสมาชิก AI",
     "assistantname": "uuGPT",
     "username": "คุณ",
     "cancel": "ยกเลิก",

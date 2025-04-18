@@ -185,7 +185,9 @@
     "clearConversation": "Wyczyść"
   },
   "app": {
-    "title": "uuGPT",
+    "title": "uuGPT - Wielomodelowy Asystent AI Czatu | Integruje GPT/Claude/DeepSeek/Gemini/Qwen",
+    "description": "uuGPT to inteligentna platforma czatu z najlepszymi modelami AI i logowaniem przez Google w jednym kliknięciu. Darmowy dostęp do GPT-4 mini. Subskrypcja Pro odblokuje GPT-3.5/Claude 3.7 i inne zaawansowane modele do pisania, kodowania, tłumaczeń itp.",
+    "keywords": "Czat AI,ChatGPT,GPT Czat,Claude AI,DeepSeek,Gemini,Logowanie Google,Logowanie Maxthon,Darmowe Pisanie AI,Wielomodelowe AI,Inteligentny Asystent,Subskrypcja AI",
     "assistantname": "uuGPT",
     "username": "Ty",
     "cancel": "Anuluj",

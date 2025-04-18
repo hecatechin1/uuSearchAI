@@ -2,6 +2,7 @@
     import { onMount } from "svelte";
     import { waitLocale } from "svelte-i18n";
     import "../i18n.js";
+    import { t } from "svelte-i18n";
     import {
         showError,
         showSuccess,

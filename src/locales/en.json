@@ -185,7 +185,9 @@
       "clearConversation":"Clear"
     },
     "app": {
-      "title": "uuGPT",
+      "title": "uuGPT - Multi-Model AI Chat Assistant | Integrates GPT/Claude/DeepSeek/Gemini/Qwen",
+    "description": "uuGPT is an intelligent chat platform integrating top AI models, featuring one-click Google login. Free access to GPT-4 mini. Subscribe Pro to unlock GPT-3.5/Claude 3.7 and more advanced models for writing, coding, translation, and more.",
+    "keywords": "AI Chat,ChatGPT,GPT Chat,Claude AI,DeepSeek,Gemini,Google Login,Maxthon Login,Free AI Writing,Multi-Model AI,Smart Assistant,AI Subscription",
       "assistantname": "uuGPT",
       "username": "You",
       "cancel": "Cancel",

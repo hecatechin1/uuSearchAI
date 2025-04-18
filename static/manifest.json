@@ -1,10 +1,10 @@
 {
-    "name": "UUGPT",
-    "short_name": "UUgpt",
+    "name": "uuGPT",
+    "short_name": "uuGPT",
     "start_url": "/chat",
     "display": "standalone",
     "background_color": "#ffffff",
-    "theme_color": "#000000",
+    "theme_color": "#e5e7eb",
     "form_factor":"wide",
     "icons": [
       {

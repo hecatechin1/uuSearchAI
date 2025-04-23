@@ -298,7 +298,7 @@
                     </div>
                   </div>
                 
-                {:else if messageErrorType == "ERR_VIP_ONLY" && messageErrorType == "ERR_NO_ACCESS"}
+                {:else if messageErrorType == "ERR_VIP_ONLY" || messageErrorType == "ERR_NO_ACCESS"}
                   <div class="flex">
                     <div
                       class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg inline-block max-w-full"

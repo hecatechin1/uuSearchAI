@@ -441,7 +441,7 @@
 
 <svelte:head>
   <script src="/js/google-Login.js"></script>
-  <script src="https://accounts.google.com/gsi/client" on:load={()=>{googleloaded()}}></script>
+  <script src="https://accounts.google.com/gsi/client" on:load={googleloaded}></script>
 </svelte:head>
 <div class={isPage ? "" : "login-viewbox"}>
   <div class="flex items-center justify-center min-h-screen">
@@ -559,8 +559,7 @@
             {/if}
 
             <!-- Google 登录 -->
-             {#if canGoogleLogin}
-            <div class="text-center">
+            <div class="text-center" style="{canGoogleLogin ? "display:block" : "display:none" }">
               {#if canFedCM}
                 <button
                   id="fedcm-login"
@@ -597,9 +596,7 @@
                   data-shape="rectangular"
                 ></div>
               </div>
-            </div>
-            {/if}
-
+            </div>            
           </div>
         {/if}
 

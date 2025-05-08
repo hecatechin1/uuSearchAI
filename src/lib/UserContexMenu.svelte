@@ -29,7 +29,7 @@
     window.location.reload();
   }
   function feedback(){
-    window.open('https://forms.gle/KJ58Ggm3Reytv3Cm8', '_blank');
+    window.open('https://forms.gle/ztch9hUucM17AXoE8', '_blank');
   }
   function showSettings(){
     dispatch('show-settings');

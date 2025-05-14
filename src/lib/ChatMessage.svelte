@@ -32,6 +32,7 @@
   import QwenIcon from "../assets/qwen.svg";
   import toggleIcon from "../assets/toggle.svg";
   import errorIcon from "../assets/pricing/failure.svg";
+  import shareIcon from "../assets/share.svg";
   //导入通用方法
   import {
     copyTextToClipboard,
@@ -65,6 +66,7 @@
   let editTextArea;
   let editingMessageContent: string; //正在编辑的消息内容;
   let retrybtn;
+  let sharebtn; //分享按钮
 
   let deviceLimit = getMaxDeviceByPlan(); //可用设备数，从用户data里读取，todo
 
@@ -365,6 +367,14 @@
                     on:click={() => retry(index)}
                   >
                     <img class="" alt={$t("app.retry")} src={RetryIcon} />
+                  </button>
+                  <button
+                    bind:this={sharebtn}
+                    class="btn-custom"
+                    data-tooltip={$t("app.share", { default: "Share" })}
+                    on:click={() => retry(index)}
+                  >
+                    <img class="" alt={$t("app.share",{ default: "Share"})} src={ShareIcon} />
                   </button>
                   <!-- class="{isHovered ? "" : " btn-switch"} btn-custom" -->
                   <button

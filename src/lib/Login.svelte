@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
   import { getErrorMessage } from "../utils/generalUtils";
   import { createEventDispatcher } from "svelte";
-  import uugpIcon from "../assets/aianswer-avtar.svg";
+  import uugpIcon from "../assets/uugpt_favion_small.png";
   import accountIcon from "../assets/login/account.svg";
   import avtarIcon from "../assets/login/avtar_placeholder.svg";
   import backIcon from "../assets/login/back.svg";

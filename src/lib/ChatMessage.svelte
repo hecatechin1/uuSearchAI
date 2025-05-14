@@ -22,7 +22,7 @@
   //导入所需图标
   import CopyIcon from "../assets/copy.svg";
   import RetryIcon from "../assets/retry.svg";
-  import RobotIcon from "../assets/aianswer-avtar.svg";
+  import RobotIcon from "../assets/uugpt_favion_small.png";
   import EditIcon from "../assets/edit.svg";
   import MoreIcon from "../assets/more.svg";
   import gptIcon from "../assets/gpt.svg";
@@ -32,7 +32,7 @@
   import QwenIcon from "../assets/qwen.svg";
   import toggleIcon from "../assets/toggle.svg";
   import errorIcon from "../assets/pricing/failure.svg";
-  import shareIcon from "../assets/share.svg";
+  import ShareIcon from "../assets/share.svg";
   //导入通用方法
   import {
     copyTextToClipboard,

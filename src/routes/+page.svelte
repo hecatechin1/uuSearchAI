@@ -9,7 +9,7 @@
   } from "../manages/userinfoManages";
   import {TestbaseURL } from "../stores/globalParamentStores";
   // 图片导入
-  import uugptIcon from "../assets/aianswer-avtar.svg";
+  import uugptIcon from "../assets/uugpt_favion_small.png";
   import feature1 from "../assets/home/feature-1.svg";
   import feature2 from "../assets/home/feature-2.svg";
   import feature3 from "../assets/home/feature-3.svg";

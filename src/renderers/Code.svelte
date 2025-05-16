@@ -14,7 +14,7 @@
   export let language="";  // 代码语言
   let highlightedCode = "";
   let hj= hljs.highlightAuto(text);
-
+  let wrap = true;
   // if(!get(isStreaming)){
   //   hj = hljs.highlightAuto(text);
   // }
@@ -52,6 +52,7 @@ const highlightCode = () => {
       console.error("Error copying text: ", error);
     }
   };
+  
 </script>
 
 <div style="position:relative">
@@ -67,8 +68,18 @@ const highlightCode = () => {
       <span>{$t('code.copy')}</span>
       {/if}
     </button>
+    <!-- {#if wrap}
+    <button on:click={()=>{wrap=false}}> unwrap </button>
+
+    {:else}
+    <button on:click={()=>{wrap=true}}> wrap </button>
+    {/if} -->
+    
   </div>
-  <pre><code id='testid'>{@html highlightedCode}</code></pre>
+  <!-- <pre style=" { wrap?"white-space: pre-wrap; word-wrap: break-word; overflow-x: auto;":""} "> -->
+  <pre style=" { wrap?"white-space: pre-wrap; word-wrap: break-word; overflow-x: auto;":""} ">
+    <code id='testid' >{@html highlightedCode}</code>
+  </pre>
 </div>
 
 <style>

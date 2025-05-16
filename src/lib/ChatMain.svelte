@@ -152,6 +152,9 @@
   function showModelSelector(event: CustomEvent) {
     dispatch("show-selector", event.detail);
   }
+  function showShareMenu(event:CustomEvent){
+    dispatch("show-sharemenu", event.detail);
+  }
 
   function tryOtherModel(event: CustomEvent) {
     dispatch("show-selector", event.detail);
@@ -197,6 +200,7 @@
                   {#each $current_chat as message, i}
                     <ChatMessage
                       on:show-selector={tryOtherModel}
+                      on:show-sharemenu={showShareMenu}
                       {message}
                       index={i}
                     />

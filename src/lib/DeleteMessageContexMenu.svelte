@@ -31,7 +31,7 @@
     transition:fade={{ duration: 300 }}
 >
 
-  <div on:click={deleteThisMessage} class="flex items-center text-sm cursor-pointer disabled:opacity-50 group relative hover:bg-[#f5f5f5] rounded-md my-0 px-2 mx-2 gap-2.5 py-2 pr-3">
+  <div on:click={deleteThisMessage} role="button" class="flex items-center text-sm cursor-pointer disabled:opacity-50 group relative hover:bg-[#f5f5f5] rounded-md my-0 px-2 mx-2 gap-2.5 py-2 pr-3">
     <div class="flex items-center justify-center text-token-text-secondary h-5 w-5 flex-shrink-0">
         <img src={deleteIcon} alt="Rename chat"/>
     </div>

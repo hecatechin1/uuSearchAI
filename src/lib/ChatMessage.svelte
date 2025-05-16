@@ -55,9 +55,11 @@
   import DeleteMessageContexMenu from "./DeleteMessageContexMenu.svelte";
   import { sendRetryMessage } from "../manages/messageManages";
   import {getMaxDeviceByPlan} from "../stores/userStores";
+    import { text } from "@sveltejs/kit";
 
   let dispatch = createEventDispatcher();
   let showModelSelectorbtn: HTMLElement;
+  let showShareMenu: HTMLElement;
   let isShowUserFirstQuery = true; //是否显示用户的第一个问题
   // let isStreaming = false;//是否在进行流式传输
   let isEditting = false; //是否正在编辑
@@ -66,7 +68,6 @@
   let editTextArea;
   let editingMessageContent: string; //正在编辑的消息内容;
   let retrybtn;
-  let sharebtn; //分享按钮
 
   let deviceLimit = getMaxDeviceByPlan(); //可用设备数，从用户data里读取，todo
 
@@ -180,6 +181,17 @@
       user_message.ai,
       user_message.model,
     );
+  }
+
+  function share(index:number){
+    let position = getElementPostionDiff(showShareMenu);
+    dispatch("show-sharemenu", {
+      position: position,
+      originElement: showShareMenu,
+      closeCallback:()=>{},
+      callback: selectedCallback,
+      content  : message.message.content,
+    });
   }
   function cancelEdit() {}
   function submitEdit(index: number) {}
@@ -368,14 +380,16 @@
                   >
                     <img class="" alt={$t("app.retry")} src={RetryIcon} />
                   </button>
+
                   <button
-                    bind:this={sharebtn}
+                    bind:this={showShareMenu}
                     class="btn-custom"
                     data-tooltip={$t("app.share", { default: "Share" })}
-                    on:click={() => retry(index)}
+                    on:click={() => share(index)}
                   >
                     <img class="" alt={$t("app.share",{ default: "Share"})} src={ShareIcon} />
                   </button>
+
                   <!-- class="{isHovered ? "" : " btn-switch"} btn-custom" -->
                   <button
                     bind:this={showModelSelectorbtn}

@@ -93,7 +93,7 @@
             tokenLimit = limit.basic;
         }
         if(plan.includes("pro")){
-            tokenlimit = limit.pro;
+            tokenLimit = limit.pro;
         }
     }
 </script>

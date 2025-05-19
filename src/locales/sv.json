@@ -185,6 +185,13 @@
     "clearConversation": "Rensa"
   },
   "app": {
+    "share": "Dela",
+    "guestUser": "Gästanvändare",
+    "modelCheap": "Lätt modell",
+    "modelNormal": "Balanserad modell",
+    "modelExpensive": "Avancerad modell",
+    "unwrap": "Ingen radbrytning",
+    "wrap": "Radbrytning",
     "title": "uuGPT - Multi-Modell AI-chatthjälpare | Integrerar GPT/Claude/DeepSeek/Gemini/Qwen",
     "description": "uuGPT är en intelligent chattplattform med toppmoderna AI-modeller och Google-inloggning i ett klick. Gratis tillgång till GPT-4 mini. Pro-prenumeration låser upp GPT-3.5/Claude 3.7 och andra avancerade modeller för skrivande, kodning, översättning m.m.",
     "keywords": "AI-chatt,ChatGPT,GPT-chatt,Claude AI,DeepSeek,Gemini,Google-inloggning,Maxthon-inloggning,Gratis AI-skrivande,Multi-Modell AI,Smart Assistans,AI-prenumeration",

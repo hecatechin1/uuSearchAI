@@ -156,6 +156,13 @@
     "logout": "Wyloguj się"
   },
   "settings": {
+    "share": "Udostępnij",
+    "guestUser": "Użytkownik gościnny",
+    "modelCheap": "Lekki model",
+    "modelNormal": "Zrównoważony model",
+    "modelExpensive": "Zaawansowany model",
+    "unwrap": "Bez zawijania",
+    "wrap": "Zawijanie",
     "title": "Ustawienia",
     "language": "Język",
     "whenask": {

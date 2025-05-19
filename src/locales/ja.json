@@ -185,6 +185,13 @@
     "clearConversation": "クリア"
   },
   "app": {
+    "share": "共有",
+    "guestUser": "ゲストユーザー",
+    "modelCheap": "軽量モデル",
+    "modelNormal": "均衡モデル",
+    "modelExpensive": "高度モデル",
+    "unwrap": "折り返さない",
+    "wrap": "自動折り返し",
     "title": "uuGPT - 多モデルAIチャットアシスタント | GPT/Claude/DeepSeek/Gemini/Qwen統合",
     "description": "uuGPTはトップクラスのAIモデルを統合したチャットプラットフォームです。Googleアカウントでワンクリックログイン。GPT-4 miniを無料体験。Pro版でGPT-3.5/Claude 3.7など高度なモデルを解放し、執筆・プログラミング・翻訳などに活用可能。",
     "keywords": "AIチャット,ChatGPT,GPTチャット,Claude AI,DeepSeek,Gemini,Googleログイン,Maxthonログイン,無料AIライティング,多モデルAI,スマートアシスタント,AIサブスクリプション",

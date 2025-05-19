@@ -184,6 +184,13 @@
     "clearConversation":"전체 삭제"
   },
   "app": {
+    "share": "공유",
+    "guestUser": "게스트 사용자",
+    "modelCheap": "경량 모델",
+    "modelNormal": "균형 모델",
+    "modelExpensive": "고급 모델",
+    "unwrap": "줄 바꿈 안 함",
+    "wrap": "자동 줄 바꿈",
     "title": "uuGPT - 멀티모델 AI 채팅 어시스턴트 | GPT/Claude/DeepSeek/Gemini/Qwen 통합",
     "description": "uuGPT는 최고의 AI 모델을 통합한 지능형 채팅 플랫폼으로 Google 계정으로 간편 로그인 가능. GPT-4 mini 무료 체험. Pro 구독 시 GPT-3.5/Claude 3.7 등 고급 모델과 작문, 코딩, 번역 등 다양한 기능 이용.",
     "keywords": "AI채팅,ChatGPT,GPT채팅,Claude AI,DeepSeek,Gemini,Google 로그인,Maxthon 로그인,무료 AI 작성,멀티모델 AI,스마트 어시스턴트,AI 구독 서비스",

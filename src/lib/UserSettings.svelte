@@ -32,6 +32,9 @@
         if(tokenLimit.expensive){
             expensive = tokenLimit.expensive.tokens - get(used_ExpensiveTokens);
         };
+        cheap = cheap.toLocaleString('en-US');
+        normal = normal.toLocaleString('en-US');
+        expensive = expensive.toLocaleString('en-US');
         sendKey.subscribe((value) => {
             sendk = value;
         });

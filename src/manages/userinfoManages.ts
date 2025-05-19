@@ -181,6 +181,7 @@ export async function getUpdateUserData_Settings(){
     }
     if(userdata.tokens){
         userTokens.set(userdata.tokens.cheap);
+        console.log(userdata);
     }
     language.set(userdata.language);
     return 0;

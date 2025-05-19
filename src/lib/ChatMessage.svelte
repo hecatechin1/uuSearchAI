@@ -32,7 +32,7 @@
   import QwenIcon from "../assets/qwen.svg";
   import toggleIcon from "../assets/toggle.svg";
   import errorIcon from "../assets/pricing/failure.svg";
-  import ShareIcon from "../assets/share.svg";
+  //import ShareIcon from "../assets/share.svg";
   //导入通用方法
   import {
     copyTextToClipboard,
@@ -59,7 +59,7 @@
 
   let dispatch = createEventDispatcher();
   let showModelSelectorbtn: HTMLElement;
-  let showShareMenu: HTMLElement;
+  //let showShareMenu: HTMLElement;
   let isShowUserFirstQuery = true; //是否显示用户的第一个问题
   // let isStreaming = false;//是否在进行流式传输
   let isEditting = false; //是否正在编辑
@@ -183,16 +183,16 @@
     );
   }
 
-  function share(index:number){
-    let position = getElementPostionDiff(showShareMenu);
-    dispatch("show-sharemenu", {
-      position: position,
-      originElement: showShareMenu,
-      closeCallback:()=>{},
-      callback: selectedCallback,
-      content  : message.message.content,
-    });
-  }
+  // function share(index:number){
+  //   let position = getElementPostionDiff(showShareMenu);
+  //   dispatch("show-sharemenu", {
+  //     position: position,
+  //     originElement: showShareMenu,
+  //     closeCallback:()=>{},
+  //     callback: selectedCallback,
+  //     content  : message.message.content,
+  //   });
+  // }
   function cancelEdit() {}
   function submitEdit(index: number) {}
   function startEditMessage(index: number) {}
@@ -381,14 +381,14 @@
                     <img class="" alt={$t("app.retry")} src={RetryIcon} />
                   </button>
 
-                  <button
+                  <!-- <button
                     bind:this={showShareMenu}
                     class="btn-custom"
                     data-tooltip={$t("app.share", { default: "Share" })}
                     on:click={() => share(index)}
                   >
                     <img class="" alt={$t("app.share",{ default: "Share"})} src={ShareIcon} />
-                  </button>
+                  </button> -->
 
                   <!-- class="{isHovered ? "" : " btn-switch"} btn-custom" -->
                   <button

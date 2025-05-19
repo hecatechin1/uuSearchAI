@@ -84,12 +84,13 @@
         await getChatListData(); //当前对话从新对话变为非新对话时，需要更新聊天列表
       }
     });
+
     userTokens.subscribe((v) => {
-      if (v < 0 || v > 20000) {
+      if (v == -1 || v > 20000) {
         return;
       }
       if (v <= 20000) {
-        showErrorMessage("token余额不足，请充值");
+        showErrorMessage("当前模型剩余token数为"+get(userTokens));
       }
     });
     let show_pwa_install = localStorage.getItem("showPWAinstall") || "true";

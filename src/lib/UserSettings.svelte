@@ -99,7 +99,13 @@
                                 class="w-8 h-8 rounded-full object-cover"
                                 alt="User Avatar"
                             />
-                            <span class="setting-lable">{$userEmail}</span>
+                            <span class="setting-lable">
+                                {#if $userEmail}
+                                    {$userEmail}
+                                {:else}
+                                    {$t("app.guestUser", {default:"Guest"})}
+                                {/if}
+                            </span>
                         </div>
                         <span class="text-gray-600">
                             <a href="/pricing" target="_blank" class="hover:text-blue-600 hover:underline">
@@ -123,6 +129,39 @@
                             })}</span>
                         </div>
                     {/if}
+                    <div class="setting-item" style="align-items: start;">
+                        <span class="setting-lable">{$t("app.tokensLeft",{default:"Tokens Left"})}</span>
+                        <span class="text-gray-600">
+                            <div>
+                                <span
+                                    class="curor-default hover:text-gray-900"
+                                    alt="{['gemini-2.0-flash-lite', 'gpt-4o-mini', 'gemini-2.0-flash', 'gemini-flash-1.5', 'deepseek-r1', 'deepseek-chat',  'qwq-32b'].join(', ')}"
+                                    title="{['gemini-2.0-flash-lite', 'gpt-4o-mini', 'gemini-2.0-flash', 'gemini-flash-1.5', 'deepseek-r1', 'deepseek-chat', 'qwq-32b'].join(', ')}">
+                                    {$t("app.modelCheap",{default:"Lite Models"})}
+                                </span>
+                                <span class="ml-10">1000312</span>
+                            </div>
+                            <div>
+                                <span
+                                    class="curor-default hover:text-gray-900"
+                                    alt="{['gemini-pro-1.5', 'GPT-o1-mini', 'GPT-o3-mini', 'GPT-4o', 'claude-3.5-haiku', 'claude-3-7-sonnet', 'claude-3.5-sonnet', 'qwen-plus'].join(', ')}"
+                                    title="{['gemini-pro-1.5', 'GPT-o1-mini', 'GPT-o3-mini', 'GPT-4o', 'claude-3.5-haiku', 'claude-3-7-sonnet', 'claude-3.5-sonnet', 'qwen-plus'].join(', ')}"
+                                    >
+                                    {$t("app.modelNormal",{default:"Balanced Models"})}
+                                </span>
+                                <span class="ml-10">1000</span>
+                            </div>
+                            <div><span
+                                    class="curor-default hover:text-gray-900"
+                                    alt="{['GPT-o1', 'claude-3.7-sonnet'].join(', ')}"
+                                    title="{['GPT-o1', 'claude-3.7-sonnet'].join(', ')}"
+                                    >
+                                    {$t("app.modelExpensive",{default:"Elite Models"})}
+                                </span>
+                                <span class="ml-10">1000</span>
+                            </div>
+                        </span>
+                    </div>
                 </div>
                 <div class="setting-item-group">
                     <div class="setting-item">

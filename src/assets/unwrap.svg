@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14" height="14" viewBox="0 0 14 14">
+  <defs>
+    <clipPath id="clip-unwrap">
+      <rect width="14" height="14"/>
+    </clipPath>
+  </defs>
+  <g id="unwrap" clip-path="url(#clip-unwrap)">
+    <rect id="矩形_4403" data-name="矩形 4403" width="12" height="1.6" rx="0.8" transform="translate(0 1.2)" fill="#4a928c"/>
+    <rect id="矩形_4404" data-name="矩形 4404" width="14" height="1.6" rx="0.8" transform="translate(0 6)" fill="#4a928c"/>
+    <rect id="矩形_4405" data-name="矩形 4405" width="10" height="1.6" rx="0.8" transform="translate(0 10.8)" fill="#4a928c"/>
+  </g>
+</svg>

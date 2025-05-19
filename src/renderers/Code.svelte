@@ -1,8 +1,10 @@
-<script>
+<script lang="ts">
   import { onMount, afterUpdate } from 'svelte';
   import { t } from 'svelte-i18n';
   import CopyIcon from "../assets/copy.svg";
   import CheckIcon from "../assets/check.svg";
+  import WrapIcon from "../assets/wrap.svg";
+  import UnwrapIcon from "../assets/unwrap.svg";
   import hljs from "highlight.js";
   import { marked } from "marked";
   import "highlight.js/styles/default.css";
@@ -22,6 +24,26 @@
 
   let copied = false;
 
+  let codeContainer: HTMLDivElement | null = null;// code容器div的dom元素
+  let maxWidth = 0; // 用来设置code容器DIV的最大宽度
+  const updateMaxWidth = () => {
+    if (codeContainer !== null && typeof window !== 'undefined') {
+      const parentElement = codeContainer.parentElement;
+      if (parentElement) {
+        requestAnimationFrame(() => {
+          const rootStyle = getComputedStyle(document.documentElement);
+          const rootFontSize = parseFloat(rootStyle.fontSize as string);
+          // 使用父元素的宽度来计算 maxWidth
+          maxWidth = parentElement.clientWidth - 40;
+          // 将计算得到的 maxWidth 应用到 codeContainer 的样式上
+          if (codeContainer) {
+            codeContainer.style.maxWidth = `${maxWidth}px`;
+            // 打印设置后的最大宽度
+          }
+        });
+      }
+    }
+  };
 // 高亮代码函数
 const highlightCode = () => {
     if (language) {
@@ -34,11 +56,13 @@ const highlightCode = () => {
    // 初次渲染时高亮代码
    onMount(() => {
     highlightCode();
+    updateMaxWidth();
   });
 
   // 每次 text 更新时重新高亮
   afterUpdate(() => {
     highlightCode();
+    updateMaxWidth();
   });
   
   const copyToClipboard = async () => {
@@ -55,9 +79,22 @@ const highlightCode = () => {
   
 </script>
 
-<div style="position:relative">
+<div class="code-container"  bind:this={codeContainer}>
   <div class="copycode">
     <div>{language}</div>
+    {#if wrap}
+    <button class="mr-4" on:click={()=>{wrap=false}}> 
+      <img class="inline-block" alt="Wrap" src={UnwrapIcon} />
+      {$t('app.unwrap')} 
+    </button>
+
+    {:else}
+    <button class="mr-4" on:click={()=>{wrap=true}}>
+      <img class="inline-block" alt="Unwrap" src={WrapIcon} /> 
+      {$t('app.wrap')}  
+
+    </button>
+    {/if}
     <button class="" on:click={copyToClipboard}>
       {#if copied}
       <img class="inline-block" alt="Copied" src={CheckIcon} />
@@ -68,18 +105,13 @@ const highlightCode = () => {
       <span>{$t('code.copy')}</span>
       {/if}
     </button>
-    <!-- {#if wrap}
-    <button on:click={()=>{wrap=false}}> unwrap </button>
-
-    {:else}
-    <button on:click={()=>{wrap=true}}> wrap </button>
-    {/if} -->
-    
   </div>
   <!-- <pre style=" { wrap?"white-space: pre-wrap; word-wrap: break-word; overflow-x: auto;":""} "> -->
-  <pre style=" { wrap?"white-space: pre-wrap; word-wrap: break-word; overflow-x: auto;":""} ">
-    <code id='testid' >{@html highlightedCode}</code>
-  </pre>
+  <div style="overflow-x: auto;">
+    <pre style=" { wrap?"white-space: pre-wrap;":"white-space: pre"} ">
+      <code id='testid' >{@html highlightedCode}</code>
+    </pre>
+  </div>
 </div>
 
 <style>
@@ -92,13 +124,13 @@ const highlightCode = () => {
     animation: fade-in 0.5s ease-in-out forwards;
     margin-bottom: 1rem;
     font-weight: bold;
-    overflow-wrap: break-word;
-    white-space: pre-wrap;
+    overflow-x: auto;
+    max-width: calc(100% - 40px); /* 减去 padding 的左右值 */
   }
 
   .copycode {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     background-color: #333;
     margin: 0 20px 0 20px;
     border-radius: 10px 10px 0px 0px;
@@ -134,6 +166,11 @@ const highlightCode = () => {
       opacity: 1;
     }
   }
+  .code-container {
+    position: relative;
+    margin: 0 auto;
+  }
+
 
 
 </style>

@@ -190,6 +190,8 @@
       "modelCheap":"轻量模型",
       "modelNormal":"均衡模型",
       "modelExpensive":"高级模型",
+      "unwrap":"不换行",
+      "wrap":"自动换行",
       "title": "uuGPT - 多模型AI对话助手 | 集成GPT/Claude/DeepSeek/Gemini/Qwen",
       "description": "uuGPT是一款集成多款顶尖AI模型的智能对话平台，支持Google账号一键登录。免费体验GPT-4 mini，订阅专业版可解锁GPT-3.5/Claude 3.7 等高级模型，适用于写作、编程、翻译等多种场景。",
       "keywords": "AI对话,ChatGPT,GPT聊天,Claude AI,DeepSeek,Gemini,Google账号登录,傲游账号登录,免费AI写作,多模型AI,智能助手,AI订阅服务",

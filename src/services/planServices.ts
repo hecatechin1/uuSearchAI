@@ -30,6 +30,22 @@ export async function createPayment(plan:string,suc_url:string,can_url:string,la
 
 }
 
+export async function getAiLimit() {
+    try {
+    let res = await createTimeOutFetch()(`https://api.uugpt.com/ai/limit/`, {
+      method: "GET",
+      credentials: 'include',
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    } else {
+      return 1;
+    }
+  } catch (error) {
+    return 1;
+  }
+}
 
 //直接跳转链接，函数弃用
 // export async function planManage(){

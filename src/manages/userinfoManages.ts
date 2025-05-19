@@ -1,4 +1,4 @@
-import { userID, userEmail, userLevel, userTokens, userPlanEndtime,userPlanMode,userSubMode,getEmailCodeId, userAvatar, userType } from '../stores/userStores';
+import { userID, userEmail, userLevel, used_ExpensiveTokens,used_FreeTokens,used_NormalTokens, userPlanEndtime,userPlanMode,userSubMode,getEmailCodeId, userAvatar, userType } from '../stores/userStores';
 import { isLogin,isGuest } from "../stores/globalParamentStores";
 import {sendForgetEmailCode,changePassword, getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login, updateData,getUserData, guestSignup,logout,getMaxthonUserInfo,loginMxUser } from "../services/usersServices";
 import {hash256,getCookieValue} from "../utils/generalUtils";
@@ -180,7 +180,9 @@ export async function getUpdateUserData_Settings(){
         language.set(userdata.language);
     }
     if(userdata.tokens){
-        userTokens.set(userdata.tokens.cheap);
+        if(userdata.tokens.cheap)used_FreeTokens.set(userdata.tokens.cheap);
+        if(userdata.tokens.normal)used_NormalTokens.set(userdata.tokens.normal);
+        if(userdata.tokens.expensive)used_ExpensiveTokens.set(userdata.tokens.expensive);
     }
     language.set(userdata.language);
     return 0;

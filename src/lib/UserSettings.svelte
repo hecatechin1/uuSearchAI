@@ -8,17 +8,30 @@
     import { sendKey, lineBreakKey } from "../stores/settingsStores";
     import { language } from "../stores/userStores";
     import { UpdateUserData_Settings } from "../manages/userinfoManages";
-    import { userEmail, userPlanMode, userAvatar,userPlanEndtime} from "../stores/userStores";
+    import { userEmail, userPlanMode, userAvatar,userPlanEndtime,used_FreeTokens,used_NormalTokens,used_ExpensiveTokens} from "../stores/userStores";
     import DefaultAvatar from "../assets/login/avatar-default.svg";
     import VipBasicIcon from "../assets/pricing/basic-icon.svg";
     import VipProIcon from "../assets/pricing/pro-icon.svg";
-
+    import {TokenLimit} from "../stores/globalParamentStores";
     const keys = ["Enter", "Shift+Enter", "Ctrl+Enter"];
-    let sendk ;
-    let breakk;
+    let sendk:any;
+    let breakk:any;
     let lang;
+    let tokenLimit :any;
+    let cheap = 0;
+    let normal = 0;
+    let expensive = 0;
     onMount(async () => {
-        console.log(get(sendKey), get(lineBreakKey), get(language));
+        console.log(get(used_FreeTokens),get(used_ExpensiveTokens),get(used_NormalTokens));
+        console.log(get(TokenLimit));
+        getLimit();
+        cheap = tokenLimit.cheap.tokens - get(used_FreeTokens);
+        if(tokenLimit.normal){
+            normal = tokenLimit.normal.tokens - get(used_NormalTokens);
+        };
+        if(tokenLimit.expensive){
+            expensive = tokenLimit.expensive.tokens - get(used_ExpensiveTokens);
+        };
         sendKey.subscribe((value) => {
             sendk = value;
         });
@@ -67,6 +80,21 @@
     function handleSaveAndClose() {
         handleSave();
         handleClose();
+    }
+
+    function getLimit(){
+        let plan = get(userPlanMode);
+        let limit = JSON.parse(get(TokenLimit));
+        if(plan.includes("free")){
+            tokenLimit = limit.free;
+            return;            
+        }
+        if(plan.includes("basic")){
+            tokenLimit = limit.basic;
+        }
+        if(plan.includes("pro")){
+            tokenlimit = limit.pro;
+        }
     }
 </script>
 
@@ -139,7 +167,7 @@
                                     title="{['gemini-2.0-flash-lite', 'gpt-4o-mini', 'gemini-2.0-flash', 'gemini-flash-1.5', 'deepseek-r1', 'deepseek-chat', 'qwq-32b'].join(', ')}">
                                     {$t("app.modelCheap",{default:"Lite Models"})}
                                 </span>
-                                <span class="ml-10">1000312</span>
+                                <span class="ml-10">{cheap}</span>
                             </div>
                             <div>
                                 <span
@@ -149,7 +177,7 @@
                                     >
                                     {$t("app.modelNormal",{default:"Balanced Models"})}
                                 </span>
-                                <span class="ml-10">1000</span>
+                                <span class="ml-10">{normal}</span>
                             </div>
                             <div><span
                                     class="curor-default hover:text-gray-900"
@@ -158,7 +186,7 @@
                                     >
                                     {$t("app.modelExpensive",{default:"Elite Models"})}
                                 </span>
-                                <span class="ml-10">1000</span>
+                                <span class="ml-10">{expensive}</span>
                             </div>
                         </span>
                     </div>

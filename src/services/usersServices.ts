@@ -319,20 +319,3 @@ export async function sendForgetEmailCode(email: string) {
     return 1;
   }
 }
-//
-export async function getAiLimit() {
-    try {
-    let res = await createTimeOutFetch()(`https://api.uugpt.com/ai/limit`, {
-      method: "GET",
-      credentials: 'include',
-    });
-    if (res.ok) {
-      const data = await res.json();
-      return data;
-    } else {
-      return 1;
-    }
-  } catch (error) {
-    return 1;
-  }
-}

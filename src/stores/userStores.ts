@@ -6,8 +6,17 @@ export const userID = writable('');
 export const userEmail = writable('');
 //会员等级
 export const userLevel = writable(0);
+
 //token
-export const userTokens = writable(-1);
+// export const userTokens = writable(-1);
+//token使用量
+//freeToken
+export const used_FreeTokens = writable(0);
+//normalToken
+export const used_NormalTokens = writable(0);
+//expensiveToken
+export const used_ExpensiveTokens = writable(0);
+
 //会员时长
 export const userPlanEndtime = writable(0);
 //会员类型

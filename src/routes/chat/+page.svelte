@@ -28,7 +28,7 @@
     current_chat,
   } from "../../stores/chatStores.js";
   import { get } from "svelte/store";
-  import { userTokens } from "../../stores/userStores.js";
+  // import { userTokens } from "../../stores/userStores.js";
 
   // 状态管理
   let isReady = false;
@@ -85,14 +85,14 @@
       }
     });
 
-    userTokens.subscribe((v) => {
-      if (v == -1 || v > 20000) {
-        return;
-      }
-      if (v <= 20000) {
-        showErrorMessage("当前模型剩余token数为"+get(userTokens));
-      }
-    });
+    // userTokens.subscribe((v) => {
+    //   if (v == -1 || v > 20000) {
+    //     return;
+    //   }
+    //   if (v <= 20000) {
+    //     showErrorMessage("当前模型剩余token数为"+get(userTokens));
+    //   }
+    // });
     let show_pwa_install = localStorage.getItem("showPWAinstall") || "true";
     if (typeof window !== "undefined" && window.self_promp) {
       isInstallPromptVisable = show_pwa_install == "true";

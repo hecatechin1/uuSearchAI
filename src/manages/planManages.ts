@@ -3,7 +3,7 @@ import { get } from "svelte/store";
 import { isLogin } from "../stores/globalParamentStores";
 import { getInfo, checkEmail, sendEmailCode,verifycode,setPassword,resetPassword,login } from "../services/usersServices";
 import {hash256} from "../utils/generalUtils";
-import {createPayment} from "../services/planServices"
+import {createPayment,getAiLimit} from "../services/planServices"
 import {addQueryParam} from "../utils/generalUtils"
 
 export async function getPaymentAddress(plan:string,callbackUrl:string){
@@ -22,4 +22,16 @@ export async function getPaymentAddress(plan:string,callbackUrl:string){
 
 export async function getPlanManageAddress(){
     return 'https://api.uugpt.com/pay/manage-subscription';
+}
+
+export async function getLimit(){
+    let data = await getAiLimit();
+    if (data == 1) {
+        return 1;
+    }
+    if (data.code!= 0) {
+        return 1;
+    }
+    return data;
+    
 }

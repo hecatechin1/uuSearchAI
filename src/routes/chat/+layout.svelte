@@ -9,6 +9,7 @@
     showSuccess,
     message,
     browser_signature,
+    TokenLimit,
   } from "../../stores/globalParamentStores";
   import {
     getUserInfo,
@@ -16,25 +17,9 @@
   } from "../../manages/userinfoManages";
   // import { fly } from "svelte/transition";
   import { getCookieValue } from "../../utils/generalUtils";
+  import { getLimit } from "../../manages/planManages";
 
   let loading = true;
-
-  // showError.subscribe((value) => {
-  //   if (value) {
-  //     setTimeout(() => {
-  //       showError.set(false);
-  //       message.set("");
-  //     }, 5000);
-  //   }
-  // });
-  // showSuccess.subscribe((value) => {
-  //   if (value) {
-  //     setTimeout(() => {
-  //       showSuccess.set(false);
-  //       message.set("");
-  //     }, 5000);
-  //   }
-  // });
 
   onMount(async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -45,8 +30,18 @@
       await userLoginForMaxthon();
     }
     await getUserInfo();
+    let limit = localStorage.getItem("limit") || "";
+    if (limit) {
+      TokenLimit.set(limit);
+    } else {
+      getLimit().then((res) => {
+        if (res !== 1) {
+          TokenLimit.set(JSON.stringify(res.result));
+          localStorage.setItem("limit", JSON.stringify(res.result));
+        }
+      });
+    }
     loading = false; // 设置为已加载
-
   });
 </script>
 

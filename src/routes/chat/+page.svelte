@@ -191,11 +191,12 @@
     />
     <!-- 聊天主界面 -->
     <div class="flex-1 relative">
-      <Topbar on:show-selector={showModelSelector} />
+      <Topbar on:show-selector={showModelSelector} on:show-user-settings={()=>{showSettings = true}}/>
       <ChatMain
         on:show-sharemenu={showShareSelector}
         on:show-user-menu={() => (showUserContexMenu = true)}
         on:show-selector={showModelSelector}
+        on:show-user-settings={()=>{showSettings = true}}
         on:showLoginBox={() => (showLogin = true)}
       />
     </div>

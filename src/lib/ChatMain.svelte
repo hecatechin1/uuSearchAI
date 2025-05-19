@@ -137,7 +137,9 @@
       .sort(() => Math.random() - 0.5)
       .slice(0, 6);
   }
-
+  function showUserSettings(){
+    dispatch("show-user-settings");
+  }
   async function processMessage() {
     let msg = input;
     input = "";
@@ -194,6 +196,7 @@
                   on:show-selector={showModelSelector}
                   on:showLoginBox={showLoginBox}
                   on:show-user-menu={showUserMenu}
+                  on:show-user-settings={showUserSettings}
                 />
 
                 {#if $current_chat.length > 0}

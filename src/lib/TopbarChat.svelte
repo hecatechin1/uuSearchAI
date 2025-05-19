@@ -10,13 +10,13 @@
   } from "../stores/chatStores";
   import { changeChatModel,createNewChat } from "../manages/chatManages";
   import avatar from "../assets/login/avatar-default.svg";
+  import SettingsIcon from "../assets/settings.svg";
   import { getElementPostionDiff } from "../utils/generalUtils.js";
   import { showSidebar, isLogin } from "../stores/globalParamentStores";
   import { userAvatar, userType} from "../stores/userStores";
 
   // export let showSidebar = false;
 
-  let isLogedin = false;
   let showModelSelectorbtn: HTMLElement;
   let dispatch = createEventDispatcher();
   let showTopbarModelMenu = true;
@@ -158,7 +158,11 @@
       >
     </div>
   {:else}
-    <div class="flex items-center">
+    <div class="flex items-center gap-2">
+      <!-- 这里是设置按钮 -->
+      <button class="cursor-pointer rounded-lg py-1.5 px-3 hover:bg-gray-200 focused:bg-gray-200 text-themegreen">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-md"><path fill-rule="evenodd" clip-rule="evenodd"d="M6.32,19.92H3a1,1,0,1,1,0-2H6.32a3.07,3.07,0,0,1,5.81,0H21a1,1,0,1,1,0,2H12.13a3.06,3.06,0,0,1-5.81,0Zm1.79-1a1.12,1.12,0,1,0,1.12-1.11,1.12,1.12,0,0,0-1.12,1.11ZM11.87,13H3a1,1,0,0,1-1-1,1,1,0,0,1,1-1h8.88a3.07,3.07,0,0,1,5.81,0H21a1,1,0,0,1,1,1,1,1,0,0,1-1,1H17.68a3.07,3.07,0,0,1-5.81,0Zm1.79-1a1.12,1.12,0,1,0,1.12-1.12A1.12,1.12,0,0,0,13.66,12ZM6.32,6.05H3a1,1,0,1,1,0-2H6.32a3.07,3.07,0,0,1,5.81,0H21a1,1,0,1,1,0,2H12.13a3.07,3.07,0,0,1-5.81,0Zm1.79-1A1.12,1.12,0,1,0,9.23,4,1.12,1.12,0,0,0,8.11,5.06Z"  fill="currentColor"></path></svg>
+      </button>
       <button
         on:click={showLoginBox}
         class="submit-edit rounded-lg px-3 py-1 text-white bg-themegreen hover:bg-themegreenhover hover:text-white h-5}"

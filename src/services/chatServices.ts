@@ -62,6 +62,7 @@ export async function sendMessage(msg: string, pid: number, ai: string, model: s
       role: "user",
       content: msg,
     },
+    messages:[],
     did:get(browser_signature),
     lan: get(language),
   };

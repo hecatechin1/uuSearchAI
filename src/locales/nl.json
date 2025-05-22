@@ -184,6 +184,13 @@
       "clearConversation":"Wis alles"
     },
     "app": {
+      "share": "Delen",
+    "guestUser": "Gastgebruiker",
+    "modelCheap": "Licht model",
+    "modelNormal": "Gebalanceerd model",
+    "modelExpensive": "Geavanceerd model",
+    "unwrap": "Geen terugloop",
+    "wrap": "Terugloop",
       "title": "uuGPT - Multi-Model AI Chat Assistant | Integreert GPT/Claude/DeepSeek/Gemini/Qwen",
     "description": "uuGPT is een intelligent chatplatform met top AI-modellen en éénkliks Google-login. Gratis toegang tot GPT-4 mini. Pro-abonnement ontgrendelt GPT-3.5/Claude 3.7 en geavanceerde modellen voor schrijven, programmeren, vertalen en meer.",
     "keywords": "AI Chat,ChatGPT,GPT Chat,Claude AI,DeepSeek,Gemini,Google Login,Maxthon Login,Gratis AI Schrijven,Multi-Model AI,Smart Assistant,AI Abonnement",

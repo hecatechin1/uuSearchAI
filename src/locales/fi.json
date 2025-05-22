@@ -185,6 +185,13 @@
     "clearConversation": "Tyhjennä"
   },
   "app": {
+    "share": "Jaa",
+    "guestUser": "Vieraskäyttäjä",
+    "modelCheap": "Kevyt malli",
+    "modelNormal": "Tasapainoinen malli",
+    "modelExpensive": "Edistynyt malli",
+    "unwrap": "Ei rivitystä",
+    "wrap": "Rivitä",
     "title": "uuGPT - Monimallinen AI-keskusteluavustaja | Integroi GPT/Claude/DeepSeek/Gemini/Qwen",
     "description": "uuGPT on älykäs chat-alusta huippu-AI-malleilla ja Google-kirjautumisella. Kokeile ilmaiseksi GPT-4 miniä. Pro-tilauksella saat GPT-3.5/Claude 3.7 ja muut edistyneet mallit kirjoittamiseen, ohjelmointiin, käännöksiin jne.",
     "keywords": "AI-keskustelu,ChatGPT,GPT-keskustelu,Claude AI,DeepSeek,Gemini,Google-kirjautuminen,Maxthon-kirjautuminen,Ilmainen AI-kirjoittaminen,Monimallinen AI,Älyavustaja,AI-tilaus",

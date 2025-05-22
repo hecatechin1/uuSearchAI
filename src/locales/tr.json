@@ -185,6 +185,12 @@
     "clearConversation": "Temizle"
   },
   "app": {
+    "share": "Paylaş",
+    "guestUser": "Misafir Kullanıcı",
+    "modelCheap": "Hafif Model",
+    "modelNormal": "Dengeli Model",
+    "modelExpensive": "Gelişmiş Model",
+    "wrap": "Otomatik Kaydırma",
     "title": "uuGPT - Çok Modelli AI Sohbet Asistanı | GPT/Claude/DeepSeek/Gemini/Qwen Entegre",
     "description": "uuGPT, tek tıkla Google girişli üstün AI modelleri entegre akıllı sohbet platformu. GPT-4 mini'yi ücretsiz dene. Pro aboneliği ile yazma, kodlama, çeviri vb. için GPT-3.5/Claude 3.7 ve daha fazla gelişmiş modelin kilidini aç.",
     "keywords": "AI Sohbet,ChatGPT,GPT Sohbet,Claude AI,DeepSeek,Gemini,Google Giriş,Maxthon Giriş,Ücretsiz AI Yazma,Çok Modelli AI,Akıllı Asistan,AI Abonelik",

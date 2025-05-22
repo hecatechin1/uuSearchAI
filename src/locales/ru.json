@@ -185,6 +185,13 @@
     "clearConversation": "Очистить"
   },
   "app": {
+    "share": "Поделиться",
+    "guestUser": "Гостевой пользователь",
+    "modelCheap": "Легкая модель",
+    "modelNormal": "Сбалансированная модель",
+    "modelExpensive": "Продвинутая модель",
+    "unwrap": "Без переноса",
+    "wrap": "Перенос строк",
     "title": "uuGPT - Многомодельный AI-ассистент | Интеграция GPT/Claude/DeepSeek/Gemini/Qwen",
     "description": "uuGPT — интеллектуальная чат-платформа с топовыми AI-моделями и входом через Google в один клик. Бесплатный доступ к GPT-4 mini. Подписка Pro открывает GPT-3.5/Claude 3.7 и другие модели для письма, программирования, перевода и т.д.",
     "keywords": "AI-чат,ChatGPT,GPT-чат,Claude AI,DeepSeek,Gemini,Вход через Google,Вход через Maxthon,Бесплатное AI-писание,Многомодельный AI,Умный помощник,AI-подписка",

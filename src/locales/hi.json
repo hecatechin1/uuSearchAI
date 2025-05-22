@@ -185,6 +185,13 @@
     "clearConversation": "साफ़ करें"
   },
   "app": {
+    "share": "साझा करें",
+    "guestUser": "अतिथि उपयोगकर्ता",
+    "modelCheap": "हल्का मॉडल",
+    "modelNormal": "संतुलित मॉडल",
+    "modelExpensive": "उन्नत मॉडल",
+    "unwrap": "लपेटें नहीं",
+    "wrap": "स्वतः लपेटें",
     "title": "uuGPT - मल्टी-मॉडल AI चैट सहायक | GPT/Claude/DeepSeek/Gemini/Qwen एकीकृत",
     "description": "uuGPT एक बहु-मॉडल AI चैट प्लेटफ़ॉर्म है जिसमें Google एक-क्लिक लॉगिन है। GPT-4 mini मुफ्त में उपयोग करें। Pro सदस्यता से GPT-3.5/Claude 3.7 और अन्य उन्नत मॉडल्स को लेखन, कोडिंग, अनुवाद आदि के लिए अनलॉक करें।",
     "keywords": "AI चैट,ChatGPT,GPT चैट,Claude AI,DeepSeek,Gemini,Google लॉगिन,Maxthon लॉगिन,मुफ़्त AI लेखन,मल्टी-मॉडल AI,स्मार्ट सहायक,AI सदस्यता",

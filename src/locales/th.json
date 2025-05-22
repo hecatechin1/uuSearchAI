@@ -156,6 +156,13 @@
     "logout": "ออกจากระบบ"
   },
   "settings": {
+    "share": "แบ่งปัน",
+    "guestUser": "ผู้ใช้ทั่วไป",
+    "modelCheap": "โมเดลเบา",
+    "modelNormal": "โมเดลสมดุล",
+    "modelExpensive": "โมเดลขั้นสูง",
+    "unwrap": "ไม่ตัดคำ",
+    "wrap": "ตัดคำอัตโนมัติ",
     "title": "การตั้งค่า",
     "language": "ภาษา",
     "whenask": {

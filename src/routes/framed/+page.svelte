@@ -33,7 +33,7 @@
   import CopyIcon from "../../assets/copy.svg";
   import RetryIcon from "../../assets/retry.svg";
   import UserIcon from "../../assets/UserIcon.svg";
-  import RobotIcon from "../../assets/aianswer-avtar.svg";
+  import RobotIcon from "../../assets/uugpt_favion_small.png";
   import MoreIcon from "../../assets/moreactions.svg";
   import EditIcon from "../../assets/edit.svg";
   import SendIcon from "../../assets/sendmessage-active.svg";

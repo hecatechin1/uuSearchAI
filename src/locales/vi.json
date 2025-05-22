@@ -185,6 +185,13 @@
     "clearConversation": "Xóa"
   },
   "app": {
+    "share": "Chia sẻ",
+    "guestUser": "Người dùng khách",
+    "modelCheap": "Mô hình nhẹ",
+    "modelNormal": "Mô hình cân bằng",
+    "modelExpensive": "Mô hình nâng cao",
+    "unwrap": "Không ngắt dòng",
+    "wrap": "Ngắt dòng tự động",
     "title": "uuGPT - Trợ lý Chat AI Đa Mô Hình | Tích hợp GPT/Claude/DeepSeek/Gemini/Qwen",
     "description": "uuGPT là nền tảng chat thông minh tích hợp nhiều mô hình AI hàng đầu, hỗ trợ đăng nhập Google một chạm. Dùng thử miễn phí GPT-4 mini. Đăng ký Pro để mở khóa GPT-3.5/Claude 3.7 và các mô hình nâng cao cho viết lách, lập trình, dịch thuật...",
     "keywords": "Chat AI,ChatGPT,GPT Chat,Claude AI,DeepSeek,Gemini,Đăng nhập Google,Đăng nhập Maxthon,Viết AI Miễn phí,AI Đa Mô Hình,Trợ lý Thông minh,Dịch vụ Thuê bao AI",

@@ -185,6 +185,13 @@
     "clearConversation": "Limpar"
   },
   "app": {
+    "share": "Compartilhar",
+    "guestUser": "Usuário convidado",
+    "modelCheap": "Modelo leve",
+    "modelNormal": "Modelo equilibrado",
+    "modelExpensive": "Modelo avançado",
+    "unwrap": "Sem quebra",
+    "wrap": "Quebra automática",
     "title": "uuGPT - Assistente de Chat IA Multi-Modelo | Integra GPT/Claude/DeepSeek/Gemini/Qwen",
     "description": "uuGPT é uma plataforma de chat inteligente com modelos IA premium e login Google em um clique. Acesso gratuito ao GPT-4 mini. Assine Pro para desbloquear GPT-3.5/Claude 3.7 e outros modelos avançados para escrita, programação, tradução e mais.",
     "keywords": "Chat IA,ChatGPT,GPT Chat,Claude IA,DeepSeek,Gemini,Login Google,Login Maxthon,Escrita IA Grátis,IA Multi-Modelo,Assistente Inteligente,Assinatura IA",

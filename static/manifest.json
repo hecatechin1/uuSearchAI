@@ -1,46 +1,52 @@
 {
-    "name": "uuGPT",
-    "short_name": "uuGPT",
-    "start_url": "/chat",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#e5e7eb",
-    "form_factor":"wide",
-    "icons": [
-      {
-        "src": "/uugpt_favion-16.png",
-        "sizes": "16x16",
-        "type": "image/png"
-      },
-      {
-        "src": "/uugpt_favion-32.png",
-        "sizes": "32x32",
-        "type": "image/png"
-      },
-            {
-        "src": "/uugpt_favion-48.png",
-        "sizes": "48x48",
-        "type": "image/png"
-      },
-            {
-        "src": "/uugpt_favion-64.png",
-        "sizes": "64x64",
-        "type": "image/png"
-      },
-            {
-        "src": "/uugpt_favion-128.png",
-        "sizes": "128x128",
-        "type": "image/png"
-      },
-            {
-        "src": "/uugpt_favion-192.png",
-        "sizes": "192x192",
-        "type": "image/png"
-      },
-            {
-        "src": "/uugpt_favion-512.png",
-        "sizes": "512x512",
-        "type": "image/png"
-      }
-    ]
-  }
+  "icons": [
+    {
+      "src": "https://www.uugpt.com/uugpt_favion-16.png?v=1.0.2",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "https://www.uugpt.com/uugpt_favion-32.png?v=1.0.2",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "https://www.uugpt.com/uugpt_favion-48.png?v=1.0.2",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "https://www.uugpt.com/uugpt_favion-64.png?v=1.0.2",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "https://www.uugpt.com/uugpt_favion-128.png?v=1.0.2",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "https://www.uugpt.com/uugpt_favion-192.png?v=1.0.2",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://www.uugpt.com/uugpt_favion-512.png?v=1.0.2",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "name": "uuGPT",
+  "short_name": "uuGPT",
+  "start_url": "https://www.uugpt.com/chat",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#e5e7eb",
+  "form_factor": "wide",
+  "version": "v1.0.2",
+  "display_override": [
+    "window-controls-overlay"
+  ],
+  "description": "UUGPT PWA",
+  "orientation": "portrait"
+}

@@ -16,6 +16,11 @@
         await initializeI18n();
         await waitLocale();
         isReady = true;
+        window.addEventListener("load",()=>{
+            navigator.serviceWorker.register("/service-worker.js",{scope:'/chat'}).then((registration) => {
+                console.log("Service Worker registered with scope");        
+            })
+        });
     });
     showError.subscribe((value) => {
         if (value) {
@@ -35,6 +40,7 @@
     });
 </script>
 <svelte:head>
+<link rel="manifest" href="/manifest.json?v=v1.0.2">
   <script>
     // 在 DOM 加载时立即监听
     window.addEventListener('beforeinstallprompt', (e) => {

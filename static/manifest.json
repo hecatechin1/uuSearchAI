@@ -34,11 +34,17 @@
       "src": "https://www.uugpt.com/uugpt_favion-512.png?v=1.0.2",
       "sizes": "512x512",
       "type": "image/png"
-    }
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32 48x48 64x64 128x128 192x192 256x256 512x512",
+      "type": "image/x-icon"
+  }
   ],
   "name": "uuGPT",
   "short_name": "uuGPT",
-  "start_url": "https://www.uugpt.com/chat",
+  "start_url": "/chat",
+  "scope": "/chat",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#e5e7eb",
@@ -47,6 +53,6 @@
   "display_override": [
     "window-controls-overlay"
   ],
-  "description": "UUGPT PWA",
+  "description": "Multi-Model AI Chat Assistant | Integrates GPT/Claude/DeepSeek/Gemini/Qwen",
   "orientation": "portrait"
 }

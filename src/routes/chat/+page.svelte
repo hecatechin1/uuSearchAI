@@ -93,12 +93,25 @@
     //     showErrorMessage("当前模型剩余token数为"+get(userTokens));
     //   }
     // });
+
+    // 初始化 PWA 安装提示
     let show_pwa_install = localStorage.getItem("showPWAinstall") || "true";
     if (typeof window !== "undefined" && window.self_promp) {
       isInstallPromptVisable = show_pwa_install == "true";
     } else {
       isInstallPromptVisable = false;
     }
+
+    // 注册 Service Worker
+    if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js', { scope: '/chat' })
+                .then(registration => {
+                    console.log('Service Worker 注册成功:', registration.scope);
+                })
+                .catch(error => {
+                    console.log('Service Worker 注册失败:', error);
+                });
+        }
     dataLoaded.set(true);
     isReady = true;
   });

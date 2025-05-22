@@ -16,11 +16,15 @@
         await initializeI18n();
         await waitLocale();
         isReady = true;
-        window.addEventListener("load",()=>{
-            navigator.serviceWorker.register("/service-worker.js",{scope:'/chat'}).then((registration) => {
-                console.log("Service Worker registered with scope");        
-            })
-        });
+        // window.addEventListener("load",()=>{
+        //     navigator.serviceWorker.register("/service-worker.js",{scope:'/chat'}).then((registration) => {
+        //         console.log('Service Worker 注册成功:', registration.scope);       
+        //     }).catch(error => {
+        //             console.error('Service Worker 注册失败:', error);
+        //         });
+        // });
+        // 在客户端加载时注册 Service Worker
+
     });
     showError.subscribe((value) => {
         if (value) {
@@ -41,6 +45,8 @@
 </script>
 <svelte:head>
 <link rel="manifest" href="/manifest.json?v=v1.0.2">
+<meta name="theme-color" content="#e5e7eb">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
   <script>
     // 在 DOM 加载时立即监听
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -49,6 +55,7 @@
     });
   </script>
 </svelte:head>
+
 
 {#if $showError}
     <div

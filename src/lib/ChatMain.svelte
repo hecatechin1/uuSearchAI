@@ -2,12 +2,15 @@
   import { createEventDispatcher, onMount, afterUpdate } from "svelte";
   import TopbarChat from "./TopbarChat.svelte";
   import ChatMessage from "./ChatMessage.svelte";
+  import ShareTopbarOverlay from "./ShareTopbarOverlay.svelte"; // 导入新组件
   import { t } from "svelte-i18n"; // 导入本地化方法
   import { get, writable } from "svelte/store";
   import SendDisabledIcon from "../assets/sendmessage-default.svg";
   import SendHoverIcon from "../assets/sendmessage-hover.svg";
   import SendIcon from "../assets/sendmessage-active.svg";
   import WaitIcon from "../assets/stop.svg";
+  import ShareImageIcon from "../assets/shareImage.svg";
+  import ShareLinkIcon from "../assets/shareLink.svg";
   import { sendKey, language, lineBreakKey } from "../stores/settingsStores";
   import {
     current_chat,
@@ -37,6 +40,7 @@
   let shouldScroll = true;
   let isFocused = false; // 添加输入框聚焦状态变量
   let isNewInputFocused = false; // 添加新聊天输入框聚焦状态变量
+  let isSharing = true; // 添加分享状态变量;
 
   const textMaxHeight = 300; // Maximum height in pixels
   const keys = {
@@ -167,6 +171,30 @@
   function showUserMenu() {
     dispatch("show-user-menu");
   }
+
+  $: messages = $current_chat;
+
+  function handleStartSharing() {
+    //在这里处理分享状态变更逻辑，更新isSharing变量，并将调用分享的mid一组问答选中（如果是user，选择本条和下一条，如果是assistant，选择本条和上一条）
+  }
+
+  function handleSelectAll() {
+    //在这里处理全选逻辑，将会话的所有mid全部选中或全部取消选中。
+  }
+
+  function handleShare() {
+    //在这里处理分享逻辑，将选中的mid一组问答分享出去
+  }
+
+  function handleCopyLink() {
+    //在这里处理复制链接逻辑，将分享的落地链接复制到剪切板、提示用户，并变更isSharing状态    
+  }
+
+  function handleShareImage() {
+    //在这里处理截图逻辑，将选中的mid一组问答截图，提示用户，并变更isSharing状态。
+  }
+
+
 </script>
 
 {#if $isLoading_messagesList}
@@ -178,8 +206,9 @@
   </div>
 {:else}
   <div
-    class="relative h-full w-full flex-1 transition-width overflow-hidden max-w-full flex-col max-md:h-[calc(100%-44px)]"
-  >
+    class="relative h-full w-full flex-1 transition-width overflow-hidden max-w-full flex-col max-md:h-[calc(100%-44px)] chatMain">
+    <!-- 渲染 ShareTopbarOverlay -->
+    <ShareTopbarOverlay isVisible={isSharing} />
     <div
       class="composer-parent flex h-full flex-col focus-visible:outline-0 bg-white"
     >
@@ -198,7 +227,9 @@
                   on:show-user-menu={showUserMenu}
                   on:show-user-settings={showUserSettings}
                 />
-
+                {#if isSharing}
+                  <div class="h-4"></div>
+                {/if}
                 {#if $current_chat.length > 0}
                   {#each $current_chat as message, i}
                     <ChatMessage
@@ -305,6 +336,7 @@
 
       <!-- 聊天输入框 -->
       {#if $current_chat.length > 0}
+        {#if !isSharing}
         <div
           class="md:pt-0 md:border-transparent md:dark:border-transparent w-full mb-2"
         >
@@ -376,6 +408,52 @@
             </div>
           </div>
         </div>
+        {:else}
+        <div
+          class="md:pt-0 md:border-transparent md:dark:border-transparent w-full mb-2"
+        >
+          <hr/>
+          <div
+            class="m-auto text-base px-3 md:px-4 w-full md:px-5 lg:px-4 xl:px-5"
+          >
+            <div
+              class="mx-auto flex flex-1 gap-2 text-base md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] flex-col items-center"
+            >
+              <div class="share-panel w-full px-3 py-2 rounded-md flex items-center justify-between">
+                <!-- 全选复选框 -->
+                <div class="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    class="shrink-0 h-5 w-5 rounded-lg border-gray-300 accent-themegreen"
+                    on:change={handleSelectAll}
+                  />
+                  <span class="text-sm">{$t("app.selectAll", { default: "Sellect All" })}</span>
+                </div>
+                
+                <div class="gap-2 flex flex-row">
+                   <!-- 复制链接按钮 -->
+                  <button
+                    class="bg-themegreen text-white px-2 py-1 rounded hover:bg-themegreenhover flex items-center gap-1"
+                    on:click={handleCopyLink}
+                  >
+                  <img src={ShareLinkIcon} alt="Copy Link" class="w-4 h-4" />
+                    <span class="text-sm hidden sm:block">{$t("app.shareLink", { default: "Share by Link" })}</span>
+                  </button>
+                <!-- 图片分享按钮 -->
+                <button
+                  class="bg-themegreen text-white px-2 py-1 rounded hover:bg-themegreenhover flex items-center gap-1"
+                  on:click={handleShareImage}
+                >
+                  <img src={ShareImageIcon} alt="Share Image" class="w-4 h-4"/>
+                  <span class="text-sm hidden sm:block">{$t("app.shareImage", { default: "Share by Image" })}</span>
+                </button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/if}
       {/if}
     </div>
   </div>

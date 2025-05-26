@@ -1,6 +1,8 @@
-<script lang="ts">
+<script lang="ts">                                                                      
   export let message: any;
   export let index: number;
+  export let isSharing = true; //是否分享中;
+
   import { t } from "svelte-i18n"; // 导入本地化方法
   import SvelteMarkdown from "svelte-markdown"; //导入svelte-markdown
   import {
@@ -32,7 +34,7 @@
   import QwenIcon from "../assets/qwen.svg";
   import toggleIcon from "../assets/toggle.svg";
   import errorIcon from "../assets/pricing/failure.svg";
-  //import ShareIcon from "../assets/share.svg";
+  import ShareIcon from "../assets/share.svg";
   //导入通用方法
   import {
     copyTextToClipboard,
@@ -183,16 +185,16 @@
     );
   }
 
-  // function share(index:number){
-  //   let position = getElementPostionDiff(showShareMenu);
-  //   dispatch("show-sharemenu", {
-  //     position: position,
-  //     originElement: showShareMenu,
-  //     closeCallback:()=>{},
-  //     callback: selectedCallback,
-  //     content  : message.message.content,
-  //   });
-  // }
+  function share(index:number){
+    // let position = getElementPostionDiff(showShareMenu);
+    // dispatch("show-sharemenu", {
+    //   position: position,
+    //   originElement: showShareMenu,
+    //   closeCallback:()=>{},
+    //   callback: selectedCallback,
+    //   content  : message.message.content,
+    // });
+  }
   function cancelEdit() {}
   function submitEdit(index: number) {}
   function startEditMessage(index: number) {}
@@ -212,11 +214,23 @@
   >
     <h6 class="sr-only">{$t("app.assistantname", { default: "uuGPT" })}</h6>
     <div
-      class="m-auto text-base py-[18px] px-3 md:px-4 w-full md:px-5 lg:px-4 xl:px-5"
+      class="m-auto text-base py-[18px] px-3 md:px-4 w-full md:px-5 lg:px-4 xl:px-5
+      {isSharing? 'py-[8px]' : 'py-[18px]'}"
     >
       <div
-        class="mx-auto flex flex-1 gap-2 text-base md:gap-3 lg:gap-4 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem]"
+        class="mx-auto flex flex-1 gap-2 text-base md:gap-3 lg:gap-4 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] group rounded-lg corlor-transition 
+      {message.ShareSelected?"bg-gray-100":"bg-transparent"}
+      {isSharing? 'py-[10px]' : 'py-0'}"
       >
+      {#if isSharing}
+      <div class="flex items-start mr-1 mt-2">
+        <input
+          type="checkbox"
+          class="shrink-0 h-5 w-5 cursor rounded-lg border-gray-300 text-blue-600 focus:themegreen-hover ml-2" style="accent-color: #4a928c;"
+          bind:checked={message.ShareSelected}
+        >
+      </div>
+      {/if}
         <div class="flex-shrink-0 flex flex-col relative items-end">
           <div>
             <div class="pt-0">
@@ -240,7 +254,6 @@
         </div>
         <div
           class="group/conversation-turn relative flex w-full min-w-0 flex-col agent-turn"
-
         >
           <div class="flex-col gap-1 md:gap-3">
             <div class="flex max-w-full flex-col flex-grow">
@@ -347,7 +360,7 @@
               {/if}
             </div>
 
-            {#if !messageError}
+            {#if !messageError && !isSharing}
               <!-- 消息工具栏 -->
               <div
                 class="toolbelt flex gap-2 empty:hidden
@@ -381,14 +394,14 @@
                     <img class="" alt={$t("app.retry")} src={RetryIcon} />
                   </button>
 
-                  <!-- <button
-                    bind:this={showShareMenu}
+                  <button
+                    
                     class="btn-custom"
                     data-tooltip={$t("app.share", { default: "Share" })}
                     on:click={() => share(index)}
                   >
                     <img class="" alt={$t("app.share",{ default: "Share"})} src={ShareIcon} />
-                  </button> -->
+                  </button>
 
                   <!-- class="{isHovered ? "" : " btn-switch"} btn-custom" -->
                   <button
@@ -459,15 +472,27 @@
   <article class="w-full focus-visible:outline-offset-[-4px]">
     <h5 class="sr-only">{$t("app.youSaid", { default: "You Said:" })}</h5>
     <div
-      class="m-auto text-base py-[18px] px-3 md:px-4 w-full md:px-5 lg:px-4 xl:px-5"
+      class="m-auto text-base py-[18px] px-3 md:px-4 w-full md:px-5 lg:px-4 xl:px-5
+      {isSharing? 'py-[8px]' : 'py-[18px]'}"
     >
       <div
-        class="mx-auto flex flex-1 gap-4 text-base md:gap-5 lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem]"
+        class="mx-auto flex flex-1 gap-4 text-base md:gap-5 lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] rounded-lg corlor-transition 
+      {message.ShareSelected?"bg-gray-100":"bg-transparent"}
+      {isSharing? 'py-[8px]' : 'py-0'}"
       >
+        {#if isSharing}
+        <div class="flex items-start mr-1 mt-2 group-hover:relative sticky top-[68px]">
+          <input
+            type="checkbox"
+            class="shrink-0 h-5 w-5 cursor-pointer rounded-lg border-gray-300 focus:themegreen-hover ml-2 mt-1" style="accent-color: #4a928c;"
+            bind:checked={message.ShareSelected}
+          >
+        </div>
+        {/if}
         <div class="group relative flex w-full min-w-0 flex-col">
           <div class="flex-col gap-1 md:gap-3">
             <div class="flex max-w-full flex-col flex-grow">
-              {#if isEditting}
+              {#if isEditting && !isSharing}
                 <!-- 编辑消息的文本区域 -->
                 <div class="rounded-3xl bg-gray-100 px-3 py-3">
                   <div class="m-2 max-h-[25dvh] overflow-auto">

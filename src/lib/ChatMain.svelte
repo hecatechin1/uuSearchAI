@@ -2,7 +2,8 @@
   import { createEventDispatcher, onMount, afterUpdate } from "svelte";
   import TopbarChat from "./TopbarChat.svelte";
   import ChatMessage from "./ChatMessage.svelte";
-  import ShareTopbarOverlay from "./ShareTopbarOverlay.svelte"; // 导入新组件
+  import ShareTopbarOverlay from "./ShareTopbarOverlay.svelte"; 
+  import ShareImageModal from "./ShareImageModal.svelte"// 导入新组件
   import { t } from "svelte-i18n"; // 导入本地化方法
   import { get, writable } from "svelte/store";
   import SendDisabledIcon from "../assets/sendmessage-default.svg";
@@ -41,6 +42,8 @@
   let isFocused = false; // 添加输入框聚焦状态变量
   let isNewInputFocused = false; // 添加新聊天输入框聚焦状态变量
   let isSharing = true; // 添加分享状态变量;
+  let isShareImageModalOpen = true;
+  let shareSelectedMessages: any[] = [];
 
   const textMaxHeight = 300; // Maximum height in pixels
   const keys = {
@@ -192,7 +195,9 @@
 
   function handleShareImage() {
     //在这里处理截图逻辑，将选中的mid一组问答截图，提示用户，并变更isSharing状态。
+    isShareImageModalOpen = true;
   }
+
 
 
 </script>
@@ -455,6 +460,13 @@
         </div>
         {/if}
       {/if}
+
+      <!-- 模态窗口 -->
+      <ShareImageModal
+        bind:isOpen={isShareImageModalOpen}
+        currentTime={new Date().toLocaleString()}
+        on:close={() => (isShareImageModalOpen = false)}
+      />
     </div>
   </div>
 {/if}

@@ -2,6 +2,7 @@
     import { t } from "svelte-i18n";
     import { onMount, onDestroy } from "svelte";
     import { debounce } from 'lodash';
+    import pkg from 'lodash'; // Default import
     import CloseIcon from "../assets/close.svg";
 
     export let isVisible = false; // 控制是否显示

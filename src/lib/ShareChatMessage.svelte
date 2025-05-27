@@ -108,7 +108,7 @@
                             data-message-model-slug={message.model}
                             >
                             <div
-                                class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px]"
+                                class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px] share-message-display"
                             >
                                 <SvelteMarkdown
                                 {renderers}
@@ -125,3 +125,9 @@
     </div>
 </article>
 {/if}
+
+<style>
+    
+    /* 引用块样式 */
+
+</style>

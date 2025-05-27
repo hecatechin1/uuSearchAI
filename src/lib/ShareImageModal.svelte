@@ -1,6 +1,6 @@
 <script lang="ts">
     import { t } from "svelte-i18n";
-    import { createEventDispatcher } from "svelte";
+    import { createEventDispatcher, onMount, afterUpdate } from "svelte"; // Import onMount and afterUpdate
     import SvelteMarkdown from "svelte-markdown";
     import ShareChatMessage from "./ShareChatMessage.svelte";
 
@@ -13,6 +13,9 @@
     export let isOpen = true;
     // export let messages: any[] = [];
     export let currentTime: string = new Date().toLocaleString();
+    
+    let shareMessagesShow: HTMLDivElement;
+    let showFadeEffect = false;
   
     const dispatch = createEventDispatcher();
   
@@ -39,6 +42,21 @@
     function shareToX() {
       console.log("分享到 X 逻辑待实现");
     }
+
+    // 检查内容高度并更新渐隐效果
+    function checkHeight() {
+        if (shareMessagesShow) {
+        showFadeEffect = shareMessagesShow.scrollHeight > 1000;
+        }
+    }
+
+    onMount(() => {
+        checkHeight();
+    });
+
+    afterUpdate(() => {
+        checkHeight();
+    });
 
       // 假数据测试
   const shareMessages = [
@@ -145,7 +163,7 @@ print(get_weather("San Francisco"))
             </div>
     
             <!-- 消息展示区 -->
-            <div class="mx-4 overflow-y-auto flex-1 bg-white border-8 border-gray-200 rounded-xl" style="max-height: calc(100% - 100px);">
+            <div class="share-image-canvas mx-4 overflow-y-auto flex-1 bg-white border-8 border-gray-200 rounded-xl" style="max-height: calc(100% - 100px);">
                 <div class="flex flex-col items-start p-4 border-b border-gray-200">
                         <h2 class="text-lg font-semibold">{$t("app.shareMessagesTitle", { default: "对话分享" })}</h2>
                         <div class="text-sm text-gray-600 mt-1">
@@ -153,13 +171,29 @@ print(get_weather("San Francisco"))
                         </div>
                 </div>
                 
-                <!-- 在这里插入分享消息内容，暂时是假数据 -->
-                {#each shareMessages as message}
-                    <ShareChatMessage message={message}/>
-                {/each}
-
+                <div
+                class="share-messages-show max-h-[1000px] overflow-y-auto relative"
+                bind:this={shareMessagesShow}
+                >
+                    <!-- 在这里插入分享消息内容，暂时是假数据 -->
+                    {#each shareMessages as message}
+                        <ShareChatMessage message={message}/>
+                    {/each}
+                    <!-- 渐隐效果 -->
+                    {#if showFadeEffect}
+                        <div
+                        class="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-white via-white to-transparent pointer-events-none flex items-end justify-center"
+                        >
+                        <span class="text-sm text-gray-500">
+                            {$t("app.viewMoreOnWebsite", { default: "Open the link to view the full content." })}
+                        </span>
+                        </div>
+                    {/if}
+                </div>
+                
+                <div class="fade-out-mask"></div>
                 <!-- 网站图标、说明、二维码 -->
-                <div class="m-6 flex flex-row justify-between items-center p-5 bg-gray-100">
+                <div class="m-6 flex flex-row justify-between items-center p-5 bg-gray-100 rounded-xl">
                     <!-- 网站图标和说明 -->
                     <div class="flex items-center gap-4">
                         <img
@@ -167,13 +201,13 @@ print(get_weather("San Francisco"))
                             alt="Website Icon"
                             class="w-12 h-12"
                         />
-                        <div class="flex items-start flex flex-col gap-2">
+                        <div class="flex items-start flex flex-col">
                             <span class="text-bold text-gray-900">
-                                {$t("app.websiteDescription", { default: "UUGPT - 智能聊天助手" })}
+                                {$t("app.websiteDescription", { default: "uuGPT - Multi-Model AI Assistant" })}
                             </span>
                             <!-- 长按识别提示 -->
-                            <p class="text-sm text-gray-600 text-center">
-                                {$t("app.scanQRCode", { default: "长按识别二维码在 UUGPT 中继续" })}
+                            <p class="text-sm text-gray-600">
+                                {$t("app.scanQRCode", { default: "Long press or scan the QR code and continue in uuGPT." })}
                             </p>
                         </div>
                     </div>
@@ -181,7 +215,7 @@ print(get_weather("San Francisco"))
         
                     <!-- 二维码 -->
                     <div>                    
-                        <img src="qrcode.png" alt="QR Code" class="w-24 h-24"/>
+                        <img src="./src/assets/qrcode.png" alt="QR Code" class="w-24 h-24 aspect-square object-contain"/>
                     </div>
                 </div>
             </div>
@@ -194,7 +228,7 @@ print(get_weather("San Francisco"))
                         class="rounded text-xs"
                         on:click={shareToWeChat}
                     >
-                        <img src={WeChatIcon} alt={$t("app.shareWeChat", { default: "Wechat" })} class="w-6 h-6 inline" />
+                        <img src={WeChatIcon} alt={$t("app.shareWeChat", { default: "Share to Wechat" })} class="w-6 h-6 inline" />
                     
                     </button>
                     <button
@@ -210,13 +244,13 @@ print(get_weather("San Francisco"))
                         class="bg-themegreen text-white px-3 py-2 rounded hover:bg-themegreenhover text-xs"
                         on:click={generateImage}
                     >
-                        {$t("app.copyImage", { default: "复制图片" })}
+                        {$t("app.copyImage", { default: "Copy Img" })}
                     </button>
                     <button
                         class="bg-themegreen text-white px-3 py-2 rounded hover:bg-themegreenhover text-xs"
                         on:click={downloadImage}
                     >
-                        {$t("app.downloadImage", { default: "下载图片" })}
+                        {$t("app.downloadImage", { default: "Download Img" })}
                     </button>
                 </div>
             </div>
@@ -228,5 +262,15 @@ print(get_weather("San Francisco"))
     /* 确保滚动平滑 */
     .overflow-y-auto {
       -webkit-overflow-scrolling: touch;
+    }
+
+    .share-messages-show{
+        overflow-y:hidden; 
+        position: relative;
+    }
+
+    /* 确保渐隐元素在内容上方，但不影响滚动 */
+    .share-messages-show > *:last-child {
+        margin-top: -12px; /* 抵消渐隐高度，避免内容重叠 */
     }
   </style>

@@ -4,6 +4,11 @@ import fs from 'fs';
 
 export default defineConfig({
 	plugins: [sveltekit()],
+	resolve: {
+		alias: {
+		  lodash: 'lodash', // Ensures Vite resolves lodash correctly
+		},
+	  },
 	 logLevel: 'info',
 	 server: {
 	   host: 'www.uugpt.com', // 监听所有网络接口

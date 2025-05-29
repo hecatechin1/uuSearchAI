@@ -10,6 +10,7 @@
     import UUGPTIcon from "../assets/uugpt_favion_small.png";
     import { current_chat } from "../stores/chatStores";
     import { get, writable } from "svelte/store";
+    import { showSuccessMessage } from "../stores/globalParamentStores";
 
     export let shareUrl: string;
     // export let messages: any[] = [];
@@ -93,6 +94,7 @@
                     [blob.type]: blob,
                 }),
             ]);
+            showSuccessMessage('图片已复制到剪贴板');
         } catch (err) {
             console.error("复制失败:", err);
         }

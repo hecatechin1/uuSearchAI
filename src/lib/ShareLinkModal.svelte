@@ -5,6 +5,7 @@
     import CloseIcon from "../assets/close.svg";
     import XIcon from "../assets/x.svg";
     import WeChatIcon from "../assets/wechat.svg";
+    import { showSuccessMessage } from "../stores/globalParamentStores";
   
     export let isOpen = false;
     export let shareLink :string; // 模拟生成的分享链接
@@ -18,7 +19,8 @@
     // 复制链接功能
     function copyLink() {
       navigator.clipboard.writeText(shareLink).then(() => {
-        alert($t("app.linkCopied", { default: "Link copied to clipboard!" }));
+        // alert($t("app.linkCopied", { default: "Link copied to clipboard!" }));
+        showSuccessMessage($t("app.linkCopied", { default: "Link copied to clipboard!" }));
       }).catch(err => {
         console.error("Failed to copy link:", err);
       });
@@ -31,7 +33,12 @@
   
     // 分享到 X 占位函数
     function shareToX() {
-      console.log("Share to X logic to be implemented");
+        console.log(encodeURI(shareLink));
+        window.open(
+            `https://twitter.com/intent/tweet?url=${encodeURI(shareLink)}`,
+            "twitter-share",
+            "width=550,height=420,left=100,top=100",
+        );
     }
   </script>
   

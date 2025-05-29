@@ -52,6 +52,7 @@
   let isAllChecked = false;
   let shareButtonDisabled = true; // 分享按钮禁用状态
   let shareLink = "";
+  let showSheaingLoading = false;
   const textMaxHeight = 300; // Maximum height in pixels
   const keys = {
     Enter: "001",
@@ -174,9 +175,9 @@
     isSharing = true; // 打开分享菜单时设置为 true
     if(shareSelectedMessages.length>0){
     isAllChecked = false;
-
       handleSelectAll()
     }
+    shareMessagesContorler(i, true);
   }
 
   function tryOtherModel(event: CustomEvent) {
@@ -223,7 +224,7 @@
     isAllChecked = shareSelectedMessages.length === get(current_chat).length;
     shareLink = window.location.origin + window.location.pathname + '#share=' + shareSelectedMessages.join(','); // 生成分享链接
   }
-8  
+
   function handleStartSharing() {
     //在这里处理分享状态变更逻辑，更新isSharing变量，并将调用分享的mid一组问答选中（如果是user，选择本条和下一条，如果是assistant，选择本条和上一条）
   }
@@ -241,13 +242,17 @@
 
   async function handleCopyLink() {
     //在这里处理复制链接逻辑，将分享的落地链接复制到剪切板、提示用户，并变更isSharing状态    
+    showSheaingLoading = true;
     await getShareUrl();
+    showSheaingLoading = false;
     isShareLinkModalOpen = true;
   }
 
   async function handleShareImage() {
     //在这里处理截图逻辑，将选中的mid一组问答截图，提示用户，并变更isSharing状态。
+    showSheaingLoading = true;
     await getShareUrl();
+    showSheaingLoading = false;
     isShareImageModalOpen = true;
   }
 
@@ -530,7 +535,8 @@
         </div>
         {/if}
       {/if}
-      
+
+
       {#if isShareImageModalOpen}
       <!-- 模态窗口 -->
       <ShareImageModal
@@ -546,7 +552,11 @@
         on:close={() => (isShareLinkModalOpen = false)}
         shareLink={shareLink}
       />
+      {#if showSheaingLoading}
+      <h1>LOADING.....</h1>
+      {/if}
     </div>
+    
   </div>
 {/if}
 

@@ -99,19 +99,23 @@
         }
     }
 
-    // 检查内容高度并更新渐隐效果
-    function checkHeight() {
-        if (shareMessagesShow) {
-            showFadeEffect = shareMessagesShow.scrollHeight > 1000;
-        }
-    }
 
     onMount(async () => {
+            
         console.log(shareUrl);
         for (let i = 0; i < shareIndexs.length; i++) {
             shareMessages.push(get(current_chat)[shareIndexs[i]]);
         }
         isReady = true;
+        
+        // 检查内容高度并更新渐隐效果
+        function checkHeight() {
+            if (shareMessagesShow) {
+                console.log('shareMessagesShow:', shareMessagesShow.scrollHeight); // 检查是否正确获取到元素的滚动高度
+                showFadeEffect = shareMessagesShow.scrollHeight > 1000;
+            }
+        }
+
         //绘制二维码
         drawQRCode(
             "/uugpt_favion-48.png",
@@ -204,7 +208,6 @@
                 </div>
             {/if}
 
-            <div class="fade-out-mask"></div>
             <!-- 网站图标、说明、二维码 -->
             <div
                 class="m-6 flex flex-row justify-between items-center p-5 bg-gray-100 rounded-xl"

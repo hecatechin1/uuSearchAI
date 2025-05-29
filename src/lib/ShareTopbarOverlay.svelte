@@ -17,6 +17,11 @@
         }
     }
 
+    // 监听 isVisible 变化
+    $: if (isVisible) {
+      requestAnimationFrame(updateWidth); // 确保 DOM 渲染后更新
+    }
+
     // 挂载和销毁生命周期
     onMount(() => {
         updateWidth();

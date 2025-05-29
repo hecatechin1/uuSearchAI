@@ -230,7 +230,7 @@
       <div class="flex items-start mr-1 mt-2">
         <input
           type="checkbox"
-          class="shrink-0 h-5 w-5 cursor rounded-lg border-gray-300 text-blue-600 focus:themegreen-hover ml-2" style="accent-color: #4a928c;"
+          class="shrink-0 h-5 w-5 cursor-pointer rounded-lg border-gray-300 text-blue-600 hover:border-themegreen hover:border-2 focus:themegreen-hover ml-2" style="accent-color: #4a928c;"
           bind:checked={message.sharingChecked}
           on:change={sharingSelector}
         >

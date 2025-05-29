@@ -192,8 +192,9 @@
                     <!-- 渐隐效果 -->
                     {#if showFadeEffect}
                         <div
-                            class="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-white via-white to-transparent pointer-events-none flex items-end justify-center"
-                        >
+                            class="absolute bottom-0 left-0 w-full h-12 pointer-events-none flex items-center justify-center"
+                            style="background: linear-gradient(to top, white 70%, rgba(255, 255, 255, 0) 100%);"
+                            >
                             <span class="text-sm text-gray-500">
                                 {$t("app.viewMoreOnWebsite", {
                                     default:

@@ -20,6 +20,7 @@
     isNewchat,
     isLogin,
     isGuest,
+    isShared
   } from "../../stores/globalParamentStores";
   import {
     current_chat_id,
@@ -75,6 +76,7 @@
           return;
         }
       } else {
+        if(get(isShared))return;
         current_chat.set([]);
       }
     });
@@ -84,15 +86,6 @@
         await getChatListData(); //当前对话从新对话变为非新对话时，需要更新聊天列表
       }
     });
-
-    // userTokens.subscribe((v) => {
-    //   if (v == -1 || v > 20000) {
-    //     return;
-    //   }
-    //   if (v <= 20000) {
-    //     showErrorMessage("当前模型剩余token数为"+get(userTokens));
-    //   }
-    // });
 
     // 初始化 PWA 安装提示
     let show_pwa_install = localStorage.getItem("showPWAinstall") || "true";
@@ -122,7 +115,7 @@
       showErrorMessage(res);
       return;
     }
-    let chatid = Number(localStorage.getItem("current_chat_id") || 0);
+    let chatid = get(isShared) ? 0: Number(localStorage.getItem("current_chat_id") || 0);
     let index = get(chat_list).findIndex((c) => c.cid == chatid);
     current_chat_id.set(index < 0 ? 0 : chatid);
     if (chatid == 0) {
@@ -231,7 +224,7 @@
         />
       </div>
     {/if}
-
+<!-- 
     {#if showShareMenu}
       <div
         use:clickOutside={{
@@ -248,7 +241,7 @@
           right={selectorRight}
         />
       </div>
-    {/if}
+    {/if} -->
 
   </div>
   {#if showLogin}

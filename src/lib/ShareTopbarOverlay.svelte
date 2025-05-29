@@ -1,15 +1,14 @@
 <script lang="ts">
     import { t } from "svelte-i18n";
-    import { onMount, onDestroy } from "svelte";
+    import { onMount, onDestroy,createEventDispatcher } from "svelte";
     import { debounce } from 'lodash';
     import pkg from 'lodash'; // Default import
     import CloseIcon from "../assets/close.svg";
-
     export let isVisible = false; // 控制是否显示
 
     let shareTopbarContainer: HTMLDivElement;
     let shareTopbar: HTMLDivElement;
-
+    const dispatch = createEventDispatcher();
     // 更新宽度函数
     function updateWidth() {
         if (shareTopbar && shareTopbarContainer) {
@@ -29,7 +28,7 @@
     });
 
     function handleCloseShare() {
-        // 关闭分享
+      dispatch('closeSharing');
     }
 
   </script>

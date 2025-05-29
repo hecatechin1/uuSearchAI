@@ -17,6 +17,7 @@ export const isGuest = writable(false);//用于控制是否是游客
 export const TestbaseURL = writable('');//用于控制是否是测试环境
 // showSidebarMd.update(v=>{console.log(v); return v;});
 export const TokenLimit = writable('');//token上限
+export const isShared = writable(false);//是否是分享模式
 export function showErrorMessage(msg:string){
     message.set(msg);
     showError.set(true);

@@ -1,11 +1,11 @@
 <script lang="ts">                                                                      
   export let message: any;
   export let index: number;
-  export let isSharing = true; //是否分享中;
-
+  export let isSharing: boolean; //是否分享中;
   import { t } from "svelte-i18n"; // 导入本地化方法
   import SvelteMarkdown from "svelte-markdown"; //导入svelte-markdown
   import {
+    isShared,
     isStreaming,
     showErrorMessage,
     showSuccessMessage,
@@ -57,8 +57,8 @@
   import DeleteMessageContexMenu from "./DeleteMessageContexMenu.svelte";
   import { sendRetryMessage } from "../manages/messageManages";
   import {getMaxDeviceByPlan} from "../stores/userStores";
-    import { text } from "@sveltejs/kit";
-
+  import { text } from "@sveltejs/kit";
+    import { messages } from "../stores/stores";
   let dispatch = createEventDispatcher();
   let showModelSelectorbtn: HTMLElement;
   //let showShareMenu: HTMLElement;
@@ -80,7 +80,7 @@
   let menuRight: number;
   let menuBottom: number;
   let deleteMessageBtn: HTMLElement;
-  $: messageError = message.error_code != 0;
+  $: messageError = message.error_code != '0';
   $: messageErrorType = message.error_code;
   let ast_ai = getAiName(
     message.message.role == "user"
@@ -92,7 +92,6 @@
       ? message.model
       : get(current_chat)[index - 1].model,
   );
-
   let showMenu = false;
   const copyText = (content: string, index: number) => {
     console.log(content, index);
@@ -194,12 +193,18 @@
     //   callback: selectedCallback,
     //   content  : message.message.content,
     // });
+    dispatch("show-sharemenu",{index:index})
+  }
+  function sharingSelector(){
+    dispatch("sharing-msg-selected",{index:index,checked:message.sharingChecked})
   }
   function cancelEdit() {}
   function submitEdit(index: number) {}
   function startEditMessage(index: number) {}
 
-  onMount(() => {});
+  onMount(() => {
+    console.log(get(isShared))
+  });
   afterUpdate(() => {
     showMenu = $current_chat.length - 1 === index ? !$isStreaming : false;
   });
@@ -219,7 +224,7 @@
     >
       <div
         class="mx-auto flex flex-1 gap-2 text-base md:gap-3 lg:gap-4 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] group rounded-lg corlor-transition 
-      {message.ShareSelected?"bg-gray-100":"bg-transparent"}
+      {message.sharingChecked && isSharing?"bg-gray-100":"bg-transparent"}
       {isSharing? 'py-[10px]' : 'py-0'}"
       >
       {#if isSharing}
@@ -227,7 +232,8 @@
         <input
           type="checkbox"
           class="shrink-0 h-5 w-5 cursor rounded-lg border-gray-300 text-blue-600 focus:themegreen-hover ml-2" style="accent-color: #4a928c;"
-          bind:checked={message.ShareSelected}
+          bind:checked={message.sharingChecked}
+          on:change={sharingSelector}
         >
       </div>
       {/if}
@@ -360,7 +366,7 @@
               {/if}
             </div>
 
-            {#if !messageError && !isSharing}
+            {#if !messageError && !isSharing  && !$isShared}
               <!-- 消息工具栏 -->
               <div
                 class="toolbelt flex gap-2 empty:hidden
@@ -477,15 +483,16 @@
     >
       <div
         class="mx-auto flex flex-1 gap-4 text-base md:gap-5 lg:gap-6 md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] rounded-lg corlor-transition 
-      {message.ShareSelected?"bg-gray-100":"bg-transparent"}
+      {message.sharingChecked && isSharing ?"bg-gray-100":"bg-transparent"}
       {isSharing? 'py-[8px]' : 'py-0'}"
       >
-        {#if isSharing}
+        {#if isSharing && message.sharingChecked}
         <div class="flex items-start mr-1 mt-2 group-hover:relative sticky top-[68px]">
           <input
             type="checkbox"
+            disabled
             class="shrink-0 h-5 w-5 cursor-pointer rounded-lg border-gray-300 focus:themegreen-hover ml-2 mt-1" style="accent-color: #4a928c;"
-            bind:checked={message.ShareSelected}
+            bind:checked={message.sharingChecked}
           >
         </div>
         {/if}

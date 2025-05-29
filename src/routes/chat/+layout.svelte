@@ -10,6 +10,8 @@
     message,
     browser_signature,
     TokenLimit,
+    isShared,
+    isNewchat,
   } from "../../stores/globalParamentStores";
   import {
     getUserInfo,
@@ -18,6 +20,7 @@
   // import { fly } from "svelte/transition";
   import { getCookieValue } from "../../utils/generalUtils";
   import { getLimit } from "../../manages/planManages";
+  import { getShare } from "../../manages/chatManages";
 
   let loading = true;
 
@@ -41,8 +44,42 @@
         }
       });
     }
+
+    await isShareState();
+        isShared.subscribe((v) => {
+      if (!v) {
+        // 创建当前 URL 的副本
+        const url = new URL(window.location.href);
+        // 移除 hash 部分
+        url.hash = "";
+        // 更新 URL 而不刷新页面
+        window.history.pushState({}, document.title, url);
+      }
+    });
     loading = false; // 设置为已加载
   });
+
+  //判断是否是分享状态
+  async function isShareState() {
+    const hash = window.location.hash.substring(1);
+    if (hash == "") {
+      return;
+    }
+    let urlHash = new URLSearchParams(hash);
+    let hashParams = Object.fromEntries(urlHash.entries());
+    if (!hashParams.share) {
+      return;
+    }
+    const shareMessages = hashParams.share
+      .split(",")
+      .map((item) => item.trim())
+      .map((item) => Number(item))
+      .filter(Boolean);
+    if (shareMessages.length == 0) {
+      return;
+    }
+    await getShare(shareMessages);
+  }
 </script>
 
 <!-- {#if $showError}

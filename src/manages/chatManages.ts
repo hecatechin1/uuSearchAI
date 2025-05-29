@@ -1,7 +1,7 @@
-import { getChatList, getMessagesList, sendMessage, deleteChat, updateChatInfo, deleteMessage } from "../services/chatServices";
+import { getChatList, getMessagesList, sendMessage, deleteChat, updateChatInfo, deleteMessage,getShareMsg,shareTo,getShortUrl } from "../services/chatServices";
 import { chat_list, current_chat, current_chat_id, current_message, current_chat_ai, current_chat_model, getIndexByCid, defaultaimodel, } from "../stores/chatStores";
 import { userID, language } from "../stores/userStores"
-import { isNewchat, isStreaming, showSidebar, isLoading_chatList, isLoading_messagesList, isLogin, isGuest, showErrorMessage } from "../stores/globalParamentStores"
+import { isNewchat, isStreaming, showSidebar, isLoading_chatList, isLoading_messagesList, isLogin, isGuest, showErrorMessage,isShared } from "../stores/globalParamentStores"
 import { guest_signup } from '../manages/userinfoManages'
 import { get } from 'svelte/store';
 import { t } from "svelte-i18n";
@@ -90,6 +90,12 @@ export async function getMessagesListData() {
 //这样可以同时完成retry和send两个功能
 // export async function getMessage(pid:number,msg:string,ai:string,model:string){
 export async function getMessage(msg: string, ai: string, model: string) {
+    let sharedMessages:any[] =[];
+    if(get(isShared)){
+        get(current_chat).forEach((c)=>{
+            sharedMessages.push({role:c.message.role,content:c.message.content})
+        })
+    }
     current_message.set("");
 
     closeStream();
@@ -136,8 +142,7 @@ export async function getMessage(msg: string, ai: string, model: string) {
             return;
         }
     }
-
-    sse_source = await sendMessage(msg, pid, ai, model);
+    sse_source = await sendMessage(msg, pid, ai, model,sharedMessages);
     sse_source.addEventListener("message", (e: any) => {
 
         sse_source.resetTimeout();
@@ -172,6 +177,7 @@ export async function getMessage(msg: string, ai: string, model: string) {
                 v[v.length - 1].model = msg_info.model;
                 return v
             });
+            isShared.set(false);
             closeStream();
             if (get(isNewchat)) {
                 current_chat_id.set(msg_info.cid);
@@ -250,7 +256,12 @@ export async function createNewChat(hidesiderbar = false) {
     closeStream();
     current_chat_id.set(0);
     defaultaimodel();
+    if(get(isShared)){
+        isShared.set(false);
+        current_chat.set([]);
+    }
     isNewchat.set(true);
+    
     showSidebar.set(!hidesiderbar);
 }
 
@@ -316,4 +327,49 @@ export async function deleteMessageData(index: number, toEnd = false) {
         return v;
     });
     return 0;
+}
+
+export async function getShare(msgs:any[]){
+    let data = await getShareMsg(msgs);
+    if (data == 1) {
+        return 1;
+    }
+    if (data.code!= 0) {
+        return data.code;
+    }
+    if(data.result.length==0){
+        return 1; 
+    }
+    current_chat.update(v => {
+         v = data.result;
+        v.forEach((i)=>{
+            i.error_code = '0';
+            return v;
+        })
+        return v;
+    });
+    isShared.set(true);
+    isNewchat.set(true);
+}
+
+export async function share(msgs:any[]){
+    let data = await shareTo(msgs);
+    if (data == 1) {
+        return 1;
+    }
+    if (data.code!= 0) {
+        return data.code;
+    }
+    return 0;
+}
+
+export async function getShortLink(url: string) {
+    let data = await getShortUrl(url);
+    if (data == 1) {
+        return 1;
+    }
+    if (data.code!= 0) {
+        return data.code;
+    }
+    return data.result;
 }

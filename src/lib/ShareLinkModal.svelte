@@ -7,7 +7,7 @@
     import WeChatIcon from "../assets/wechat.svg";
   
     export let isOpen = false;
-    export let shareLink = "https://uugpt.com/chat?share_mids=123456"; // 模拟生成的分享链接
+    export let shareLink :string; // 模拟生成的分享链接
   
     const dispatch = createEventDispatcher();
   

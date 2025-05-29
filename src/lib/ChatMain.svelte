@@ -4,6 +4,7 @@
   import ChatMessage from "./ChatMessage.svelte";
   import ShareTopbarOverlay from "./ShareTopbarOverlay.svelte"; 
   import ShareImageModal from "./ShareImageModal.svelte"// 导入新组件
+  import ShareLinkModal from "./ShareLinkModal.svelte";
   import { t } from "svelte-i18n"; // 导入本地化方法
   import { get, writable } from "svelte/store";
   import SendDisabledIcon from "../assets/sendmessage-default.svg";
@@ -21,6 +22,8 @@
   import {
     getMessage,
     closeStream,
+    share,
+    getShortLink,
   } from "../manages/chatManages";
   import {
     showErrorMessage,
@@ -41,10 +44,14 @@
   let shouldScroll = true;
   let isFocused = false; // 添加输入框聚焦状态变量
   let isNewInputFocused = false; // 添加新聊天输入框聚焦状态变量
-  let isSharing = true; // 添加分享状态变量;
-  let isShareImageModalOpen = true;
+  let isSharing = false; // 添加分享状态变量;
+  let isShareImageModalOpen = false;
+  let isShareLinkModalOpen = false;
   let shareSelectedMessages: any[] = [];
-
+  let shareSelectedMessagesIndex: any[] = [];
+  let isAllChecked = false;
+  let shareButtonDisabled = true; // 分享按钮禁用状态
+  let shareLink = "";
   const textMaxHeight = 300; // Maximum height in pixels
   const keys = {
     Enter: "001",
@@ -162,7 +169,14 @@
     dispatch("show-selector", event.detail);
   }
   function showShareMenu(event:CustomEvent){
-    dispatch("show-sharemenu", event.detail);
+    // dispatch("show-sharemenu", event.detail);
+    let i = event.detail.index; // 接收选中的消息
+    isSharing = true; // 打开分享菜单时设置为 true
+    if(shareSelectedMessages.length>0){
+    isAllChecked = false;
+
+      handleSelectAll()
+    }
   }
 
   function tryOtherModel(event: CustomEvent) {
@@ -174,28 +188,79 @@
   function showUserMenu() {
     dispatch("show-user-menu");
   }
-
-  $: messages = $current_chat;
-
+  function sharingSelectorListener(event: CustomEvent) {
+    let i = event.detail.index; // 接收选中的消息
+    let checked = event.detail.checked; // 接收选中状态
+    let isIncluded = shareSelectedMessages.includes(get(current_chat)[i].mid);
+    shareMessagesContorler(i, checked);
+  }
+  //index:消息下表，checked：选中状态
+  function shareMessagesContorler(index:number, checked:boolean){
+    let isIncluded = shareSelectedMessages.includes(get(current_chat)[index].mid);
+    if(checked && !isIncluded){
+      shareSelectedMessages.push(get(current_chat)[index].mid);
+      shareSelectedMessages.push(get(current_chat)[index-1].mid);
+      current_chat.update((value) => {
+        value[index].sharingChecked = true;
+        value[index-1].sharingChecked = true; // 更新当前消息的 sharingChecked 属性
+        return value; // 返回更新后的消息数组 
+      })
+      shareSelectedMessagesIndex.push(index);
+      shareSelectedMessagesIndex.push(index-1);
+    }else if(!checked && isIncluded){
+      shareSelectedMessages = shareSelectedMessages.filter((mid) => mid !== get(current_chat)[index].mid);
+      shareSelectedMessages = shareSelectedMessages.filter((mid) => mid !== get(current_chat)[index-1].mid);
+      current_chat.update((value) => {
+        value[index].sharingChecked = false;
+        value[index-1].sharingChecked = false; // 更新当前消息的 sharingChecked 属性
+        return value; // 返回更新后的消息数组 
+      })
+      shareSelectedMessagesIndex = shareSelectedMessagesIndex.filter((i) => i!== index);
+      shareSelectedMessagesIndex = shareSelectedMessagesIndex.filter((i) => i!== index-1);
+    }
+    shareSelectedMessagesIndex.sort((a, b) => a - b);
+    shareButtonDisabled = shareSelectedMessages.length === 0;
+    isAllChecked = shareSelectedMessages.length === get(current_chat).length;
+    shareLink = window.location.origin + window.location.pathname + '#share=' + shareSelectedMessages.join(','); // 生成分享链接
+  }
+8  
   function handleStartSharing() {
     //在这里处理分享状态变更逻辑，更新isSharing变量，并将调用分享的mid一组问答选中（如果是user，选择本条和下一条，如果是assistant，选择本条和上一条）
   }
 
   function handleSelectAll() {
-    //在这里处理全选逻辑，将会话的所有mid全部选中或全部取消选中。
+    let  checked = isAllChecked;
+    for(let i = 1; i < get(current_chat).length; i+=2){
+      shareMessagesContorler(i, checked);
+    }
   }
 
   function handleShare() {
     //在这里处理分享逻辑，将选中的mid一组问答分享出去
   }
 
-  function handleCopyLink() {
+  async function handleCopyLink() {
     //在这里处理复制链接逻辑，将分享的落地链接复制到剪切板、提示用户，并变更isSharing状态    
+    await getShareUrl();
+    isShareLinkModalOpen = true;
   }
 
-  function handleShareImage() {
+  async function handleShareImage() {
     //在这里处理截图逻辑，将选中的mid一组问答截图，提示用户，并变更isSharing状态。
+    await getShareUrl();
     isShareImageModalOpen = true;
+  }
+
+  async function getShareUrl(){
+    if(shareLink === "" || shareSelectedMessages.length==0){showErrorMessage("分享前端bug"); }
+    let shareRes = await share(shareSelectedMessages);
+    if(shareRes!=0){showErrorMessage("分享错误");}
+    let shortUrl = await getShortLink(shareLink);
+    if(shortUrl==1){
+      showErrorMessage("获取短链接错误");
+    }else{
+      shareLink = shortUrl;
+    }
   }
 
 
@@ -213,7 +278,7 @@
   <div
     class="relative h-full w-full flex-1 transition-width overflow-hidden max-w-full flex-col max-md:h-[calc(100%-44px)] chatMain">
     <!-- 渲染 ShareTopbarOverlay -->
-    <ShareTopbarOverlay isVisible={isSharing} />
+    <ShareTopbarOverlay isVisible={isSharing} on:closeSharing={()=>{isSharing = false}} />
     <div
       class="composer-parent flex h-full flex-col focus-visible:outline-0 bg-white"
     >
@@ -240,8 +305,10 @@
                     <ChatMessage
                       on:show-selector={tryOtherModel}
                       on:show-sharemenu={showShareMenu}
+                      on:sharing-msg-selected={sharingSelectorListener}
                       {message}
                       index={i}
+                      isSharing={isSharing}
                     />
                   {/each}
 
@@ -430,6 +497,7 @@
                   <input
                     type="checkbox"
                     class="shrink-0 h-5 w-5 rounded-lg border-gray-300 accent-themegreen"
+                    bind:checked={isAllChecked}
                     on:change={handleSelectAll}
                   />
                   <span class="text-sm">{$t("app.selectAll", { default: "Sellect All" })}</span>
@@ -438,6 +506,7 @@
                 <div class="gap-2 flex flex-row">
                    <!-- 复制链接按钮 -->
                   <button
+                    disabled = {shareButtonDisabled}
                     class="bg-themegreen text-white px-2 py-1 rounded hover:bg-themegreenhover flex items-center gap-1"
                     on:click={handleCopyLink}
                   >
@@ -446,6 +515,7 @@
                   </button>
                 <!-- 图片分享按钮 -->
                 <button
+                  disabled = {shareButtonDisabled}
                   class="bg-themegreen text-white px-2 py-1 rounded hover:bg-themegreenhover flex items-center gap-1"
                   on:click={handleShareImage}
                 >
@@ -460,12 +530,21 @@
         </div>
         {/if}
       {/if}
-
+      
+      {#if isShareImageModalOpen}
       <!-- 模态窗口 -->
       <ShareImageModal
-        bind:isOpen={isShareImageModalOpen}
         currentTime={new Date().toLocaleString()}
         on:close={() => (isShareImageModalOpen = false)}
+        shareIndexs = {shareSelectedMessagesIndex}
+        shareUrl={shareLink}
+      />
+      {/if}
+            <!-- 模态窗口 -->
+      <ShareLinkModal
+        bind:isOpen={isShareLinkModalOpen}
+        on:close={() => (isShareLinkModalOpen = false)}
+        shareLink={shareLink}
       />
     </div>
   </div>

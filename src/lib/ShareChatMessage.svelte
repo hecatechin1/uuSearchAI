@@ -1,7 +1,7 @@
 <script lang="ts">                                                                      
     export let message: any;
     import SvelteMarkdown from "svelte-markdown";  
-
+    import { createEventDispatcher, onMount, afterUpdate } from "svelte"; // Import onMount and afterUpdate
     import{formatMessageForMarkdown} from "../utils/generalUtils";
 
     //导入渲染器
@@ -16,7 +16,6 @@
     import HtmlRenderer from "../renderers/Html.svelte";
 
     import UUGPTIcon from "../assets/uugpt_favion_small.png";
-    
     const renderers = {
         code: CodeRenderer,
         em: EmRenderer,

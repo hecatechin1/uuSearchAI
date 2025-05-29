@@ -26,42 +26,42 @@ self.addEventListener('install', event => {
 });
 
 // 拦截网络请求，优先使用缓存
-self.addEventListener('fetch', event => {
-  const requestUrl = new URL(event.request.url);
+// self.addEventListener('fetch', event => {
+//   const requestUrl = new URL(event.request.url);
 
-  // 排除 api.uugpt.com 的请求
-  if (requestUrl.hostname === 'api.uugpt.com') {
-      event.respondWith(fetch(event.request));
-      return;
-  }
+//   // 排除 api.uugpt.com 的请求
+//   if (requestUrl.hostname === 'api.uugpt.com') {
+//     //   event.respondWith(fetch(event.request));
+//       return;
+//   }
 
-  if (requestUrl.pathname.startsWith('/chat') || urlsToCache.includes(requestUrl.pathname)) {
-      event.respondWith(
-          caches.match(event.request)
-              .then(response => {
-                  if (response) {
-                      return response;
-                  }
-                  return fetch(event.request)
-                      .then(networkResponse => {
-                          if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-                              return networkResponse;
-                          }
-                          return caches.open(CACHE_NAME).then(cache => {
-                              cache.put(event.request, networkResponse.clone());
-                              return networkResponse;
-                          });
-                      })
-                      .catch(error => {
-                          console.error('Fetch 失败:', error);
-                          return caches.match('/chat/index.html');
-                      });
-              })
-      );
-  } else {
-      event.respondWith(fetch(event.request));
-  }
-});
+//   if (requestUrl.pathname.startsWith('/chat') || urlsToCache.includes(requestUrl.pathname)) {
+//       event.respondWith(
+//           caches.match(event.request)
+//               .then(response => {
+//                   if (response) {
+//                       return response;
+//                   }
+//                   return fetch(event.request)
+//                       .then(networkResponse => {
+//                           if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+//                               return networkResponse;
+//                           }
+//                           return caches.open(CACHE_NAME).then(cache => {
+//                               cache.put(event.request, networkResponse.clone());
+//                               return networkResponse;
+//                           });
+//                       })
+//                       .catch(error => {
+//                           console.error('Fetch 失败:', error);
+//                           return caches.match('/chat/index.html');
+//                       });
+//               })
+//       );
+//   } else {
+//     //   event.respondWith(fetch(event.request));
+//   }
+// });
 
 // 更新Service Worker并清理旧缓存
 self.addEventListener('activate', event => {

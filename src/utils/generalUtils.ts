@@ -1,8 +1,8 @@
 import {sha256} from 'js-sha256'
 import { init, t } from "svelte-i18n"; // 导入本地化方法
 import { get } from 'svelte/store';
-
-
+import QRCode from 'qrcode';
+  import html2canvas from 'html2canvas';
 // Utility function for formatting messages for Markdown rendering
 export function formatMessageForMarkdown(content: string): string {
   // Replace newline characters with two spaces followed by a newline character
@@ -145,3 +145,93 @@ export function addQueryParam(urlStr: string, key: string, value: string) {
   return `${protocol}${host}${path}${newSearch ? "?" + newSearch : ""}${hash}`;
 }
 
+export async function drawQRCode(logoUrl:string,size:number,logoSize:number,canvas: HTMLCanvasElement, data: string) {
+    if (!canvas || !data) return;
+    try {
+      // 生成基础二维码
+      await QRCode.toCanvas(canvas, data, {
+        width: size,
+        margin: 2,
+        color: {
+          dark: '#000000',
+          light: '#ffffff'
+        }
+      });
+      
+      // 添加Logo
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.src = logoUrl;
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject; 
+      })
+      
+      // img.onload = () => {
+        // 计算Logo位置（居中）
+        const center = size / 2;
+        const logoPos = center - logoSize / 2;
+        
+        // 绘制白色背景
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(logoPos - 5, logoPos - 5, logoSize + 10, logoSize + 10);
+        
+        // 绘制Logo
+        ctx.drawImage(img, logoPos, logoPos, logoSize, logoSize);
+      // };
+
+      return canvas.toDataURL('image/png');
+
+    } catch (err) {
+      console.error("生成带Logo的二维码失败:", err);
+    }
+}
+
+export async function convertToImage(targetElement:HTMLElement) {
+  let imageUrl = '';
+  // 保存原始样式
+    const originalStyles = {
+      position: targetElement.style.position,
+      overflow: targetElement.style.overflow,
+      height: targetElement.style.height
+    };
+    
+    // 临时移除限制
+    targetElement.style.position = 'static';
+    targetElement.style.overflow = 'visible';
+    targetElement.style.height = 'auto';
+    
+    // 创建克隆元素
+    const clone = targetElement.cloneNode(true);
+    clone.style.position = 'fixed';
+    clone.style.left = '-9999px';
+    clone.style.top = '0';
+    clone.style.width = `${targetElement.scrollWidth}px`;
+    // clone.style.height = `${targetElement.scrollHeight+100}px`;
+    clone.style.zIndex = '1000';
+    clone.style.removeProperty('max-height'); // 移除 overflow 属性
+    document.body.appendChild(clone);
+    // return;
+    // 等待渲染完成
+    await new Promise(resolve => setTimeout(resolve, 100));
+    // 截图
+    const canvas = await html2canvas(clone, {
+      scale: 1,
+      useCORS:true,
+      backgroundColor: '#ffffff',
+      width: targetElement.scrollWidth,
+      height: targetElement.scrollHeight+130,
+      scrollY: -window.scrollY, // 解决滚动偏移
+      scrollX: -window.scrollX,
+    });
+    
+    // 清理
+    document.body.removeChild(clone);
+    
+    // 恢复原始样式
+    Object.assign(targetElement.style, originalStyles);
+    
+    // 生成图片
+    imageUrl = canvas.toDataURL('image/png');
+    return imageUrl;
+  }

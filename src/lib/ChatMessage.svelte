@@ -203,7 +203,6 @@
   function startEditMessage(index: number) {}
 
   onMount(() => {
-    console.log(get(isShared))
   });
   afterUpdate(() => {
     showMenu = $current_chat.length - 1 === index ? !$isStreaming : false;

@@ -179,7 +179,6 @@ export async function shareTo(messages:any[]){
 
     if (res.ok) {
       const data = await res.json();
-          console.log(data);
       return data;
     } else {
       return 1;
@@ -203,7 +202,6 @@ export async function getShortUrl(url:string){
 
     if (res.ok) {
       const data = await res.json();
-          console.log(data);
       return data;
     } else {
       return 1;

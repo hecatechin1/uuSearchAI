@@ -99,10 +99,10 @@
     if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/service-worker.js', { scope: '/chat' })
                 .then(registration => {
-                    console.log('Service Worker 注册成功:', registration.scope);
+                    // console.log('Service Worker 注册成功:', registration.scope);
                 })
                 .catch(error => {
-                    console.log('Service Worker 注册失败:', error);
+                    // console.log('Service Worker 注册失败:', error);
                 });
         }
     dataLoaded.set(true);

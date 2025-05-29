@@ -30,7 +30,6 @@
         dispatch("close");
     }
 
-
     // 占位函数：下载图片
     function downloadImage() {
         if (!imageUrl) return;
@@ -99,23 +98,19 @@
         }
     }
 
-
+    // 检查内容高度并更新渐隐效果
+    function checkHeight() {
+        if (shareMessagesShow) {
+            console.log("shareMessagesShow:", shareMessagesShow.scrollHeight); // 检查是否正确获取到元素的滚动高度
+            showFadeEffect = shareMessagesShow.scrollHeight > 1000;
+        }
+    }
     onMount(async () => {
-            
-        console.log(shareUrl);
         for (let i = 0; i < shareIndexs.length; i++) {
             shareMessages.push(get(current_chat)[shareIndexs[i]]);
         }
         isReady = true;
         
-        // 检查内容高度并更新渐隐效果
-        function checkHeight() {
-            if (shareMessagesShow) {
-                console.log('shareMessagesShow:', shareMessagesShow.scrollHeight); // 检查是否正确获取到元素的滚动高度
-                showFadeEffect = shareMessagesShow.scrollHeight > 1000;
-            }
-        }
-
         //绘制二维码
         drawQRCode(
             "/uugpt_favion-48.png",
@@ -125,11 +120,11 @@
             shareUrl,
         ).then((res) => {
             qrcodeUrl = res;
+            checkHeight();
             setTimeout(async () => {
                 imageUrl = await convertToImage(shareImageOriginal);
             }, 500);
         });
-        checkHeight();
     });
 
     afterUpdate(() => {
@@ -183,15 +178,17 @@
                     })} - {currentTime}
                 </div>
             </div>
-            {#if isReady}
+            
                 <div
                     class="share-messages-show max-h-[1000px] overflow-y-auto relative"
                     bind:this={shareMessagesShow}
                 >
+                {#if isReady}
                     <!-- 在这里插入分享消息内容，暂时是假数据 -->
                     {#each shareMessages as message}
                         <ShareChatMessage {message} />
                     {/each}
+                    {/if}
                     <!-- 渐隐效果 -->
                     {#if showFadeEffect}
                         <div
@@ -206,7 +203,7 @@
                         </div>
                     {/if}
                 </div>
-            {/if}
+            
 
             <!-- 网站图标、说明、二维码 -->
             <div

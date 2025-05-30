@@ -19,7 +19,7 @@
     showSidebarMd,
     isLogin,
     isLoading_chatList,
-    isShared
+    isShared,
   } from "../stores/globalParamentStores";
   import { userType, userAvatar } from "../stores/userStores";
   import SideBarContexMenu from "$lib/SideBarContexMenu.svelte";
@@ -110,6 +110,7 @@
   }
   function selectChat(index: number) {
     isShared.set(false);
+    
     closeStream();
     activeIndex = index;
     let cc = get(chat_list)[index];

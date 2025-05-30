@@ -20,7 +20,8 @@
     isNewchat,
     isLogin,
     isGuest,
-    isShared
+    isShared,
+    isSharing
   } from "../../stores/globalParamentStores";
   import {
     current_chat_id,
@@ -47,11 +48,12 @@
   let showUserContexMenu = false;
   let showSettings = false;
   let isInstallPromptVisable = false; //是否显示安装提示
-
   let showShareMenu = false;
   let shareContent ='';
 
-  function changeChat(event: CustomEvent) {}
+  function changeChat(event: CustomEvent) {
+    isSharing.set(false); // 切换聊天时，关闭分享
+  }
 
   onMount(async () => {
     isLogin.subscribe(async (v) => {

@@ -32,13 +32,14 @@
     isGuest,
     isLoading_messagesList,
 
-    isNewchat
-
+    isNewchat,
+    isShared,
+    isSharing,
   } from "../stores/globalParamentStores";
   import { guest_signup } from "../manages/userinfoManages";
     import { ssrModuleExportsKey } from "vite/runtime";
     import { parseHashParams, removeHashParam } from "../utils/generalUtils";
-
+  // export let isSharing; // 分享状态
   let dispatch = createEventDispatcher();
   let isLoading = false;
   let input: string = "";
@@ -48,7 +49,7 @@
   let shouldScroll = true;
   let isFocused = false; // 添加输入框聚焦状态变量
   let isNewInputFocused = false; // 添加新聊天输入框聚焦状态变量
-  let isSharing = false; // 添加分享状态变量;
+
   let isShareImageModalOpen = false;
   let isShareLinkModalOpen = false;
   let shareSelectedMessages: any[] = [];
@@ -186,7 +187,8 @@
   function showShareMenu(event:CustomEvent){
     // dispatch("show-sharemenu", event.detail);
     let i = event.detail.index; // 接收选中的消息
-    isSharing = true; // 打开分享菜单时设置为 true
+    // isSharing = true; // 打开分享菜单时设置为 true
+    isSharing.set(true);
     if(shareSelectedMessages.length>0){
     isAllChecked = false;
       handleSelectAll()
@@ -306,7 +308,7 @@
   <div
     class="relative h-full w-full flex-1 transition-width overflow-hidden max-w-full flex-col max-md:h-[calc(100%-44px)] chatMain">
     <!-- 渲染 ShareTopbarOverlay -->
-    <ShareTopbarOverlay isVisible={isSharing} on:closeSharing={()=>{isSharing = false}} />
+    <ShareTopbarOverlay isVisible={$isSharing} on:closeSharing={()=>{isSharing.set( false)}} />
     <div
       class="composer-parent flex h-full flex-col focus-visible:outline-0 bg-white"
     >
@@ -325,7 +327,7 @@
                   on:show-user-menu={showUserMenu}
                   on:show-user-settings={showUserSettings}
                 />
-                {#if isSharing}
+                {#if $isSharing}
                   <div class="h-4"></div>
                 {/if}
                 {#if $current_chat.length > 0}
@@ -336,7 +338,7 @@
                       on:sharing-msg-selected={sharingSelectorListener}
                       {message}
                       index={i}
-                      isSharing={isSharing}
+                      isSharing={$isSharing}
                     />
                   {/each}
 
@@ -436,7 +438,7 @@
 
       <!-- 聊天输入框 -->
       {#if $current_chat.length > 0}
-        {#if !isSharing}
+        {#if !$isSharing}
         <div
           class="md:pt-0 md:border-transparent md:dark:border-transparent w-full mb-2"
         >

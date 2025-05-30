@@ -193,13 +193,15 @@ export async function convertToImage(targetElement:HTMLElement) {
     const originalStyles = {
       position: targetElement.style.position,
       overflow: targetElement.style.overflow,
-      height: targetElement.style.height
+      height: targetElement.style.height,
+      maxHeight: targetElement.style.maxHeight,
     };
-    
+
     // 临时移除限制
     targetElement.style.position = 'static';
     targetElement.style.overflow = 'visible';
     targetElement.style.height = 'auto';
+    targetElement.style.maxHeight = 'none';
     
     // 创建克隆元素
     const clone = targetElement.cloneNode(true);
@@ -208,8 +210,10 @@ export async function convertToImage(targetElement:HTMLElement) {
     clone.style.top = '0';
     clone.style.width = `${targetElement.scrollWidth}px`;
     // clone.style.height = `${targetElement.scrollHeight+100}px`;
-    clone.style.zIndex = '1000';
-    clone.style.removeProperty('max-height'); // 移除 overflow 属性
+    clone.style.zIndex = '-1000';
+    clone.style.removeProperty('max-height'); // 移除 max-height 属性
+    clone.style.boxSizing = 'border-box'; // 确保包含 padding 和 border
+
     document.body.appendChild(clone);
     // return;
     // 等待渲染完成
@@ -220,7 +224,7 @@ export async function convertToImage(targetElement:HTMLElement) {
       useCORS:true,
       backgroundColor: '#ffffff',
       width: targetElement.scrollWidth,
-      height: targetElement.scrollHeight+130,
+      height: targetElement.scrollHeight+16,
       scrollY: -window.scrollY, // 解决滚动偏移
       scrollX: -window.scrollX,
     });

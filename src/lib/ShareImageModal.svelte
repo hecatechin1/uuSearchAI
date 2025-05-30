@@ -43,13 +43,16 @@
     // 占位函数：分享到微信
     function shareToWeChat() {
         copyImageToClipboard(true);
-        showSuccessMessage('分享到微信功能暂未实现');
+        showSuccessMessage($t("app.wechatInstructions", {
+      default: "Image copied to clipboard! Long press the WeChat chat input box to paste, or save the image and upload to Moments."
+    }));
     }
 
     // 占位函数：分享到 X
     function shareToX() {
         copyImageToClipboard();
         console.log(encodeURI(shareUrl));
+        showSuccessMessage($t("app.xInstructions", { default: "Image copied! Paste it in the X post input box to share." }));
         window.open(
             `https://twitter.com/intent/tweet?url=${encodeURI(shareUrl)}`,
             "twitter-share",
@@ -96,9 +99,9 @@
                 }),
             ]);
             if(isWechat)return;
-            showSuccessMessage('图片已复制到剪贴板');
+            showSuccessMessage($t("app.imageCopied", { default: "Image copied to clipboard!" }));
         } catch (err) {
-            console.error("复制失败:", err);
+            console.error($t("app.imageCopyFailed", { default: "Failed to copy link. Please try again." }), err);
         }
     }
 
@@ -149,16 +152,16 @@
         tabindex="0"
         on:keydown={(e) => e.key === "Enter"}
         class="bg-white rounded-lg shadow-lg relative max-w-[720px] w-full mx-5 flex flex-col justify-between"
-        style="height: calc(100vh - clamp(24px, 10vh, 72px) * 2);"
+        style="max-height: calc(100vh - clamp(24px, 10vh, 72px) * 2);"
         on:click|stopPropagation
     >
         <!-- 标题和关闭按钮 -->
         <div class="flex justify-between items-center py-2 px-4">
             <h2 class="text font-bold mt-3 mb-3">
-                {$t("app.shareMessagesPreview", { default: "分享对话预览" })}
+                {$t("app.shareMessagesPreview", { default: "Sharing Image Preview" })}
             </h2>
             <button
-                class="text-gray-500 hover:text-gray-700"
+                class="p-2 rounded hover:bg-gray-100"
                 on:click={closeModal}
                 aria-label="Close"
             >
@@ -169,16 +172,16 @@
         <!-- 消息展示区 -->
         <div
             bind:this={shareImageOriginal}
-            class="bg-white share-image-canvas mx-4 overflow-y-auto flex-1 bg-white border-8 border-gray-200 rounded-xl"
+            class="share-image-canvas mx-4 overflow-y-auto flex-1 bg-white border-8 border-gray-200 rounded-xl"
             style="max-height: calc(100% - 100px);"
         >
             <div class="flex flex-col items-start p-4 border-b border-gray-200">
                 <h2 class="text-lg font-semibold">
-                    {$t("app.shareMessagesTitle", { default: "对话分享" })}
+                    {$t("app.shareMessagesTitle", { default: "Sharing" })}
                 </h2>
                 <div class="text-sm text-gray-600 mt-1">
                     {$t("app.shareMessagesLabel", {
-                        default: "uuGPT-让多模型AI对话更高效",
+                        default: "uuGPT - Multi-Model AI Assistant",
                     })} - {currentTime}
                 </div>
             </div>
@@ -188,7 +191,6 @@
                     bind:this={shareMessagesShow}
                 >
                 {#if isReady}
-                    <!-- 在这里插入分享消息内容，暂时是假数据 -->
                     {#each shareMessages as message}
                         <ShareChatMessage {message} />
                     {/each}
@@ -197,7 +199,7 @@
                     {#if showFadeEffect}
                         <div
                             class="absolute bottom-0 left-0 w-full h-12 pointer-events-none flex items-center justify-center"
-                            style="background: linear-gradient(to top, white 70%, rgba(255, 255, 255, 0) 100%);"
+                            style="background: linear-gradient(to top, white 50%, rgba(255, 255, 255, 0) 100%);"
                             >
                             <span class="text-sm text-gray-500">
                                 {$t("app.viewMoreOnWebsite", {

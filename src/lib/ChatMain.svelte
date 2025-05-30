@@ -250,10 +250,6 @@
     }
   }
 
-  function handleShare() {
-    //在这里处理分享逻辑，将选中的mid一组问答分享出去
-  }
-
   async function handleCopyLink() {
     try {
       showSharingLoading = true;

@@ -532,6 +532,10 @@ code, pre {
   margin: 0!important;
 }
 
+.share-message-display p code{
+  display: inline-block!important;
+}
+
 .share-message-display .code-container{
   width: 100% !important;
   max-width: 100%!important;

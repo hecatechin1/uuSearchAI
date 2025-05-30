@@ -42,7 +42,8 @@
 
     // 占位函数：分享到微信
     function shareToWeChat() {
-        console.log("分享到微信逻辑待实现");
+        copyImageToClipboard(true);
+        showSuccessMessage('分享到微信功能暂未实现');
     }
 
     // 占位函数：分享到 X
@@ -56,7 +57,7 @@
         );
     }
 
-    async function copyImageToClipboard() {
+    async function copyImageToClipboard(isWechat: boolean = false) {
         if (!imageUrl) return;
 
         try {
@@ -94,6 +95,7 @@
                     [blob.type]: blob,
                 }),
             ]);
+            if(isWechat)return;
             showSuccessMessage('图片已复制到剪贴板');
         } catch (err) {
             console.error("复制失败:", err);

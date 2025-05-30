@@ -18,7 +18,7 @@
     userLoginForMaxthon,
   } from "../../manages/userinfoManages";
   // import { fly } from "svelte/transition";
-  import { getCookieValue } from "../../utils/generalUtils";
+  import { getCookieValue,parseHashParams,removeHashParam } from "../../utils/generalUtils";
   import { getLimit } from "../../manages/planManages";
   import { getShare } from "../../manages/chatManages";
 
@@ -44,29 +44,34 @@
         }
       });
     }
-
+    if(parseHashParams().q){
+      loading = false; // 设置为已加载
+      return;
+    }
     await isShareState();
-        isShared.subscribe((v) => {
+    isShared.subscribe((v) => {
       if (!v) {
         // 创建当前 URL 的副本
         const url = new URL(window.location.href);
         // 移除 hash 部分
-        url.hash = "";
+        removeHashParam("share");
         // 更新 URL 而不刷新页面
         window.history.pushState({}, document.title, url);
       }
     });
+
     loading = false; // 设置为已加载
   });
 
   //判断是否是分享状态
   async function isShareState() {
-    const hash = window.location.hash.substring(1);
-    if (hash == "") {
-      return;
-    }
-    let urlHash = new URLSearchParams(hash);
-    let hashParams = Object.fromEntries(urlHash.entries());
+    // const hash = window.location.hash.substring(1);
+    // if (hash == "") {
+    //   return;
+    // }
+    // let urlHash = new URLSearchParams(hash);
+    // let hashParams = Object.fromEntries(urlHash.entries());
+    let hashParams = parseHashParams();
     if (!hashParams.share) {
       return;
     }
@@ -80,6 +85,8 @@
     }
     await getShare(shareMessages);
   }
+
+
 </script>
 
 <!-- {#if $showError}

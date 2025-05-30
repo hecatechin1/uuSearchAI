@@ -235,3 +235,35 @@ export async function convertToImage(targetElement:HTMLElement) {
     imageUrl = canvas.toDataURL('image/png');
     return imageUrl;
   }
+
+
+
+  // 解析 hash 参数为对象
+export function parseHashParams() {
+  const hash = window.location.hash.substring(1); // 去掉开头的 #
+  const params = new URLSearchParams(hash);
+  const result = {};
+  
+  for (const [key, value] of params) {
+    result[key] = value;
+  }
+  
+  return result;
+}
+export  function removeHashParam(paramName) {
+  // 解析当前 hash 参数
+  const params = new URLSearchParams(window.location.hash.substring(1));
+  
+  // 删除指定参数
+  if (params.has(paramName)) {
+    params.delete(paramName);
+    
+    // 重建 hash 字符串
+    const newHash = params.toString() ? '#' + params.toString() : '';
+    
+    // 更新 URL
+    const url = new URL(window.location);
+    url.hash = newHash;
+    window.history.pushState({}, document.title, url);
+  }
+}

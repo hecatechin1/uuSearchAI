@@ -30,10 +30,14 @@
     isStreaming,
     isLogin,
     isGuest,
-    isLoading_messagesList
+    isLoading_messagesList,
+
+    isNewchat
+
   } from "../stores/globalParamentStores";
   import { guest_signup } from "../manages/userinfoManages";
     import { ssrModuleExportsKey } from "vite/runtime";
+    import { parseHashParams, removeHashParam } from "../utils/generalUtils";
 
   let dispatch = createEventDispatcher();
   let isLoading = false;
@@ -69,6 +73,15 @@
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent,
       );
+
+      if(parseHashParams().q){
+        input = parseHashParams().q;
+
+        isNewchat.update(v=>{return true});
+        processMessage();
+        removeHashParam("q");
+      }
+
   });
 
   afterUpdate(() => {

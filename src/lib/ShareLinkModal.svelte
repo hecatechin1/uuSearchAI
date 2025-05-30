@@ -17,9 +17,10 @@
     }
   
     // 复制链接功能
-    function copyLink() {
+    function copyLink(isWechat:boolean = false) {
       navigator.clipboard.writeText(shareLink).then(() => {
         // alert($t("app.linkCopied", { default: "Link copied to clipboard!" }));
+        if(isWechat) return;
         showSuccessMessage($t("app.linkCopied", { default: "Link copied to clipboard!" }));
       }).catch(err => {
         console.error("Failed to copy link:", err);
@@ -29,10 +30,11 @@
   
     // 分享到 WeChat 占位函数
     function shareToWeChat() {
-      console.log("Share to WeChat logic to be implemented");
-    //   showSuccessMessage($t("app.wechatLinkInstructions", {
-    //   default: "Link copied! Long press in the WeChat chat input box to paste and share with friends."
-    // }));
+      copyLink(true);
+        // console.log("Share to WeChat logic to be implemented");
+        showSuccessMessage($t("app.wechatLinkInstructions", {
+        default: "Link copied! Long press in the WeChat chat input box to paste and share with friends."
+      }));
     }
   
     // 分享到 X 占位函数

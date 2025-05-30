@@ -42,45 +42,45 @@ export const models = [
         ai: "openai",
         aiName: "GPT",
         models: [
-            { model: "gpt-4o-mini", name: "4o-mini", price: "Bacic" },
-            { model: "gpt-4o", name: "4o", price: "" },
-            { model: "o1", name: "o1", price: "" },
-            { model: "o1-mini", name: "o1-mini", price: "" },
-            { model: "o3-mini", name: "o3-mini", price: "" }
+            { model: "gpt-4o-mini", name: "4o-mini", price: "Lite" },
+            { model: "gpt-4o", name: "4o", price: "Balanced" },
+            { model: "o1", name: "o1", price: "Elite" },
+            { model: "o1-mini", name: "o1-mini", price: "Balanced" },
+            { model: "o3-mini", name: "o3-mini", price: "Balanced" }
         ],
     },
     {
         ai: "anthropic",
         aiName: "Claude",
         models: [
-            { model: "claude-3.5-haiku", name: "3.5 haiku", price: "" },
-            { model: "claude-3.5-sonnet", name: "3.5 sonnet", price: "" },
-            { model: "claude-3.7-sonnet", name: "3.7 sonnet", price: "" },
+            { model: "claude-3.5-haiku", name: "3.5 haiku", price: "Balanced" },
+            { model: "claude-3.5-sonnet", name: "3.5 sonnet", price: "Balanced" },
+            { model: "claude-3.7-sonnet", name: "3.7 sonnet", price: "Elite" },
         ],
     },
     {
         ai: "google",
         aiName: "Gemini",
         models: [
-            { model: "gemini-2.0-flash-lite-001", name: "2.0 flash lite", price: "Bacic" },
-            { model: "gemini-flash-1.5", name: "1.5 flash", price: "Bacic" },
-            { model: "gemini-2.0-flash-001", name: "2.0 flash", price: "Bacic" },
-            { model: "gemini-pro-1.5", name: "1.5 pro", price: "" },
+            { model: "gemini-2.0-flash-lite-001", name: "2.0 flash lite", price: "Lite" },
+            { model: "gemini-flash-1.5", name: "1.5 flash", price: "Lite" },
+            { model: "gemini-2.0-flash-001", name: "2.0 flash", price: "Lite" },
+            { model: "gemini-pro-1.5", name: "1.5 pro", price: "Balanced" },
         ],
     },
     {
         ai: "deepseek",
         aiName: "Deepseek",
         models: [
-            { model: "deepseek-chat:free", name: "V3", price: "Bacic" },
-            { model: "deepseek-r1:free", name: "R1", price: "Bacic" },
+            { model: "deepseek-chat:free", name: "V3", price: "Lite" },
+            { model: "deepseek-r1:free", name: "R1", price: "Lite" },
         ],
     },
     {
         ai: "qwen",
         aiName: "Qwen",
         models: [
-            { model: "qwen-plus", name: "Plus", price: "" }
+            { model: "qwen-plus", name: "Plus", price: "Balanced" }
         ]
     }
 ];

@@ -5,7 +5,7 @@
     import CloseIcon from "../assets/close.svg";
     import XIcon from "../assets/x.svg";
     import WeChatIcon from "../assets/wechat.svg";
-    import { showSuccessMessage } from "../stores/globalParamentStores";
+    import { showErrorMessage, showSuccessMessage } from "../stores/globalParamentStores";
   
     export let isOpen = false;
     export let shareLink :string; // 模拟生成的分享链接
@@ -23,12 +23,16 @@
         showSuccessMessage($t("app.linkCopied", { default: "Link copied to clipboard!" }));
       }).catch(err => {
         console.error("Failed to copy link:", err);
+        showErrorMessage($t("app.linkCopyFailed", { default: "Failed to copy link. Please try again." }));
       });
     }
   
     // 分享到 WeChat 占位函数
     function shareToWeChat() {
       console.log("Share to WeChat logic to be implemented");
+    //   showSuccessMessage($t("app.wechatLinkInstructions", {
+    //   default: "Link copied! Long press in the WeChat chat input box to paste and share with friends."
+    // }));
     }
   
     // 分享到 X 占位函数

@@ -50,9 +50,10 @@
   let shareSelectedMessages: any[] = [];
   let shareSelectedMessagesIndex: any[] = [];
   let isAllChecked = false;
-  let shareButtonDisabled = true; // 分享按钮禁用状态
+  let shareButtonDisabled = true;
+  let shareType = ''; //分享类型
   let shareLink = "";
-  let showSheaingLoading = false;
+  let showSharingLoading = false;
   const textMaxHeight = 300; // Maximum height in pixels
   const keys = {
     Enter: "001",
@@ -241,28 +242,41 @@
   }
 
   async function handleCopyLink() {
-    //在这里处理复制链接逻辑，将分享的落地链接复制到剪切板、提示用户，并变更isSharing状态    
-    showSheaingLoading = true;
-    await getShareUrl();
-    showSheaingLoading = false;
-    isShareLinkModalOpen = true;
+    try {
+      showSharingLoading = true;
+      shareType = 'link';
+      await getShareUrl();
+    } finally {
+      showSharingLoading = false;
+      shareType = '';
+      isShareLinkModalOpen = true;
+    }
   }
 
   async function handleShareImage() {
-    //在这里处理截图逻辑，将选中的mid一组问答截图，提示用户，并变更isSharing状态。
-    showSheaingLoading = true;
-    await getShareUrl();
-    showSheaingLoading = false;
-    isShareImageModalOpen = true;
+    try {
+      showSharingLoading = true;
+      shareType = 'image';
+      await getShareUrl();
+    }
+    finally {
+      showSharingLoading = false;
+      shareType = '';
+      isShareImageModalOpen = true;
+    }
   }
 
   async function getShareUrl(){
-    if(shareLink === "" || shareSelectedMessages.length==0){showErrorMessage("分享前端bug"); }
+    if (shareLink === "" || shareSelectedMessages.length == 0) {
+        showErrorMessage($t("app.error.emptyShare", { default: "Share link is empty or no messages selected." }));
+    }
     let shareRes = await share(shareSelectedMessages);
-    if(shareRes!=0){showErrorMessage("分享错误");}
+    if (shareRes != 0) {
+        showErrorMessage($t("app.error.shareFailed", { default: "Share error occurred." }));
+    }
     let shortUrl = await getShortLink(shareLink);
-    if(shortUrl==1){
-      showErrorMessage("获取短链接错误");
+    if (shortUrl == 1) {
+        showErrorMessage($t("app.error.shortLinkFailed", { default: "Failed to get short link." }));
     }else{
       shareLink = shortUrl;
     }
@@ -486,53 +500,69 @@
           </div>
         </div>
         {:else}
-        <div
-          class="md:pt-0 md:border-transparent md:dark:border-transparent w-full mb-2"
-        >
-          <hr/>
           <div
-            class="m-auto text-base px-3 md:px-4 w-full md:px-5 lg:px-4 xl:px-5"
+            class="md:pt-0 md:border-transparent md:dark:border-transparent w-full mb-2"
           >
+            <hr/>
             <div
-              class="mx-auto flex flex-1 gap-2 text-base md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] flex-col items-center"
+              class="m-auto text-base px-3 md:px-4 w-full md:px-5 lg:px-4 xl:px-5"
             >
-              <div class="share-panel w-full px-3 py-2 rounded-md flex items-center justify-between">
-                <!-- 全选复选框 -->
-                <div class="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    class="shrink-0 h-5 w-5 rounded-lg border-gray-300 accent-themegreen"
-                    bind:checked={isAllChecked}
-                    on:change={handleSelectAll}
-                  />
-                  <span class="text-sm">{$t("app.selectAll", { default: "Sellect All" })}</span>
-                </div>
-                
-                <div class="gap-2 flex flex-row">
-                   <!-- 复制链接按钮 -->
-                  <button
-                    disabled = {shareButtonDisabled}
-                    class="bg-themegreen text-white px-2 py-1 rounded hover:bg-themegreenhover flex items-center gap-1"
-                    on:click={handleCopyLink}
-                  >
-                  <img src={ShareLinkIcon} alt="Copy Link" class="w-4 h-4" />
-                    <span class="text-sm hidden sm:block">{$t("app.shareLink", { default: "Share by Link" })}</span>
-                  </button>
-                <!-- 图片分享按钮 -->
-                <button
-                  disabled = {shareButtonDisabled}
-                  class="bg-themegreen text-white px-2 py-1 rounded hover:bg-themegreenhover flex items-center gap-1"
-                  on:click={handleShareImage}
-                >
-                  <img src={ShareImageIcon} alt="Share Image" class="w-4 h-4"/>
-                  <span class="text-sm hidden sm:block">{$t("app.shareImage", { default: "Share by Image" })}</span>
-                </button>
-
+              <div
+                class="mx-auto flex flex-1 gap-2 text-base md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] flex-col items-center"
+              >
+                <div class="share-panel w-full px-3 py-2 rounded-md flex items-center justify-between">
+                  <!-- 全选复选框 -->
+                  <div class="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      class="shrink-0 h-5 w-5 rounded-lg border-gray-300 accent-themegreen cursor-pointer"
+                      bind:checked={isAllChecked}
+                      on:change={handleSelectAll}
+                    />
+                    <span class="text-sm">{$t("app.selectAll", { default: "Select All" })}</span>
+                  </div>
+                  
+                  <div class="gap-2 flex flex-row">
+                    <!-- 复制链接按钮 -->
+                    <button
+                      disabled={shareButtonDisabled || showSharingLoading}
+                      class="relative bg-themegreen text-white px-2 py-1 rounded hover:bg-themegreenhover flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                      on:click={handleCopyLink}
+                    >
+                      {#if showSharingLoading && shareType === 'link'}
+                        <div class="absolute inset-0 flex items-center justify-center">
+                          <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                        </div>
+                      {/if}
+                      <img src={ShareLinkIcon} alt="Copy Link" class="w-4 h-4" />
+                      <span class="text-sm hidden sm:block">{$t("app.shareLink", { default: "Share by Link" })}</span>
+                    </button>
+                    
+                    <!-- 图片分享按钮 -->
+                    <button
+                      disabled={shareButtonDisabled || showSharingLoading}
+                      class="relative bg-themegreen text-white px-2 py-1 rounded hover:bg-themegreenhover flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                      on:click={handleShareImage}
+                    >
+                      {#if showSharingLoading && shareType === 'image'}
+                        <div class="absolute inset-0 flex items-center justify-center">
+                          <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                        </div>
+                      {/if}
+                      <img src={ShareImageIcon} alt="Share Image" class="w-4 h-4"/>
+                      <span class="text-sm hidden sm:block">{$t("app.shareImage", { default: "Share by Image" })}</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
         {/if}
       {/if}
 
@@ -552,9 +582,6 @@
         on:close={() => (isShareLinkModalOpen = false)}
         shareLink={shareLink}
       />
-      {#if showSheaingLoading}
-      <h1>LOADING.....</h1>
-      {/if}
     </div>
     
   </div>

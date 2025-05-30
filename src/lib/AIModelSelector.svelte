@@ -1,5 +1,6 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
+  import { t } from "svelte-i18n";
   import {createEventDispatcher } from "svelte";
   import GPTIcon from "../assets/gpt.svg";
   import ClaudeIcon from "../assets/claude.svg";
@@ -79,12 +80,22 @@
               {#each aiModels as { name, price, model }, model_index}
                 <button
                   on:click={() => selectedModel(ai, model)}
-                  class="flex justify-between items-center px-4 py-2 w-full text-left hover:bg-gray-100"
+                  class="flex justify-between items-center px-4 py-2 w-full text-left hover:bg-gray-100 group"
                 >
                   <div class="flex items-center space-x-2">
                     <span>{aiName} {name}</span>
                   </div>
-                  <span class="text-sm text-gray-500">{price}</span>
+                  <span class="text-[12px] text-gray-500">
+                    {#if price === "Lite"}
+                      {$t("app.modelTier.lite", { default: "Lite" })}
+                    {:else if price === "Balanced"}
+                      {$t("app.modelTier.balanced", { default: "Balanced" })}
+                    {:else if price === "Elite"}
+                      {$t("app.modelTier.elite", { default: "Elite" })}
+                    {:else}
+                      {price}
+                    {/if}
+                  </span>
                 </button>
               {/each}
             </div>

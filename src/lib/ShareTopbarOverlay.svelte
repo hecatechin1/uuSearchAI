@@ -44,8 +44,8 @@
         bind:this={shareTopbar}
         >
         <div class="flex flex-col items-start">
-            <h1 class="font-semibold">对话标题</h1>
-            <p class="text-gray-500 text-xs">{$t("app.shareConversation", { default: "分享对话" })}</p>
+            <h1 class="font-semibold">{$t("app.ShareStateTitle", { default: "Sharing" })}</h1>
+            <p class="text-gray-500 text-xs">{$t("app.shareDialogues", { default: "Sharing Sellected dialogues" })}</p>
         </div>
         <button
         class="text-gray-500 hover:text-gray-600 rounded-md hover:bg-gray-100 transition-colors duration-200 p-1

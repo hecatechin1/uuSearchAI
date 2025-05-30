@@ -42,7 +42,7 @@
 
     // 占位函数：分享到微信
     function shareToWeChat() {
-        copyImageToClipboard(true);
+        copyImageToClipboard(null,true);
         showSuccessMessage($t("app.wechatInstructions", {
       default: "Image copied to clipboard! Long press the WeChat chat input box to paste, or save the image and upload to Moments."
     }));
@@ -50,7 +50,7 @@
 
     // 占位函数：分享到 X
     function shareToX() {
-        copyImageToClipboard();
+        copyImageToClipboard(null,true);
         console.log(encodeURI(shareUrl));
         showSuccessMessage($t("app.xInstructions", { default: "Image copied! Paste it in the X post input box to share." }));
         window.open(
@@ -60,7 +60,7 @@
         );
     }
 
-    async function copyImageToClipboard(isWechat: boolean = false) {
+    async function copyImageToClipboard(event:any = null,dontShowToast: boolean = false) {
         if (!imageUrl) return;
 
         try {
@@ -98,7 +98,7 @@
                     [blob.type]: blob,
                 }),
             ]);
-            if(isWechat)return;
+            if(dontShowToast)return;
             showSuccessMessage($t("app.imageCopied", { default: "Image copied to clipboard!" }));
         } catch (err) {
             console.error($t("app.imageCopyFailed", { default: "Failed to copy link. Please try again." }), err);

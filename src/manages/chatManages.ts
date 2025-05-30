@@ -92,8 +92,13 @@ export async function getMessagesListData() {
 export async function getMessage(msg: string, ai: string, model: string) {
     let sharedMessages:any[] =[];
     if(get(isShared)){
+        let i = 0;
         get(current_chat).forEach((c)=>{
-            sharedMessages.push({role:c.message.role,content:c.message.content,mid: Date.now()})
+
+             sharedMessages.push({role:c.message.role,content:c.message.content,mid: Date.now()+i});
+             i++;
+
+           
         })
     }
     current_message.set("");

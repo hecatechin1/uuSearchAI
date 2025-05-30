@@ -198,10 +198,10 @@ export async function convertToImage(targetElement:HTMLElement) {
     };
 
     // 临时移除限制
-    targetElement.style.position = 'static';
-    targetElement.style.overflow = 'visible';
-    targetElement.style.height = 'auto';
-    targetElement.style.maxHeight = 'none';
+    // targetElement.style.position = 'static';
+    // targetElement.style.overflow = 'visible';
+    // targetElement.style.height = 'auto';
+    // targetElement.style.maxHeight = 'none';
     
     // 创建克隆元素
     const clone = targetElement.cloneNode(true);

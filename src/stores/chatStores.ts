@@ -43,10 +43,14 @@ export const models = [
         aiName: "GPT",
         models: [
             { model: "gpt-4o-mini", name: "4o-mini", price: "Lite" },
+            { models: "gpt-4.1-mini", name: "4.1-mini", price: "Lite" },
+            { model: "gpt-4.1-nano", name: "4.1 nano", price: "Lite" },
             { model: "gpt-4o", name: "4o", price: "Balanced" },
+            { model: "gpt-4.1", name: "4.1", price: "Balanced" },
             { model: "o1", name: "o1", price: "Elite" },
             { model: "o1-mini", name: "o1-mini", price: "Balanced" },
-            { model: "o3-mini", name: "o3-mini", price: "Balanced" }
+            { model: "o3-mini", name: "o3-mini", price: "Balanced" },
+            { model: "o3", name: "o3", price: "Elite" }
         ],
     },
     {
@@ -55,7 +59,9 @@ export const models = [
         models: [
             { model: "claude-3.5-haiku", name: "3.5 haiku", price: "Balanced" },
             { model: "claude-3.5-sonnet", name: "3.5 sonnet", price: "Balanced" },
+            { model: "claude-4-sonnet-20250514", name: "4 sonnet", price: "Balanced" },
             { model: "claude-3.7-sonnet", name: "3.7 sonnet", price: "Elite" },
+            { model: "claude-4-opus-20250514", name: "4 opus", price: "Elite" },
         ],
     },
     {

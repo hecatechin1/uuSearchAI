@@ -166,8 +166,8 @@
                             <div>
                                 <span
                                     class="curor-default hover:text-gray-900"
-                                    alt="{['gemini-2.0-flash-lite', 'gpt-4o-mini', 'gemini-2.0-flash', 'gemini-flash-1.5', 'deepseek-r1', 'deepseek-chat',  'qwq-32b'].join(', ')}"
-                                    title="{['gemini-2.0-flash-lite', 'gpt-4o-mini', 'gemini-2.0-flash', 'gemini-flash-1.5', 'deepseek-r1', 'deepseek-chat', 'qwq-32b'].join(', ')}">
+                                    alt="{['GPT-4o-mini',"GPT-4.1-mini", "GPT-4.1-nano",'gemini-2.0-flash-lite', 'gemini-2.0-flash', 'gemini-flash-1.5', 'deepseek-r1', 'deepseek-chat',  'qwq-32b'].join(', ')}"
+                                    title="{['GPT-4o-mini',"GPT-4.1-mini", "GPT-4.1-nano",'gemini-2.0-flash-lite', 'gemini-2.0-flash', 'gemini-flash-1.5', 'deepseek-r1', 'deepseek-chat',  'qwq-32b'].join(', ')}">
                                     {$t("app.modelCheap",{default:"Lite Models"})}
                                 </span>
                                 <span class="ml-10">{cheap}</span>
@@ -175,8 +175,8 @@
                             <div>
                                 <span
                                     class="curor-default hover:text-gray-900"
-                                    alt="{['gemini-pro-1.5', 'GPT-o1-mini', 'GPT-o3-mini', 'GPT-4o', 'claude-3.5-haiku', 'claude-3-7-sonnet', 'claude-3.5-sonnet', 'qwen-plus'].join(', ')}"
-                                    title="{['gemini-pro-1.5', 'GPT-o1-mini', 'GPT-o3-mini', 'GPT-4o', 'claude-3.5-haiku', 'claude-3-7-sonnet', 'claude-3.5-sonnet', 'qwen-plus'].join(', ')}"
+                                    alt="{['GPT-o1-mini', 'GPT-o3-mini', 'GPT-4o',"GPT-4.1",'gemini-pro-1.5', 'claude-3.5-haiku', 'claude-3.7-sonnet', 'claude-3.5-sonnet', 'claude-4-sonnet','qwen-plus'].join(', ')}"
+                                    title="{['GPT-o1-mini', 'GPT-o3-mini', 'GPT-4o',"GPT-4.1",'gemini-pro-1.5', 'claude-3.5-haiku', 'claude-3.7-sonnet', 'claude-3.5-sonnet', 'claude-4-sonnet','qwen-plus'].join(', ')}"
                                     >
                                     {$t("app.modelNormal",{default:"Balanced Models"})}
                                 </span>
@@ -184,8 +184,8 @@
                             </div>
                             <div><span
                                     class="curor-default hover:text-gray-900"
-                                    alt="{['GPT-o1', 'claude-3.7-sonnet'].join(', ')}"
-                                    title="{['GPT-o1', 'claude-3.7-sonnet'].join(', ')}"
+                                    alt="{['GPT-o1','GPT-o3', 'claude-3.7-sonnet','claude-4-opus'].join(', ')}"
+                                    title="{['GPT-o1','GPT-o3', 'claude-3.7-sonnet','claude-4-opus'].join(', ')}"
                                     >
                                     {$t("app.modelExpensive",{default:"Elite Models"})}
                                 </span>

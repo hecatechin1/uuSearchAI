@@ -23,7 +23,10 @@ module.exports = {
         themegreyborder:"#EBEDED"
 
       },
-            opacity: {
+      maxHeight: {
+        'shareModel': 'calc(100vh - clamp(24px, 10vh, 72px) * 2)',
+      },
+      opacity: {
         'hover': '.2',
       }
     }

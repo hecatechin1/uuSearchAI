@@ -121,8 +121,8 @@
         //绘制二维码
         drawQRCode(
             "/uugpt_favion-48.png",
-            96,
-            16,
+            240,
+            32,
             document.createElement("canvas"),
             shareUrl,
         ).then((res) => {
@@ -151,8 +151,7 @@
         role="button"
         tabindex="0"
         on:keydown={(e) => e.key === "Enter"}
-        class="bg-white rounded-lg shadow-lg relative max-w-[720px] w-full mx-5 flex flex-col justify-between"
-        style="max-height: calc(100vh - clamp(24px, 10vh, 72px) * 2);"
+        class="bg-white rounded-lg shadow-lg relative max-w-[720px] w-full mx-0 sm:mx-5 flex flex-col justify-between max-h-full sm:max-h-shareModel"
         on:click|stopPropagation
     >
         <!-- 标题和关闭按钮 -->
@@ -214,10 +213,10 @@
 
             <!-- 网站图标、说明、二维码 -->
             <div
-                class="m-6 flex flex-row justify-between items-center p-5 bg-gray-100 rounded-xl"
+                class="m-6 flex flex-row justify-center items-center p-0 rounded-xl sm:justify-between sm:p-5 sm:bg-gray-100"
             >
                 <!-- 网站图标和说明 -->
-                <div class="flex items-center gap-4">
+                <div class="items-center gap-4 hidden sm:flex">
                     <img src={UUGPTIcon} alt="Website Icon" class="w-12 h-12" />
                     <div class="flex items-start flex-col">
                         <span
@@ -247,7 +246,7 @@
 
                 {#if qrcodeUrl}
                     <img
-                        class="w-24 h-24 aspect-square"
+                        class="w-40 h-40 aspect-square"
                         alt="qrcode"
                         src={qrcodeUrl}
                     />

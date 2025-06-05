@@ -1,6 +1,7 @@
 <script lang="ts">                                                                      
     export let message: any;
-    import SvelteMarkdown from "svelte-markdown";  
+    import SvelteMarkdown from "svelte-markdown";
+    import { t } from "svelte-i18n";
     import { createEventDispatcher, onMount, afterUpdate } from "svelte"; // Import onMount and afterUpdate
     import{formatMessageForMarkdown} from "../utils/generalUtils";
 
@@ -74,27 +75,16 @@
 {:else if message.message.role === "assistant"}
 <article class="w-full" dir="auto" data-scroll-anchor="false">
     <div class="m-auto text-base p-3 mb-2">
-        <div class="mx-auto flex flex-1 gap-2 text-base max-w-full">
-            <div class="flex-shrink-0 flex flex-col relative items-end">
-                <div>
-                  <div class="pt-0">
-                    <div
-                      class="gizmo-shadow-stroke flex h-8 w-8 items-center justify-center overflow-hidden rounded-full"
-                    >
-                      <div class="h-full w-full">
-                        <div
-                          class="gizmo-shadow-stroke relative flex h-full items-center justify-center rounded-full bg-token-main-surface-primary text-token-text-primary"
-                        >
-                          <img
-                            src={UUGPTIcon}
-                            alt="Profile"
-                            class="w-[1.5rem] h-[1.5rem]"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        <div class="mx-auto flex flex-1 flex-col gap-2 text-base max-w-full">
+            <div class="flex-shrink-0 flex flex-row relative items-start gap-2">
+              <img
+                src={UUGPTIcon}
+                alt="Profile"
+                class="w-[1.5rem] h-[1.5rem]"
+              />
+              <span class="text-heavy">{$t("app.appname", { default: "uuGPT" })}{$t("app.websiteDescription", {
+                default: " - Multi-Model AI Assistant",
+            })}:</span>
             </div>
             <div class="group/conversation-turn relative flex w-full min-w-0 flex-col agent-turn"                >
                 <div class="flex-col gap-1 md:gap-3">

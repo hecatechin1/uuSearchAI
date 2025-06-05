@@ -537,7 +537,7 @@
                     <!-- 复制链接按钮 -->
                     <button
                       disabled={shareButtonDisabled || showSharingLoading}
-                      class="relative bg-themegreen text-white px-2 py-1 rounded hover:bg-themegreenhover flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                      class="relative bg-themegreen text-white px-4 py-2 sm:px-2 rounded hover:bg-themegreenhover flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
                       on:click={handleCopyLink}
                     >
                       {#if showSharingLoading && shareType === 'link'}
@@ -548,14 +548,14 @@
                           </svg>
                         </div>
                       {/if}
-                      <img src={ShareLinkIcon} alt="Copy Link" class="w-4 h-4" />
+                      <img src={ShareLinkIcon} alt="Copy Link" class="w-6 h-6" />
                       <span class="text-sm hidden sm:block">{$t("app.shareLink", { default: "Share by Link" })}</span>
                     </button>
                     
                     <!-- 图片分享按钮 -->
                     <button
                       disabled={shareButtonDisabled || showSharingLoading}
-                      class="relative bg-themegreen text-white px-2 py-1 rounded hover:bg-themegreenhover flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                      class="relative bg-themegreen text-white px-4 py-2 sm:px-2 rounded hover:bg-themegreenhover flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
                       on:click={handleShareImage}
                     >
                       {#if showSharingLoading && shareType === 'image'}
@@ -566,7 +566,7 @@
                           </svg>
                         </div>
                       {/if}
-                      <img src={ShareImageIcon} alt="Share Image" class="w-4 h-4"/>
+                      <img src={ShareImageIcon} alt="Share Image" class="w-6 h-6"/>
                       <span class="text-sm hidden sm:block">{$t("app.shareImage", { default: "Share by Image" })}</span>
                     </button>
                   </div>

@@ -184,8 +184,8 @@
                             </div>
                             <div><span
                                     class="curor-default hover:text-gray-900"
-                                    alt="{['GPT-o1','GPT-o3', 'claude-3.7-sonnet','claude-4-opus'].join(', ')}"
-                                    title="{['GPT-o1','GPT-o3', 'claude-3.7-sonnet','claude-4-opus'].join(', ')}"
+                                    alt="{['GPT-o1','GPT-o3','claude-4-opus'].join(', ')}"
+                                    title="{['GPT-o1','GPT-o3','claude-4-opus'].join(', ')}"
                                     >
                                     {$t("app.modelExpensive",{default:"Elite Models"})}
                                 </span>

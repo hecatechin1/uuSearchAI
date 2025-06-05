@@ -7,7 +7,7 @@
     import CloseIcon from "../assets/close.svg";
     import XIcon from "../assets/x.svg";
     import WeChatIcon from "../assets/wechat.svg";
-    import UUGPTIcon from "../assets/uugpt_favion_small.png";
+    import UUGPTIcon from "../assets/uugpt_favion_big.png";
     import { current_chat } from "../stores/chatStores";
     import { get, writable } from "svelte/store";
     import { showSuccessMessage } from "../stores/globalParamentStores";

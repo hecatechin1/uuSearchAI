@@ -197,14 +197,8 @@ export async function convertToImage(targetElement:HTMLElement) {
       maxHeight: targetElement.style.maxHeight,
     };
 
-    // 临时移除限制
-    // targetElement.style.position = 'static';
-    // targetElement.style.overflow = 'visible';
-    // targetElement.style.height = 'auto';
-    // targetElement.style.maxHeight = 'none';
-    
     // 创建克隆元素
-    const clone = targetElement.cloneNode(true);
+    const clone = targetElement.cloneNode(true) as HTMLElement;;
     clone.style.position = 'fixed';
     clone.style.left = '-9999px';
     clone.style.top = '0';
@@ -220,11 +214,11 @@ export async function convertToImage(targetElement:HTMLElement) {
     await new Promise(resolve => setTimeout(resolve, 100));
     // 截图
     const canvas = await html2canvas(clone, {
-      scale: 1,
+      scale: 2,
       useCORS:true,
       backgroundColor: '#ffffff',
       width: targetElement.scrollWidth,
-      height: targetElement.scrollHeight+16,
+      height: targetElement.scrollHeight,
       scrollY: -window.scrollY, // 解决滚动偏移
       scrollX: -window.scrollX,
     });
@@ -233,7 +227,7 @@ export async function convertToImage(targetElement:HTMLElement) {
     document.body.removeChild(clone);
     
     // 恢复原始样式
-    Object.assign(targetElement.style, originalStyles);
+    //Object.assign(targetElement.style, originalStyles);
     
     // 生成图片
     imageUrl = canvas.toDataURL('image/png');

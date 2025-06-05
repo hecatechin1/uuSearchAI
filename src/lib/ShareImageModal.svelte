@@ -55,10 +55,10 @@
     async function mobileShare() {
         let file = await dataUrlToFile(imageUrl);
         navigator.share({
-            title: "Share to WeChat",
-            text: "Check out this amazing content!",
+            title: $t("app.title", { default: "uuGPT" }),
+            text: $t("app.description", { default: "uuGPT is an intelligent chat platform integrating top AI models, featuring one-click Google login. Free access to GPT-4 mini. Subscribe Pro to unlock GPT-3.5/Claude 3.7 and more advanced models for writing, coding, translation, and more." }),
             files: [file],
-            // url: shareUrl, // 分享链接
+            url: shareUrl, // 分享链接
         });
     }
 
@@ -202,7 +202,7 @@
         role="button"
         tabindex="0"
         on:keydown={(e) => e.key === "Enter"}
-        class="bg-white rounded-lg shadow-lg relative max-w-[720px] w-full mx-0 sm:mx-5 flex flex-col justify-between max-h-full sm:max-h-shareModel"
+        class="bg-white sm:rounded-lg shadow-lg relative max-w-[640px] w-full mx-0 sm:mx-5 flex flex-col justify-between max-h-full sm:max-h-shareModel"
         on:click|stopPropagation
     >
         <!-- 标题和关闭按钮 -->
@@ -268,9 +268,9 @@
                 class="m-6 flex flex-row justify-center items-center p-0 rounded-xl sm:justify-between sm:p-5 sm:bg-gray-100"
             >
                 <!-- 网站图标和说明 -->
-                <div class="items-center gap-4 hidden sm:flex">
-                    <img src={UUGPTIcon} alt="Website Icon" class="w-12 h-12" />
-                    <div class="flex items-start flex-col">
+                <div class="items-start gap-4 hidden sm:flex flex-col">
+                    <img src={UUGPTIcon} alt="Website Icon" class="w-16 h-16 items-start" />
+                    <div class="flex items-start flex-col gap-1">
                         <span
                             class="text-bold text-gray-900 flex flex-row items-center"
                         >
@@ -306,8 +306,8 @@
             </div>
         </div>
         <!-- 底部按钮 -->
-        <div class="p-4 px-6 flex justify-between gap-4">
-            <div class="flex gap-4 items-center text-xs">
+        <div class="p-4 px-6 flex  gap-4 {isMobile ?'justify-end':'justify-between'}">
+            <div class="gap-4 items-center text-xs {isMobile ? 'hidden':'flex'}">
                 <span>{$t("app.sharetoText", { default: "Share to:" })}</span>
                 <button class="rounded text-xs" on:click={shareToWeChat}>
                     <img
@@ -329,17 +329,27 @@
 
             <div>
                 <button
-                    class="bg-themegreen text-white px-3 py-2 rounded hover:bg-themegreenhover text-xs"
+                    class="bg-themegreen text-white px-3 py-2 rounded hover:bg-themegreenhover text-xs
+                    {isMobile? 'hidden':''}"
                     on:click={copyImageToClipboard}
                 >
                     {$t("app.copyImage", { default: "Copy Img" })}
                 </button>
                 <button
-                    class="bg-themegreen text-white px-3 py-2 rounded hover:bg-themegreenhover text-xs"
+                    class="px-3 py-2 rounded
+                    {isMobile? 'bg-transparent border border-themegreen text-themegreen hover:bg-gray-100':'bg-themegreen text-white hover:bg-themegreenhover text-xs'}"
                     on:click={downloadImage}
                 >
                     {$t("app.downloadImage", { default: "Download Img" })}
                 </button>
+                {#if isMobile}
+                    <button
+                        class="bg-themegreen text-white px-4 py-2 rounded hover:bg-themegreenhover"
+                        on:click={mobileShare}
+                    >
+                        {$t("app.ShareStateTitle", { default: "Share" })}
+                    </button>
+                {/if}
             </div>
         </div>
     </div>

@@ -43,18 +43,18 @@
 {#if message.message.role === "user"}
 <article class="w-full">
     <div
-      class="m-auto text-base py-[18px] px-3 md:px-4 w-full md:px-5 lg:px-4 xl:px-5">
-        <div class="mx-auto flex flex-1 gap-4 text-base max-w-full">
+      class="m-auto py-3 px-4 w-full">
+        <div class="mx-auto flex flex-1 gap-4 max-w-full">
             <div class="group relative flex w-full min-w-0 flex-col">
                 <div class="flex-col gap-1 md:gap-3">
                   <div class="flex max-w-full flex-col flex-grow">
                     <div
                         data-message-author-role="user"
                         data-message-id={message.mid}
-                        class="min-h-8 text-message flex w-full flex-col items-end gap-2 whitespace-normal break-words text-start [.text-message+&amp;]:mt-5"
+                        class="min-h-8 text-message flex w-full flex-col items-end gap-2 whitespace-normal break-words"
                         >
                         <div
-                            class="flex w-full flex-col gap-1 empty:hidden items-end"
+                            class="flex w-full flex-col gap-1 empty:hidden items-end content-center"
                         >
                             <div
                             class="group/conversation-turn relative max-w-[var(--user-chat-width,70%)] rounded-3xl bg-gray-100 px-5 py-2.5"
@@ -74,9 +74,9 @@
 </article>
 {:else if message.message.role === "assistant"}
 <article class="w-full" dir="auto" data-scroll-anchor="false">
-    <div class="m-auto text-base p-3 mb-2">
+    <div class="m-auto text-base px-4 py-3 mb-2">
         <div class="mx-auto flex flex-1 flex-col gap-2 text-base max-w-full">
-            <div class="flex-shrink-0 flex flex-row relative items-start gap-2">
+            <div class="flex flex-row relative items-start gap-2 flex-wrap content-center">
               <img
                 src={UUGPTIcon}
                 alt="Profile"

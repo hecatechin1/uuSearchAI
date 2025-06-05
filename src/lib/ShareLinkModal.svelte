@@ -53,8 +53,8 @@
         //移动端分享
     async function mobileShare() {
         navigator.share({
-            title: "Share to WeChat",
-            text: "Check out this amazing content!",
+            title: $t("app.title", { default: "uuGPT" }),
+            text: $t("app.description", { default: "uuGPT is an intelligent chat platform integrating top AI models, featuring one-click Google login. Free access to GPT-4 mini. Subscribe Pro to unlock GPT-3.5/Claude 3.7 and more advanced models for writing, coding, translation, and more." }),
             url: shareLink, // 分享链接
         });
     }
@@ -108,7 +108,8 @@
         </div>
   
         <!-- 底部按钮区域 -->
-        <div class="p-4 px-6 flex justify-between items-center gap-4">
+        <div class="p-4 flex items-center gap-4 {isMobile?'justify-center':'justify-between pl-6 '}">
+          {#if !isMobile}
           <div class="flex gap-4 items-center text-sm flex-wrap">
             <span>{$t("app.sharetoText", { default: "Share to:" })}</span>
             <button
@@ -124,6 +125,14 @@
               <img src={XIcon} alt={$t("app.shareX", { default: "Share to X" })} class="w-6 h-6" />
             </button>
           </div>
+          {:else if isMobile}
+              <button
+                  class="bg-themegreen text-white w-full py-2 rounded-lg hover:bg-themegreenhover"
+                  on:click={mobileShare}
+              >
+                  {$t("app.ShareStateTitle", { default: "Share" })}
+              </button>
+          {/if}
         </div>
       </div>
     </div>

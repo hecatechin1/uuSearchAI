@@ -1,7 +1,6 @@
 <script lang="ts">
     import { t } from "svelte-i18n";
-    import { createEventDispatcher } from "svelte";
-  
+    import { createEventDispatcher,onMount } from "svelte";
     import CloseIcon from "../assets/close.svg";
     import XIcon from "../assets/x.svg";
     import WeChatIcon from "../assets/wechat.svg";
@@ -9,13 +8,16 @@
   
     export let isOpen = false;
     export let shareLink :string; // 模拟生成的分享链接
-  
+      let isMobile: boolean = false;
     const dispatch = createEventDispatcher();
   
     function closeModal() {
       dispatch("close");
     }
-  
+    onMount(() => {
+      // 检查是否是移动设备
+      isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    });
     // 复制链接功能
     function copyLink(event:any,dontShowToast:boolean = false) {
       navigator.clipboard.writeText(shareLink).then(() => {
@@ -44,6 +46,17 @@
             "twitter-share",
             "width=550,height=420,left=100,top=100",
         );
+    }
+
+
+
+        //移动端分享
+    async function mobileShare() {
+        navigator.share({
+            title: "Share to WeChat",
+            text: "Check out this amazing content!",
+            url: shareLink, // 分享链接
+        });
     }
   </script>
   

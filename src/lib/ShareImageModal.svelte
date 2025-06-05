@@ -25,6 +25,7 @@
     let shareImageOriginal: HTMLElement;
     let imageUrl: string;
     let qrcodeUrl: string;
+    let isMobile: boolean = false;
     const dispatch = createEventDispatcher();
 
     function closeModal() {
@@ -41,18 +42,36 @@
     }
 
     // 占位函数：分享到微信
-    function shareToWeChat() {
-        copyImageToClipboard(null,true);
-        showSuccessMessage($t("app.wechatInstructions", {
-      default: "Image copied to clipboard! Long press the WeChat chat input box to paste, or save the image and upload to Moments."
-    }));
+    async function shareToWeChat() {
+        copyImageToClipboard(null, true);
+        showSuccessMessage(
+            $t("app.wechatInstructions", {
+                default:
+                    "Image copied to clipboard! Long press the WeChat chat input box to paste, or save the image and upload to Moments.",
+            }),
+        );
+    }
+    //移动端分享
+    async function mobileShare() {
+        let file = await dataUrlToFile(imageUrl);
+        navigator.share({
+            title: "Share to WeChat",
+            text: "Check out this amazing content!",
+            files: [file],
+            // url: shareUrl, // 分享链接
+        });
     }
 
     // 占位函数：分享到 X
     function shareToX() {
-        copyImageToClipboard(null,true);
+        copyImageToClipboard(null, true);
         console.log(encodeURI(shareUrl));
-        showSuccessMessage($t("app.xInstructions", { default: "Image copied! Paste it in the X post input box to share." }));
+        showSuccessMessage(
+            $t("app.xInstructions", {
+                default:
+                    "Image copied! Paste it in the X post input box to share.",
+            }),
+        );
         window.open(
             `https://twitter.com/intent/tweet?url=${encodeURI(shareUrl)}`,
             "twitter-share",
@@ -60,7 +79,10 @@
         );
     }
 
-    async function copyImageToClipboard(event:any = null,dontShowToast: boolean = false) {
+    async function copyImageToClipboard(
+        event: any = null,
+        dontShowToast: boolean = false,
+    ) {
         if (!imageUrl) return;
 
         try {
@@ -98,11 +120,36 @@
                     [blob.type]: blob,
                 }),
             ]);
-            if(dontShowToast)return;
-            showSuccessMessage($t("app.imageCopied", { default: "Image copied to clipboard!" }));
+            if (dontShowToast) return;
+            showSuccessMessage(
+                $t("app.imageCopied", {
+                    default: "Image copied to clipboard!",
+                }),
+            );
         } catch (err) {
-            console.error($t("app.imageCopyFailed", { default: "Failed to copy link. Please try again." }), err);
+            console.error(
+                $t("app.imageCopyFailed", {
+                    default: "Failed to copy link. Please try again.",
+                }),
+                err,
+            );
         }
+    }
+    function dataUrlToFile(dataUrl, fileName = "image.png") {
+        // 提取 Base64 部分
+        const arr = dataUrl.split(",");
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+
+        // 转换为 Uint8Array
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+
+        // 创建 File 对象
+        return new File([u8arr], fileName, { type: mime });
     }
 
     // 检查内容高度并更新渐隐效果
@@ -113,11 +160,15 @@
         }
     }
     onMount(async () => {
+        isMobile =
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+                navigator.userAgent,
+            );
         for (let i = 0; i < shareIndexs.length; i++) {
             shareMessages.push(get(current_chat)[shareIndexs[i]]);
         }
         isReady = true;
-        
+
         //绘制二维码
         drawQRCode(
             "/uugpt_favion-48.png",
@@ -157,7 +208,9 @@
         <!-- 标题和关闭按钮 -->
         <div class="flex justify-between items-center py-2 px-4">
             <h2 class="text font-bold mt-3 mb-3">
-                {$t("app.shareMessagesPreview", { default: "Sharing Image Preview" })}
+                {$t("app.shareMessagesPreview", {
+                    default: "Sharing Image Preview",
+                })}
             </h2>
             <button
                 class="p-2 rounded hover:bg-gray-100"
@@ -184,32 +237,31 @@
                     })} - {currentTime}
                 </div>
             </div>
-            
-                <div
-                    class="share-messages-show max-h-[1000px] overflow-y-auto relative"
-                    bind:this={shareMessagesShow}
-                >
+
+            <div
+                class="share-messages-show max-h-[1000px] overflow-y-auto relative"
+                bind:this={shareMessagesShow}
+            >
                 {#if isReady}
                     {#each shareMessages as message}
                         <ShareChatMessage {message} />
                     {/each}
-                    {/if}
-                    <!-- 渐隐效果 -->
-                    {#if showFadeEffect}
-                        <div
-                            class="absolute bottom-0 left-0 w-full h-12 pointer-events-none flex items-center justify-center"
-                            style="background: linear-gradient(to top, white 50%, rgba(255, 255, 255, 0) 100%);"
-                            >
-                            <span class="text-sm text-gray-500">
-                                {$t("app.viewMoreOnWebsite", {
-                                    default:
-                                        "Open the link to view the full content.",
-                                })}
-                            </span>
-                        </div>
-                    {/if}
-                </div>
-            
+                {/if}
+                <!-- 渐隐效果 -->
+                {#if showFadeEffect}
+                    <div
+                        class="absolute bottom-0 left-0 w-full h-12 pointer-events-none flex items-center justify-center"
+                        style="background: linear-gradient(to top, white 50%, rgba(255, 255, 255, 0) 100%);"
+                    >
+                        <span class="text-sm text-gray-500">
+                            {$t("app.viewMoreOnWebsite", {
+                                default:
+                                    "Open the link to view the full content.",
+                            })}
+                        </span>
+                    </div>
+                {/if}
+            </div>
 
             <!-- 网站图标、说明、二维码 -->
             <div

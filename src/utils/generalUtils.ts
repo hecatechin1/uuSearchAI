@@ -240,6 +240,8 @@ export async function convertToImage(targetElement:HTMLElement) {
     return imageUrl;
   }
 
+  
+
 
 
   // 解析 hash 参数为对象

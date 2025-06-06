@@ -59,9 +59,10 @@ export const models = [
         models: [
             { model: "claude-3.5-haiku", name: "3.5 haiku", price: "Balanced" },
             { model: "claude-3.5-sonnet", name: "3.5 sonnet", price: "Balanced" },
-            { model: "claude-4-sonnet-20250514", name: "4 sonnet", price: "Balanced" },
+            { model: "claude-4-sonnet", name: "4 sonnet", price: "Balanced" },
             { model: "claude-3.7-sonnet", name: "3.7 sonnet", price: "Balanced" },
-            { model: "claude-4-opus-20250514", name: "4 opus", price: "Elite" },
+            { model: "claude-opus-4", name: "4 opus", price: "Elite" },
+            { model: "claude-3.7-sonnet:thinking", name: "3.7 thinking", price: "Elite" },
         ],
     },
     {
